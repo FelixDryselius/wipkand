@@ -23,7 +23,7 @@ CREATE TABLE batch
   end_date datetime,
   scrap INT,
   yield_1 INT,
-  HMI_1_good INT,
+  HMI1_good INT,
   HMI1_bad INT,
   HMI2_good INT,
   HMI2_bad INT,
