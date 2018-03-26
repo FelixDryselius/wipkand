@@ -15,7 +15,7 @@ class Product(models.Model):
 
 class ProductOrder(models.Model):
     order_number = models.CharField(primary_key=True, max_length=7)
-    article_number = models.ForeignKey(Product, models.DO_NOTHING, db_column='article_number', blank=True, null=True)
+    article_number = models.ForeignKey(Product, models.DO_NOTHING, db_column='article_number', blank=False, null=False)
 
     class Meta:
         managed = False
