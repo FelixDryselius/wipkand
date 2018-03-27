@@ -7,3 +7,9 @@ class OrderForm(forms.ModelForm):
          model = ProductOrder
          fields = '__all__'
 
+class BatchForm(forms.ModelForm):
+
+    class Meta:
+         model = Batch
+         fields = '__all__'
+

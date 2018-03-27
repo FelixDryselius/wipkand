@@ -8,10 +8,11 @@
 {% endblock sidebar %}
 
 {% block content %}
-
-<form method="POST"> {% csrf_token %}
+<h4> Order </h4>
+<form  method="POST"> {% csrf_token %}
 <ul>
-    {{ form.as_ul }}
+    <li>Batch number: {{batchForm.batch_number}} </li>
+    {{ orderForm.as_ul }}
 </ul>
 
 <input type="submit" name="submit" value="Create Order">
