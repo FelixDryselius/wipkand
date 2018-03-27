@@ -7,8 +7,8 @@ from .forms import OrderForm
 
 # Create your views here.
 
-class createOrderView(TemplateView):
-    template_name = 'operations/createOrder.html'
+class startBatchView(TemplateView):
+    template_name = 'operations/startBatch.html'
 
     def get(self, request):
         form = OrderForm()
@@ -35,5 +35,5 @@ def index(request):
     return render(request, 'operations/index.html', context) 
 
 
-def createOrder(request):
-    return render(request, 'operations/createOrder.html')
+def startBatch(request):
+    return render(request, 'operations/startBatch.html')

@@ -1,8 +1,8 @@
 from . import views
 from django.urls import path, include, re_path
-from .views import createOrderView
+from .views import startBatchView
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('createOrder/', createOrderView.as_view(), name='createOrder'),
+    path('startBatch/', startBatchView.as_view(), name='startBatch'),
 ]
