@@ -35,8 +35,10 @@
         <div id="sidebar">
             {% block sidebar %}
             <ul>
-                <li><a href="/startBatch/">Start Batch</a></li>
+                <li><a href="{% url 'operations:startBatch'  %}">Start Batch</a></li>
                 <li><a href="/admin/">Admin</a></li>
+                <li><a href="{% url 'operations:floorstock'  %}">Floorstock</a></li>
+                <li><a href="{% url 'operations:history'  %}">History</a></li>
             </ul>
             {% endblock %}
         </div>

@@ -16,7 +16,8 @@ from operations.serializers import ProductSerializer, OrderSerializer, BatchSeri
 
 # Create your views here.
 
-class startBatchView(TemplateView):
+
+class StartBatchView(TemplateView):
     template_name = 'operations/startBatch.html'
 
     def get(self, request):
@@ -50,6 +51,22 @@ def index(request):
     context = {
     }
     return render(request, 'operations/index.html', context) 
+
+class HistoryView(TemplateView):
+    template_name = 'operations/history.html'
+     
+    def get(self, request):
+        context = {}
+        return render(request, self.template_name, context)
+
+
+class FloorstockView(TemplateView):
+    template_name = 'operations/floorstock.html'
+     
+    def get(self, request):
+        context = {}
+        return render(request, self.template_name, context)
+
 
 
 class ProductListView(APIView):
