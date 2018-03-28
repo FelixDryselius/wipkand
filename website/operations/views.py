@@ -60,15 +60,6 @@ class HistoryView(TemplateView):
         return render(request, self.template_name, context)
 
 
-class FloorstockView(TemplateView):
-    template_name = 'operations/floorstock.html'
-     
-    def get(self, request):
-        context = {}
-        return render(request, self.template_name, context)
-
-
-
 class ProductListView(APIView):
     def get(self, request):
         products = Product.objects.all()
