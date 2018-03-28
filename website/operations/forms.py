@@ -13,3 +13,7 @@ class BatchForm(forms.ModelForm):
          model = Batch
          fields = '__all__'
 
+class StartBatchForm(forms.Form):
+    batch_number = forms.CharField(max_length=10)
+    order_number = forms.CharField(max_length=7)
+    article_number = forms.MultipleChoiceField(required=True, choices=Product.objects.all())
