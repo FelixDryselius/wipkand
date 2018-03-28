@@ -22,7 +22,7 @@ class startBatchView(TemplateView):
         form = StartBatchForm(request.POST)
         orderNumber = None # init it so that the it can compile
         if form.is_valid(): # saves the form, eg new order to the database
-            form.save()
+            #form.save()
             orderNumber = form.cleaned_data['order_number']
 
         context = {
@@ -30,8 +30,6 @@ class startBatchView(TemplateView):
             'orderNumber': orderNumber #Cleaned data of order number. Sent to html template through args 'context', not used for anythin yet.
             }
         return render(request, self.template_name, context)
-
-   
 
 
 def index(request):
