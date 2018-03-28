@@ -39,11 +39,6 @@ class Batch(models.Model):
     yield_2 = models.IntegerField(blank=True, null=True)
     order_number = models.ForeignKey('ProductOrder', models.DO_NOTHING, db_column='order_number', blank=True, null=True)
 
-    @property
-    def fields(self):
-        return [ f.name for f in self._meta.fields + self._meta.many_to_many ]
-
-    
     class Meta:
         managed = False
         db_table = 'batch'

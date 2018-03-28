@@ -11,8 +11,7 @@
 <h4> Order </h4>
 <form  method="POST"> {% csrf_token %}
 <ul>
-    <li>Batch number: {{batchForm.batch_number}} </li>
-    {{ orderForm.as_ul }}
+    {{ form.as_ul }}
 </ul>
 
 <input type="submit" name="submit" value="Create Order">

@@ -21,8 +21,12 @@ class startBatchView(TemplateView):
     def post(self, request):
         form = StartBatchForm(request.POST)
         orderNumber = None # init it so that the it can compile
+        form.pop("batch_number")
+        print(form)
+        print('\n')
         if form.is_valid(): # saves the form, eg new order to the database
-            form.save()
+           # form.save()
+            print("the form is valid")
             orderNumber = form.cleaned_data['order_number']
 
         context = {
