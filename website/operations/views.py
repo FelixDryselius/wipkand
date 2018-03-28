@@ -56,3 +56,56 @@ class ProductListView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class OrderListView(APIView):
+    def get(self, request):
+        orders = ProductOrder.objects.all()
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
+
+    def put(self, request):
+        serializer = OrderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BatchListView(APIView):
+    def get(self, request):
+        batchs = Batch.objects.all()
+        serializer = BatchSerializer(batchs, many=True)
+        return Response(serializer.data)
+
+    def put(self, request):
+        serializer = BatchSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class BatchDetailView(APIView):
+    def get(self, request, pk):
+        batch = get_object_or_404(Batch, pk=pk)
+        serializer = BatchSerializer(batch)
+        return Response(serializer.data)
+
+    def delete(self, request, pk):
+        batch = get_object_or_404(Batch, pk=pk)
+        batch.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)    
+
+
+class BatchCommentListView(APIView):
+    def get(self, request):
+        batchComments = BatchComment.objects.all()
+        serializer = BatchCommentSerializer(batchComments, many=True)
+        return Response(serializer.data)
+
+    def put(self, request):
+        serializer = BatchCommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

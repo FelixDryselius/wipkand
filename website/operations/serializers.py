@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from operations.models import Product, ProductOrder, Batch, BatchComment
 
+#Serializing Django Models to JSON.
 class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
