@@ -1,10 +1,16 @@
-from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework import routers, serializers, status
+from rest_framework.views import APIView
+from rest_framework import status
+
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView
 from .models import ProductOrder, Batch
 from django.db.models.options import Options
 
 from operations.models import Product, ProductOrder, Batch, BatchComment
 from .forms import OrderForm, BatchForm, StartBatchForm
+from operations.serializers import ProductSerializer, OrderSerializer, BatchSerializer, BatchCommentSerializer
 #from django.template.context_processors import csrf TODO: Should csrf be used with Posts?
 
 # Create your views here.
@@ -37,3 +43,16 @@ def index(request):
     }
     return render(request, 'operations/index.html', context) 
 
+
+class ProductListView(APIView):
+    def get(self, request):
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+
+    def put(self, request):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
