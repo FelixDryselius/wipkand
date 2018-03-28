@@ -11,10 +11,5 @@ class BatchForm(forms.ModelForm):
 
     class Meta:
          model = Batch
-         fields = '__all__'
+         fields = ["batch_number", "order_number"]
 
-class StartBatchForm(forms.Form):
-    batch_number = forms.CharField(max_length=10)
-    order_number = forms.CharField(max_length=7)
-    article_number = forms.ModelChoiceField(Product.objects.all())
-        
