@@ -1,0 +1,40 @@
+{
+    "product":[
+        {
+            "article_number": "700-5194",
+            "product_name": "ASSY,WRAP,10 ELUTION,IVD,GX,MRSA/SA",
+            "reference_storage": 0,
+            "label": "700-5194_LABEL"
+        },
+        {
+            "article_number": "700-5196",
+            "product_name": "ASSY,WRAP,10 ELUTION,IVD,GX,C.DIFFICILE",
+            "reference_storage": 6,
+            "label": "700-5196_LABEL"
+        },
+        {
+            "article_number": "700-5197",
+            "product_name": "ASSY,WRAP,10 ELUTION,IVD,GX,SA COMP",
+            "reference_storage": 6,
+            "label": "700-5197_LABEL"
+        },
+        {
+            "article_number": "700-5208",
+            "product_name": "ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB",
+            "reference_storage": 5,
+            "label": "700-5208_LABEL"
+        },
+        {
+            "article_number": "700-5280",
+            "product_name": "ASSY,WRAP,10 ELUTION,IVD,GX,MRSA NXG",
+            "reference_storage": 0,
+            "label": "700-5280_LABEL"
+        },
+        {
+            "article_number": "700-5288",
+            "product_name": "ASSY,WRAP,10 ELUTION,IVD,GX,MTB/RIF,JP",
+            "reference_storage": 0,
+            "label": "700-5288_LABEL"
+        }
+    ]
+}

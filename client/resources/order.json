@@ -1,0 +1,28 @@
+{
+    "order": [
+        {
+            "order_number": "12",
+            "article_number": "700-5196"
+        },
+        {
+            "order_number": "123",
+            "article_number": "700-5196"
+        },
+        {
+            "order_number": "2222222",
+            "article_number": "700-5208"
+        },
+        {
+            "order_number": "3333333",
+            "article_number": "700-5208"
+        },
+        {
+            "order_number": "1111111",
+            "article_number": "700-5280"
+        },
+        {
+            "order_number": "4444444",
+            "article_number": "700-5288"
+        }
+    ]
+}
