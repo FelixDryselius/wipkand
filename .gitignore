@@ -6,3 +6,4 @@ website/operations/__pycache__/urls.cpython-36.pyc
 website/operations/__pycache__/views.cpython-36.pyc
 website/vfal_monitor/__pycache__/settings.cpython-36.pyc
 website/vfal_monitor/__pycache__/urls.cpython-36.pyc
+.vscode/settings.json
