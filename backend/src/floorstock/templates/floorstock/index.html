@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+<div id="page">
+        <div id="sidebar">
+            {% block sidebar %}
+            <ul>
+               <li><a href="{% url 'operations:index'  %}">Back</a></li>
+               <li><a href="/admin/">Admin</a></li>
+            </ul>
+            {% endblock %}
+        </div>
+
+        <div id="content">
+            {% block content %}
+                This is content area
+            {% endblock content %}
+        </div>
+    </div>    
