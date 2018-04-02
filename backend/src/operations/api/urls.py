@@ -22,8 +22,8 @@ urlpatterns = [
     path('batch/<str:pk>/', BatchDetailAPIView.as_view(), name='batch-detail'),
 
     path('comment/', CommentListAPIView.as_view(), name='comment-list'),
-    #path('comment/<str:batch_number>/', CommentListAPIView.as_view(), name='batch-comment-list'),
-    #path('comment/<str:batch_number>/<int:pk>/', BatchDetailAPIView.as_view(), name='comment-detail'),
+    path('comment/<str:batch_number>/', CommentListAPIView.as_view(), name='batch-comment-list'),
+    path('comment/<str:batch_number>/<int:pk>/', CommentDetailAPIView.as_view(), name='comment-detail'),
 ]
 
     # #API urls

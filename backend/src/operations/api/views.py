@@ -1,3 +1,6 @@
+
+from django.shortcuts import get_object_or_404
+
 from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
@@ -50,75 +53,28 @@ class BatchDetailAPIView(RetrieveAPIView):
 class CommentListAPIView(ListAPIView):
     serializer_class = CommentListSerializer
     queryset = BatchComment.objects.all()
+    lookup_url_kwarg = 'batch_number'
 
     def get_queryset(self, *args, **kwargs):
-        queryset_list = BatchComment.objects.all()
-        print('PRINTING ARGS: ')
-        for arg in args:
-            print(arg)
+        _batch_number = self.kwargs.get(self.lookup_url_kwarg)
 
-        print('PRINTING KWARGS: ')
-        for kwarg in kwargs:
-            print(kwarg)
-
+        if _batch_number is not None:
+            queryset_list = BatchComment.objects.filter(batch_number=_batch_number)
+        else:
+            queryset_list = BatchComment.objects.all()
         return queryset_list
 
+#Could probably be optimized better
 class CommentDetailAPIView(RetrieveAPIView):
     serializer_class = CommentDetailSerializer
     queryset = BatchComment.objects.all()
+    multiple_lookup_fields = {'batch_number', 'pk'}
 
-    #def get(self, request, *args, **kwargs):
+    def get_object(self):
+        queryset = self.get_queryset()
+        filter = {}
+        for field in self.multiple_lookup_fields:
+            filter[field] = self.kwargs[field]
 
-
-
-# class OrderListView(APIView):
-#     def get(self, request):
-#         orders = ProductOrder.objects.all()
-#         serializer = OrderSerializer(orders, many=True)
-#         return Response(serializer.data)
-
-#     def put(self, request):
-#         serializer = OrderSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# class BatchListView(APIView):
-#     def get(self, request):
-#         batchs = Batch.objects.all()
-#         serializer = BatchSerializer(batchs, many=True)
-#         return Response(serializer.data)
-
-#     def put(self, request):
-#         serializer = BatchSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# class BatchDetailView(APIView):
-#     def get(self, request, pk):
-#         batch = get_object_or_404(Batch, pk=pk)
-#         serializer = BatchSerializer(batch)
-#         return Response(serializer.data)
-
-#     def delete(self, request, pk):
-#         batch = get_object_or_404(Batch, pk=pk)
-#         batch.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)    
-
-
-# class BatchCommentListView(APIView):
-#     def get(self, request):
-#         batchComments = BatchComment.objects.all()
-#         serializer = BatchCommentSerializer(batchComments, many=True)
-#         return Response(serializer.data)
-
-#     def put(self, request):
-#         serializer = BatchCommentSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        obj = get_object_or_404(queryset, **filter)
+        return obj
