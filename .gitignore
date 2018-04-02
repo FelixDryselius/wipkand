@@ -8,3 +8,4 @@ website/vfal_monitor/__pycache__/settings.cpython-36.pyc
 website/vfal_monitor/__pycache__/urls.cpython-36.pyc
 .vscode/settings.json
 .idea/workspace.xml
+.vscode/launch.json
