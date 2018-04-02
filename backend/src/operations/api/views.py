@@ -1,3 +1,4 @@
+'''API vies for operations'''
 
 from django.shortcuts import get_object_or_404
 
@@ -23,9 +24,9 @@ from operations.api.serializers import (
 )
 
 class ProductListAPIView(ListAPIView):
+    '''List of products'''
     serializer_class = ProductListSerializer
     queryset = Product.objects.all()
-
 
 class ProductDetailAPIView(RetrieveAPIView):
     serializer_class = ProductDetailSerializer
@@ -51,30 +52,22 @@ class BatchDetailAPIView(RetrieveAPIView):
 
 
 class CommentListAPIView(ListAPIView):
+    '''Gets list of comments for a batch, or all comments if no batch is specified'''
     serializer_class = CommentListSerializer
     queryset = BatchComment.objects.all()
     lookup_url_kwarg = 'batch_number'
 
-    def get_queryset(self, *args, **kwargs):
+    def get_queryset(self):
         _batch_number = self.kwargs.get(self.lookup_url_kwarg)
-
         if _batch_number is not None:
             queryset_list = BatchComment.objects.filter(batch_number=_batch_number)
         else:
             queryset_list = BatchComment.objects.all()
         return queryset_list
 
-#Could probably be optimized better
 class CommentDetailAPIView(RetrieveAPIView):
+    '''Gets detail of batch and comment id'''
     serializer_class = CommentDetailSerializer
-    queryset = BatchComment.objects.all()
-    multiple_lookup_fields = {'batch_number', 'pk'}
 
     def get_object(self):
-        queryset = self.get_queryset()
-        filter = {}
-        for field in self.multiple_lookup_fields:
-            filter[field] = self.kwargs[field]
-
-        obj = get_object_or_404(queryset, **filter)
-        return obj
+        return get_object_or_404(BatchComment, **self.kwargs)
