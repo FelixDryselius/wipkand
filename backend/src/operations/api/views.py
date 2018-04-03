@@ -8,7 +8,7 @@ from rest_framework.generics import (
     # UpdateAPIView,
     # DestroyAPIView,
     CreateAPIView,
-    # RetrieveUpdateAPIView,
+    RetrieveUpdateAPIView,
 )
 
 from rest_framework.permissions import (
@@ -64,6 +64,10 @@ class BatchDetailAPIView(RetrieveAPIView):
 class BatchCreateAPIView(CreateAPIView):
     serializer_class = BatchCreateUpdateSerializer
     permission_classes = [IsAuthenticated]
+
+class BatchUpdateAPIView(RetrieveUpdateAPIView):
+    serializer_class = BatchCreateUpdateSerializer
+    queryset = Batch.objects.all()
 
 
 class CommentListAPIView(ListAPIView):

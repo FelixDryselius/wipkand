@@ -9,6 +9,7 @@ from operations.api.views import (
     BatchListAPIView,
     BatchDetailAPIView,
     BatchCreateAPIView,
+    BatchUpdateAPIView,
     CommentListAPIView,
     CommentDetailAPIView,
     CommentCreateAPIView,
@@ -25,6 +26,7 @@ urlpatterns = [
     path('batch/', BatchListAPIView.as_view(), name='batch-list'),
     path('batch/create/', BatchCreateAPIView.as_view(), name='batch-create'),
     path('batch/<str:pk>/', BatchDetailAPIView.as_view(), name='batch-detail'),
+    path('batch/<str:pk>/edit/', BatchUpdateAPIView.as_view(), name='batch-update'),
 
     path('comment/', CommentListAPIView.as_view(), name='comment-list'),
     path('comment/create/', CommentCreateAPIView.as_view(), name='comment-create'),
