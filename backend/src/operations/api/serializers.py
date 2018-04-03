@@ -39,6 +39,11 @@ class OrderDetailSerializer(ModelSerializer):
         model = ProductOrder
         fields = '__all__'
 
+class OrderCreateUpdateSerializer(ModelSerializer):
+    class Meta:
+        model = ProductOrder
+        fields = '__all__'
+
 
 class BatchListSerializer(ModelSerializer):
     class Meta:
@@ -59,6 +64,11 @@ class BatchDetailSerializer(ModelSerializer):
         model = Batch
         fields = '__all__'
 
+class BatchCreateUpdateSerializer(ModelSerializer):
+    class Meta:
+        model = Batch
+        fields = '__all__'
+
 
 class CommentListSerializer(ModelSerializer):
     class Meta:
@@ -71,6 +81,11 @@ class CommentListSerializer(ModelSerializer):
         ]
 
 class CommentDetailSerializer(ModelSerializer):
+    class Meta:
+        model = BatchComment
+        fields = '__all__'
+
+class CommentCreateUpdateSerializer(ModelSerializer):
     class Meta:
         model = BatchComment
         fields = '__all__'

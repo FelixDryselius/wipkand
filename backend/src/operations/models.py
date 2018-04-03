@@ -37,12 +37,12 @@ class Batch(models.Model):
     label_print_time = models.DateTimeField(blank=True, null=True)
     rework_time = models.TimeField(blank=True, null=True)
     yield_2 = models.IntegerField(blank=True, null=True)
-    order_number = models.ForeignKey('ProductOrder', models.DO_NOTHING, db_column='order_number', blank=True, null=True)
+    order_number = models.ForeignKey('ProductOrder', models.DO_NOTHING, db_column='order_number', blank=False, null=False)
 
     class Meta:
         managed = False
         db_table = 'batch'
-   
+
 
 class BatchComment(models.Model):
     comment_id = models.IntegerField(db_column='comment_ID', primary_key=True)  # Field name made lowercase.

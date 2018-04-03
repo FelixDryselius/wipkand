@@ -1,4 +1,4 @@
-'''API vies for operations'''
+'''API views for operations'''
 
 from django.shortcuts import get_object_or_404
 
@@ -7,8 +7,12 @@ from rest_framework.generics import (
     RetrieveAPIView,
     # UpdateAPIView,
     # DestroyAPIView,
-    # CreateAPIView,
+    CreateAPIView,
     # RetrieveUpdateAPIView,
+)
+
+from rest_framework.permissions import (
+    IsAuthenticated,
 )
 
 from operations.models import Product, ProductOrder, Batch, BatchComment
@@ -17,10 +21,13 @@ from operations.api.serializers import (
     ProductDetailSerializer,
     OrderListSerializer,
     OrderDetailSerializer,
+    OrderCreateUpdateSerializer,
     BatchListSerializer,
     BatchDetailSerializer,
+    BatchCreateUpdateSerializer,
     CommentListSerializer,
     CommentDetailSerializer,
+    CommentCreateUpdateSerializer,
 )
 
 class ProductListAPIView(ListAPIView):
@@ -41,6 +48,10 @@ class OrderDetailAPIView(RetrieveAPIView):
     serializer_class = OrderDetailSerializer
     queryset = ProductOrder.objects.all()
 
+class OrderCreateAPIView(CreateAPIView):
+    serializer_class = OrderCreateUpdateSerializer
+    permission_classes = [IsAuthenticated]
+
 
 class BatchListAPIView(ListAPIView):
     serializer_class = BatchListSerializer
@@ -49,6 +60,10 @@ class BatchListAPIView(ListAPIView):
 class BatchDetailAPIView(RetrieveAPIView):
     serializer_class = BatchDetailSerializer
     queryset = Batch.objects.all()
+
+class BatchCreateAPIView(CreateAPIView):
+    serializer_class = BatchCreateUpdateSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class CommentListAPIView(ListAPIView):
@@ -71,3 +86,9 @@ class CommentDetailAPIView(RetrieveAPIView):
 
     def get_object(self):
         return get_object_or_404(BatchComment, **self.kwargs)
+
+#TODO: Not able to create comments with same comment_id as another comment,
+#even though the batch is different
+class CommentCreateAPIView(CreateAPIView):
+    serializer_class = CommentCreateUpdateSerializer
+    permission_classes = [IsAuthenticated]
