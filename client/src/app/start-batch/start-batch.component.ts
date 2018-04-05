@@ -6,21 +6,28 @@ import { Router } from '@angular/router';
   templateUrl: './start-batch.component.html',
   styleUrls: ['./start-batch.component.css']
 })
-export class StartBatchComponent implements OnInit {
-  newBatch: any;
 
-  constructor(private router: Router) { 
-  }
-  
+export class StartBatchComponent implements OnInit {
+  newBatch: number;
+  newOrder: number;
+  newProduct: any;
+
+  title = "Start new batch";
+
+  constructor(private router: Router) {   
+      }
+
   ngOnInit() {
   }
 
   submitBatch(event, formData) {
     let chosenBatch = formData.value['batchnr']
-    if (chosenBatch) {
-      this.router.navigate( ['/startbatch', {batchnr: formData.value['batchnr']}])
-    }
-    console.log(chosenBatch)
+    let chosenOrder = formData.value['ordernr']
+    
+    console.log("batch number: " + chosenBatch)
+    console.log("order number: " + chosenOrder)
+
+    
   }
 
 }
