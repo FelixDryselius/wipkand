@@ -1,3 +1,52 @@
-<p>
-  start-batch works!
-</p>
+<div class="text-center">
+<h3>
+  Start new batch
+</h3>
+
+<form #batchForm='ngForm' (ngSubmit)='submitBatch($event,batchForm)'>
+
+  <div class="form-group row">
+      <label for="inputOrderNr" class="col-sm-4 col-form-label text-right">Add order</label>
+      <div class="col-sm-4">
+      <input type="order" class="form-control" id="inputOrderNr" placeholder="Order number" name='ordernr' [(ngModel)]='newOrder'>
+    </div>
+  </div>
+
+  <div class="form-group row">
+      <label for="inputProductNr" class="col-sm-4 col-form-label text-right">Add product</label>
+      <div class="col-sm-4 dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownProductButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Product number
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownProductButton">
+                <a class="dropdown-item" href="#">123</a>
+                <a class="dropdown-item" href="#">456</a>
+                <a class="dropdown-item" href="#">789</a>
+              </div>
+      </div>
+    </div>
+
+    <div class="dropdown">
+        <a data-target="#" href="page.html" data-toggle="dropdown" class="dropdown-toggle">Dropdown <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+        </ul>   
+    </div>
+
+  <div class="form-group row">
+      <label for="inputBatchNr" class="col-sm-4 col-form-label text-right">Add batch</label>
+      <div class="col-sm-4">
+      <input type="batch" class="form-control" id="inputBatchNr" placeholder="Batch number" name='batchnr' [(ngModel)]='newBatch'>
+    </div>
+    </div>  
+  
+    <button type="submit" class="btn btn-default">
+    Submit
+  </button>
+
+</form>
+
+</div>
+
+
