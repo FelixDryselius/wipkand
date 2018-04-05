@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { StartBatchComponent } from './start-batch/start-batch.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    StartBatchComponent
   ],
   imports: [
     BrowserModule
