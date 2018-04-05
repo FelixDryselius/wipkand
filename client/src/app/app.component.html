@@ -7,20 +7,23 @@
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
           <h2>Batch information: </h2>
-          <p class="lead"></p>
+          <div class="nav">
+              <a class="nav-link" routerLink="./start-batch" routerLinkActive="active">Start new batch</a>
+          </div>
+          
         </div>
       </div>
       <div class="card-fluid" >
         <ul class="nav flex-column nav-pills nav-stacked">
           <div class="border border-dark">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Home</a>
+              <a class="nav-link" routerLink="./home" routerLinkActive="active">Home</a>           
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Comments</a>
+              <a class="nav-link" routerLink="./comments" routerLinkActive="active">Comments</a>           
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Scoreboard</a>
+              <a class="nav-link" routerLink="./scoreboard" routerLinkActive="active">Scoreboard</a>
             </li>
             <li class="nav-item">
               <a class="nav-link disabled" href="#">Finish batch</a>
@@ -28,13 +31,13 @@
         </div>
         <br>
         <li class="nav-item">
-          <a class="nav-link" href="#">Floorstock</a>
+          <a class="nav-link" routerLink="./floorstock" routerLinkActive="active">Floorstock</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Skiftyte</a>
+          <a class="nav-link" routerLink="./shift-change" routerLinkActive="active">Shift Change</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">History</a>
+          <a class="nav-link" routerLink="./batch-history" routerLinkActive="active">History</a>
         </li>               
         </ul>
       </div>
