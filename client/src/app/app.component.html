@@ -1,61 +1,52 @@
 <!--Start navBar.-->
 
 <div class="container-fluid">   
-    <div class="row">
-      <div class="col-lg-3">
-       
-        <div class="jumbotron jumbotron-fluid">
-          <div class="container">
-            <h2>Batch information: </h2>
-            <p class="lead"></p>
-          </div>
-        </div>
-        <div class="card-fluid" >
-          <ul class="nav flex-column nav-pills nav-stacked">
-            <div class="border border-dark">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Comments</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Scoreboard</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" href="#">Finish batch</a>
-              </li>
-          </div>
-          <br>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Floorstock</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Skiftyte</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">History</a>
-          </li>               
-          </ul>
+  <div class="row">
+    <div class="col-lg-3">
+      
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h2>Batch information: </h2>
+          <p class="lead"></p>
         </div>
       </div>
-       
-      <div class="col-lg-9" >
-        <div class="main">
-          <h2>Sidebar</h2>
-          <p>This sidebar is of full height (100%) and always shown.</p>
-          <p>Scroll down the page to see the result.</p>
-          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
+      <div class="card-fluid" >
+        <ul class="nav flex-column nav-pills nav-stacked">
+          <div class="border border-dark">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Comments</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Scoreboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Finish batch</a>
+            </li>
         </div>
+        <br>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Floorstock</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Skiftyte</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">History</a>
+        </li>               
+        </ul>
+      </div>
+    </div>
+       
+<!--End navBar.-->     
+
+    <div class="col-lg-9" >
+      <div class="main">
+<!--Router imput here-->
+        <router-outlet></router-outlet>
       </div>
     </div>
   </div>
-
-<!--End navBar.-->     
-
-<!--Router imput here-->
-<router-outlet></router-outlet>
-
+</div>

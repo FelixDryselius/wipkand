@@ -3,15 +3,15 @@ import { RouterModule, Routes, Router } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { StartBatchComponent } from './start-batch/start-batch.component';
-import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
 
 
 
 
 const appRoutes: Routes = [
     {
-        path:"",
-        component: AppComponent,
+        path:"home",
+        component: HomeComponent,
     },
      {
          path:"startbatch",

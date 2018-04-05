@@ -7,12 +7,14 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { StartBatchComponent } from './start-batch/start-batch.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    StartBatchComponent
+    StartBatchComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
