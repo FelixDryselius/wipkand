@@ -24,3 +24,4 @@ import { StartBatchComponent } from './start-batch/start-batch.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
