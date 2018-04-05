@@ -2,18 +2,21 @@
 import { RouterModule, Routes, Router } from '@angular/router';
 import { NgModule } from '@angular/core';
 
+import { StartBatchComponent } from './start-batch/start-batch.component';
+import { AppComponent } from './app.component';
+
 
 
 
 const appRoutes: Routes = [
     {
         path:"",
-        //component: put components here 
-    }
-    // {
-    //     path:"search",
-    //     component: SearchDetailComponent,
-    // },
+        component: AppComponent,
+    },
+     {
+         path:"startbatch",
+         component: StartBatchComponent,
+     }
     // {
     //     path:"videos",
     //     component:VideoListComponent,
