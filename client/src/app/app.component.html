@@ -1,48 +1,55 @@
 <!--Start navBar.-->
 
 <div class="container-fluid">   
-    <div class="row">
-      <div class="col-lg-3">
-       
-        <div class="jumbotron jumbotron-fluid">
-          <div class="container">
-            <h2>Batch information: </h2>
-            <p class="lead"></p>
+  <div class="row">
+    <div class="col-lg-3">
+      
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h2>Batch information: </h2>
+          <div class="nav">
+              <a class="nav-link" routerLink="./start-batch" routerLinkActive="active">Start new batch</a>
           </div>
+          
         </div>
-    
-                <ul class="nav flex-column nav-pills nav-stacked">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Active</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Longer nav link</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                      </li>
-                </ul>
       </div>
-
-      <div class="col-lg-9" >
-        <div class="main">
-          <h2>Sidebar</h2>
-          <p>This sidebar is of full height (100%) and always shown.</p>
-          <p>Scroll down the page to see the result.</p>
-          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-          <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
+      <div class="card-fluid" >
+        <ul class="nav flex-column nav-pills nav-stacked">
+          <div class="border border-dark">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="./home" routerLinkActive="active">Home</a>           
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="./comments" routerLinkActive="active">Comments</a>           
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="./scoreboard" routerLinkActive="active">Scoreboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Finish batch</a>
+            </li>
         </div>
+        <br>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="./floorstock" routerLinkActive="active">Floorstock</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="./shift-change" routerLinkActive="active">Shift Change</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="./batch-history" routerLinkActive="active">History</a>
+        </li>               
+        </ul>
+      </div>
+    </div>
+       
+<!--End navBar.-->     
+
+    <div class="col-lg-9" >
+      <div class="main">
+<!--Router imput here-->
+        <router-outlet></router-outlet>
       </div>
     </div>
   </div>
-
-<!--End navBar.-->     
-
-<!--Router imput here-->
-<router-outlet></router-outlet>
-
+</div>

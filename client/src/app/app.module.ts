@@ -7,12 +7,24 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { StartBatchComponent } from './start-batch/start-batch.component';
+import { HomeComponent } from './home/home.component';
+import { CommentsComponent } from './comments/comments.component';
+import { ScoreboardComponent } from './scoreboard/scoreboard.component';
+import { FloorstockComponent } from './floorstock/floorstock.component';
+import { ShiftChangeComponent } from './shift-change/shift-change.component';
+import { BatchHistoryComponent } from './batch-history/batch-history.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    StartBatchComponent
+    StartBatchComponent,
+    HomeComponent,
+    CommentsComponent,
+    ScoreboardComponent,
+    FloorstockComponent,
+    ShiftChangeComponent,
+    BatchHistoryComponent
   ],
   imports: [
     BrowserModule,
