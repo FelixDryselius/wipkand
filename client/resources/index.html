@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" class="no-js"> <!--<![endif]-->
+
+
+<head>
+  <!-- TODO: In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <script src="environment.js"></script>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+  <script src="bower_components/angular-ui-select/dist/select.min.js"></script>
+  <script src="bower_components/qrcode.js/qrcode.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+  <script src="bower_components/ng-device-detector/ng-device-detector.min.js"></script>
+  <script src="bower_components/re-tree/re-tree.min.js"></script>
+  <script src="app.js"></script>
+  <script src="dashboard/home.js"></script>
+  <script src="dashboard/dashboard.js"></script>
+  <script src="users/userList.js"></script>
+  <script src="users/userDetail.js"></script>
+  <script src="users/userCreate.js"></script>
+  <script src="users/userEdit.js"></script>
+  <script src="users/changePassword.js"></script>
+  <script src="institutions/institutionList.js"></script>
+  <script src="institutions/institutionDetail.js"></script>
+  <script src="institutions/institutionEdit.js"></script>
+  <script src="institutions/laboratoryDetail.js"></script>
+  <script src="institutions/laboratoryEdit.js"></script>
+  <script src="instruments/instrumentDetail.js"></script>
+  <script src="instruments/eventHistoryList.js"></script>
+  <script src="instruments/eventHistoryDetail.js"></script>
+  <script src="login/forgotPassword.js"></script>
+  <script src="login/login.js"></script>
+  <script src="login/enterCode.js"></script>
+  <script src="rxInstances/c360AnalyticsInstanceList.js"></script>
+  <script src="kits/kitList.js"></script>
+  <script src="kits/kitDetail.js"></script>
+  <script src="kits/kitSubmit.js"></script>
+  <script src="commands/commandDetail.js"></script>
+  <script src="commands/commandCreate.js"></script>
+  <script src="commands/liveService.js"></script>
+  <script src="handhelds/handheldList.js"></script>
+  <script src="handhelds/handheldDetail.js"></script>
+  <script src="handhelds/handheldEdit.js"></script>
+  <script src="institutions/policyDetail.js"></script>
+  <script src="institutions/policyEdit.js"></script>
+  <script src="audit/audit.js"></script>
+  <script src="audit/auditUserDetail.js"></script>
+  <script src="audit/auditKitDetail.js"></script>
+  <script src="audit/auditLaboratoryDetail.js"></script>
+  <script src="audit/auditInstitutionDetail.js"></script>
+  <script src="audit/auditCommandDetail.js"></script>
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="cache-control" content="max-age=0"/>
+  <meta http-equiv="cache-control" content="no-cache"/>
+  <meta http-equiv="expires" content="0"/>
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT"/>
+  <meta http-equiv="pragma" content="no-cache"/>
+
+  <title>Cepheid C360 Admin Console</title>
+
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css">
+  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.min.css">
+  <link rel="stylesheet" href="bower_components/select2/select2.css">
+  <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.min.css">
+  <link rel="stylesheet" href="uiGrid.css">
+  <link rel="stylesheet" href="rxpStyles.css" media="screen" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+
+<body>
+<div class="wrapper">
+  <div id="header" ng-controller="HeaderCtrl">
+    <div class="logo">
+      <a href="">
+        <img alt="Cepheid" src="img/cepheidLogo.png">
+      </a>
+    </div>
+    <div id='userMenuId' class="user-menu" ng-click="userMenu.open=!userMenu.open" ng-mouseLeave="userMenu.open=false"
+      ng-show="isUserLoggedIn()">
+      <div id="User" ng-class="{userMenuOpen: userMenu.open}">
+        <div id="userMenuFullName">
+          {{ globals.currentUser.firstName }}&nbsp;{{ globals.currentUser.lastName }}
+        </div>
+        <div id="currentTimeUTC">
+          {{ currTime | date : 'yyyy-MM-dd HH:mm:ss UTC'}}
+        </div>
+        <div class="container">
+          <div class="band"></div>
+          <ul class="usermenu">
+            <li id='menuChangePassword' class="usermenu" ng-class="{menuItemHilight: hoverCP}" ng-mouseLeave="hoverCP=false"
+              ng-mouseEnter="hoverCP=true"><a href="" ng-click="nav('/changePassword')" style="display: block;">Change
+              Password</a></li>
+            <hr class="usermenu">
+            <li id='menuLogOut' class="usermenu" ng-class="{menuItemHilight: hoverLO}" ng-mouseLeave="hoverLO=false"
+              ng-mouseEnter="hoverLO=true" ng-mouseup="logOut()"><a href="" style="display: block;">Log Out</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <ul id='navBar' class="nav" ng-hide="!isNavBarAllowed()">
+      <li ng-if="isNavLinkAllowed(NAV_LINK_DASHBOARD)"
+        ng-class="{active: onDashboard}"><a id='navBarDashboard' href="" ng-click="nav('/dashboard')">{{ NAV_LINK_DASHBOARD }}</a></li>
+      <li ng-if="isNavLinkAllowed(NAV_LINK_INSTANCES)"
+        ng-class="{active: onInstances}"><a id='navBarInstances' href="" ng-click="nav('/c360AnalyticsInstanceList')">{{ NAV_LINK_INSTANCES }}</a></li>
+      <li ng-if="isNavLinkAllowed(NAV_LINK_INSTITUTIONS)"
+        ng-class="{active: onInstitutions}"><a id='navBarInstitutions' href="" ng-click="nav('/institutionList')">{{ NAV_LINK_INSTITUTIONS }}</a>
+      </li>
+      <li ng-if="isNavLinkAllowed(NAV_LINK_USERS)"
+        ng-class="{active: onUsers}"><a id='navBarUsers' href="" ng-click="nav('/userList')">{{ NAV_LINK_USERS }}</a></li>
+      <li ng-if="isNavLinkAllowed(NAV_LINK_KITS)"
+        ng-class="{active: onKits}"><a id='navBarKits' href="" ng-click="nav('/kitList')">{{ NAV_LINK_KITS }}</a></li>
+      <li ng-if="isNavLinkAllowed(NAV_LINK_HANDHELDS)"
+        ng-class="{active: onHandhelds}"><a id='navBarHandhelds' href="" ng-click="nav('/handheldList')">{{ NAV_LINK_HANDHELDS }}</a></li>
+      <li ng-if="isNavLinkAllowed(NAV_LINK_AUDIT)"
+        ng-class="{active: onAudit}"><a id='navBarAudit' href="" ng-click="nav('/audit')">{{ NAV_LINK_AUDIT }}</a></li>
+    </ul>
+  </div>
+
+  <div class="message_animation message"
+    ng-class="{'message_info':(currMessage().type === MSG_TYPE_INFO), 'message_error':(currMessage().type === MSG_TYPE_ERROR), 'message_hidden':(currMessage().type === MSG_TYPE_NONE), 'message_displayed':((currMessage().type === MSG_TYPE_INFO) || (currMessage().type === MSG_TYPE_ERROR))}">
+    <div ng-if="((currMessage().type === MSG_TYPE_INFO) || (currMessage().type === MSG_TYPE_ERROR))">
+      <img ng-src="{{ currMessage().icon }}" class="floatRight" ng-click="acknowledgeMessage()">
+
+      <div ng-if="(currMessage().suffix !== '')" class="floatRight"
+        style="color: black; font-weight: bold; padding-top: 2px; padding-bottom: 2px;">
+        &nbsp;{{ currMessage().suffix }}&nbsp;</div>
+      <div style="padding-top: 2px; padding-bottom: 2px;">{{ currMessage().text }}</div>
+    </div>
+  </div>
+
+  <!-- TODO: Standard Server-Error Message Display -->
+
+  <!--[if lt IE 10]>
+  <meta http-equiv="refresh" content="0; url=unsupported_browser" />
+  <![endif]-->
+
+  <div ng-view ng-if="globals.ok">
+    <noscript>
+      <style type="text/css">
+          .pagecontainer {display:none;}
+      </style>
+      <div class="noscriptmsg">
+        <p>
+        This site requires that JavaScript/ActiveScript is enabled.
+        </p>
+      </div>
+    </noscript>
+  </div>
+  <div class="separator"></div>
+</div>
+<div id="footer" ng-controller="HeaderCtrl" ng-mouseEnter="showVersionToggle()" ng-mouseLeave="showVersionToggle()">
+  <div class="footer-content">
+    &copy; 2011&ndash;2017 Cepheid. All Rights Reserved. | Version {{globals.rxpVersion.version.version}}
+  </div>
+</div>
+
+</body>
+</html>

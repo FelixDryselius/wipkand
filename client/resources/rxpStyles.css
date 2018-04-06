@@ -1,0 +1,1050 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym,
+address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
+b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead,
+tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, menu, nav, output,
+section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+div {
+  display: block;
+}
+
+div.backLink {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+td, th {
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  color: rgb(85, 85, 85);
+  cursor: default;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+  vertical-align: baseline;
+  white-space: nowrap;
+  height: 32px;
+}
+
+th.sideblock {
+  font-weight: bold;
+  text-align: left;
+}
+
+th.sideblock div.sideblock-header-underline {
+  padding-bottom: 1px;
+  margin-right: 15px;
+  padding-right: 50px;
+  border-bottom: solid 1px rgb(85, 85, 85);
+}
+
+th.sideblock span.sideblock-header {
+  background-color: white;
+  display: inline-block;
+  margin-bottom: -1px;
+  vertical-align: bottom;
+}
+
+/* Links */
+a {
+  color: rgb(85, 85, 85);
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+}
+
+a.c360AnalyticsInstance {
+  color: #007ac3;
+}
+
+a.instrument {
+  color: #007ac3;
+}
+
+a.command {
+  color: #007ac3;
+}
+
+html {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+/* Body */
+body {
+  background: #eaeaea;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: black;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+
+strong {
+  font-weight: bold;
+}
+
+/* For footer positioning */
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -40px;
+}
+
+/* Page Content Container */
+#content {
+  padding: 20px 10px;
+  min-width: 1230px;
+  position: relative;
+  z-index: 0;
+  height: auto;
+}
+
+button.pageNumber {
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background-color: white;
+  vertical-align: 9px;
+  align: left;
+  width: 20px;
+  font-size: 105%;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+button.currentPage {
+  font-weight: bold;
+  font-size: 105%;
+  cursor: auto;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+div.pagination {
+  padding: 3px;
+  border: 2px solid #ccc;
+  margin: 8px;
+  display: inline-block;
+  border-radius: 18px;
+  background: white;
+  width: 174px;
+  height: 27px;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#content .hide {
+  visibility: hidden;
+}
+
+.separator {
+  height: 60px;
+  clear: both;
+}
+
+#footer {
+  background: url(img/footerBG.png) repeat-x left top #eaeaea;
+  bottom: 0px;
+  height: 40px;
+  width: 100%;
+}
+
+#footer .footer-content {
+  font-size: 10px;
+  color: #555;
+  padding: 15px 0 0 10px;
+}
+
+#hiddenVersionInfo {
+  background-color: #ffffca;
+  display: none;
+}
+
+/* Title for each Page */
+.pageTitle {
+  -webkit-background-clip: border-box;
+  -webkit-background-origin: padding-box;
+  -webkit-background-size: auto;
+  background-color: rgba(0, 0, 0, 0);
+  border-bottom-color: rgb(0, 122, 195);
+  border-left-color: rgb(0, 122, 195);
+  border-right-color: rgb(0, 122, 195);
+  border-top-color: rgb(0, 122, 195);
+  color: rgb(0, 122, 195);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 18px;
+  height: 20px;
+  margin-top: 10px;
+  padding-right: 20px;
+  vertical-align: baseline;
+  display: block;
+  float: left;
+}
+
+/* Page Header (logo, navigation, user menu, date/time) */
+#header {
+  background-color: rgb(255, 255, 255);
+  height: 50px;
+  overflow-x: visible;
+  overflow-y: visible;
+  padding-bottom: 15px;
+  padding-left: 25px;
+  padding-right: 15px;
+  padding-top: 10px;
+  position: relative;
+  text-align: center;
+  min-width: 1220px;
+  z-index: 10;
+  box-shadow: rgba(0, 0, 0, 0.247059) 0px 1px 1px 0px;
+}
+
+/* Page Header Logo */
+#header .logo {
+  cursor: auto;
+  display: inline;
+  height: 49px;
+  width: 91px;
+  float: left;
+}
+
+/* Page Header Navigation Bar */
+#header ul.nav {
+  cursor: auto;
+  display: inline-block;
+  height: 27px;
+  margin-top: 8px;
+  text-align: center;
+  vertical-align: baseline;
+}
+
+/* Page Header Navigation Bar - Item */
+#header ul.nav li {
+  background-color: rgba(0, 0, 0, 0);
+  background-image: url(img/navBarBG.png);
+  border-bottom-color: rgb(204, 204, 204);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-left-color: rgb(85, 85, 85);
+  border-right-color: rgb(234, 234, 234);
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-top-color: rgb(204, 204, 204);
+  border-top-style: solid;
+  border-top-width: 1px;
+  color: rgb(85, 85, 85);
+  display: inline-block;
+  font-size: 12px;
+  height: 25px;
+  line-height: 16px;
+  margin-left: -2px;
+  margin-right: -2px;
+  min-width: 80px;
+  text-shadow: rgb(255, 255, 255) 0px 1px 0px;
+  width: 80px;
+}
+
+/* Page Header Navigation Bar - Current Item */
+#header ul.nav li.active {
+  border-left-color: rgb(0, 122, 195);
+  border-right-color: rgb(0, 122, 195);
+  color: rgb(0, 122, 195);
+  background-position: 50% -30px;
+}
+
+/* Page Header Navigation Bar - Current Item */
+#header ul.nav li span {
+  display: inline-block;
+  border-bottom-color: rgb(85, 85, 85);
+  border-left-color: rgb(85, 85, 85);
+  border-right-color: rgb(85, 85, 85);
+  border-top-color: rgb(85, 85, 85);
+  color: rgb(85, 85, 85);
+  cursor: default;
+  font-size: 12px;
+  height: 16px;
+  line-height: 16px;
+  list-style-image: none;
+  margin-left: 0px;
+  margin-top: 0px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  text-align: -webkit-match-parent;
+  text-decoration: none;
+  text-shadow: rgb(255, 255, 255) 0px 1px 0px;
+  vertical-align: baseline;
+  width: 67px;
+}
+
+/* List Items and Links in Navigation Bar */
+#header ul.nav li a {
+  display: inline-block;
+  border-bottom-color: rgb(85, 85, 85);
+  border-left-color: rgb(85, 85, 85);
+  border-right-color: rgb(85, 85, 85);
+  border-top-color: rgb(85, 85, 85);
+  color: rgb(85, 85, 85);
+  cursor: pointer;
+  height: auto;
+  height: 16px;
+  line-height: 16px;
+  list-style-image: none;
+  margin-left: 0px;
+  margin-top: 0px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  position: relative;
+  text-decoration: none;
+  text-shadow: rgb(255, 255, 255) 0px 1px 0px;
+  vertical-align: baseline;
+  width: auto;
+}
+
+/* user-menu outer container */
+#header .user-menu {
+  border-bottom-color: rgb(85, 85, 85);
+  border-left-color: rgb(85, 85, 85);
+  border-right-color: rgb(85, 85, 85);
+  border-top-color: rgb(85, 85, 85);
+  color: rgb(85, 85, 85);
+  float: right;
+  font-size: 12px;
+  line-height: 12px;
+  margin-right: -2px;
+  min-width: 80px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: rgb(255, 255, 255) 0px 1px 0px;
+  vertical-align: baseline;
+  width: auto;
+  display: block;
+}
+
+/* User Menu */
+#header #User {
+  -webkit-background-clip: border-box;
+  -webkit-background-origin: padding-box;
+  -webkit-background-size: auto;
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: url(img/menuGear.png);
+  background-origin: padding-box;
+  background-position: 99% 7px;
+  background-repeat: no-repeat;
+  background-size: auto;
+  border-bottom-color: rgb(85, 85, 85);
+  border-bottom-style: none;
+  border-bottom-width: 0px;
+  border-image-outset: 0px;
+  border-image-repeat: stretch;
+  border-image-slice: 100%;
+  border-image-source: none;
+  border-image-width: 1;
+  border-left-color: rgb(85, 85, 85);
+  border-left-style: none;
+  border-left-width: 0px;
+  border-right-color: rgb(85, 85, 85);
+  border-right-style: none;
+  border-right-width: 0px;
+  border-top-color: rgb(85, 85, 85);
+  border-top-style: none;
+  border-top-width: 0px;
+  color: rgb(85, 85, 85);
+  cursor: pointer;
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-stretch: normal;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: 14px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 5px;
+  padding-bottom: 20px;
+  padding-left: 7px;
+  padding-right: 26px;
+  padding-top: 2px;
+  vertical-align: baseline;
+  width: auto;
+  text-align: right;
+}
+
+/* User Menu when open */
+#header #User.userMenuOpen {
+  -webkit-background-clip: border-box;
+  -webkit-background-origin: padding-box;
+  -webkit-background-size: auto;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px 2px;
+  background-color: rgba(0, 0, 0, 0);
+  border-bottom-color: rgb(85, 85, 85);
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-left-color: rgb(85, 85, 85);
+  border-right-color: rgb(85, 85, 85);
+  border-top-color: rgb(85, 85, 85);
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px 2px;
+  color: rgb(85, 85, 85);
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: 5px;
+  padding-bottom: 20px;
+  padding-left: 7px;
+  padding-right: 26px;
+  padding-top: 2px;
+  vertical-align: baseline;
+  width: auto;
+}
+
+#userMenuEmail {
+  height: 18px;
+}
+
+#currentTimeUTC {
+  height: 18px;
+}
+
+/* User Menu options container when closed */
+#header #User div.container {
+  -webkit-border-radius: 3px;
+  -webkit-box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.2);
+  background: white;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  box-shadow: 0px 1px 2px 2px rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+  margin-left: -65.5px;
+  margin-top: 15px;
+  min-width: 250px;
+  padding: 8px;
+  position: absolute;
+  display: none;
+}
+
+/* User Menu options container when open */
+#header #User.userMenuOpen div.container {
+  -webkit-background-clip: border-box;
+  -webkit-background-origin: padding-box;
+  -webkit-background-size: auto;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px 2px;
+  border-bottom-color: rgb(85, 85, 85);
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-left-color: rgb(85, 85, 85);
+  border-right-color: rgb(85, 85, 85);
+  border-top-color: rgb(85, 85, 85);
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px 2px;
+  color: rgb(85, 85, 85);
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 14px;
+  margin-left: -65.5px;
+  margin-top: 15px;
+  min-width: 250px;
+  padding-bottom: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 8px;
+  position: absolute;
+  vertical-align: baseline;
+  width: 250px;
+  display: block;
+}
+
+/* Part of the user menu border (closed) */
+#header #User.band {
+  width: 40px;
+  background-color: white;
+  margin-top: -11px;
+  margin-bottom: 9px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 2px;
+}
+
+/* Part of the user menu border (open) */
+#header #User.userMenuOpen div.band {
+  width: 143px;
+}
+
+/* UL in usermenu */
+ul.usermenu {
+  color: rgb(85, 85, 85);
+  cursor: pointer;
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  vertical-align: baseline;
+  width: 250px;
+}
+
+HR.usermenu {
+  height: 1px;
+  padding: 0px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  vertical-align: bottom;
+}
+
+/* LI in usermenu */
+li.usermenu {
+  -webkit-background-clip: border-box;
+  -webkit-background-origin: padding-box;
+  -webkit-background-size: auto;
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-color: rgb(255, 255, 255);
+  background-image: none;
+  background-origin: padding-box;
+  background-size: auto;
+  margin: 0px !important;
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+  text-align: left;
+  vertical-align: baseline;
+  width: 244px;
+}
+
+.menuItemHilight {
+  background-color: #f5f5f5 !important;
+}
+
+.resultCount {
+  padding-top: 1px;
+  padding-left: 20px;
+  padding-bottom: 5px;
+  padding-right: 0px;
+  display: inline-block;
+  line-height: 24px;
+  width: 85%;
+  font-size: 12px;
+  font-style: italic;
+  color: #555;
+}
+
+.whitePlus {
+  background: url(img/whitePlus.png) no-repeat left 3px;
+  background-position-x: 3px !important;
+  background-position-y: 6px !important;
+  background-size: initial;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: rgb(0, 122, 195) !important;
+  padding-left: 17px;
+}
+
+.blueButton {
+  border-radius: 4px;
+  background-color: rgb(0, 122, 195) !important;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: bold;
+  color: white;
+  padding: 4px 16px 4px 17px;
+  margin-right: 0px;
+  margin-left: 2px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.blueButton:disabled {
+  cursor: default;
+  background-color: #555 !important;
+}
+
+.floatRight {
+  float: right;
+}
+
+.floatLeft {
+  float: left;
+}
+
+.clear {
+  clear: both;
+  margin: 0;
+  padding: 0;
+  width: 0px;
+  height: 0px;
+}
+
+.shadow {
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
+}
+
+button {
+  overflow: visible;
+}
+
+.downloadIcon {
+  background: url(img/downloadIcon.png) no-repeat left !important;
+  padding-left: 20px !important;
+}
+
+.uploadIcon {
+  background: url(img/uploadIcon.png) no-repeat left !important;
+  padding-left: 20px !important;
+}
+
+.greyLink {
+  color: #999;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+button[type=submit] {
+  border: 0;
+  background: transparent;
+}
+
+h1 {
+  font-size: 18px;
+  color: black;
+  margin-bottom: 6px;
+}
+
+.showElementInline {
+  display: inline !important;
+}
+
+.showElementBlock {
+  display: inline !important;
+}
+
+input[type=text],
+input[type=password],
+input[type=email],
+textarea,
+input[type=number] {
+  border: 1px solid #ccc;
+  padding: 0 2px;
+  color: black;
+  margin: 1px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  height: 26px;
+}
+
+input[type=checkbox] {
+  border: 1px solid #ccc;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  margin: 0;
+  vertical-align: bottom;
+  position: relative;
+  top: -3px;
+  *overflow: hidden;
+}
+
+input[type=checkbox][disabled] {
+  border: 1px solid #eeeeee;
+  color: #888888;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  margin: 0;
+  vertical-align: bottom;
+  position: relative;
+  top: -3px;
+  *overflow: hidden;
+}
+
+select {
+  border: 1px solid #ccc;
+  padding: 0 2px;
+  color: black;
+  margin: 1px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  height: 26px;
+}
+
+select[disabled] {
+  border: 1px solid #dddddd;
+  padding: 0 2px;
+  color: #888888;
+  margin: 1px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  height: 26px;
+  background-color: #eeeeee;
+}
+
+.disabled {
+  color: #aaaaaa !important;
+}
+
+#csvDownload {
+  padding-top: 8px;
+}
+
+::-webkit-input-placeholder {
+  padding-left: 10px;
+  padding-top: 2px;
+  font-size: 12px;
+}
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  padding-left: 10px;
+  padding-top: 2px;
+  font-size: 12px;
+}
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  padding-left: 10px;
+  padding-top: 2px;
+  font-size: 12px;
+}
+
+:-ms-input-placeholder {
+  padding-left: 10px;
+  padding-top: 2px;
+  font-size: 12px;
+}
+
+.searchButton {
+  cursor: pointer;
+}
+
+.login {
+  box-sizing: border-box;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  background: #ffffff;
+  margin: 50px auto;
+  padding: 25px;
+  width: 400px;
+  position: relative;
+}
+
+.login h1,
+.login h2 {
+  margin-bottom: 20px;
+}
+
+.login #login_controls,
+.login form {
+  margin-top: 15px;
+}
+
+.login .controls {
+  margin: 10px 0;
+}
+
+.login #login_controls label,
+.login form label {
+  color: #555555;
+  width: 65px;
+  display: inline-block;
+}
+
+.login #login_controls input[type="text"],
+.login #login_controls input[type="email"],
+.login #login_controls input[type="password"],
+.login form input[type="text"],
+.login form input[type="email"],
+.login form input[type="password"] {
+  width: 260px;
+}
+
+input[type=submit].blueTextButton {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #007ac3;
+  margin: 0px 3px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+input[type=button].blueTextButton {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #007ac3;
+  margin: 0px 3px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+input[type=submit].greyTextButton {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #555;
+  margin: 0px 3px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+input[type=button].greyTextButton {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #555;
+  margin: 0px 3px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+input[type=button]:disabled {
+  cursor: default;
+  color: #aaaaaa;
+}
+
+.login .forgot-password {
+  color: #555555;
+  position: absolute;
+  right: 0;
+  bottom: -25px;
+}
+
+.arrowRightBlue {
+  background: url(img/arrowRightBlue.png) no-repeat left 4px;
+  padding-left: 8px;
+}
+
+.checkBlue {
+  background: url(img/checkBlue.png) no-repeat left 4px;
+  padding-left: 14px
+}
+
+div.nonGridSectionContent {
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.247059) 0px 1px 1px 0px;
+}
+
+div.nonGridSectionContentCollapsed {
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.247059) 0px 1px 1px 0px;
+  padding-bottom: 0px;
+}
+
+div.nonGridSectionContentExpanded {
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.247059) 0px 1px 1px 0px;
+  padding-bottom: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.hidden {
+  display: none;
+}
+
+.shown {
+  display: block;
+}
+
+h1.sectionHeader {
+  padding: 10px;
+  margin: 0px;
+}
+
+h1.collapsibleSectionHeader {
+  padding: 10px;
+  margin: 0px;
+  cursor: pointer;
+}
+
+img.collapseControl {
+  margin-top: 2px;
+  float: left;
+  width: 12px;
+}
+
+div.section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  background-color: #ffffff;
+  border-radius: 4px;
+  min-width: 1240px;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.247059) 0px 1px 1px 0px;
+}
+
+.saveCancelControls {
+  text-align: center;
+  margin: 35px 0 20px 0;
+}
+
+/* Messages. Error/Info and animation. */
+
+.message {
+  position: absolute;
+  top: 0px;
+  width: 40%;
+  overflow: hidden;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 5px 15px;
+  border-top: 1px solid transparent;
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-border-radius: 0px 0px 4px 4px;
+  -webkit-border-radius: 0px 0px 4px 4px;
+  border-radius: 0px 0px 4px 4px;
+}
+
+.message_animation {
+  -webkit-transition: height 1000ms linear;
+  -moz-transition: height 1000ms linear;
+  -o-transition: height 1000ms linear;
+  -ms-transition: height 1000ms linear;
+  transition: height 1000ms linear;
+
+  -webkit-transition: top 1000ms linear;
+  -moz-transition: top 1000ms linear;
+  -o-transition: top 1000ms linear;
+  -ms-transition: top 1000ms linear;
+  transition: top 1000ms linear;
+}
+
+.message_hidden {
+  height: 0px;
+  top: -75px;
+  background-color: white;
+  color: white;
+}
+
+.message_displayed {
+  top: 75px;
+}
+
+.message_info {
+  background-color: #e6faa9;
+  color: green;
+}
+
+.message_error {
+  background-color: #ffee9e;
+  color: orange;
+}
+
+div.resultsSummary {
+  background-color: rgb(234, 234, 234);
+  color: rgb(85, 85, 85);
+  display: inline;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+div.sideBarList {
+  overflow-y: auto;
+  max-height: 250px;
+  max-width: 400px;
+}
+
+div.sideBarList span {
+  display: block;
+}
+
+.badValue {
+  color: #ff0000;
+}
+
+.fixed-width-200 input,
+.fixed-width-200 select {
+  width: 200px;
+}
+
+div.gridContainer {
+  position: relative;
+}
+
+div.loading {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  background: url(img/loading.gif) no-repeat center;
+}
+
+span.disabledLabel {
+	color: #999999;
+}
+
+span.enabledLabel {
+	font-weight: bold;
+}
