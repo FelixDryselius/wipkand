@@ -15,6 +15,8 @@ import { ShiftChangeComponent } from './shift-change/shift-change.component';
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
+import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
+
 
 
 @NgModule({
@@ -29,6 +31,8 @@ import { BatchReworkComponent } from './batch-rework/batch-rework.component';
     BatchHistoryComponent,
     FinishBatchComponent,
     BatchReworkComponent
+    CurrentBatchInfoComponent
+    
   ],
   imports: [
     BrowserModule,

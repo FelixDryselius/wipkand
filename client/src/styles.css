@@ -58,6 +58,17 @@
 
 /* Start Navbar style */
 
+
 /* End Navbar style */
+.mycontent-left {
+    border-right: 1px ridge #333;
+  }
+
+
+.startBatchButton {
+    right: 0%;
+}
+
+/*End Navbar style*/
 
 
