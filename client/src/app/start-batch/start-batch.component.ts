@@ -32,7 +32,10 @@ export class StartBatchComponent implements OnInit {
     console.log("chosenOrder: " + chosenOrder)
 
     if (chosenBatch && chosenOrder) {
-      this.router.navigate(['/home', 
+      console.log("sent item" + {batchnr: formData.value['batchnr'], 
+      ordernr: formData.value['ordernr']} );
+      
+      this.router.navigate(['running-batch', 
       {batchnr: formData.value['batchnr'], 
       ordernr: formData.value['ordernr']}, 
       
