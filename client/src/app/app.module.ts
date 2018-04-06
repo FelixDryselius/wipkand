@@ -16,6 +16,9 @@ import { BatchHistoryComponent } from './batch-history/batch-history.component';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
+import { AddCommentComponent } from './add-comment/add-comment.component';
+
+import { CommentServiceService } from './comment-service/comment-service.service';
 
 
 
@@ -30,8 +33,9 @@ import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-in
     ShiftChangeComponent,
     BatchHistoryComponent,
     FinishBatchComponent,
-    BatchReworkComponent
-    CurrentBatchInfoComponent
+    BatchReworkComponent,
+    CurrentBatchInfoComponent,
+    AddCommentComponent
     
   ],
   imports: [
@@ -40,7 +44,7 @@ import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-in
     HttpModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [CommentServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
