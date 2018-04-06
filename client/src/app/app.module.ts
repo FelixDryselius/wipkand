@@ -13,7 +13,10 @@ import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { FloorstockComponent } from './floorstock/floorstock.component';
 import { ShiftChangeComponent } from './shift-change/shift-change.component';
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
+import { FinishBatchComponent } from './finish-batch/finish-batch.component';
+import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
+
 
 
 @NgModule({
@@ -26,7 +29,10 @@ import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-in
     FloorstockComponent,
     ShiftChangeComponent,
     BatchHistoryComponent,
+    FinishBatchComponent,
+    BatchReworkComponent
     CurrentBatchInfoComponent
+    
   ],
   imports: [
     BrowserModule,

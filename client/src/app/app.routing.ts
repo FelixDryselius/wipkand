@@ -9,6 +9,8 @@ import { HomeComponent } from './home/home.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { ShiftChangeComponent } from './shift-change/shift-change.component';
 import { StartBatchComponent } from './start-batch/start-batch.component';
+import { FinishBatchComponent } from './finish-batch/finish-batch.component';
+import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 
 
 
@@ -40,6 +42,14 @@ const appRoutes: Routes = [
     {
         path:"start-batch",
         component: StartBatchComponent,
+    },
+    {
+        path:"finish-batch",
+        component: FinishBatchComponent,
+    },
+    {
+        path:"batch-rework",
+        component: BatchReworkComponent,
     },
 ]
 

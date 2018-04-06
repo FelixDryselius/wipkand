@@ -1,5 +1,5 @@
 <div class="text-center">
-<h3 class="newBatchHeader">
+<h3 class="h3Header">
   {{ title }}
 </h3>
 <br>
@@ -8,7 +8,7 @@
   <div class="form-group row">
       <label for="inputOrderNr" class="col-lg-4 col-form-label text-right">Add order</label>
       <div class="col-lg-4">
-      <input type="order" class="form-control" id="inputOrderNr" placeholder="Order number" name='ordernr' [(ngModel)]='newOrder'>
+      <input type="text" class="form-control" id="inputOrderNr" placeholder="Order number" name='ordernr' [(ngModel)]='newOrder'>
     </div>
   </div>
 
@@ -39,6 +39,8 @@
   </button>
 
 </form>
-<p>{{ chosenBatch }}</p>
 </div>
+
+<hr>
+
 

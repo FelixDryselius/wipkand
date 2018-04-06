@@ -1,17 +1,65 @@
 /* You can add global styles to this file, and also import other style files */
 
-
+/* Start finish batch style */
 .btn-startBatch {
     margin-top: 40px;
 }
 
-.newBatchHeader {
+.h3Header {
     margin-top: 40px;
 }
 
+.firstInput {
+    margin-left: 83px;
+    margin-right: 123px;
+}
 
-/*start Navbar style*/
+.finishBatchLabels {
+    font-size: 120%;
+}
 
+.btn-finishBatch {
+    margin-left: 600px;
+    margin-top: 40px;
+}
+
+.yieldField {
+    margin-top: 7%;
+}
+
+.finishBatch {
+    margin-left: 36px;
+}
+
+/* End finish batch style */
+
+
+
+/* Start comment style */
+
+.commentForm {
+    margin-top: 10%;
+    margin-left: 25%;
+}
+
+.commentInput {
+
+}
+
+.commentTextarea {
+    height: 200%;
+    width: 200%;
+}
+
+/* End Navbar style */
+
+
+
+
+/* Start Navbar style */
+
+
+/* End Navbar style */
 .mycontent-left {
     border-right: 1px ridge #333;
   }
