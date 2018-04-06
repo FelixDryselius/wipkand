@@ -12,6 +12,18 @@
 
 /*start Navbar style*/
 
+.mycontent-left {
+    border-right: 1px ridge #333;
+  }
+
+.batchInfo {
+    padding: 0px !important;
+}
+
+.startBatchButton {
+    right: 0%;
+}
+
 /*End Navbar style*/
 
 

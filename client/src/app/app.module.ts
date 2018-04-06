@@ -13,6 +13,7 @@ import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { FloorstockComponent } from './floorstock/floorstock.component';
 import { ShiftChangeComponent } from './shift-change/shift-change.component';
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
+import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { BatchHistoryComponent } from './batch-history/batch-history.component';
     ScoreboardComponent,
     FloorstockComponent,
     ShiftChangeComponent,
-    BatchHistoryComponent
+    BatchHistoryComponent,
+    CurrentBatchInfoComponent
   ],
   imports: [
     BrowserModule,
