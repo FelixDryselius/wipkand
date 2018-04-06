@@ -1,7 +1,4 @@
-
-
-<div *ngIf="batchInfo">
-    <p>Order ID: {{ batchInfo.order_id }}</p>
-    <p>Product name: {{ batchInfo.product_name }}</p>
-    <p>Batch number: {{ batchInfo.batch_number }}</p>
+<div *ngIf="currentBatchInfo !==null">
+    <p>Order ID: {{ currentBatchInfo.batchNr }}</p>
+    <p>Batch number: {{ currentBatchInfo.orderNr }}</p>
 </div>
