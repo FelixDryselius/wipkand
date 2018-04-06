@@ -12,6 +12,7 @@ import { ShiftChangeComponent } from './shift-change/shift-change.component';
 import { StartBatchComponent } from './start-batch/start-batch.component';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
+import { AddCommentComponent } from './add-comment/add-comment.component';
 
 
 
@@ -51,6 +52,10 @@ const appRoutes: Routes = [
     {
         path:"batch-rework",
         component: BatchReworkComponent,
+    },
+    {
+        path:"comments/add-comment",
+        component: AddCommentComponent,
     },
 ]
 

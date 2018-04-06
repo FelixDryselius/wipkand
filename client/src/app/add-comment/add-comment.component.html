@@ -1,0 +1,39 @@
+<div class="text-center" style="margin-top:15px;">
+    <h3 class="h3header">
+    {{ title }}
+  </h3>
+  <form class="commentForm">
+
+    <div class="form-group row commentInput">
+        <div class="col-lg-2">
+          <label>Name:</label>
+        </div>
+        <div class="col-lg-4">
+          <input class="form-control">
+        </div>
+    </div>
+
+  <div class="form-group row">
+    <div class="col-lg-2">
+      <label>Comment:</label>
+    </div>
+    <div class="col-lg-4">
+      <textarea type="text" class="form-control commentTextarea" #commentInput></textarea>
+    </div>
+  </div>
+<div class="notification is-primary">
+
+  <button (click)="newMessage(commentInput)" class="btn btn-primary" routerLink="/comments" routerLinkActive="active">New Message</button>
+
+</div>
+</form>
+
+  <!-- <div class="btn-finishBatch">
+      <button type="submit" class="btn btn-primary  finishBatchLabels">
+        Add comment
+      </button>
+  </div> 
+</div> -->
+
+
+  
