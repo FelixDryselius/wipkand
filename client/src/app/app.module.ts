@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http'
 
 
 import { AppComponent } from './app.component';
@@ -16,6 +17,7 @@ import { BatchHistoryComponent } from './batch-history/batch-history.component';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
+import { NavInformationServiceService } from './nav-information-service/nav-information-service.service'
 
 
 
@@ -30,7 +32,7 @@ import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-in
     ShiftChangeComponent,
     BatchHistoryComponent,
     FinishBatchComponent,
-    BatchReworkComponent
+    BatchReworkComponent,
     CurrentBatchInfoComponent
     
   ],
@@ -38,9 +40,10 @@ import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-in
     BrowserModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [NavInformationServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { NavInformationServiceService } from '../nav-information-service/nav-information-service.service'
 
 @Component({
   selector: 'start-batch',
@@ -7,39 +9,43 @@ import { Router } from '@angular/router';
   styleUrls: ['./start-batch.component.css']
 })
 
-export class StartBatchComponent implements OnInit {
+export class StartBatchComponent implements OnInit, OnDestroy {
   newBatch: number;
-
+  currentBatchInfo:any;
   title = "Start new batch";
+  private currentBatchObservable:any;
 
   @Input()
   passedQuery: number;
 
-  constructor(private router: Router) {   
+  constructor(private router: Router, private data: NavInformationServiceService) {   
       }
 
   ngOnInit() {
+    this.data.currentBatchObservable.subscribe(currentBatchInfo =>this.currentBatchInfo = currentBatchInfo)
+
     console.log(this.passedQuery)
     if(this.passedQuery) {
       this.newBatch = this.passedQuery
     }
   }
 
+  ngOnDestroy() {
+   // this.currentBatchObservable.usubscribe() // I want to do this but cant
+  }
+
+  newBatchInformation(obj:any) {
+    this.data.changeBatchInfo(obj)
+  }
+
   submitBatch(event, formData) {
     let chosenBatch = formData.value['batchnr']
     let chosenOrder = formData.value['ordernr']
-    console.log("chosenBatch: " + chosenBatch)
-    console.log("chosenOrder: " + chosenOrder)
 
     if (chosenBatch && chosenOrder) {
-      console.log("sent item" + {batchnr: formData.value['batchnr'], 
-      ordernr: formData.value['ordernr']} );
-      
-      this.router.navigate(['running-batch', 
-      {batchnr: formData.value['batchnr'], 
-      ordernr: formData.value['ordernr']}, 
-      
-    ])
+
+      this.newBatchInformation({batchNr:chosenBatch,orderNr:chosenOrder})
+      this.router.navigate(['./home']) 
     }
     
   }

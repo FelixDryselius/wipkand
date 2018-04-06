@@ -21,10 +21,6 @@ const appRoutes: Routes = [
         component: BatchHistoryComponent,
     },
     {
-        path: "running-batch",
-        component: CurrentBatchInfoComponent,
-    },
-    {
         path:"comments",
         component: CommentsComponent,
     },
