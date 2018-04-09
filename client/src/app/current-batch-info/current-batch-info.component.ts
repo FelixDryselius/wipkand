@@ -8,6 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   private routeSub: any;
+  private batchnr: number;
+  private ordernr: number;
   // orderID:string;
   // productName:string; //I dont think we need these
   // batchNumber:string;
@@ -17,9 +19,16 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routeSub = this.route.params.subscribe(params =>{
-      this.batchInfo = params["newBatchInfo"]  //not sure about var name, will change
+      //this.batchInfo = params  //not sure about var name, will change
+         this.batchnr = params.batchnr
+         this.ordernr = params.ordernr
+
     })
     this.batchInfo = true //just a temporary thing
+    console.log(this.batchnr);
+    console.log(this.ordernr);
+    
+    
   }
 
   ngOnDestroy(){
