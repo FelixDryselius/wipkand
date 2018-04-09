@@ -1,6 +1,5 @@
 
-
-<div *ngIf="batchInfo">
-    <p>Order ID: {{ batchnr }}</p>
-    <p>Batch number: {{ ordernr }}</p>
+<div *ngIf="currentBatchInfo !==null">
+    <p>Order ID: {{ currentBatchInfo.batchNr }}</p>
+    <p>Batch number: {{ currentBatchInfo.orderNr }}</p>
 </div>
