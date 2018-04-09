@@ -18,6 +18,11 @@ import { AddCommentComponent } from './add-comment/add-comment.component';
 
 const appRoutes: Routes = [
     {
+       path:"",
+       redirectTo: '/home', 
+       pathMatch: 'full' 
+    },
+    {
         path:"batch-history",
         component: BatchHistoryComponent,
     },
