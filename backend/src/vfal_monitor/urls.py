@@ -14,7 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf.urls import url
 from django.urls import path, include
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path('', include('operations.urls')),
@@ -23,5 +25,7 @@ urlpatterns = [
     path('floorstock/', include('floorstock.urls'), name='floorstock'),
 
     #API urls
-    path('api/operations/', include('operations.api.urls'), name = 'operations-api')
+    path('api/operations/', include('operations.api.urls'), name = 'operations-api'),
+
+    url(r'^.*/$',TemplateView.as_view(template_name = "tempHome.html"), name='home')
 ]
