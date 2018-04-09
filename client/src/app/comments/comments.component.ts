@@ -1,28 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,} from '@angular/core';
 import { CommentServiceService } from '../comment-service/comment-service.service';
 
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
-  styleUrls: ['./comments.component.css']
+  styleUrls: ['./comments.component.css'],
 })
 export class CommentsComponent implements OnInit {
   mainTitle = "Comments";
   addCommentTitle = "Add comment";
   commentListTitle = "Comments list";
-  message:string;
+  comments = [];
+  dateNow : Date = new Date();
 
-  constructor(private data: CommentServiceService) { }
+  constructor(private data: CommentServiceService) {
+    
+   }
 
   ngOnInit() {
-    this.data.currentMessage.subscribe(message => this.message = message)
+   
   }
-
-  newCommentText(commentText) {
-    console.log(commentText.value)
-    this.data.changeMessage(commentText.value)
+addComment(newComment = []) {
+  console.log(Date)
+    if (newComment) {
+      this.comments.push(newComment);
+    }
   }
-
-
 }
