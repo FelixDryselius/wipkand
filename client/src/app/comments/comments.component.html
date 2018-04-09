@@ -21,12 +21,14 @@
     <label>Comment:</label>
   </div>
   <div class="col-lg-4">
-    <textarea type="text" class="form-control commentTextarea" #commentInput></textarea>
+    <textarea type="text" class="form-control commentTextarea" #newComment
+    (keyup.enter)="addComment(newComment.value)"
+    (blur)="addComment(newComment.value); newComment.value='' " name='comment'></textarea>
   </div>
 </div>
 <div class="notification is-primary">
 
-<button (click)="newCommentText(commentInput)" class="btn btn-primary btn-addComment">Add comment</button>
+<button (click)="addComment(newComment.value)" class="btn btn-primary btn-addComment">Add comment</button>
 
 </div>
 </form>
@@ -37,8 +39,10 @@
     {{ commentListTitle }}
   </h5>
     <div class="col-lg-12 text-left notification is-primary commentList">
-      {{ message }}
+        <ul><li *ngFor="let comment of comments"><b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{comment}}</li></ul>
     </div>
 
   </div>
+
+  <hr>
 
