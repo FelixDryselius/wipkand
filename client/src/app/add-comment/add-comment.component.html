@@ -9,7 +9,7 @@
           <label>Name:</label>
         </div>
         <div class="col-lg-4">
-          <input class="form-control">
+          <input type="text" class="form-control">
         </div>
     </div>
 
@@ -23,7 +23,7 @@
   </div>
 <div class="notification is-primary">
 
-  <button (click)="newMessage(commentInput)" class="btn btn-primary" routerLink="/comments" routerLinkActive="active">New Message</button>
+  <button (click)="newMessage(commentInput)" class="btn btn-primary btn-addComment" routerLink="/comments" routerLinkActive="active">Add comment</button>
 
 </div>
 </form>

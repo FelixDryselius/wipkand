@@ -12,7 +12,9 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   private routeSub: any;
   private batchnr: number;
   private ordernr: number;
+
   batchInfo:boolean;
+
   // orderID:string;
   // productName:string; //I dont think we need these
   // batchNumber:string;
@@ -36,6 +38,7 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
     console.log(this.batchnr);
     console.log(this.ordernr);
     
+
   }
 
   ngOnDestroy(){

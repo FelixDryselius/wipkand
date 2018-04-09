@@ -44,8 +44,10 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
     if (chosenBatch && chosenOrder) {
 
+
       this.newBatchInformation({batchNr:chosenBatch,orderNr:chosenOrder})
       this.router.navigate(['./home']) 
+
     }
     
   }
