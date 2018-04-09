@@ -5,9 +5,7 @@
     margin-top: 40px;
 }
 
-.h3Header {
-    margin-top: 40px;
-}
+
 
 .firstInput {
     margin-left: 83px;
@@ -35,15 +33,33 @@
 
 
 
-/* Start addComment style */
+/* Start comments style */
 
 .commentForm {
-    margin-top: 10%;
-    margin-left: 25%;
+    margin-top: 5%;
 }
 
-.commentInput {
+.mainTitleComments {
+    margin-top: 3%;
+}
 
+.addCommentTitle {
+    margin-top: 5%;
+    margin-right: 50%;
+}
+
+.commentListTitle {
+    margin-top: 7%;
+    margin-right: 50%;
+}
+
+.commentList {
+    margin-top: 5%;
+}
+
+.btn-addComment {
+    margin-top: 8%;
+    margin-right: 50%;
 }
 
 .commentTextarea {
@@ -51,11 +67,9 @@
     width: 200%;
 }
 
-/* End addComment style */
+/* End comments style */
 
-.btn-addComment {
-    margin-top: 8%;
-}
+
 
 
 /* Start Navbar style */
