@@ -35,7 +35,7 @@
 
 
 
-/* Start comment style */
+/* Start addComment style */
 
 .commentForm {
     margin-top: 10%;
@@ -51,9 +51,11 @@
     width: 200%;
 }
 
-/* End Navbar style */
+/* End addComment style */
 
-
+.btn-addComment {
+    margin-top: 8%;
+}
 
 
 /* Start Navbar style */

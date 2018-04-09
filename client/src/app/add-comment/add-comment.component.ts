@@ -17,6 +17,7 @@ export class AddCommentComponent implements OnInit {
   }
 
   newMessage(commentText) {
+    console.log(commentText.value)
     this.data.changeMessage(commentText.value)
   }
 
