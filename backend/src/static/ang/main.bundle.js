@@ -377,12 +377,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+__webpack_require__("./node_modules/rxjs/_esm5/add/operator/map.js");
+__webpack_require__("./node_modules/rxjs/_esm5/add/operator/catch.js");
 var CommentsServiceService = /** @class */ (function () {
-    function CommentsServiceService() {
+    function CommentsServiceService(http) {
+        this.http = http;
+        this.ROUTE_URL = 'http://localhost:8000/api/operations/comment/';
     }
+    CommentsServiceService.prototype.getComments = function () {
+        return this.http.get(this.ROUTE_URL);
+        //.map(response => response.json()) //should have a catch error func here
+    };
     CommentsServiceService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [http_1.HttpClient])
     ], CommentsServiceService);
     return CommentsServiceService;
 }());
@@ -401,7 +410,7 @@ module.exports = ""
 /***/ "./src/app/comments/comments.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h3 class=\"mainTitleComments\">\r\n  {{ mainTitle }}\r\n</h3>\r\n<h5 class=\"addCommentTitle\">\r\n  {{ addCommentTitle }}\r\n</h5>\r\n<form class=\"commentForm\">\r\n\r\n  <div class=\"form-group row commentInput\">\r\n      <div class=\"col-lg-2\">\r\n        <label>Name:</label>\r\n      </div>\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"text\" class=\"form-control\">\r\n      </div>\r\n  </div>\r\n\r\n<div class=\"form-group row\">\r\n  <div class=\"col-lg-2\">\r\n    <label>Comment:</label>\r\n  </div>\r\n  <div class=\"col-lg-4\">\r\n    <textarea type=\"text\" class=\"form-control commentTextarea\" #newComment\r\n    (keyup.enter)=\"addComment(newComment.value)\"\r\n    (blur)=\"addComment(newComment.value); newComment.value='' \" name='comment'></textarea>\r\n  </div>\r\n</div>\r\n<div class=\"notification is-primary\">\r\n\r\n<button (click)=\"addComment(newComment.value)\" class=\"btn btn-primary btn-addComment\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n\r\n\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h5 class=\"commentListTitle\">\r\n    {{ commentListTitle }}\r\n  </h5>\r\n    <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n        <ul><li *ngFor=\"let comment of comments\"><b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{comment}}</li></ul>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <hr>\r\n  <p>hdauilfrhwehfuiodasfsdafasdfdfasdfasfperthj gr8op</p>\r\n\r\n  <button (click)='getPosts()' class=\"btn btn-primary btn-addComment\">run get</button>\r\n <div *ngFor=\"let post of posts | async\">\r\n   {{ post.text_comment | json }}\r\n </div>"
+module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h3 class=\"mainTitleComments\">\r\n  {{ mainTitle }}\r\n</h3>\r\n<h5 class=\"addCommentTitle\">\r\n  {{ addCommentTitle }}\r\n</h5>\r\n<form class=\"commentForm\">\r\n\r\n  <div class=\"form-group row commentInput\">\r\n      <div class=\"col-lg-2\">\r\n        <label>Name:</label>\r\n      </div>\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"text\" class=\"form-control\">\r\n      </div>\r\n  </div>\r\n\r\n<div class=\"form-group row\">\r\n  <div class=\"col-lg-2\">\r\n    <label>Comment:</label>\r\n  </div>\r\n  <div class=\"col-lg-4\">\r\n    <textarea type=\"text\" class=\"form-control commentTextarea\" #newComment\r\n    (keyup.enter)=\"addComment(newComment.value)\"\r\n    (blur)=\"addComment(newComment.value); newComment.value='' \" name='comment'></textarea>\r\n  </div>\r\n</div>\r\n<div class=\"notification is-primary\">\r\n\r\n<button (click)=\"addComment(newComment.value)\" class=\"btn btn-primary btn-addComment\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n</div>\r\n\r\n<hr>\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h5 class=\"commentListTitle\">\r\n    {{ commentListTitle }}\r\n  </h5>\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul><li *ngFor=\"let item of newComments\"><b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{ item }}</li></ul>\r\n  </div>\r\n    <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n        <ul><li *ngFor=\"let comment of comments\"><b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{comment.text_comment}}</li></ul>\r\n    </div>\r\n\r\n  </div> \r\n"
 
 /***/ }),
 
@@ -421,29 +430,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var comment_service_service_1 = __webpack_require__("./src/app/comment-service/comment-service.service.ts");
+//import { CommentServiceService } from '../comment-service/comment-service.service'; // the old one
+var comments_service_service_1 = __webpack_require__("./src/app/comments/comments-service/comments-service.service.ts"); // the one getting it from the backend 
 var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var CommentsComponent = /** @class */ (function () {
-    function CommentsComponent(data, http) {
-        this.data = data;
+    function CommentsComponent(http, commentsService) {
         this.http = http;
+        this.commentsService = commentsService;
         this.mainTitle = "Comments";
         this.addCommentTitle = "Add comment";
         this.commentListTitle = "Comments list";
-        this.comments = [];
+        this.newComments = [];
         this.dateNow = new Date();
         this.ROUTE_URL = 'http://localhost:8000/api/operations/comment/';
     }
-    CommentsComponent.prototype.getPosts = function () {
-        this.posts = this.http.get(this.ROUTE_URL);
+    CommentsComponent.prototype.getComments = function () {
     };
     CommentsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.commentsService.getComments().subscribe(function (data) {
+            _this.comments = data;
+        });
+        console.log(this.comments);
+        console.log('test');
+    };
+    CommentsComponent.prototype.ngOnDestroy = function () {
+        this.commentsService;
     };
     CommentsComponent.prototype.addComment = function (newComment) {
         if (newComment === void 0) { newComment = []; }
         console.log(Date);
         if (newComment) {
-            this.comments.push(newComment);
+            this.newComments.push(newComment);
         }
     };
     CommentsComponent = __decorate([
@@ -452,7 +470,7 @@ var CommentsComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/comments/comments.component.html"),
             styles: [__webpack_require__("./src/app/comments/comments.component.css")],
         }),
-        __metadata("design:paramtypes", [comment_service_service_1.CommentServiceService, http_1.HttpClient])
+        __metadata("design:paramtypes", [http_1.HttpClient, comments_service_service_1.CommentsServiceService])
     ], CommentsComponent);
     return CommentsComponent;
 }());
