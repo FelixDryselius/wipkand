@@ -92,6 +92,7 @@ var finish_batch_component_1 = __webpack_require__("./src/app/finish-batch/finis
 var batch_rework_component_1 = __webpack_require__("./src/app/batch-rework/batch-rework.component.ts");
 var current_batch_info_component_1 = __webpack_require__("./src/app/current-batch-info/current-batch-info.component.ts");
 var comment_service_service_1 = __webpack_require__("./src/app/comment-service/comment-service.service.ts");
+var comments_service_service_1 = __webpack_require__("./src/app/comments/comments-service/comments-service.service.ts");
 var nav_information_service_service_1 = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -118,7 +119,7 @@ var AppModule = /** @class */ (function () {
                 http_2.HttpClientModule,
                 app_routing_1.AppRoutingModule
             ],
-            providers: [nav_information_service_service_1.NavInformationServiceService, comment_service_service_1.CommentServiceService],
+            providers: [nav_information_service_service_1.NavInformationServiceService, comment_service_service_1.CommentServiceService, comments_service_service_1.CommentsServiceService],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);
@@ -356,6 +357,36 @@ var CommentServiceService = /** @class */ (function () {
     return CommentServiceService;
 }());
 exports.CommentServiceService = CommentServiceService;
+
+
+/***/ }),
+
+/***/ "./src/app/comments/comments-service/comments-service.service.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var CommentsServiceService = /** @class */ (function () {
+    function CommentsServiceService() {
+    }
+    CommentsServiceService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [])
+    ], CommentsServiceService);
+    return CommentsServiceService;
+}());
+exports.CommentsServiceService = CommentsServiceService;
 
 
 /***/ }),
