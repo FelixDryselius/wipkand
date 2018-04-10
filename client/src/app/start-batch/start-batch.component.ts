@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { NavInformationServiceService } from '../nav-information-service/nav-information-service.service';
+import { OperationsService } from '../operations.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
@@ -12,10 +12,18 @@ import { Observable } from 'rxjs/Observable';
 })
 
 export class StartBatchComponent implements OnInit, OnDestroy {
+  private prodActive: boolean;
+  private prodInfo: {};
+  private batch: string;
+  private order: string;
+  private article: string;
+
+
+  //What is this below?
   newBatch: number;
-  currentBatchInfo:any;
+  
   title = "Start new batch";
-  private currentBatchObservable:any;
+
 
   prodData: any [];
 
@@ -24,18 +32,19 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
   @Input()
   passedQuery: number;
-
-  constructor(private router: Router, private data: NavInformationServiceService, private http: HttpClient) {   
+  constructor(private router: Router, private data: OperationsService, private http: HttpClient) {   
       }
 
-  ngOnInit() {    
-    this.http.get(this.ROOT_URL).subscribe(
-        data => {
-          this.prodData = data as any [];		// FILL THE ARRAY WITH DATA.
-        },
-      );
+  ngOnInit() {
+    //Use operationsService to share information between start-batch, finish-batch and current-batch-info
+    this.data.prodActiveObservable.subscribe(active => this.prodActive = active)
+    this.data.prodInfoObservable.subscribe(info =>this.prodInfo = info)
 
-    this.data.currentBatchObservable.subscribe(currentBatchInfo =>this.currentBatchInfo = currentBatchInfo)
+    this.http.get(this.ROOT_URL).subscribe(
+      data => {
+        this.prodData = data as any [];		// FILL THE ARRAY WITH DATA.
+      },
+    );
 
     if(this.passedQuery) {
       this.newBatch = this.passedQuery
@@ -49,20 +58,19 @@ export class StartBatchComponent implements OnInit, OnDestroy {
   }
 
 
-  newBatchInformation(obj:any) {
-    this.data.changeBatchInfo(obj)
-  }
-
-  // Called in form in html. Gets all input data from user. Sends it to home component where current-batch-info is. 
   submitBatch(event, formData) {
-    let chosenBatch = formData.value['batchnr']
-    let chosenOrder = formData.value['ordernr']
-    let chosenProduct = formData.value['prodnr']
+    this.batch = formData.value['batchnr'];
+    this.order = formData.value['ordernr'];
+    this.article = formData.value['prodnr']
 
-    console.log(chosenProduct)
+    if (this.batch && this.order) {
+      this.prodInfo = {batch: this.batch, order: this.order, article: this.article}
+      this.data.changeProdStatus(true);
+      this.data.changeProdInfo(this.prodInfo)
+      console.log("Production status: " +  this.prodActive)
 
-    this.newBatchInformation({batchNr:chosenBatch,orderNr:chosenOrder,prodNr:chosenProduct})
-    this.router.navigate(['./home']) 
+      this.router.navigate(['./home'])
+    }
     
   }
 

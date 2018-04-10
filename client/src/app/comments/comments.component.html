@@ -32,17 +32,27 @@
 
 </div>
 </form>
+</div>
 
-
+<hr>
 <div class="text-center" style="margin-top:15px;">
   <h5 class="commentListTitle">
     {{ commentListTitle }}
   </h5>
-  <div *ngIf="commentData" class="col-lg-12 text-left notification is-primary commentList">
-    <div [(ngModel)]="commentList" class="selectProd" ngDefaultControl>
-    <p *ngFor="let comment of commentData"  class=""><b>{{ comment.post_date }}</b> - {{ comment.text_comment }}</p>
-    </div>
-</div>
+  <!-- newly generated comments: -->
+  <div class="col-lg-12 text-left notification is-primary commentList">
+    <ul>
+      <li *ngFor="let item of newComments">
+        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{ item }}
+      </li>
+    </ul>
   </div>
-
-  <hr>
+  <!-- Comments from API: -->
+  <div class="col-lg-12 text-left notification is-primary commentList">
+    <ul>
+      <li *ngFor="let comment of comments">
+        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{comment.text_comment}}
+      </li>
+    </ul>
+  </div>
+</div> 

@@ -1,7 +1,6 @@
-import { Component, OnInit,} from '@angular/core';
-import { CommentServiceService } from '../comment-service/comment-service.service';
-import { HttpClient } from '@angular/common/http';
-
+import { CommentsService } from './service/comments.service'; 
+import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-comments',
@@ -9,32 +8,34 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./comments.component.css'],
 })
 export class CommentsComponent implements OnInit {
-  mainTitle = "Comments";
+  //Dynamic titles: 
   addCommentTitle = "Add comment";
   commentListTitle = "Comments list";
-  comments = [];
-  dateNow : Date = new Date();
-  commentData: any [];
-
-  readonly ROOT_URL = 'http://localhost:8000/api/operations/comment/'
-
-  constructor(private data: CommentServiceService, private http: HttpClient) {
-    
-   }
+  mainTitle = "Comments"; 
+  
+  //Variables
+  dateNow : Date = new Date(); // to display current date
+  comments: JSON []; // list of comments from API
+  newComments = []; // for user added comments
+  
+  constructor(private commentsService:CommentsService) { } //import injectable service
 
   ngOnInit() {
-    this.http.get(this.ROOT_URL).subscribe(
-      data => {
-        this.commentData = data as any [];		// FILL THE ARRAY WITH DATA.
-      },
-
-    );
-   
+    // Subscribe to service and save the data in comments list as json obj
+    this.commentsService.getComments().subscribe(data =>{
+      this.comments = data as JSON []
+    });
   }
-addComment(newComment = []) {
-  console.log(Date)
+  
+  ngOnDestroy() {
+    this.commentsService
+  }
+
+  // Function to handle newly generated comments
+  addComment(newComment = []) {
+    console.log(Date)
     if (newComment) {
-      this.comments.push(newComment);
+      this.newComments.push(newComment);
     }
   }
 }

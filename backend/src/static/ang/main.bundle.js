@@ -27,7 +27,7 @@ module.exports = ""
 /***/ "./src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--Start navBar.-->\r\n\r\n<div class=\"container-fluid\" style=\"margin-top: 1%\" >  \r\n  <div class=\"row\">\r\n    <div class=\"col-lg-2\">\r\n      <div class=\"mycontent-left\">\r\n        <div class=\"jumbotron jumbotron-fluid\">\r\n          <div class=\"container\" >\r\n              <h3>Batch information: </h3>\r\n          </div>    \r\n          <div class=\"container\">\r\n            <current-batch-info></current-batch-info>\r\n            <a class=\"btn btn-primary\" routerLink=\"./start-batch\" >Start new batch</a>\r\n               <!--<div class=\"\">\r\n                  \r\n                <div class=\"nav\">\r\n                    <a class=\"nav-link\" routerLink=\"./start-batch\" routerLinkActive=\"active\">Start new batch</a>\r\n                </div> \r\n              </div> -->\r\n          </div>\r\n        </div>\r\n<!--may need a closing div here... github change-->\r\n        <div class=\"card-fluid\" >\r\n          <ul class=\"nav flex-column nav-pills nav-stacked\">\r\n            <div class=\"border border-dark\">\r\n              <li class=\"nav-item\">\r\n                <a class=\"nav-link\" routerLink=\"./home\" routerLinkActive=\"active\">Home</a>           \r\n              </li>\r\n              <li class=\"nav-item\">\r\n                <a class=\"nav-link\" routerLink=\"./comments\" routerLinkActive=\"active\">Comments</a>           \r\n              </li>\r\n              <li class=\"nav-item\">\r\n                <a class=\"nav-link\" routerLink=\"./scoreboard\" routerLinkActive=\"active\">Scoreboard</a>\r\n              </li>\r\n              <li class=\"nav-item\">\r\n                <a class=\"nav-link\" routerLink=\"./finish-batch\" routerLinkActive=\"active\">Finish batch</a>\r\n              </li>\r\n          </div>\r\n          <br>\r\n          <li class=\"nav-item\">\r\n            <a class=\"nav-link\" routerLink=\"./floorstock\" routerLinkActive=\"active\">Floorstock</a>\r\n          </li>\r\n          <li class=\"nav-item\">\r\n            <a class=\"nav-link\" routerLink=\"./shift-change\" routerLinkActive=\"active\">Shift Change</a>\r\n          </li>\r\n          <li class=\"nav-item\">\r\n            <a class=\"nav-link\" routerLink=\"./batch-history\" routerLinkActive=\"active\">History</a>\r\n          </li>               \r\n          </ul>\r\n        </div>\r\n      </div>\r\n    </div>\r\n       \r\n<!--End navBar.-->     \r\n\r\n    <div class=\"col-lg-10\" >\r\n      <div class=\"main\">\r\n<!--Router imput here-->\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<!--Start navBar.-->\r\n\r\n<div class=\"container-fluid\" style=\"margin-top: 1%\" >  \r\n  <div class=\"row\">\r\n    <div class=\"col-lg-2\">\r\n      <div class=\"mycontent-left\">\r\n        <div class=\"jumbotron jumbotron-fluid\">\r\n          <div class=\"container\" >\r\n              <h3>Batch information: </h3>\r\n          </div>    \r\n          <div class=\"container\">\r\n            <current-batch-info></current-batch-info>\r\n\r\n               <!--<div class=\"\">\r\n                  \r\n                <div class=\"nav\">\r\n                    <a class=\"nav-link\" routerLink=\"./start-batch\" routerLinkActive=\"active\">Start new batch</a>\r\n                </div> \r\n              </div> -->\r\n          </div>\r\n        </div>\r\n<!--may need a closing div here... github change-->\r\n        <div class=\"card-fluid\" >\r\n          <ul class=\"nav flex-column nav-pills nav-stacked\">\r\n            <div class=\"border border-dark\">\r\n              <li class=\"nav-item\">\r\n                <a class=\"nav-link\" routerLink=\"./home\" routerLinkActive=\"active\">Home</a>           \r\n              </li>\r\n              <li class=\"nav-item\">\r\n                <a class=\"nav-link\" routerLink=\"./comments\" routerLinkActive=\"active\">Comments</a>           \r\n              </li>\r\n              <li class=\"nav-item\">\r\n                <a class=\"nav-link\" routerLink=\"./scoreboard\" routerLinkActive=\"active\">Scoreboard</a>\r\n              </li>\r\n              <!-- <li class=\"nav-item\">\r\n                <a class=\"nav-link\" routerLink=\"./finish-batch\" routerLinkActive=\"active\">Finish batch</a>\r\n              </li> -->\r\n          </div>\r\n          <br>\r\n          <li class=\"nav-item\">\r\n            <a class=\"nav-link\" routerLink=\"./floorstock\" routerLinkActive=\"active\">Floorstock</a>\r\n          </li>\r\n          <li class=\"nav-item\">\r\n            <a class=\"nav-link\" routerLink=\"./shift-change\" routerLinkActive=\"active\">Shift Change</a>\r\n          </li>\r\n          <li class=\"nav-item\">\r\n            <a class=\"nav-link\" routerLink=\"./batch-history\" routerLinkActive=\"active\">History</a>\r\n          </li>               \r\n          </ul>\r\n        </div>\r\n      </div>\r\n    </div>\r\n       \r\n<!--End navBar.-->     \r\n\r\n    <div class=\"col-lg-10\" >\r\n      <div class=\"main\">\r\n<!--Router imput here-->\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -95,9 +95,8 @@ var batch_history_component_1 = __webpack_require__("./src/app/batch-history/bat
 var finish_batch_component_1 = __webpack_require__("./src/app/finish-batch/finish-batch.component.ts");
 var batch_rework_component_1 = __webpack_require__("./src/app/batch-rework/batch-rework.component.ts");
 var current_batch_info_component_1 = __webpack_require__("./src/app/current-batch-info/current-batch-info.component.ts");
-var comment_service_service_1 = __webpack_require__("./src/app/comment-service/comment-service.service.ts");
-var product_data_service_1 = __webpack_require__("./src/app/product-service/product-data.service.ts");
-var nav_information_service_service_1 = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
+var comments_service_1 = __webpack_require__("./src/app/comments/service/comments.service.ts");
+var operations_service_1 = __webpack_require__("./src/app/operations.service.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -123,7 +122,7 @@ var AppModule = /** @class */ (function () {
                 http_2.HttpClientModule,
                 app_routing_1.AppRoutingModule
             ],
-            providers: [nav_information_service_service_1.NavInformationServiceService, comment_service_service_1.CommentServiceService, product_data_service_1.ProductDataService],
+            providers: [comments_service_1.CommentsService, operations_service_1.OperationsService],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);
@@ -329,42 +328,6 @@ exports.BatchReworkComponent = BatchReworkComponent;
 
 /***/ }),
 
-/***/ "./src/app/comment-service/comment-service.service.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var BehaviorSubject_1 = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-var CommentServiceService = /** @class */ (function () {
-    function CommentServiceService() {
-        this.messageSource = new BehaviorSubject_1.BehaviorSubject("");
-        this.currentMessage = this.messageSource.asObservable();
-    }
-    CommentServiceService.prototype.changeMessage = function (message) {
-        this.messageSource.next(message);
-    };
-    CommentServiceService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [])
-    ], CommentServiceService);
-    return CommentServiceService;
-}());
-exports.CommentServiceService = CommentServiceService;
-
-
-/***/ }),
-
 /***/ "./src/app/comments/comments.component.css":
 /***/ (function(module, exports) {
 
@@ -375,7 +338,7 @@ module.exports = ""
 /***/ "./src/app/comments/comments.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h3 class=\"mainTitleComments\">\r\n  {{ mainTitle }}\r\n</h3>\r\n<h5 class=\"addCommentTitle\">\r\n  {{ addCommentTitle }}\r\n</h5>\r\n<form class=\"commentForm\">\r\n\r\n  <div class=\"form-group row commentInput\">\r\n      <div class=\"col-lg-2\">\r\n        <label>Name:</label>\r\n      </div>\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"text\" class=\"form-control\">\r\n      </div>\r\n  </div>\r\n\r\n<div class=\"form-group row\">\r\n  <div class=\"col-lg-2\">\r\n    <label>Comment:</label>\r\n  </div>\r\n  <div class=\"col-lg-4\">\r\n    <textarea type=\"text\" class=\"form-control commentTextarea\" #newComment\r\n    (keyup.enter)=\"addComment(newComment.value)\"\r\n    (blur)=\"addComment(newComment.value); newComment.value='' \" name='comment'></textarea>\r\n  </div>\r\n</div>\r\n<div class=\"notification is-primary\">\r\n\r\n<button (click)=\"addComment(newComment.value)\" class=\"btn btn-primary btn-addComment\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n\r\n\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h5 class=\"commentListTitle\">\r\n    {{ commentListTitle }}\r\n  </h5>\r\n  <div *ngIf=\"commentData\" class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <div [(ngModel)]=\"commentList\" class=\"selectProd\" ngDefaultControl>\r\n    <p *ngFor=\"let comment of commentData\"  class=\"\"><b>{{ comment.post_date }}</b> - {{ comment.text_comment }}</p>\r\n    </div>\r\n</div>\r\n  </div>\r\n\r\n  <hr>\r\n"
+module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h3 class=\"mainTitleComments\">\r\n  {{ mainTitle }}\r\n</h3>\r\n<h5 class=\"addCommentTitle\">\r\n  {{ addCommentTitle }}\r\n</h5>\r\n<form class=\"commentForm\">\r\n\r\n  <div class=\"form-group row commentInput\">\r\n      <div class=\"col-lg-2\">\r\n        <label>Name:</label>\r\n      </div>\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"text\" class=\"form-control\">\r\n      </div>\r\n  </div>\r\n\r\n<div class=\"form-group row\">\r\n  <div class=\"col-lg-2\">\r\n    <label>Comment:</label>\r\n  </div>\r\n  <div class=\"col-lg-4\">\r\n    <textarea type=\"text\" class=\"form-control commentTextarea\" #newComment\r\n    (keyup.enter)=\"addComment(newComment.value)\"\r\n    (blur)=\"addComment(newComment.value); newComment.value='' \" name='comment'></textarea>\r\n  </div>\r\n</div>\r\n<div class=\"notification is-primary\">\r\n\r\n<button (click)=\"addComment(newComment.value)\" class=\"btn btn-primary btn-addComment\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n</div>\r\n\r\n<hr>\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h5 class=\"commentListTitle\">\r\n    {{ commentListTitle }}\r\n  </h5>\r\n  <!-- newly generated comments: -->\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul>\r\n      <li *ngFor=\"let item of newComments\">\r\n        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{ item }}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n  <!-- Comments from API: -->\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul>\r\n      <li *ngFor=\"let comment of comments\">\r\n        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{comment.text_comment}}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</div> \r\n"
 
 /***/ }),
 
@@ -394,31 +357,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var comments_service_1 = __webpack_require__("./src/app/comments/service/comments.service.ts");
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var comment_service_service_1 = __webpack_require__("./src/app/comment-service/comment-service.service.ts");
-var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var CommentsComponent = /** @class */ (function () {
-    function CommentsComponent(data, http) {
-        this.data = data;
-        this.http = http;
-        this.mainTitle = "Comments";
+    function CommentsComponent(commentsService) {
+        this.commentsService = commentsService;
+        //Dynamic titles: 
         this.addCommentTitle = "Add comment";
         this.commentListTitle = "Comments list";
-        this.comments = [];
-        this.dateNow = new Date();
-        this.ROOT_URL = 'http://localhost:8000/api/operations/comment/';
-    }
+        this.mainTitle = "Comments";
+        //Variables
+        this.dateNow = new Date(); // to display current date
+        this.newComments = []; // for user added comments
+    } //import injectable service
     CommentsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.http.get(this.ROOT_URL).subscribe(function (data) {
-            _this.commentData = data; // FILL THE ARRAY WITH DATA.
+        // Subscribe to service and save the data in comments list as json obj
+        this.commentsService.getComments().subscribe(function (data) {
+            _this.comments = data;
         });
     };
+    CommentsComponent.prototype.ngOnDestroy = function () {
+        this.commentsService;
+    };
+    // Function to handle newly generated comments
     CommentsComponent.prototype.addComment = function (newComment) {
         if (newComment === void 0) { newComment = []; }
         console.log(Date);
         if (newComment) {
-            this.comments.push(newComment);
+            this.newComments.push(newComment);
         }
     };
     CommentsComponent = __decorate([
@@ -427,11 +394,48 @@ var CommentsComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/comments/comments.component.html"),
             styles: [__webpack_require__("./src/app/comments/comments.component.css")],
         }),
-        __metadata("design:paramtypes", [comment_service_service_1.CommentServiceService, http_1.HttpClient])
+        __metadata("design:paramtypes", [comments_service_1.CommentsService])
     ], CommentsComponent);
     return CommentsComponent;
 }());
 exports.CommentsComponent = CommentsComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/comments/service/comments.service.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var CommentsService = /** @class */ (function () {
+    function CommentsService(http) {
+        this.http = http;
+        this.ROUTE_URL = 'http://localhost:8000/api/operations/comment/'; // hard coded URL for api to get all comments
+    }
+    // the method other apps subscribe to in order to get the api
+    CommentsService.prototype.getComments = function () {
+        return this.http.get(this.ROUTE_URL); //should add a catch error func here, like: import "rxjs/add/operator/catch";
+    };
+    CommentsService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.HttpClient])
+    ], CommentsService);
+    return CommentsService;
+}());
+exports.CommentsService = CommentsService;
 
 
 /***/ }),
@@ -446,7 +450,7 @@ module.exports = ""
 /***/ "./src/app/current-batch-info/current-batch-info.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\r\n<div *ngIf=\"currentBatchInfo !==null\">\r\n    <p>Order ID: {{ currentBatchInfo.batchNr }}</p>\r\n    <p>Product number: {{ currentBatchInfo.prodNr }}</p>\r\n    <p>Batch number: {{ currentBatchInfo.orderNr }}</p>\r\n</div>"
+module.exports = "<div *ngIf=\"prodActive; then pActive else pStop\"></div>\r\n\r\n<ng-template #pActive>\r\n    <p>Order ID: {{ prodInfo.order }}</p>\r\n    <p>Article number: {{ prodInfo.article }}</p>\r\n    <p>Batch number: {{ prodInfo.batch }}</p>\r\n    <a class=\"btn btn-primary\" routerLink=\"./finish-batch\">Finish batch</a>\r\n</ng-template>\r\n\r\n<ng-template #pStop>\r\n    <a class=\"btn btn-primary\" routerLink=\"./start-batch\">Start Batch</a>\r\n</ng-template>\r\n"
 
 /***/ }),
 
@@ -467,7 +471,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-var nav_information_service_service_1 = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
+var operations_service_1 = __webpack_require__("./src/app/operations.service.ts");
 var CurrentBatchInfoComponent = /** @class */ (function () {
     function CurrentBatchInfoComponent(route, data) {
         this.route = route;
@@ -475,20 +479,21 @@ var CurrentBatchInfoComponent = /** @class */ (function () {
     }
     CurrentBatchInfoComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.data.currentBatchObservable.subscribe(function (currentBatchInfo) { return _this.currentBatchInfo = currentBatchInfo; });
         this.routeSub = this.route.params.subscribe(function (params) {
             //this.batchInfo = params  //not sure about var name, will change
             _this.batchnr = params.batchnr;
             _this.ordernr = params.ordernr;
             _this.prodnr = params.prodnr;
         });
-        this.batchInfo = true; //just a temporary thing
-        console.log(this.batchnr);
-        console.log(this.ordernr);
+        //TODO: Use HTTP.get() to fetch last batch from DB. If it is missing an end-date, set prodActive to true. Else set to false.
+        // Is this really a valid way to check if a batch is running? 
+        //Better to add attribute 'active' to batch model and check DB is there is an active batch running. This gives us the ability to pause a batch.
+        //Use operationsService to share information between start-batch, finish-batch and current-batch-info
+        this.data.prodActiveObservable.subscribe(function (active) { return _this.prodActive = active; });
+        this.data.prodInfoObservable.subscribe(function (info) { return _this.prodInfo = info; });
     };
     CurrentBatchInfoComponent.prototype.ngOnDestroy = function () {
         this.routeSub.unsubscribe();
-        // this.currentBatchObservable.unsubscribe() // I cant do this but want to.. how?
     };
     CurrentBatchInfoComponent = __decorate([
         core_1.Component({
@@ -496,7 +501,7 @@ var CurrentBatchInfoComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/current-batch-info/current-batch-info.component.html"),
             styles: [__webpack_require__("./src/app/current-batch-info/current-batch-info.component.css")]
         }),
-        __metadata("design:paramtypes", [router_1.ActivatedRoute, nav_information_service_service_1.NavInformationServiceService])
+        __metadata("design:paramtypes", [router_1.ActivatedRoute, operations_service_1.OperationsService])
     ], CurrentBatchInfoComponent);
     return CurrentBatchInfoComponent;
 }());
@@ -660,7 +665,7 @@ exports.HomeComponent = HomeComponent;
 
 /***/ }),
 
-/***/ "./src/app/nav-information-service/nav-information-service.service.ts":
+/***/ "./src/app/operations.service.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -677,57 +682,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var BehaviorSubject_1 = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-var NavInformationServiceService = /** @class */ (function () {
-    function NavInformationServiceService() {
-        this.currentBatchSource = new BehaviorSubject_1.BehaviorSubject(null);
-        this.currentBatchObservable = this.currentBatchSource.asObservable();
+var OperationsService = /** @class */ (function () {
+    function OperationsService() {
+        //TODO: prodActive is now false by default (on page refresh etc.). Should get its value from the DB instead. Same with prodInfo
+        this.prodActive = new BehaviorSubject_1.BehaviorSubject(false);
+        this.prodActiveObservable = this.prodActive.asObservable();
+        this.prodInfo = new BehaviorSubject_1.BehaviorSubject(null);
+        this.prodInfoObservable = this.prodInfo.asObservable();
     }
-    NavInformationServiceService.prototype.changeBatchInfo = function (obj) {
-        this.currentBatchSource.next(obj);
+    OperationsService.prototype.changeProdStatus = function (active) {
+        this.prodActive.next(active);
     };
-    NavInformationServiceService = __decorate([
+    OperationsService.prototype.changeProdInfo = function (info) {
+        this.prodInfo.next(info);
+    };
+    OperationsService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [])
-    ], NavInformationServiceService);
-    return NavInformationServiceService;
+    ], OperationsService);
+    return OperationsService;
 }());
-exports.NavInformationServiceService = NavInformationServiceService;
-
-
-/***/ }),
-
-/***/ "./src/app/product-service/product-data.service.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
-var ProductDataService = /** @class */ (function () {
-    function ProductDataService(http) {
-        this.http = http;
-        this.ROOT_URL = 'http://localhost:8000/api/operations/product/';
-    }
-    ProductDataService.prototype.getProdData = function () {
-        return this.http.get(this.ROOT_URL);
-    };
-    ProductDataService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.HttpClient])
-    ], ProductDataService);
-    return ProductDataService;
-}());
-exports.ProductDataService = ProductDataService;
+exports.OperationsService = OperationsService;
 
 
 /***/ }),
@@ -863,7 +838,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-var nav_information_service_service_1 = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
+var operations_service_1 = __webpack_require__("./src/app/operations.service.ts");
 var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var StartBatchComponent = /** @class */ (function () {
     function StartBatchComponent(router, data, http) {
@@ -875,10 +850,12 @@ var StartBatchComponent = /** @class */ (function () {
     }
     StartBatchComponent.prototype.ngOnInit = function () {
         var _this = this;
+        //Use operationsService to share information between start-batch, finish-batch and current-batch-info
+        this.data.prodActiveObservable.subscribe(function (active) { return _this.prodActive = active; });
+        this.data.prodInfoObservable.subscribe(function (info) { return _this.prodInfo = info; });
         this.http.get(this.ROOT_URL).subscribe(function (data) {
             _this.prodData = data; // FILL THE ARRAY WITH DATA.
         });
-        this.data.currentBatchObservable.subscribe(function (currentBatchInfo) { return _this.currentBatchInfo = currentBatchInfo; });
         if (this.passedQuery) {
             this.newBatch = this.passedQuery;
         }
@@ -886,17 +863,17 @@ var StartBatchComponent = /** @class */ (function () {
     StartBatchComponent.prototype.ngOnDestroy = function () {
         // this.currentBatchObservable.usubscribe() // I want to do this but cant
     };
-    StartBatchComponent.prototype.newBatchInformation = function (obj) {
-        this.data.changeBatchInfo(obj);
-    };
-    // Called in form in html. Gets all input data from user. Sends it to home component where current-batch-info is. 
     StartBatchComponent.prototype.submitBatch = function (event, formData) {
-        var chosenBatch = formData.value['batchnr'];
-        var chosenOrder = formData.value['ordernr'];
-        var chosenProduct = formData.value['prodnr'];
-        console.log(chosenProduct);
-        this.newBatchInformation({ batchNr: chosenBatch, orderNr: chosenOrder, prodNr: chosenProduct });
-        this.router.navigate(['./home']);
+        this.batch = formData.value['batchnr'];
+        this.order = formData.value['ordernr'];
+        this.article = formData.value['prodnr'];
+        if (this.batch && this.order) {
+            this.prodInfo = { batch: this.batch, order: this.order, article: this.article };
+            this.data.changeProdStatus(true);
+            this.data.changeProdInfo(this.prodInfo);
+            console.log("Production status: " + this.prodActive);
+            this.router.navigate(['./home']);
+        }
     };
     __decorate([
         core_1.Input(),
@@ -908,7 +885,7 @@ var StartBatchComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/start-batch/start-batch.component.html"),
             styles: [__webpack_require__("./src/app/start-batch/start-batch.component.css")]
         }),
-        __metadata("design:paramtypes", [router_1.Router, nav_information_service_service_1.NavInformationServiceService, http_1.HttpClient])
+        __metadata("design:paramtypes", [router_1.Router, operations_service_1.OperationsService, http_1.HttpClient])
     ], StartBatchComponent);
     return StartBatchComponent;
 }());
