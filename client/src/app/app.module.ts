@@ -18,6 +18,7 @@ import { FinishBatchComponent } from './finish-batch/finish-batch.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
 import { CommentServiceService } from './comment-service/comment-service.service';
+import { ProductDataService } from './product-service/product-data.service';
 import { NavInformationServiceService } from './nav-information-service/nav-information-service.service';
 
 
@@ -48,7 +49,7 @@ import { NavInformationServiceService } from './nav-information-service/nav-info
   ],
 
 
-  providers: [NavInformationServiceService, CommentServiceService],
+  providers: [NavInformationServiceService, CommentServiceService, ProductDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

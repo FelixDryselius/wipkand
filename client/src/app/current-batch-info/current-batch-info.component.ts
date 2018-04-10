@@ -12,6 +12,7 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   private routeSub: any;
   private batchnr: number;
   private ordernr: number;
+  private prodnr: number;
 
   batchInfo:boolean;
 
@@ -32,6 +33,7 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
       //this.batchInfo = params  //not sure about var name, will change
          this.batchnr = params.batchnr
          this.ordernr = params.ordernr
+         this.prodnr = params.prodnr
 
     })
     this.batchInfo = true //just a temporary thing

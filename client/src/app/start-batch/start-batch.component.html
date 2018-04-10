@@ -14,18 +14,12 @@
 
   <div class="form-group row">
       <label for="inputProductNr" class="col-lg-4 col-form-label text-right">Add product</label>
-      <div class="col-lg-4 dropdown">
-          <button class="btn btn-secondary btn-block dropdown-toggle" type="button" id="dropdownProductButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Product number
-            </button>
-            <div class="dropdown-menu"  aria-labelledby="dropdownProductButton">
-                <a class="dropdown-item" >123</a>
-                <a class="dropdown-item" >456</a>
-                <a class="dropdown-item" >789</a>
-              </div>
-      </div>
-    </div>
- 
+      <div *ngIf="prodData" class="col-lg-4 dropdown">
+          <select [(ngModel)]="selected" name="prodnr" class="selectProd">
+          <option *ngFor="let data of prodData" [(ngValue)]="data.article_number" class="optionProd">{{ data.article_number }}, {{ data.product_name }}</option>
+      </select>
+  </div>
+</div>
 
   <div class="form-group row">
       <label for="inputBatchNr" class="col-lg-4 col-form-label text-right">Add batch</label>
@@ -42,5 +36,7 @@
 </div>
 
 <hr>
+
+
 
 
