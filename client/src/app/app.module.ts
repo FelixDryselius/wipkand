@@ -18,8 +18,7 @@ import { FinishBatchComponent } from './finish-batch/finish-batch.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
 import { CommentServiceService } from './comment-service/comment-service.service';
-import { NavInformationServiceService } from './nav-information-service/nav-information-service.service';
-
+import { OperationsService } from './operations.service';
 
 
 @NgModule({
@@ -34,7 +33,6 @@ import { NavInformationServiceService } from './nav-information-service/nav-info
     BatchHistoryComponent,
     FinishBatchComponent,
     BatchReworkComponent,
-
     CurrentBatchInfoComponent,
 
   ],
@@ -47,7 +45,7 @@ import { NavInformationServiceService } from './nav-information-service/nav-info
   ],
 
 
-  providers: [NavInformationServiceService, CommentServiceService],
+  providers: [CommentServiceService, OperationsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -92,7 +92,7 @@ var finish_batch_component_1 = __webpack_require__("./src/app/finish-batch/finis
 var batch_rework_component_1 = __webpack_require__("./src/app/batch-rework/batch-rework.component.ts");
 var current_batch_info_component_1 = __webpack_require__("./src/app/current-batch-info/current-batch-info.component.ts");
 var comment_service_service_1 = __webpack_require__("./src/app/comment-service/comment-service.service.ts");
-var nav_information_service_service_1 = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
+var operations_service_1 = __webpack_require__("./src/app/operations.service.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -118,7 +118,7 @@ var AppModule = /** @class */ (function () {
                 http_2.HttpClientModule,
                 app_routing_1.AppRoutingModule
             ],
-            providers: [nav_information_service_service_1.NavInformationServiceService, comment_service_service_1.CommentServiceService],
+            providers: [comment_service_service_1.CommentServiceService, operations_service_1.OperationsService],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);
@@ -440,7 +440,7 @@ module.exports = ""
 /***/ "./src/app/current-batch-info/current-batch-info.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"prodActive; then pActive else pStop\"></div>\r\n\r\n<ng-template #pActive>\r\n    <p>Order ID: {{ currentBatchInfo.batchNr }}</p>\r\n    <p>Batch number: {{ currentBatchInfo.orderNr }}</p>\r\n    <a class=\"btn btn-primary\" routerLink=\"./finish-batch\">Finish batch</a>\r\n</ng-template>\r\n\r\n<ng-template #pStop>\r\n    <a class=\"btn btn-primary\" routerLink=\"./start-batch\">Start Batch</a>\r\n</ng-template>\r\n"
+module.exports = "<div *ngIf=\"prodActive; then pActive else pStop\"></div>\r\n\r\n<ng-template #pActive>\r\n    <p>Order ID: {{ prodInfo.order }}</p>\r\n    <p>Batch number: {{ prodInfo.batch }}</p>\r\n    <a class=\"btn btn-primary\" routerLink=\"./finish-batch\">Finish batch</a>\r\n</ng-template>\r\n\r\n<ng-template #pStop>\r\n    <a class=\"btn btn-primary\" routerLink=\"./start-batch\">Start Batch</a>\r\n</ng-template>\r\n"
 
 /***/ }),
 
@@ -461,30 +461,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-var nav_information_service_service_1 = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
+var operations_service_1 = __webpack_require__("./src/app/operations.service.ts");
 var CurrentBatchInfoComponent = /** @class */ (function () {
     function CurrentBatchInfoComponent(route, data) {
         this.route = route;
         this.data = data;
     }
     CurrentBatchInfoComponent.prototype.ngOnInit = function () {
-        var _this = this;
         //TODO: Use HTTP.get() to fetch last batch from DB. If it is missing an end-date, set prodActive to true. Else set to false.
         // Is this really a valid way to check if a batch is running? 
         //Better to add attribute 'active' to batch model and check DB is there is an active batch running. This gives us the ability to pause a batch.
-        this.data.currentBatchObservable.subscribe(function (currentBatchInfo) { return _this.currentBatchInfo = currentBatchInfo; });
-        this.routeSub = this.route.params.subscribe(function (params) {
-            //this.batchInfo = params  //not sure about var name, will change
-            _this.batchnr = params.batchnr;
-            _this.ordernr = params.ordernr;
-        });
-        this.batchInfo = true; //just a temporary thing
-        console.log(this.batchnr);
-        console.log(this.ordernr);
-    };
-    CurrentBatchInfoComponent.prototype.ngOnDestroy = function () {
-        this.routeSub.unsubscribe();
-        // this.currentBatchObservable.unsubscribe() // I cant do this but want to.. how?
+        var _this = this;
+        //Use operationsService to share information between start-batch, finish-batch and current-batch-info
+        this.data.prodActiveObservable.subscribe(function (active) { return _this.prodActive = active; });
+        this.data.prodInfoObservable.subscribe(function (info) { return _this.prodInfo = info; });
     };
     CurrentBatchInfoComponent = __decorate([
         core_1.Component({
@@ -492,7 +482,7 @@ var CurrentBatchInfoComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/current-batch-info/current-batch-info.component.html"),
             styles: [__webpack_require__("./src/app/current-batch-info/current-batch-info.component.css")]
         }),
-        __metadata("design:paramtypes", [router_1.ActivatedRoute, nav_information_service_service_1.NavInformationServiceService])
+        __metadata("design:paramtypes", [router_1.ActivatedRoute, operations_service_1.OperationsService])
     ], CurrentBatchInfoComponent);
     return CurrentBatchInfoComponent;
 }());
@@ -656,7 +646,7 @@ exports.HomeComponent = HomeComponent;
 
 /***/ }),
 
-/***/ "./src/app/nav-information-service/nav-information-service.service.ts":
+/***/ "./src/app/operations.service.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -673,21 +663,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var BehaviorSubject_1 = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-var NavInformationServiceService = /** @class */ (function () {
-    function NavInformationServiceService() {
-        this.currentBatchSource = new BehaviorSubject_1.BehaviorSubject(null);
-        this.currentBatchObservable = this.currentBatchSource.asObservable();
+var OperationsService = /** @class */ (function () {
+    function OperationsService() {
+        //TODO: prodActive is now false by default (on page refresh etc.). Should get its value from the DB instead. Same with prodInfo
+        this.prodActive = new BehaviorSubject_1.BehaviorSubject(false);
+        this.prodActiveObservable = this.prodActive.asObservable();
+        this.prodInfo = new BehaviorSubject_1.BehaviorSubject(null);
+        this.prodInfoObservable = this.prodInfo.asObservable();
     }
-    NavInformationServiceService.prototype.changeBatchInfo = function (obj) {
-        this.currentBatchSource.next(obj);
+    OperationsService.prototype.changeProdStatus = function (active) {
+        this.prodActive.next(active);
     };
-    NavInformationServiceService = __decorate([
+    OperationsService.prototype.changeProdInfo = function (info) {
+        this.prodInfo.next(info);
+    };
+    OperationsService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [])
-    ], NavInformationServiceService);
-    return NavInformationServiceService;
+    ], OperationsService);
+    return OperationsService;
 }());
-exports.NavInformationServiceService = NavInformationServiceService;
+exports.OperationsService = OperationsService;
 
 
 /***/ }),
@@ -823,7 +819,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-var nav_information_service_service_1 = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
+var operations_service_1 = __webpack_require__("./src/app/operations.service.ts");
 var StartBatchComponent = /** @class */ (function () {
     function StartBatchComponent(router, data) {
         this.router = router;
@@ -832,7 +828,9 @@ var StartBatchComponent = /** @class */ (function () {
     }
     StartBatchComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.data.currentBatchObservable.subscribe(function (currentBatchInfo) { return _this.currentBatchInfo = currentBatchInfo; });
+        //Use operationsService to share information between start-batch, finish-batch and current-batch-info
+        this.data.prodActiveObservable.subscribe(function (active) { return _this.prodActive = active; });
+        this.data.prodInfoObservable.subscribe(function (info) { return _this.prodInfo = info; });
         console.log(this.passedQuery);
         if (this.passedQuery) {
             this.newBatch = this.passedQuery;
@@ -841,14 +839,14 @@ var StartBatchComponent = /** @class */ (function () {
     StartBatchComponent.prototype.ngOnDestroy = function () {
         // this.currentBatchObservable.usubscribe() // I want to do this but cant
     };
-    StartBatchComponent.prototype.newBatchInformation = function (obj) {
-        this.data.changeBatchInfo(obj);
-    };
     StartBatchComponent.prototype.submitBatch = function (event, formData) {
-        var chosenBatch = formData.value['batchnr'];
-        var chosenOrder = formData.value['ordernr'];
-        if (chosenBatch && chosenOrder) {
-            this.newBatchInformation({ batchNr: chosenBatch, orderNr: chosenOrder });
+        this.batch = formData.value['batchnr'];
+        this.order = formData.value['ordernr'];
+        if (this.batch && this.order) {
+            this.prodInfo = { batch: this.batch, order: this.order };
+            this.data.changeProdStatus(true);
+            this.data.changeProdInfo(this.prodInfo);
+            console.log("Production status: " + this.prodActive);
             this.router.navigate(['./home']);
         }
     };
@@ -862,7 +860,7 @@ var StartBatchComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/start-batch/start-batch.component.html"),
             styles: [__webpack_require__("./src/app/start-batch/start-batch.component.css")]
         }),
-        __metadata("design:paramtypes", [router_1.Router, nav_information_service_service_1.NavInformationServiceService])
+        __metadata("design:paramtypes", [router_1.Router, operations_service_1.OperationsService])
     ], StartBatchComponent);
     return StartBatchComponent;
 }());

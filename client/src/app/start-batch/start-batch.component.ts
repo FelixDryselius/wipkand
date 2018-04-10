@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { NavInformationServiceService } from '../nav-information-service/nav-information-service.service'
+import { OperationsService } from '../operations.service'
 
 @Component({
   selector: 'start-batch',
@@ -10,19 +10,28 @@ import { NavInformationServiceService } from '../nav-information-service/nav-inf
 })
 
 export class StartBatchComponent implements OnInit, OnDestroy {
+  private prodActive: boolean;
+  private prodInfo: {};
+  private batch: string;
+  private order: string;
+
+
+  //What is this below?
   newBatch: number;
-  currentBatchInfo:any;
+  
   title = "Start new batch";
-  private currentBatchObservable:any;
+
 
   @Input()
   passedQuery: number;
 
-  constructor(private router: Router, private data: NavInformationServiceService) {   
+  constructor(private router: Router, private data: OperationsService) {   
       }
 
   ngOnInit() {
-    this.data.currentBatchObservable.subscribe(currentBatchInfo =>this.currentBatchInfo = currentBatchInfo)
+    //Use operationsService to share information between start-batch, finish-batch and current-batch-info
+    this.data.prodActiveObservable.subscribe(active => this.prodActive = active)
+    this.data.prodInfoObservable.subscribe(info =>this.prodInfo = info)
 
     console.log(this.passedQuery)
     if(this.passedQuery) {
@@ -34,20 +43,17 @@ export class StartBatchComponent implements OnInit, OnDestroy {
    // this.currentBatchObservable.usubscribe() // I want to do this but cant
   }
 
-  newBatchInformation(obj:any) {
-    this.data.changeBatchInfo(obj)
-  }
-
   submitBatch(event, formData) {
-    let chosenBatch = formData.value['batchnr']
-    let chosenOrder = formData.value['ordernr']
+    this.batch = formData.value['batchnr'];
+    this.order = formData.value['ordernr'];
 
-    if (chosenBatch && chosenOrder) {
+    if (this.batch && this.order) {
+      this.prodInfo = {batch: this.batch, order: this.order}
+      this.data.changeProdStatus(true);
+      this.data.changeProdInfo(this.prodInfo)
+      console.log("Production status: " +  this.prodActive)
 
-
-      this.newBatchInformation({batchNr:chosenBatch,orderNr:chosenOrder})
-      this.router.navigate(['./home']) 
-
+      this.router.navigate(['./home'])
     }
     
   }

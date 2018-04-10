@@ -1,56 +1,31 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { OperationsService } from '../operations.service';
 
-import { NavInformationServiceService } from '../nav-information-service/nav-information-service.service'
 
 @Component({
   selector: 'current-batch-info',
   templateUrl: './current-batch-info.component.html',
   styleUrls: ['./current-batch-info.component.css']
 })
-export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
+export class CurrentBatchInfoComponent implements OnInit {
   private routeSub: any;
   private batchnr: number;
   private ordernr: number;
 
-  public prodActive: boolean;
+  private prodActive: boolean;
+  private prodInfo: {};
 
-  batchInfo:boolean;
-
-  // orderID:string;
-  // productName:string; //I dont think we need these
-  // batchNumber:string;
-  currentBatchInfo:any;
-  private currentBatchObservable:any;
-
-  message:string;
-
-  constructor(private route:ActivatedRoute, private data: NavInformationServiceService) { }
+  constructor(private route: ActivatedRoute, private data: OperationsService) { }
 
   ngOnInit() {
     //TODO: Use HTTP.get() to fetch last batch from DB. If it is missing an end-date, set prodActive to true. Else set to false.
     // Is this really a valid way to check if a batch is running? 
     //Better to add attribute 'active' to batch model and check DB is there is an active batch running. This gives us the ability to pause a batch.
-    this.data.currentBatchObservable.subscribe(currentBatchInfo =>this.currentBatchInfo = currentBatchInfo)
 
-    this.routeSub = this.route.params.subscribe(params =>{
-      //this.batchInfo = params  //not sure about var name, will change
-         this.batchnr = params.batchnr
-         this.ordernr = params.ordernr
-
-    })
-    this.batchInfo = true //just a temporary thing
-    console.log(this.batchnr);
-    console.log(this.ordernr);
-    
-
+    //Use operationsService to share information between start-batch, finish-batch and current-batch-info
+    this.data.prodActiveObservable.subscribe(active => this.prodActive = active)
+    this.data.prodInfoObservable.subscribe(info => this.prodInfo = info)
   }
-
-  ngOnDestroy(){
-    this.routeSub.unsubscribe() 
-   // this.currentBatchObservable.unsubscribe() // I cant do this but want to.. how?
-   }
-
-
 }
 
