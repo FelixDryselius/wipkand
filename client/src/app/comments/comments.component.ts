@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
-import { CommentsServiceService } from './comments-service/comments-service.service'; 
+import { CommentsService } from './service/comments.service'; 
 import { HttpClient } from '@angular/common/http';
 
 import { Comment } from '../../assets/interfaces/comment';
@@ -21,7 +21,7 @@ export class CommentsComponent implements OnInit {
 
   readonly ROUTE_URL = 'http://localhost:8000/api/operations/comment/';
 
-  constructor(private http:HttpClient, private commentsService:CommentsServiceService) { }
+  constructor(private http:HttpClient, private commentsService:CommentsService) { }
 
   getComments() {
         

@@ -91,8 +91,7 @@ var batch_history_component_1 = __webpack_require__("./src/app/batch-history/bat
 var finish_batch_component_1 = __webpack_require__("./src/app/finish-batch/finish-batch.component.ts");
 var batch_rework_component_1 = __webpack_require__("./src/app/batch-rework/batch-rework.component.ts");
 var current_batch_info_component_1 = __webpack_require__("./src/app/current-batch-info/current-batch-info.component.ts");
-var comment_service_service_1 = __webpack_require__("./src/app/comment-service/comment-service.service.ts");
-var comments_service_service_1 = __webpack_require__("./src/app/comments/comments-service/comments-service.service.ts");
+var comments_service_1 = __webpack_require__("./src/app/comments/service/comments.service.ts");
 var nav_information_service_service_1 = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -119,7 +118,7 @@ var AppModule = /** @class */ (function () {
                 http_2.HttpClientModule,
                 app_routing_1.AppRoutingModule
             ],
-            providers: [nav_information_service_service_1.NavInformationServiceService, comment_service_service_1.CommentServiceService, comments_service_service_1.CommentsServiceService],
+            providers: [nav_information_service_service_1.NavInformationServiceService, comments_service_1.CommentsService],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);
@@ -325,81 +324,6 @@ exports.BatchReworkComponent = BatchReworkComponent;
 
 /***/ }),
 
-/***/ "./src/app/comment-service/comment-service.service.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var BehaviorSubject_1 = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-var CommentServiceService = /** @class */ (function () {
-    function CommentServiceService() {
-        this.messageSource = new BehaviorSubject_1.BehaviorSubject("");
-        this.currentMessage = this.messageSource.asObservable();
-    }
-    CommentServiceService.prototype.changeMessage = function (message) {
-        this.messageSource.next(message);
-    };
-    CommentServiceService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [])
-    ], CommentServiceService);
-    return CommentServiceService;
-}());
-exports.CommentServiceService = CommentServiceService;
-
-
-/***/ }),
-
-/***/ "./src/app/comments/comments-service/comments-service.service.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
-__webpack_require__("./node_modules/rxjs/_esm5/add/operator/map.js");
-__webpack_require__("./node_modules/rxjs/_esm5/add/operator/catch.js");
-var CommentsServiceService = /** @class */ (function () {
-    function CommentsServiceService(http) {
-        this.http = http;
-        this.ROUTE_URL = 'http://localhost:8000/api/operations/comment/';
-    }
-    CommentsServiceService.prototype.getComments = function () {
-        return this.http.get(this.ROUTE_URL);
-        //.map(response => response.json()) //should have a catch error func here
-    };
-    CommentsServiceService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.HttpClient])
-    ], CommentsServiceService);
-    return CommentsServiceService;
-}());
-exports.CommentsServiceService = CommentsServiceService;
-
-
-/***/ }),
-
 /***/ "./src/app/comments/comments.component.css":
 /***/ (function(module, exports) {
 
@@ -430,8 +354,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-//import { CommentServiceService } from '../comment-service/comment-service.service'; // the old one
-var comments_service_service_1 = __webpack_require__("./src/app/comments/comments-service/comments-service.service.ts"); // the one getting it from the backend 
+var comments_service_1 = __webpack_require__("./src/app/comments/service/comments.service.ts");
 var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var CommentsComponent = /** @class */ (function () {
     function CommentsComponent(http, commentsService) {
@@ -470,11 +393,49 @@ var CommentsComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/comments/comments.component.html"),
             styles: [__webpack_require__("./src/app/comments/comments.component.css")],
         }),
-        __metadata("design:paramtypes", [http_1.HttpClient, comments_service_service_1.CommentsServiceService])
+        __metadata("design:paramtypes", [http_1.HttpClient, comments_service_1.CommentsService])
     ], CommentsComponent);
     return CommentsComponent;
 }());
 exports.CommentsComponent = CommentsComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/comments/service/comments.service.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+__webpack_require__("./node_modules/rxjs/_esm5/add/operator/map.js");
+__webpack_require__("./node_modules/rxjs/_esm5/add/operator/catch.js");
+var CommentsService = /** @class */ (function () {
+    function CommentsService(http) {
+        this.http = http;
+        this.ROUTE_URL = 'http://localhost:8000/api/operations/comment/';
+    }
+    CommentsService.prototype.getComments = function () {
+        return this.http.get(this.ROUTE_URL); //should add a catch error func here
+    };
+    CommentsService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.HttpClient])
+    ], CommentsService);
+    return CommentsService;
+}());
+exports.CommentsService = CommentsService;
 
 
 /***/ }),
