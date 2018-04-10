@@ -11,7 +11,7 @@ CREATE TABLE product
 CREATE TABLE product_order
 (
   order_number char(7) NOT NULL,
-  article_number  char(8),
+  article_number char(8) NOT NULL,
   PRIMARY KEY (order_number),
   FOREIGN KEY (article_number) REFERENCES product(article_number)
 );
@@ -32,7 +32,7 @@ CREATE TABLE batch
   label_print_time datetime, 
   rework_time time,
   yield_2 INT,
-  order_number char(7) ,
+  order_number char(7) NOT NULL,
   PRIMARY KEY (batch_number),
   FOREIGN KEY (order_number) REFERENCES product_order(order_number)
 );
@@ -40,6 +40,7 @@ CREATE TABLE batch
 CREATE TABLE batch_comment
 (
   comment_ID int NOT NULL,
+  user_name varchar(255),
   post_date datetime,
   text_comment text ,
   batch_number char(10),
