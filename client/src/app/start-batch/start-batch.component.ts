@@ -35,11 +35,8 @@ export class StartBatchComponent implements OnInit, OnDestroy {
         },
       );
 
-
-      
     this.data.currentBatchObservable.subscribe(currentBatchInfo =>this.currentBatchInfo = currentBatchInfo)
 
-    console.log(this.passedQuery)
     if(this.passedQuery) {
       this.newBatch = this.passedQuery
 
@@ -51,26 +48,21 @@ export class StartBatchComponent implements OnInit, OnDestroy {
    // this.currentBatchObservable.usubscribe() // I want to do this but cant
   }
 
-  getPosts() {
-    //this.posts = this.http.get<Post[]>(this.ROOT_URL)
-  }
 
   newBatchInformation(obj:any) {
     this.data.changeBatchInfo(obj)
   }
 
+  // Called in form in html. Gets all input data from user. Sends it to home component where current-batch-info is. 
   submitBatch(event, formData) {
     let chosenBatch = formData.value['batchnr']
     let chosenOrder = formData.value['ordernr']
     let chosenProduct = formData.value['prodnr']
 
-    if (chosenBatch && chosenOrder) {
+    console.log(chosenProduct)
 
-      this.newBatchInformation({batchNr:chosenBatch,orderNr:chosenOrder,prodNr:chosenProduct})
-      this.router.navigate(['./home']) 
-
-
-    }
+    this.newBatchInformation({batchNr:chosenBatch,orderNr:chosenOrder,prodNr:chosenProduct})
+    this.router.navigate(['./home']) 
     
   }
 

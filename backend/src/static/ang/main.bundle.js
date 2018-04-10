@@ -446,7 +446,7 @@ module.exports = ""
 /***/ "./src/app/current-batch-info/current-batch-info.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\r\n<div *ngIf=\"currentBatchInfo !==null\">\r\n    <p>Order ID: {{ currentBatchInfo.batchNr }}</p>\r\n    <p>Product number: {{ currentBatchInfo.prodNr }} </p>\r\n    <p>Batch number: {{ currentBatchInfo.orderNr }}</p>\r\n</div>"
+module.exports = "\r\n<div *ngIf=\"currentBatchInfo !==null\">\r\n    <p>Order ID: {{ currentBatchInfo.batchNr }}</p>\r\n    <p>Product number: {{ currentBatchInfo.prodNr }}</p>\r\n    <p>Batch number: {{ currentBatchInfo.orderNr }}</p>\r\n</div>"
 
 /***/ }),
 
@@ -842,7 +842,7 @@ module.exports = ""
 /***/ "./src/app/start-batch/start-batch.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"text-center\">\r\n<h3 class=\"h3Header\">\r\n  {{ title }}\r\n</h3>\r\n<br>\r\n<form #batchForm='ngForm' (ngSubmit)='submitBatch($event,batchForm)'>\r\n\r\n  <div class=\"form-group row\">\r\n      <label for=\"inputOrderNr\" class=\"col-lg-4 col-form-label text-right\">Add order</label>\r\n      <div class=\"col-lg-4\">\r\n      <input type=\"text\" class=\"form-control\" id=\"inputOrderNr\" placeholder=\"Order number\" name='ordernr' [(ngModel)]='newOrder'>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"form-group row\">\r\n      <label for=\"inputProductNr\" class=\"col-lg-4 col-form-label text-right\">Add product</label>\r\n      <div *ngIf=\"prodData\" class=\"col-lg-4 dropdown\">\r\n          <select [(ngModel)]=\"selected\" name=\"prodnr\" class=\"selectProd\">\r\n          <option *ngFor=\"let data of prodData\" [(ngValue)]=\"data.article_number\" class=\"optionProd\">{{ data.article_number }}, {{ data.product_name }}</option>\r\n      </select>\r\n  </div>\r\n</div>\r\n\r\n  <div class=\"form-group row\">\r\n      <label for=\"inputBatchNr\" class=\"col-lg-4 col-form-label text-right\">Add batch</label>\r\n      <div class=\"col-lg-4\">\r\n      <input type=\"batch\" class=\"form-control\" id=\"inputBatchNr\" placeholder=\"Batch number\" name='batchnr' [(ngModel)]='newBatch'>\r\n    </div>\r\n    </div>  \r\n  \r\n    <button type=\"submit\" class=\"btn btn-default btn-startBatch\">\r\n    Start batch\r\n  </button>\r\n\r\n</form>\r\n</div>\r\n\r\n<hr>\r\n\r\n\r\n\r\n\r\n"
+module.exports = "<div class=\"text-center\">\r\n<h3 class=\"h3Header\">\r\n  {{ title }}\r\n</h3>\r\n<br>\r\n\r\n<!-- A form that sends input data to a function submitBatch with parameters ordernr, prodnr and batchnr -->\r\n<form #batchForm='ngForm' (ngSubmit)='submitBatch($event,batchForm)'>\r\n\r\n\r\n  <!-- User input for order number -->\r\n  <div class=\"form-group row\">\r\n      <label for=\"inputOrderNr\" class=\"col-lg-4 col-form-label text-right\">Add order</label>\r\n      <div class=\"col-lg-4\">\r\n      <input type=\"text\" class=\"form-control\" id=\"inputOrderNr\" placeholder=\"Order number\" name='ordernr' [(ngModel)]=\"newOrder\">\r\n    </div>\r\n  </div>\r\n\r\n  <!-- Dropdown for products. ngValue is sent.  -->\r\n  <div class=\"form-group row\">\r\n      <label for=\"inputProductNr\" class=\"col-lg-4 col-form-label text-right\">Add product</label>\r\n      <div *ngIf=\"prodData\" class=\"col-lg-4 dropdown\">\r\n          <select [(ngModel)]=\"selected\" name=\"prodnr\" class=\"selectProd\">\r\n          <option *ngFor=\"let data of prodData\" class=\"optionProd\"[(ngValue)]=\"data.article_number\">{{ data.article_number }}, {{ data.product_name }}</option>\r\n      </select>\r\n  </div>\r\n</div>\r\n\r\n<!-- User input for batch number -->\r\n  <div class=\"form-group row\">\r\n      <label for=\"inputBatchNr\" class=\"col-lg-4 col-form-label text-right\">Add batch</label>\r\n      <div class=\"col-lg-4\">\r\n      <input type=\"batch\" class=\"form-control\" id=\"inputBatchNr\" placeholder=\"Batch number\" name='batchnr' [(ngModel)]=\"newBatch\">\r\n    </div>\r\n    </div>  \r\n  \r\n    <button type=\"submit\" class=\"btn btn-default btn-startBatch\">\r\n    Start batch\r\n  </button>\r\n\r\n</form>\r\n</div>\r\n\r\n<hr>\r\n\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -879,7 +879,6 @@ var StartBatchComponent = /** @class */ (function () {
             _this.prodData = data; // FILL THE ARRAY WITH DATA.
         });
         this.data.currentBatchObservable.subscribe(function (currentBatchInfo) { return _this.currentBatchInfo = currentBatchInfo; });
-        console.log(this.passedQuery);
         if (this.passedQuery) {
             this.newBatch = this.passedQuery;
         }
@@ -887,20 +886,17 @@ var StartBatchComponent = /** @class */ (function () {
     StartBatchComponent.prototype.ngOnDestroy = function () {
         // this.currentBatchObservable.usubscribe() // I want to do this but cant
     };
-    StartBatchComponent.prototype.getPosts = function () {
-        //this.posts = this.http.get<Post[]>(this.ROOT_URL)
-    };
     StartBatchComponent.prototype.newBatchInformation = function (obj) {
         this.data.changeBatchInfo(obj);
     };
+    // Called in form in html. Gets all input data from user. Sends it to home component where current-batch-info is. 
     StartBatchComponent.prototype.submitBatch = function (event, formData) {
         var chosenBatch = formData.value['batchnr'];
         var chosenOrder = formData.value['ordernr'];
         var chosenProduct = formData.value['prodnr'];
-        if (chosenBatch && chosenOrder) {
-            this.newBatchInformation({ batchNr: chosenBatch, orderNr: chosenOrder, prodNr: chosenProduct });
-            this.router.navigate(['./home']);
-        }
+        console.log(chosenProduct);
+        this.newBatchInformation({ batchNr: chosenBatch, orderNr: chosenOrder, prodNr: chosenProduct });
+        this.router.navigate(['./home']);
     };
     __decorate([
         core_1.Input(),
