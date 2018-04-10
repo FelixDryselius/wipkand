@@ -1,5 +1,11 @@
+<div *ngIf="prodActive; then pActive else pStop"></div>
 
-<div *ngIf="currentBatchInfo !==null">
+<ng-template #pActive>
     <p>Order ID: {{ currentBatchInfo.batchNr }}</p>
     <p>Batch number: {{ currentBatchInfo.orderNr }}</p>
-</div>
+    <a class="btn btn-primary" routerLink="./finish-batch">Finish batch</a>
+</ng-template>
+
+<ng-template #pStop>
+    <a class="btn btn-primary" routerLink="./start-batch">Start Batch</a>
+</ng-template>

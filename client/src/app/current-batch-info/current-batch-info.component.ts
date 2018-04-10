@@ -13,6 +13,8 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   private batchnr: number;
   private ordernr: number;
 
+  public prodActive: boolean;
+
   batchInfo:boolean;
 
   // orderID:string;
@@ -26,6 +28,9 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   constructor(private route:ActivatedRoute, private data: NavInformationServiceService) { }
 
   ngOnInit() {
+    //TODO: Use HTTP.get() to fetch last batch from DB. If it is missing an end-date, set prodActive to true. Else set to false.
+    // Is this really a valid way to check if a batch is running? 
+    //Better to add attribute 'active' to batch model and check DB is there is an active batch running. This gives us the ability to pause a batch.
     this.data.currentBatchObservable.subscribe(currentBatchInfo =>this.currentBatchInfo = currentBatchInfo)
 
     this.routeSub = this.route.params.subscribe(params =>{
