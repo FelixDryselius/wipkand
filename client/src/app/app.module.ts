@@ -17,8 +17,9 @@ import { BatchHistoryComponent } from './batch-history/batch-history.component';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
-import { CommentServiceService } from './comment-service/comment-service.service';
+import { CommentsService } from './comments/service/comments.service';
 import { OperationsService } from './operations.service';
+
 
 
 @NgModule({
@@ -45,7 +46,7 @@ import { OperationsService } from './operations.service';
   ],
 
 
-  providers: [CommentServiceService, OperationsService],
+  providers: [CommentsService, OperationsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

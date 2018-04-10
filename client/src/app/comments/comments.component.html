@@ -32,22 +32,27 @@
 
 </div>
 </form>
+</div>
 
-
+<hr>
 <div class="text-center" style="margin-top:15px;">
   <h5 class="commentListTitle">
     {{ commentListTitle }}
   </h5>
-    <div class="col-lg-12 text-left notification is-primary commentList">
-        <ul><li *ngFor="let comment of comments"><b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{comment}}</li></ul>
-    </div>
-
+  <!-- newly generated comments: -->
+  <div class="col-lg-12 text-left notification is-primary commentList">
+    <ul>
+      <li *ngFor="let item of newComments">
+        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{ item }}
+      </li>
+    </ul>
   </div>
-
-  <hr>
-  <p>hdauilfrhwehfuiodasfsdafasdfdfasdfasfperthj gr8op</p>
-
-  <button (click)='getPosts()' class="btn btn-primary btn-addComment">run get</button>
- <div *ngFor="let post of posts | async">
-   {{ post.text_comment | json }}
- </div>
+  <!-- Comments from API: -->
+  <div class="col-lg-12 text-left notification is-primary commentList">
+    <ul>
+      <li *ngFor="let comment of comments">
+        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{comment.text_comment}}
+      </li>
+    </ul>
+  </div>
+</div> 
