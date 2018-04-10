@@ -334,7 +334,7 @@ module.exports = ""
 /***/ "./src/app/comments/comments.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h3 class=\"mainTitleComments\">\r\n  {{ mainTitle }}\r\n</h3>\r\n<h5 class=\"addCommentTitle\">\r\n  {{ addCommentTitle }}\r\n</h5>\r\n<form class=\"commentForm\">\r\n\r\n  <div class=\"form-group row commentInput\">\r\n      <div class=\"col-lg-2\">\r\n        <label>Name:</label>\r\n      </div>\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"text\" class=\"form-control\">\r\n      </div>\r\n  </div>\r\n\r\n<div class=\"form-group row\">\r\n  <div class=\"col-lg-2\">\r\n    <label>Comment:</label>\r\n  </div>\r\n  <div class=\"col-lg-4\">\r\n    <textarea type=\"text\" class=\"form-control commentTextarea\" #newComment\r\n    (keyup.enter)=\"addComment(newComment.value)\"\r\n    (blur)=\"addComment(newComment.value); newComment.value='' \" name='comment'></textarea>\r\n  </div>\r\n</div>\r\n<div class=\"notification is-primary\">\r\n\r\n<button (click)=\"addComment(newComment.value)\" class=\"btn btn-primary btn-addComment\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n</div>\r\n\r\n<hr>\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h5 class=\"commentListTitle\">\r\n    {{ commentListTitle }}\r\n  </h5>\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul><li *ngFor=\"let item of newComments\"><b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{ item }}</li></ul>\r\n  </div>\r\n    <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n        <ul><li *ngFor=\"let comment of comments\"><b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{comment.text_comment}}</li></ul>\r\n    </div>\r\n\r\n  </div> \r\n"
+module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h3 class=\"mainTitleComments\">\r\n  {{ mainTitle }}\r\n</h3>\r\n<h5 class=\"addCommentTitle\">\r\n  {{ addCommentTitle }}\r\n</h5>\r\n<form class=\"commentForm\">\r\n\r\n  <div class=\"form-group row commentInput\">\r\n      <div class=\"col-lg-2\">\r\n        <label>Name:</label>\r\n      </div>\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"text\" class=\"form-control\">\r\n      </div>\r\n  </div>\r\n\r\n<div class=\"form-group row\">\r\n  <div class=\"col-lg-2\">\r\n    <label>Comment:</label>\r\n  </div>\r\n  <div class=\"col-lg-4\">\r\n    <textarea type=\"text\" class=\"form-control commentTextarea\" #newComment\r\n    (keyup.enter)=\"addComment(newComment.value)\"\r\n    (blur)=\"addComment(newComment.value); newComment.value='' \" name='comment'></textarea>\r\n  </div>\r\n</div>\r\n<div class=\"notification is-primary\">\r\n\r\n<button (click)=\"addComment(newComment.value)\" class=\"btn btn-primary btn-addComment\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n</div>\r\n\r\n<hr>\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h5 class=\"commentListTitle\">\r\n    {{ commentListTitle }}\r\n  </h5>\r\n  <!-- newly generated comments: -->\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul>\r\n      <li *ngFor=\"let item of newComments\">\r\n        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{ item }}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n  <!-- Comments from API: -->\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul>\r\n      <li *ngFor=\"let comment of comments\">\r\n        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{comment.text_comment}}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</div> \r\n"
 
 /***/ }),
 
@@ -353,33 +353,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var comments_service_1 = __webpack_require__("./src/app/comments/service/comments.service.ts");
-var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var CommentsComponent = /** @class */ (function () {
-    function CommentsComponent(http, commentsService) {
-        this.http = http;
+    function CommentsComponent(commentsService) {
         this.commentsService = commentsService;
-        this.mainTitle = "Comments";
+        //Dynamic titles: 
         this.addCommentTitle = "Add comment";
         this.commentListTitle = "Comments list";
-        this.newComments = [];
-        this.dateNow = new Date();
-        this.ROUTE_URL = 'http://localhost:8000/api/operations/comment/';
-    }
-    CommentsComponent.prototype.getComments = function () {
-    };
+        this.mainTitle = "Comments";
+        //Variables
+        this.dateNow = new Date(); // to display current date
+        this.newComments = []; // for user added comments
+    } //import injectable service
     CommentsComponent.prototype.ngOnInit = function () {
         var _this = this;
+        // Subscribe to service and save the data in comments list as json obj
         this.commentsService.getComments().subscribe(function (data) {
             _this.comments = data;
         });
-        console.log(this.comments);
-        console.log('test');
     };
     CommentsComponent.prototype.ngOnDestroy = function () {
         this.commentsService;
     };
+    // Function to handle newly generated comments
     CommentsComponent.prototype.addComment = function (newComment) {
         if (newComment === void 0) { newComment = []; }
         console.log(Date);
@@ -393,7 +390,7 @@ var CommentsComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/comments/comments.component.html"),
             styles: [__webpack_require__("./src/app/comments/comments.component.css")],
         }),
-        __metadata("design:paramtypes", [http_1.HttpClient, comments_service_1.CommentsService])
+        __metadata("design:paramtypes", [comments_service_1.CommentsService])
     ], CommentsComponent);
     return CommentsComponent;
 }());
@@ -419,15 +416,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
-__webpack_require__("./node_modules/rxjs/_esm5/add/operator/map.js");
-__webpack_require__("./node_modules/rxjs/_esm5/add/operator/catch.js");
 var CommentsService = /** @class */ (function () {
     function CommentsService(http) {
         this.http = http;
-        this.ROUTE_URL = 'http://localhost:8000/api/operations/comment/';
+        this.ROUTE_URL = 'http://localhost:8000/api/operations/comment/'; // hard coded URL for api to get all comments
     }
+    // the method other apps subscribe to in order to get the api
     CommentsService.prototype.getComments = function () {
-        return this.http.get(this.ROUTE_URL); //should add a catch error func here
+        return this.http.get(this.ROUTE_URL); //should add a catch error func here, like: import "rxjs/add/operator/catch";
     };
     CommentsService = __decorate([
         core_1.Injectable(),
