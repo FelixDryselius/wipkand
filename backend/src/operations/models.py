@@ -16,7 +16,7 @@ class Product(models.Model):
 
 class ProductOrder(models.Model):
     order_number = models.CharField(primary_key=True, max_length=7)
-    article_number = models.ForeignKey(Product, models.DO_NOTHING, db_column='article_number', blank=False, null=False)
+    article_number = models.ForeignKey(Product, models.DO_NOTHING, db_column='article_number')
 
     class Meta:
         managed = False
@@ -37,7 +37,7 @@ class Batch(models.Model):
     label_print_time = models.DateTimeField(blank=True, null=True)
     rework_time = models.TimeField(blank=True, null=True)
     yield_2 = models.IntegerField(blank=True, null=True)
-    order_number = models.ForeignKey('ProductOrder', models.DO_NOTHING, db_column='order_number', blank=False, null=False)
+    order_number = models.ForeignKey('ProductOrder', models.DO_NOTHING, db_column='order_number')
 
     class Meta:
         managed = False
@@ -46,6 +46,7 @@ class Batch(models.Model):
 
 class BatchComment(models.Model):
     comment_id = models.IntegerField(db_column='comment_ID', primary_key=True)  # Field name made lowercase.
+    user_name = models.CharField(max_length=255, blank=True, null=True)
     post_date = models.DateTimeField(blank=True, null=True)
     text_comment = models.TextField(blank=True, null=True)
     batch_number = models.ForeignKey(Batch, models.DO_NOTHING, db_column='batch_number')
