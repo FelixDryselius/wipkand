@@ -37,7 +37,6 @@ import { NavInformationServiceService } from './nav-information-service/nav-info
 
     CurrentBatchInfoComponent,
 
-    
   ],
   imports: [
     BrowserModule,

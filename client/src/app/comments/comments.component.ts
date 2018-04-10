@@ -1,5 +1,6 @@
 import { Component, OnInit,} from '@angular/core';
 import { CommentServiceService } from '../comment-service/comment-service.service';
+import { HttpClient } from '@angular/common/http'
 
 
 @Component({
@@ -13,15 +14,21 @@ export class CommentsComponent implements OnInit {
   commentListTitle = "Comments list";
   comments = [];
   dateNow : Date = new Date();
+  posts: any;
 
-  constructor(private data: CommentServiceService) {
-    
-   }
+  readonly ROUTE_URL = 'http://localhost:8000/api/operations/comment/';
 
+  constructor(private data: CommentServiceService, private http:HttpClient) { }
+
+  getPosts() {
+    this.posts = this.http.get(this.ROUTE_URL)
+  }
+  
   ngOnInit() {
    
   }
-addComment(newComment = []) {
+  
+  addComment(newComment = []) {
   console.log(Date)
     if (newComment) {
       this.comments.push(newComment);

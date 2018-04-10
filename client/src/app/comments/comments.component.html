@@ -45,4 +45,9 @@
   </div>
 
   <hr>
+  <p>hdauilfrhwehfuiodasfsdafasdfdfasdfasfperthj gr8op</p>
 
+  <button (click)='getPosts()' class="btn btn-primary btn-addComment">run get</button>
+ <div *ngFor="let post of posts | async">
+   {{ post.text_comment | json }}
+ </div>

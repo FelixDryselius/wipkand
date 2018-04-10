@@ -17,65 +17,6 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 
 /***/ }),
 
-/***/ "./src/app/add-comment/add-comment.component.css":
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ "./src/app/add-comment/add-comment.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n    <h3 class=\"h3header\">\r\n    {{ title }}\r\n  </h3>\r\n  <form class=\"commentForm\">\r\n\r\n    <div class=\"form-group row commentInput\">\r\n        <div class=\"col-lg-2\">\r\n          <label>Name:</label>\r\n        </div>\r\n        <div class=\"col-lg-4\">\r\n          <input type=\"text\" class=\"form-control\">\r\n        </div>\r\n    </div>\r\n\r\n  <div class=\"form-group row\">\r\n    <div class=\"col-lg-2\">\r\n      <label>Comment:</label>\r\n    </div>\r\n    <div class=\"col-lg-4\">\r\n      <textarea type=\"text\" class=\"form-control commentTextarea\" #commentInput></textarea>\r\n    </div>\r\n  </div>\r\n<div class=\"notification is-primary\">\r\n\r\n  <button (click)=\"newMessage(commentInput)\" class=\"btn btn-primary btn-addComment\" routerLink=\"/comments\" routerLinkActive=\"active\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n\r\n  <!-- <div class=\"btn-finishBatch\">\r\n      <button type=\"submit\" class=\"btn btn-primary  finishBatchLabels\">\r\n        Add comment\r\n      </button>\r\n  </div> \r\n</div> -->\r\n\r\n\r\n  "
-
-/***/ }),
-
-/***/ "./src/app/add-comment/add-comment.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddCommentComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__comment_service_comment_service_service__ = __webpack_require__("./src/app/comment-service/comment-service.service.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var AddCommentComponent = /** @class */ (function () {
-    function AddCommentComponent(data) {
-        this.data = data;
-        this.title = "Add comment";
-    }
-    AddCommentComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.data.currentMessage.subscribe(function (message) { return _this.message = message; });
-    };
-    AddCommentComponent.prototype.newMessage = function (commentText) {
-        this.data.changeMessage(commentText.value);
-    };
-    AddCommentComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'app-add-comment',
-            template: __webpack_require__("./src/app/add-comment/add-comment.component.html"),
-            styles: [__webpack_require__("./src/app/add-comment/add-comment.component.css")]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__comment_service_comment_service_service__["a" /* CommentServiceService */]])
-    ], AddCommentComponent);
-    return AddCommentComponent;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/app.component.css":
 /***/ (function(module, exports) {
 
@@ -91,24 +32,24 @@ module.exports = "<!--Start navBar.-->\r\n\r\n<div class=\"container-fluid\" sty
 /***/ }),
 
 /***/ "./src/app/app.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
         this.title = 'app';
     }
     AppComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        core_1.Component({
             selector: 'app-root',
             template: __webpack_require__("./src/app/app.component.html"),
             styles: [__webpack_require__("./src/app/app.component.css")]
@@ -116,137 +57,103 @@ var AppComponent = /** @class */ (function () {
     ], AppComponent);
     return AppComponent;
 }());
-
+exports.AppComponent = AppComponent;
 
 
 /***/ }),
 
 /***/ "./src/app/app.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__("./node_modules/@angular/platform-browser/esm5/platform-browser.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__("./src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_routing__ = __webpack_require__("./src/app/app.routing.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__start_batch_start_batch_component__ = __webpack_require__("./src/app/start-batch/start-batch.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__home_home_component__ = __webpack_require__("./src/app/home/home.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__comments_comments_component__ = __webpack_require__("./src/app/comments/comments.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__scoreboard_scoreboard_component__ = __webpack_require__("./src/app/scoreboard/scoreboard.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__floorstock_floorstock_component__ = __webpack_require__("./src/app/floorstock/floorstock.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shift_change_shift_change_component__ = __webpack_require__("./src/app/shift-change/shift-change.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__batch_history_batch_history_component__ = __webpack_require__("./src/app/batch-history/batch-history.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__finish_batch_finish_batch_component__ = __webpack_require__("./src/app/finish-batch/finish-batch.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__batch_rework_batch_rework_component__ = __webpack_require__("./src/app/batch-rework/batch-rework.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__current_batch_info_current_batch_info_component__ = __webpack_require__("./src/app/current-batch-info/current-batch-info.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__add_comment_add_comment_component__ = __webpack_require__("./src/app/add-comment/add-comment.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__comment_service_comment_service_service__ = __webpack_require__("./src/app/comment-service/comment-service.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__nav_information_service_nav_information_service_service__ = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var platform_browser_1 = __webpack_require__("./node_modules/@angular/platform-browser/esm5/platform-browser.js");
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+var http_1 = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+var http_2 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var app_component_1 = __webpack_require__("./src/app/app.component.ts");
+var app_routing_1 = __webpack_require__("./src/app/app.routing.ts");
+var start_batch_component_1 = __webpack_require__("./src/app/start-batch/start-batch.component.ts");
+var home_component_1 = __webpack_require__("./src/app/home/home.component.ts");
+var comments_component_1 = __webpack_require__("./src/app/comments/comments.component.ts");
+var scoreboard_component_1 = __webpack_require__("./src/app/scoreboard/scoreboard.component.ts");
+var floorstock_component_1 = __webpack_require__("./src/app/floorstock/floorstock.component.ts");
+var shift_change_component_1 = __webpack_require__("./src/app/shift-change/shift-change.component.ts");
+var batch_history_component_1 = __webpack_require__("./src/app/batch-history/batch-history.component.ts");
+var finish_batch_component_1 = __webpack_require__("./src/app/finish-batch/finish-batch.component.ts");
+var batch_rework_component_1 = __webpack_require__("./src/app/batch-rework/batch-rework.component.ts");
+var current_batch_info_component_1 = __webpack_require__("./src/app/current-batch-info/current-batch-info.component.ts");
+var comment_service_service_1 = __webpack_require__("./src/app/comment-service/comment-service.service.ts");
+var nav_information_service_service_1 = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* NgModule */])({
+        core_1.NgModule({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */],
-                __WEBPACK_IMPORTED_MODULE_7__start_batch_start_batch_component__["a" /* StartBatchComponent */],
-                __WEBPACK_IMPORTED_MODULE_8__home_home_component__["a" /* HomeComponent */],
-                __WEBPACK_IMPORTED_MODULE_9__comments_comments_component__["a" /* CommentsComponent */],
-                __WEBPACK_IMPORTED_MODULE_10__scoreboard_scoreboard_component__["a" /* ScoreboardComponent */],
-                __WEBPACK_IMPORTED_MODULE_11__floorstock_floorstock_component__["a" /* FloorstockComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__shift_change_shift_change_component__["a" /* ShiftChangeComponent */],
-                __WEBPACK_IMPORTED_MODULE_13__batch_history_batch_history_component__["a" /* BatchHistoryComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__finish_batch_finish_batch_component__["a" /* FinishBatchComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__batch_rework_batch_rework_component__["a" /* BatchReworkComponent */],
-                __WEBPACK_IMPORTED_MODULE_16__current_batch_info_current_batch_info_component__["a" /* CurrentBatchInfoComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__add_comment_add_comment_component__["a" /* AddCommentComponent */]
+                app_component_1.AppComponent,
+                start_batch_component_1.StartBatchComponent,
+                home_component_1.HomeComponent,
+                comments_component_1.CommentsComponent,
+                scoreboard_component_1.ScoreboardComponent,
+                floorstock_component_1.FloorstockComponent,
+                shift_change_component_1.ShiftChangeComponent,
+                batch_history_component_1.BatchHistoryComponent,
+                finish_batch_component_1.FinishBatchComponent,
+                batch_rework_component_1.BatchReworkComponent,
+                current_batch_info_component_1.CurrentBatchInfoComponent,
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
-                __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["a" /* HttpClientModule */],
-                __WEBPACK_IMPORTED_MODULE_6__app_routing__["a" /* AppRoutingModule */]
+                platform_browser_1.BrowserModule,
+                forms_1.FormsModule,
+                http_1.HttpModule,
+                http_2.HttpClientModule,
+                app_routing_1.AppRoutingModule
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_19__nav_information_service_nav_information_service_service__["a" /* NavInformationServiceService */], __WEBPACK_IMPORTED_MODULE_18__comment_service_comment_service_service__["a" /* CommentServiceService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */]]
+            providers: [nav_information_service_service_1.NavInformationServiceService, comment_service_service_1.CommentServiceService],
+            bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);
     return AppModule;
 }());
-
+exports.AppModule = AppModule;
 
 
 /***/ }),
 
 /***/ "./src/app/app.routing.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__batch_history_batch_history_component__ = __webpack_require__("./src/app/batch-history/batch-history.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__comments_comments_component__ = __webpack_require__("./src/app/comments/comments.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__current_batch_info_current_batch_info_component__ = __webpack_require__("./src/app/current-batch-info/current-batch-info.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__floorstock_floorstock_component__ = __webpack_require__("./src/app/floorstock/floorstock.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__home_home_component__ = __webpack_require__("./src/app/home/home.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__scoreboard_scoreboard_component__ = __webpack_require__("./src/app/scoreboard/scoreboard.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shift_change_shift_change_component__ = __webpack_require__("./src/app/shift-change/shift-change.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__start_batch_start_batch_component__ = __webpack_require__("./src/app/start-batch/start-batch.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__finish_batch_finish_batch_component__ = __webpack_require__("./src/app/finish-batch/finish-batch.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__batch_rework_batch_rework_component__ = __webpack_require__("./src/app/batch-rework/batch-rework.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__add_comment_add_comment_component__ = __webpack_require__("./src/app/add-comment/add-comment.component.ts");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 //https://angular.io/guide/router
-
-
-
-
-
-
-
-
-
-
-
-
-
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var batch_history_component_1 = __webpack_require__("./src/app/batch-history/batch-history.component.ts");
+var comments_component_1 = __webpack_require__("./src/app/comments/comments.component.ts");
+var current_batch_info_component_1 = __webpack_require__("./src/app/current-batch-info/current-batch-info.component.ts");
+var floorstock_component_1 = __webpack_require__("./src/app/floorstock/floorstock.component.ts");
+var home_component_1 = __webpack_require__("./src/app/home/home.component.ts");
+var scoreboard_component_1 = __webpack_require__("./src/app/scoreboard/scoreboard.component.ts");
+var shift_change_component_1 = __webpack_require__("./src/app/shift-change/shift-change.component.ts");
+var start_batch_component_1 = __webpack_require__("./src/app/start-batch/start-batch.component.ts");
+var finish_batch_component_1 = __webpack_require__("./src/app/finish-batch/finish-batch.component.ts");
+var batch_rework_component_1 = __webpack_require__("./src/app/batch-rework/batch-rework.component.ts");
 var appRoutes = [
     {
         path: "",
@@ -255,65 +162,61 @@ var appRoutes = [
     },
     {
         path: "batch-history",
-        component: __WEBPACK_IMPORTED_MODULE_2__batch_history_batch_history_component__["a" /* BatchHistoryComponent */],
+        component: batch_history_component_1.BatchHistoryComponent,
     },
     {
         path: "running-batch",
-        component: __WEBPACK_IMPORTED_MODULE_4__current_batch_info_current_batch_info_component__["a" /* CurrentBatchInfoComponent */],
+        component: current_batch_info_component_1.CurrentBatchInfoComponent,
     },
     {
         path: "comments",
-        component: __WEBPACK_IMPORTED_MODULE_3__comments_comments_component__["a" /* CommentsComponent */],
+        component: comments_component_1.CommentsComponent,
     },
     {
         path: "floorstock",
-        component: __WEBPACK_IMPORTED_MODULE_5__floorstock_floorstock_component__["a" /* FloorstockComponent */],
+        component: floorstock_component_1.FloorstockComponent,
     },
     {
         path: "home",
-        component: __WEBPACK_IMPORTED_MODULE_6__home_home_component__["a" /* HomeComponent */],
+        component: home_component_1.HomeComponent,
     },
     {
         path: "scoreboard",
-        component: __WEBPACK_IMPORTED_MODULE_7__scoreboard_scoreboard_component__["a" /* ScoreboardComponent */],
+        component: scoreboard_component_1.ScoreboardComponent,
     },
     {
         path: "shift-change",
-        component: __WEBPACK_IMPORTED_MODULE_8__shift_change_shift_change_component__["a" /* ShiftChangeComponent */],
+        component: shift_change_component_1.ShiftChangeComponent,
     },
     {
         path: "start-batch",
-        component: __WEBPACK_IMPORTED_MODULE_9__start_batch_start_batch_component__["a" /* StartBatchComponent */],
+        component: start_batch_component_1.StartBatchComponent,
     },
     {
         path: "finish-batch",
-        component: __WEBPACK_IMPORTED_MODULE_10__finish_batch_finish_batch_component__["a" /* FinishBatchComponent */],
+        component: finish_batch_component_1.FinishBatchComponent,
     },
     {
         path: "batch-rework",
-        component: __WEBPACK_IMPORTED_MODULE_11__batch_rework_batch_rework_component__["a" /* BatchReworkComponent */],
-    },
-    {
-        path: "comments/add-comment",
-        component: __WEBPACK_IMPORTED_MODULE_12__add_comment_add_comment_component__["a" /* AddCommentComponent */],
+        component: batch_rework_component_1.BatchReworkComponent,
     },
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
     AppRoutingModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* NgModule */])({
+        core_1.NgModule({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* RouterModule */].forRoot(appRoutes)
+                router_1.RouterModule.forRoot(appRoutes)
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* RouterModule */]
+                router_1.RouterModule
             ]
         })
     ], AppRoutingModule);
     return AppRoutingModule;
 }());
-
+exports.AppRoutingModule = AppRoutingModule;
 
 
 /***/ }),
@@ -333,11 +236,10 @@ module.exports = "\r\n    <div class=\"card-group\">\r\n            <div class=\
 /***/ }),
 
 /***/ "./src/app/batch-history/batch-history.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BatchHistoryComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -347,14 +249,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var BatchHistoryComponent = /** @class */ (function () {
     function BatchHistoryComponent() {
     }
     BatchHistoryComponent.prototype.ngOnInit = function () {
     };
     BatchHistoryComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        core_1.Component({
             selector: 'app-batch-history',
             template: __webpack_require__("./src/app/batch-history/batch-history.component.html"),
             styles: [__webpack_require__("./src/app/batch-history/batch-history.component.css")]
@@ -363,7 +266,7 @@ var BatchHistoryComponent = /** @class */ (function () {
     ], BatchHistoryComponent);
     return BatchHistoryComponent;
 }());
-
+exports.BatchHistoryComponent = BatchHistoryComponent;
 
 
 /***/ }),
@@ -383,11 +286,10 @@ module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h
 /***/ }),
 
 /***/ "./src/app/batch-rework/batch-rework.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BatchReworkComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -397,7 +299,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var BatchReworkComponent = /** @class */ (function () {
     function BatchReworkComponent() {
         this.title = "Rework batch";
@@ -407,7 +310,7 @@ var BatchReworkComponent = /** @class */ (function () {
     BatchReworkComponent.prototype.ngOnInit = function () {
     };
     BatchReworkComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        core_1.Component({
             selector: 'app-batch-rework',
             template: __webpack_require__("./src/app/batch-rework/batch-rework.component.html"),
             styles: [__webpack_require__("./src/app/batch-rework/batch-rework.component.css")]
@@ -416,18 +319,16 @@ var BatchReworkComponent = /** @class */ (function () {
     ], BatchReworkComponent);
     return BatchReworkComponent;
 }());
-
+exports.BatchReworkComponent = BatchReworkComponent;
 
 
 /***/ }),
 
 /***/ "./src/app/comment-service/comment-service.service.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CommentServiceService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -437,23 +338,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var BehaviorSubject_1 = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
 var CommentServiceService = /** @class */ (function () {
     function CommentServiceService() {
-        this.messageSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]("");
+        this.messageSource = new BehaviorSubject_1.BehaviorSubject("");
         this.currentMessage = this.messageSource.asObservable();
     }
     CommentServiceService.prototype.changeMessage = function (message) {
         this.messageSource.next(message);
     };
     CommentServiceService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        core_1.Injectable(),
         __metadata("design:paramtypes", [])
     ], CommentServiceService);
     return CommentServiceService;
 }());
-
+exports.CommentServiceService = CommentServiceService;
 
 
 /***/ }),
@@ -468,17 +370,15 @@ module.exports = ""
 /***/ "./src/app/comments/comments.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h3 class=\"mainTitleComments\">\r\n  {{ mainTitle }}\r\n</h3>\r\n<h5 class=\"addCommentTitle\">\r\n  {{ addCommentTitle }}\r\n</h5>\r\n<form class=\"commentForm\">\r\n\r\n  <div class=\"form-group row commentInput\">\r\n      <div class=\"col-lg-2\">\r\n        <label>Name:</label>\r\n      </div>\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"text\" class=\"form-control\">\r\n      </div>\r\n  </div>\r\n\r\n<div class=\"form-group row\">\r\n  <div class=\"col-lg-2\">\r\n    <label>Comment:</label>\r\n  </div>\r\n  <div class=\"col-lg-4\">\r\n    <textarea type=\"text\" class=\"form-control commentTextarea\" #commentInput></textarea>\r\n  </div>\r\n</div>\r\n<div class=\"notification is-primary\">\r\n\r\n<button (click)=\"newCommentText(commentInput)\" class=\"btn btn-primary btn-addComment\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n\r\n\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h5 class=\"commentListTitle\">\r\n    {{ commentListTitle }}\r\n  </h5>\r\n    <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n      {{ message }}\r\n    </div>\r\n\r\n  </div>\r\n\r\n"
+module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h3 class=\"mainTitleComments\">\r\n  {{ mainTitle }}\r\n</h3>\r\n<h5 class=\"addCommentTitle\">\r\n  {{ addCommentTitle }}\r\n</h5>\r\n<form class=\"commentForm\">\r\n\r\n  <div class=\"form-group row commentInput\">\r\n      <div class=\"col-lg-2\">\r\n        <label>Name:</label>\r\n      </div>\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"text\" class=\"form-control\">\r\n      </div>\r\n  </div>\r\n\r\n<div class=\"form-group row\">\r\n  <div class=\"col-lg-2\">\r\n    <label>Comment:</label>\r\n  </div>\r\n  <div class=\"col-lg-4\">\r\n    <textarea type=\"text\" class=\"form-control commentTextarea\" #newComment\r\n    (keyup.enter)=\"addComment(newComment.value)\"\r\n    (blur)=\"addComment(newComment.value); newComment.value='' \" name='comment'></textarea>\r\n  </div>\r\n</div>\r\n<div class=\"notification is-primary\">\r\n\r\n<button (click)=\"addComment(newComment.value)\" class=\"btn btn-primary btn-addComment\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n\r\n\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h5 class=\"commentListTitle\">\r\n    {{ commentListTitle }}\r\n  </h5>\r\n    <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n        <ul><li *ngFor=\"let comment of comments\"><b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{comment}}</li></ul>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <hr>\r\n  <p>hdauilfrhwehfuiodasfsdafasdfdfasdfasfperthj gr8op</p>\r\n\r\n  <button (click)='getPosts()' class=\"btn btn-primary btn-addComment\">run get</button>\r\n <div *ngFor=\"let post of posts | async\">\r\n   {{ post.text_comment | json }}\r\n </div>"
 
 /***/ }),
 
 /***/ "./src/app/comments/comments.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CommentsComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__comment_service_comment_service_service__ = __webpack_require__("./src/app/comment-service/comment-service.service.ts");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -488,34 +388,44 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var comment_service_service_1 = __webpack_require__("./src/app/comment-service/comment-service.service.ts");
+var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var CommentsComponent = /** @class */ (function () {
-    function CommentsComponent(data) {
+    function CommentsComponent(data, http) {
         this.data = data;
+        this.http = http;
         this.mainTitle = "Comments";
         this.addCommentTitle = "Add comment";
         this.commentListTitle = "Comments list";
+        this.comments = [];
+        this.dateNow = new Date();
+        this.ROUTE_URL = 'http://localhost:8000/api/operations/comment/';
     }
-    CommentsComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.data.currentMessage.subscribe(function (message) { return _this.message = message; });
+    CommentsComponent.prototype.getPosts = function () {
+        this.posts = this.http.get(this.ROUTE_URL);
     };
-    CommentsComponent.prototype.newCommentText = function (commentText) {
-        console.log(commentText.value);
-        this.data.changeMessage(commentText.value);
+    CommentsComponent.prototype.ngOnInit = function () {
+    };
+    CommentsComponent.prototype.addComment = function (newComment) {
+        if (newComment === void 0) { newComment = []; }
+        console.log(Date);
+        if (newComment) {
+            this.comments.push(newComment);
+        }
     };
     CommentsComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        core_1.Component({
             selector: 'app-comments',
             template: __webpack_require__("./src/app/comments/comments.component.html"),
-            styles: [__webpack_require__("./src/app/comments/comments.component.css")]
+            styles: [__webpack_require__("./src/app/comments/comments.component.css")],
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__comment_service_comment_service_service__["a" /* CommentServiceService */]])
+        __metadata("design:paramtypes", [comment_service_service_1.CommentServiceService, http_1.HttpClient])
     ], CommentsComponent);
     return CommentsComponent;
 }());
-
+exports.CommentsComponent = CommentsComponent;
 
 
 /***/ }),
@@ -535,13 +445,10 @@ module.exports = "\r\n<div *ngIf=\"currentBatchInfo !==null\">\r\n    <p>Order I
 /***/ }),
 
 /***/ "./src/app/current-batch-info/current-batch-info.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CurrentBatchInfoComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__nav_information_service_nav_information_service_service__ = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -551,9 +458,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var nav_information_service_service_1 = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
 var CurrentBatchInfoComponent = /** @class */ (function () {
     function CurrentBatchInfoComponent(route, data) {
         this.route = route;
@@ -576,16 +484,16 @@ var CurrentBatchInfoComponent = /** @class */ (function () {
         // this.currentBatchObservable.unsubscribe() // I cant do this but want to.. how?
     };
     CurrentBatchInfoComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        core_1.Component({
             selector: 'current-batch-info',
             template: __webpack_require__("./src/app/current-batch-info/current-batch-info.component.html"),
             styles: [__webpack_require__("./src/app/current-batch-info/current-batch-info.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */], __WEBPACK_IMPORTED_MODULE_2__nav_information_service_nav_information_service_service__["a" /* NavInformationServiceService */]])
+        __metadata("design:paramtypes", [router_1.ActivatedRoute, nav_information_service_service_1.NavInformationServiceService])
     ], CurrentBatchInfoComponent);
     return CurrentBatchInfoComponent;
 }());
-
+exports.CurrentBatchInfoComponent = CurrentBatchInfoComponent;
 
 
 /***/ }),
@@ -605,11 +513,10 @@ module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n    
 /***/ }),
 
 /***/ "./src/app/finish-batch/finish-batch.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FinishBatchComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -619,7 +526,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var FinishBatchComponent = /** @class */ (function () {
     function FinishBatchComponent() {
         this.title = "Finish batch";
@@ -629,7 +537,7 @@ var FinishBatchComponent = /** @class */ (function () {
     FinishBatchComponent.prototype.ngOnInit = function () {
     };
     FinishBatchComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        core_1.Component({
             selector: 'app-finish-batch',
             template: __webpack_require__("./src/app/finish-batch/finish-batch.component.html"),
             styles: [__webpack_require__("./src/app/finish-batch/finish-batch.component.css")]
@@ -638,7 +546,7 @@ var FinishBatchComponent = /** @class */ (function () {
     ], FinishBatchComponent);
     return FinishBatchComponent;
 }());
-
+exports.FinishBatchComponent = FinishBatchComponent;
 
 
 /***/ }),
@@ -658,11 +566,10 @@ module.exports = "<h2>\r\n    <i>Examples of content on this page:</i>\r\n</h2>\
 /***/ }),
 
 /***/ "./src/app/floorstock/floorstock.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FloorstockComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -672,14 +579,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var FloorstockComponent = /** @class */ (function () {
     function FloorstockComponent() {
     }
     FloorstockComponent.prototype.ngOnInit = function () {
     };
     FloorstockComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        core_1.Component({
             selector: 'app-floorstock',
             template: __webpack_require__("./src/app/floorstock/floorstock.component.html"),
             styles: [__webpack_require__("./src/app/floorstock/floorstock.component.css")]
@@ -688,7 +596,7 @@ var FloorstockComponent = /** @class */ (function () {
     ], FloorstockComponent);
     return FloorstockComponent;
 }());
-
+exports.FloorstockComponent = FloorstockComponent;
 
 
 /***/ }),
@@ -708,12 +616,10 @@ module.exports = "<h2>Sidebar</h2>\r\n<hr>\r\n<p>\r\n  Batch number: <b>{{ batch
 /***/ }),
 
 /***/ "./src/app/home/home.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -723,8 +629,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var HomeComponent = /** @class */ (function () {
     function HomeComponent(route) {
         this.route = route;
@@ -732,27 +639,25 @@ var HomeComponent = /** @class */ (function () {
     HomeComponent.prototype.ngOnInit = function () {
     };
     HomeComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        core_1.Component({
             selector: 'app-home',
             template: __webpack_require__("./src/app/home/home.component.html"),
             styles: [__webpack_require__("./src/app/home/home.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]])
+        __metadata("design:paramtypes", [router_1.ActivatedRoute])
     ], HomeComponent);
     return HomeComponent;
 }());
-
+exports.HomeComponent = HomeComponent;
 
 
 /***/ }),
 
 /***/ "./src/app/nav-information-service/nav-information-service.service.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NavInformationServiceService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -762,23 +667,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var BehaviorSubject_1 = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
 var NavInformationServiceService = /** @class */ (function () {
     function NavInformationServiceService() {
-        this.currentBatchSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.currentBatchSource = new BehaviorSubject_1.BehaviorSubject(null);
         this.currentBatchObservable = this.currentBatchSource.asObservable();
     }
     NavInformationServiceService.prototype.changeBatchInfo = function (obj) {
         this.currentBatchSource.next(obj);
     };
     NavInformationServiceService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        core_1.Injectable(),
         __metadata("design:paramtypes", [])
     ], NavInformationServiceService);
     return NavInformationServiceService;
 }());
-
+exports.NavInformationServiceService = NavInformationServiceService;
 
 
 /***/ }),
@@ -798,11 +704,10 @@ module.exports = "<h2>\r\n    <i>Examples of content on this page:</i>\r\n</h2>\
 /***/ }),
 
 /***/ "./src/app/scoreboard/scoreboard.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ScoreboardComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -812,14 +717,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var ScoreboardComponent = /** @class */ (function () {
     function ScoreboardComponent() {
     }
     ScoreboardComponent.prototype.ngOnInit = function () {
     };
     ScoreboardComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        core_1.Component({
             selector: 'app-scoreboard',
             template: __webpack_require__("./src/app/scoreboard/scoreboard.component.html"),
             styles: [__webpack_require__("./src/app/scoreboard/scoreboard.component.css")]
@@ -828,7 +734,7 @@ var ScoreboardComponent = /** @class */ (function () {
     ], ScoreboardComponent);
     return ScoreboardComponent;
 }());
-
+exports.ScoreboardComponent = ScoreboardComponent;
 
 
 /***/ }),
@@ -848,11 +754,10 @@ module.exports = "<h2>\r\n    <i>Examples of content on this page:</i>\r\n</h2>\
 /***/ }),
 
 /***/ "./src/app/shift-change/shift-change.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ShiftChangeComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -862,14 +767,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var ShiftChangeComponent = /** @class */ (function () {
     function ShiftChangeComponent() {
     }
     ShiftChangeComponent.prototype.ngOnInit = function () {
     };
     ShiftChangeComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        core_1.Component({
             selector: 'app-shift-change',
             template: __webpack_require__("./src/app/shift-change/shift-change.component.html"),
             styles: [__webpack_require__("./src/app/shift-change/shift-change.component.css")]
@@ -878,7 +784,7 @@ var ShiftChangeComponent = /** @class */ (function () {
     ], ShiftChangeComponent);
     return ShiftChangeComponent;
 }());
-
+exports.ShiftChangeComponent = ShiftChangeComponent;
 
 
 /***/ }),
@@ -898,13 +804,10 @@ module.exports = "<div class=\"text-center\">\r\n<h3 class=\"h3Header\">\r\n  {{
 /***/ }),
 
 /***/ "./src/app/start-batch/start-batch.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StartBatchComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__nav_information_service_nav_information_service_service__ = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -914,9 +817,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var nav_information_service_service_1 = __webpack_require__("./src/app/nav-information-service/nav-information-service.service.ts");
 var StartBatchComponent = /** @class */ (function () {
     function StartBatchComponent(router, data) {
         this.router = router;
@@ -946,34 +850,35 @@ var StartBatchComponent = /** @class */ (function () {
         }
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], StartBatchComponent.prototype, "passedQuery", void 0);
     StartBatchComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        core_1.Component({
             selector: 'start-batch',
             template: __webpack_require__("./src/app/start-batch/start-batch.component.html"),
             styles: [__webpack_require__("./src/app/start-batch/start-batch.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */], __WEBPACK_IMPORTED_MODULE_2__nav_information_service_nav_information_service_service__["a" /* NavInformationServiceService */]])
+        __metadata("design:paramtypes", [router_1.Router, nav_information_service_service_1.NavInformationServiceService])
     ], StartBatchComponent);
     return StartBatchComponent;
 }());
-
+exports.StartBatchComponent = StartBatchComponent;
 
 
 /***/ }),
 
 /***/ "./src/environments/environment.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
+
 // The file contents for the current environment will overwrite these during build.
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
-var environment = {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.environment = {
     production: false
 };
 
@@ -981,22 +886,19 @@ var environment = {
 /***/ }),
 
 /***/ "./src/main.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__("./node_modules/@angular/platform-browser-dynamic/esm5/platform-browser-dynamic.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__("./src/app/app.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__("./src/environments/environment.ts");
 
-
-
-
-if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* enableProdMode */])();
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var platform_browser_dynamic_1 = __webpack_require__("./node_modules/@angular/platform-browser-dynamic/esm5/platform-browser-dynamic.js");
+var app_module_1 = __webpack_require__("./src/app/app.module.ts");
+var environment_1 = __webpack_require__("./src/environments/environment.ts");
+if (environment_1.environment.production) {
+    core_1.enableProdMode();
 }
-Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */])
+platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule)
     .catch(function (err) { return console.log(err); });
 
 
