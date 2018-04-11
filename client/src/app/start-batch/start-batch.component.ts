@@ -68,41 +68,35 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
 
   submitBatch(event, formData) {
+    //TODO: Do we really need to store these values in the class? 
     this.batch = formData.value['batchnr'];
     this.order = formData.value['ordernr'];
     this.article = formData.value['prodnr'];
     this.batchStartDate = new Date();
 
-    //TODO: This if-statement is bad practice. Implement form-check in HTML so that form cannot be submitted without entered values.
-    if (this.batch && this.order) {
-      let newOrder = {
-        order_number: this.order,
-        article_number: this.article,
-      }
-      this.req_order = this.operationsService.createOrder(newOrder).subscribe()
-
-      let newBatch = {
-        batch_number: this.batch,
-        order_number: this.order,
-        start_date: this.batchStartDate
-      }
-      this.req_batch = this.operationsService.createBatch(newBatch).subscribe(
-      //   data => {
-      //   this.prodInfo = data as [any];
-      // }
-    )
-
-      this.prodInfo = {
-        batch: this.batch,
-        order: this.order,
-        article: this.article,
-      }
-      this.operationsService.changeProdStatus(true);
-      this.operationsService.changeProdInfo(this.prodInfo)
-      console.log("Production status: " + this.prodActive)
-
-      this.router.navigate(['./home'])
+    let newOrder = {
+      order_number: this.order,
+      article_number: this.article,
     }
+    this.req_order = this.operationsService.createOrder(newOrder).subscribe()
+
+    let newBatch = {
+      batch_number: this.batch,
+      order_number: this.order,
+      start_date: this.batchStartDate
+    }
+    this.req_batch = this.operationsService.createBatch(newBatch).subscribe()
+
+    this.prodInfo = {
+      batch: this.batch,
+      order: this.order,
+      article: this.article,
+    }
+    this.operationsService.changeProdStatus(true);
+    this.operationsService.changeProdInfo(this.prodInfo)
+    console.log("Production status: " + this.prodActive)
+
+    this.router.navigate(['./home'])
   }
 }
 

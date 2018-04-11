@@ -38,9 +38,6 @@ export class OperationsService {
   //This method sets the data values for the current running batch.
   changeProdInfo(info: {}) {
     this.prodInfo.next(info);
-    // if (info !== {}) {
-    //   this.httpStartNewBatch(info)
-    // } 
   }
 
 

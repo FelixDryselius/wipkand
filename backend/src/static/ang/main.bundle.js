@@ -714,9 +714,6 @@ var OperationsService = /** @class */ (function () {
     //This method sets the data values for the current running batch.
     OperationsService.prototype.changeProdInfo = function (info) {
         this.prodInfo.next(info);
-        // if (info !== {}) {
-        //   this.httpStartNewBatch(info)
-        // } 
     };
     //TODO: Can we make a general method of these two?
     OperationsService.prototype.createOrder = function (newOrder) {
@@ -848,7 +845,7 @@ module.exports = ""
 /***/ "./src/app/start-batch/start-batch.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"text-center\">\r\n<h3 class=\"h3Header\">\r\n  {{ title }}\r\n</h3>\r\n<br>\r\n\r\n<!-- A form that sends input data to a function submitBatch with parameters ordernr, prodnr and batchnr -->\r\n<form #batchForm='ngForm' (ngSubmit)='submitBatch($event,batchForm)'>\r\n\r\n\r\n  <!-- User input for order number -->\r\n  <div class=\"form-group row\">\r\n      <label for=\"inputOrderNr\" class=\"col-lg-4 col-form-label text-right\">Add order</label>\r\n      <div class=\"col-lg-4\">\r\n      <input type=\"text\" class=\"form-control\" id=\"inputOrderNr\" placeholder=\"Order number\" name='ordernr' [(ngModel)]=\"newOrder\">\r\n    </div>\r\n  </div>\r\n\r\n  <!-- Dropdown for products. ngValue is sent.  -->\r\n  <div class=\"form-group row\">\r\n      <label for=\"inputProductNr\" class=\"col-lg-4 col-form-label text-right\">Add product</label>\r\n      <div *ngIf=\"prodData\" class=\"col-lg-4 dropdown\">\r\n          <select [(ngModel)]=\"selected\" name=\"prodnr\" class=\"selectProd\">\r\n          <option *ngFor=\"let data of prodData\" class=\"optionProd\"[(ngValue)]=\"data.article_number\">{{ data.article_number }}, {{ data.product_name }}</option>\r\n      </select>\r\n  </div>\r\n</div>\r\n\r\n<!-- User input for batch number -->\r\n  <div class=\"form-group row\">\r\n      <label for=\"inputBatchNr\" class=\"col-lg-4 col-form-label text-right\">Add batch</label>\r\n      <div class=\"col-lg-4\">\r\n      <input type=\"batch\" class=\"form-control\" id=\"inputBatchNr\" placeholder=\"Batch number\" name='batchnr' [(ngModel)]=\"newBatch\">\r\n    </div>\r\n    </div>  \r\n  \r\n    <button type=\"submit\" class=\"btn btn-default btn-startBatch\">\r\n    Start batch\r\n  </button>\r\n\r\n</form>\r\n</div>\r\n\r\n<hr>\r\n\r\n\r\n\r\n\r\n"
+module.exports = "<div class=\"text-center\">\r\n<h3 class=\"h3Header\">\r\n  {{ title }}\r\n</h3>\r\n<br>\r\n\r\n<!-- A form that sends input data to a function submitBatch with parameters ordernr, prodnr and batchnr -->\r\n<!-- TODO: Make this a reactive form instead. Validate so correct batch/order numbers are entered. ngNativeValidate = quick fix that removes ANgulars validation -->\r\n<form #batchForm='ngForm' (ngSubmit)='submitBatch($event,batchForm)' ngNativeValidate>\r\n\r\n\r\n  <!-- User input for order number -->\r\n  <div class=\"form-group row\">\r\n      <label for=\"inputOrderNr\" class=\"col-lg-4 col-form-label text-right\">Add order</label>\r\n      <div class=\"col-lg-4\">\r\n      <input type=\"text\" class=\"form-control\" id=\"inputOrderNr\" placeholder=\"Order number\" name='ordernr' [(ngModel)]=\"newOrder\" required>\r\n    </div>\r\n  </div>\r\n\r\n  <!-- Dropdown for products. ngValue is sent.  -->\r\n  <div class=\"form-group row\">\r\n      <label for=\"inputProductNr\" class=\"col-lg-4 col-form-label text-right\">Add product</label>\r\n      <div *ngIf=\"prodData\" class=\"col-lg-4 dropdown\">\r\n          <select [(ngModel)]=\"selected\" name=\"prodnr\" class=\"selectProd\" required>\r\n          <option *ngFor=\"let data of prodData\" class=\"optionProd\"[(ngValue)]=\"data.article_number\">{{ data.article_number }}, {{ data.product_name }}</option>\r\n      </select>\r\n  </div>\r\n</div>\r\n\r\n<!-- User input for batch number -->\r\n  <div class=\"form-group row\">\r\n      <label for=\"inputBatchNr\" class=\"col-lg-4 col-form-label text-right\">Add batch</label>\r\n      <div class=\"col-lg-4\">\r\n      <input type=\"batch\" class=\"form-control\" id=\"inputBatchNr\" placeholder=\"Batch number\" name='batchnr' [(ngModel)]=\"newBatch\" required>\r\n    </div>\r\n    </div>  \r\n  \r\n    <button type=\"submit\" class=\"btn btn-default btn-startBatch\">\r\n    Start batch\r\n  </button>\r\n\r\n</form>\r\n</div>\r\n\r\n<hr>\r\n\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -900,33 +897,31 @@ var StartBatchComponent = /** @class */ (function () {
         this.service_prodInfo.unsubscribe();
     };
     StartBatchComponent.prototype.submitBatch = function (event, formData) {
+        //TODO: Do we really need to store these values in the class? 
         this.batch = formData.value['batchnr'];
         this.order = formData.value['ordernr'];
         this.article = formData.value['prodnr'];
         this.batchStartDate = new Date();
-        //TODO: This if-statement is bad practice. Implement form-check in HTML so that form cannot be submitted without entered values.
-        if (this.batch && this.order) {
-            var newOrder = {
-                order_number: this.order,
-                article_number: this.article,
-            };
-            this.req_order = this.operationsService.createOrder(newOrder).subscribe();
-            var newBatch = {
-                batch_number: this.batch,
-                order_number: this.order,
-                start_date: this.batchStartDate
-            };
-            this.req_batch = this.operationsService.createBatch(newBatch).subscribe();
-            this.prodInfo = {
-                batch: this.batch,
-                order: this.order,
-                article: this.article,
-            };
-            this.operationsService.changeProdStatus(true);
-            this.operationsService.changeProdInfo(this.prodInfo);
-            console.log("Production status: " + this.prodActive);
-            this.router.navigate(['./home']);
-        }
+        var newOrder = {
+            order_number: this.order,
+            article_number: this.article,
+        };
+        this.req_order = this.operationsService.createOrder(newOrder).subscribe();
+        var newBatch = {
+            batch_number: this.batch,
+            order_number: this.order,
+            start_date: this.batchStartDate
+        };
+        this.req_batch = this.operationsService.createBatch(newBatch).subscribe();
+        this.prodInfo = {
+            batch: this.batch,
+            order: this.order,
+            article: this.article,
+        };
+        this.operationsService.changeProdStatus(true);
+        this.operationsService.changeProdInfo(this.prodInfo);
+        console.log("Production status: " + this.prodActive);
+        this.router.navigate(['./home']);
     };
     __decorate([
         core_1.Input(),
