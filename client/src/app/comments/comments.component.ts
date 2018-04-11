@@ -44,6 +44,8 @@ export class CommentsComponent implements OnInit {
   // Function to handle newly generated comments
   createComment(formText, formName) {
     // The comment data to be posted. Temporary solution to comment id
+    console.log(typeof formText)
+    console.log(typeof formName)
     let commentData = {
       comment_id: this.comments.length,
       user_name: formName,
