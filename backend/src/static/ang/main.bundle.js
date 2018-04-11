@@ -520,7 +520,7 @@ module.exports = ""
 /***/ "./src/app/finish-batch/finish-batch.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n      <h3 class=\"h3header\">\r\n      {{ title }}\r\n    </h3>\r\n    <br>\r\n    <div class=\"finishBatch\">\r\n    <div class=\"row\" style=\"margin-top:20px;\">\r\n      <h5 class=\"col-lg-6\">\r\n        {{ groninger1 }}\r\n      </h5>\r\n      <h5 class=\"col-lg-6\">\r\n          {{ groninger2 }}\r\n      </h5>\r\n    </div>\r\n    <form #batchEndForm='ngForm' (ngSubmit)='submitEndBatch($event,batchEndForm)'>\r\n    \r\n      <div class=\"form-group row firstInput\">\r\n        <div class=\"col-lg-4\">\r\n          <input type=\"total\" class=\"form-control\">\r\n        </div>\r\n        <label class=\"col-lg-4 col-form-label text-center finishBatchLabels\">Total</label>\r\n        <div class=\"col-lg-4\">\r\n            <input type=\"total\" class=\"form-control\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row firstInput\">\r\n          <div class=\"col-lg-4\">\r\n            <input type=\"approved\" class=\"form-control\">\r\n          </div>\r\n          <label class=\"col-lg-4 col-form-label text-center finishBatchLabels\">Approved/Good</label>\r\n          <div class=\"col-lg-4\">\r\n              <input type=\"approved\" class=\"form-control\">\r\n          </div>\r\n        </div>\r\n\r\n        <div class=\"form-group row firstInput\">\r\n            <div class=\"col-lg-4\">\r\n              <input type=\"rejected\" class=\"form-control\">\r\n            </div>\r\n            <label class=\"col-lg-4 col-form-label text-center finishBatchLabels\">Rejected/Bad</label>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"rejected\" class=\"form-control\">\r\n            </div>\r\n          </div>  \r\n      \r\n          <div class=\"form-group row firstInput border border-secondary col-lg-6\" style=\"margin-top:50px; margin-left:97px;\">\r\n              <label for=\"inputTotal\" class=\"col-lg-4 col-form-label text-center finishBatchLabels\">Re-labeling</label>\r\n              <div style=\"margin-top:7px;\">\r\n              <div class=\"form-check form-check-inline\">\r\n                  <input class=\"form-check-input\" type=\"checkbox\" id=\"inlineCheckbox1\" value=\"option1\">\r\n                  <label class=\"form-check-label finishBatchLabels\" for=\"inlineCheckbox1\">Yes</label>\r\n                </div>\r\n                <div class=\"form-check form-check-inline\">\r\n                  <input class=\"form-check-input\" type=\"checkbox\" id=\"inlineCheckbox2\" value=\"option2\">\r\n                  <label class=\"form-check-label finishBatchLabels\" for=\"inlineCheckbox2\">No</label>\r\n                </div>\r\n              </div>\r\n            </div>  \r\n\r\n            <div class=\"form-group firstInput row yieldField\">\r\n              <label class=\"col-lg-4 col-form-label text-center finishBatchLabels\">Yield</label>\r\n              <div class=\"col-lg-4\">\r\n                <input type=\"yield\" class=\"form-control\">\r\n              </div> \r\n            </div> \r\n\r\n        <div class=\"btn-finishBatch\">\r\n          <button type=\"submit\" class=\"btn btn-primary  finishBatchLabels\" routerLink=\"/batch-rework\" routerLinkActive=\"active\">\r\n            Update\r\n          </button>\r\n          <button type=\"submit\" class=\"btn btn-secondary finishBatchLabels\">\r\n            Cancel\r\n          </button>\r\n        </div>\r\n    </form>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"text-center\">\r\n  <h3 class=\"h3header\">\r\n  {{ title }}\r\n  </h3>\r\n<br>\r\n<div class=\"container\">\r\n  <form #batchFinishForm='ngForm' (ngSubmit)='submitEndBatch($event,batchFinishForm.value)'>\r\n    <div class=\"row\" >\r\n      <div class=\"col-lg-6\">\r\n        <h5 >{{ groninger1 }}</h5>\r\n      </div>\r\n      <div class=\"col-lg-6\">\r\n        <h5 >{{ groninger2 }}</h5>\r\n      </div>\r\n    </div>\r\n\r\n  <div class=\"form-group row\">\r\n    <div class=\"col-lg-6\">\r\n      <div class=\"form-group\">\r\n        <label for=\"hmi1_good\" >Approved/Good </label>\r\n          <input id=\"hmi1_good\" name=\"hmi1_good\" type=\"text\" [(ngModel)]=\"hmi1_good\" class=\"form-control\">\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-6\">\r\n        <div class=\"form-group\">\r\n          <label for=\"hmi2_good\" >Approved/Good </label>\r\n            <input id=\"hmi2_good\" name=\"hmi2_good\" type=\"text\" [(ngModel)]=\"hmi2_good\" class=\"form-control\">\r\n        </div>\r\n      </div>\r\n  </div>\r\n\r\n  <div class=\"form-group row\">\r\n      <div class=\"col-lg-6\">\r\n        <div class=\"form-group\">\r\n          <label for=\"hmi1_bad\" >Rejected/Bad </label>\r\n            <input id=\"hmi1_bad\" name=\"hmi1_bad\" type=\"text\" [(ngModel)]=\"hmi1_bad\" class=\"form-control\">\r\n        </div>\r\n      </div>\r\n      <div class=\"col-lg-6\">\r\n          <div class=\"form-group\">\r\n              <label for=\"hmi2_bad\" >Rejected/Bad </label>\r\n                <input id=\"hmi2_bad\" name=\"hmi2_bad\" type=\"text\" [(ngModel)]=\"hmi2_bad\" class=\"form-control\">\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n\r\n\r\n\r\n      <div class=\"form-group row\" >\r\n        <div class=\"col-lg-6\">\r\n          <label for=\"inputTotal\" >Re-labeling: </label>\r\n              <div class=\"form-control\">\r\n                <div class=\"row\">\r\n                <div class=\"col-lg-6\">\r\n                <label class=\"radio-inline\">\r\n                    Yes:\r\n                  <input type=\"radio\" value=\"true\" name=\"reLabeling\" [(ngModel)]=\"reLabeling\">\r\n                </label>\r\n              </div>\r\n                <div class=\"col-lg-6\">\r\n                <label class=\"radio-inline\">\r\n                    No:\r\n                  <input type=\"radio\" value=\"false\" name=\"reLabeling\" [(ngModel)]=\"reLabeling\" >                 \r\n                </label>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n\r\n        <div class=\"col-lg-6\">\r\n          <div class=\"form-group\">\r\n                <label for=\"yield\" >Yield 1 </label>\r\n                  <input id=\"yield_1\" name=\"yield_1\" type=\"text\" [(ngModel)]=\"yield_1\" class=\"form-control\">\r\n              </div> \r\n        </div>\r\n      </div>\r\n      <div class=\"panel-footer\">\r\n        <button type=\"submit\" class=\"btn btn-primary\">Save</button>\r\n      </div>\r\n    </form>\r\n</div>\r\n</div>\r\n\r\n{{ batchFinishForm.value | json }}\r\n\r\n{{ batchInfo.hmi1_bad }}\r\n\r\n<!-- \r\n<form #endTestForm='ngForm' (ngSubmit)=\"saveEmployee(endTestForm)\">\r\n  \r\n    <div class=\"form-group\">\r\n      <label for=\"fullName\" >Full Name</label>\r\n        <input id=\"fullName\" name=\"fn\" type=\"text\" [(ngModel)]=\"fullName\" class=\"form-control\">\r\n    </div>\r\n     <div class=\"form-group\">\r\n      <label for=\"email\" >Email</label>\r\n        <input id=\"email\" name=\"em\" type=\"text\" [(ngModel)]=\"email\" class=\"form-control\">\r\n    </div> \r\n    <div class=\"panel-footer\">\r\n        <button type=\"submit\" class=\"btn btn-primary\">Save</button>\r\n    </div>\r\n    </form>\r\n  {{ endTestForm.value | json }}\r\n  \r\n  \r\n  \r\n   -->\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n<!-- OLD INPUT, IT'S NOT WORKING BUT GOOD LOOKING: \r\n\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n    <h3 class=\"h3header\">\r\n    {{ title }}\r\n  </h3>\r\n  <br>\r\n  <div class=\"finishBatch\">\r\n  <div class=\"row\" style=\"margin-top:20px;\">\r\n    <h5 class=\"col-lg-6\">\r\n      {{ groninger1 }}\r\n    </h5>\r\n    <h5 class=\"col-lg-6\">\r\n        {{ groninger2 }}\r\n    </h5>\r\n  </div>\r\n  <form #batchEndForm='ngForm' (ngSubmit)='submitEndBatch($event,batchEndForm)'>\r\n  \r\n    <div class=\"form-group row firstInput\">\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"total\" class=\"form-control\">\r\n      </div>\r\n      <label class=\"col-lg-4 col-form-label text-center finishBatchLabels\">Total</label>\r\n      <div class=\"col-lg-4\">\r\n          <input type=\"total\" class=\"form-control\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row firstInput\">\r\n        <div class=\"col-lg-4\">\r\n          <input type=\"approved\" class=\"form-control\">\r\n        </div>\r\n        <label class=\"col-lg-4 col-form-label text-center finishBatchLabels\">Approved/Good</label>\r\n        <div class=\"col-lg-4\">\r\n            <input type=\"approved\" class=\"form-control\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row firstInput\">\r\n          <div class=\"col-lg-4\">\r\n            <input type=\"rejected\" class=\"form-control\">\r\n          </div>\r\n          <label class=\"col-lg-4 col-form-label text-center finishBatchLabels\">Rejected/Bad</label>\r\n          <div class=\"col-lg-4\">\r\n              <input type=\"rejected\" class=\"form-control\">\r\n          </div>\r\n        </div>  \r\n    \r\n        <div class=\"form-group row firstInput border border-secondary col-lg-6\" style=\"margin-top:50px; margin-left:97px;\">\r\n            <label for=\"inputTotal\" class=\"col-lg-4 col-form-label text-center finishBatchLabels\">Re-labeling</label>\r\n            <div style=\"margin-top:7px;\">\r\n            <div class=\"form-check form-check-inline\">\r\n                <input class=\"form-check-input\" type=\"checkbox\" id=\"inlineCheckbox1\" value=\"option1\">\r\n                <label class=\"form-check-label finishBatchLabels\" for=\"inlineCheckbox1\">Yes</label>\r\n              </div>\r\n              <div class=\"form-check form-check-inline\">\r\n                <input class=\"form-check-input\" type=\"checkbox\" id=\"inlineCheckbox2\" value=\"option2\">\r\n                <label class=\"form-check-label finishBatchLabels\" for=\"inlineCheckbox2\">No</label>\r\n              </div>\r\n            </div>\r\n          </div>  \r\n\r\n          <div class=\"form-group firstInput row yieldField\">\r\n            <label class=\"col-lg-4 col-form-label text-center finishBatchLabels\">Yield</label>\r\n            <div class=\"col-lg-4\">\r\n              <input type=\"yield\" class=\"form-control\">\r\n            </div> \r\n          </div> \r\n\r\n      <div class=\"btn-finishBatch\">\r\n        <button type=\"submit\" class=\"btn btn-primary  finishBatchLabels\" routerLink=\"/batch-rework\" routerLinkActive=\"active\">\r\n          Update\r\n        </button>\r\n        <button type=\"submit\" class=\"btn btn-secondary finishBatchLabels\">\r\n          Cancel\r\n        </button>\r\n      </div>\r\n  </form>\r\n</div>\r\n</div>\r\n-->"
 
 /***/ }),
 
@@ -545,8 +545,41 @@ var FinishBatchComponent = /** @class */ (function () {
         this.title = "Finish batch";
         this.groninger1 = "Final HMI Data Groninger 1";
         this.groninger2 = "Final HMI Data Groninger 2";
+        this.batchInfo = {};
+        this.reLabeling = "false"; //making the radio button "no" checked default 
     }
     FinishBatchComponent.prototype.ngOnInit = function () {
+        this.batchInfo = {
+            batch_number: "1111",
+            start_date: "maj",
+            end_date: "augusti",
+            scrap: 0,
+            yield_1: 0,
+            hmi1_good: 0,
+            hmi1_bad: 0,
+            hmi2_good: 0,
+            hmi2_bad: 0,
+            rework_date: "oktober",
+            applied_labels: 0,
+            label_print_time: "tjugo min",
+            rework_time: "trettio min",
+            yield_2: 0,
+            order_number: 12
+        };
+    };
+    FinishBatchComponent.prototype.submitEndBatch = function ($theEvent, batchForm) {
+        this.batchInfo.hmi1_bad = batchForm.hmi1_bad;
+        this.batchInfo.hmi2_bad = batchForm.hmi2_bad;
+        this.batchInfo.hmi1_good = batchForm.hmi1_good;
+        this.batchInfo.hmi2_good = batchForm.hmi2_good;
+        this.batchInfo.yield_1 = batchForm.yield_1;
+        // this.batchInfo.hmi2_bad = 0
+        // this.batchInfo.hmi1_good = 0
+        // this.batchInfo.hmi2_good = 0
+        // this.batchInfo.yield_1 = 0
+    };
+    FinishBatchComponent.prototype.saveEmployee = function (empForm) {
+        console.log(empForm);
     };
     FinishBatchComponent = __decorate([
         core_1.Component({
@@ -685,14 +718,20 @@ var BehaviorSubject_1 = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorS
 var OperationsService = /** @class */ (function () {
     function OperationsService() {
         //TODO: prodActive is now false by default (on page refresh etc.). Should get its value from the DB instead. Same with prodInfo
+        //This variable is determining if a batch is currently running. It is shared between start-batch, finish-batch and current-batch-info.
+        //It is modified as an observable make it shareable between the components. 
         this.prodActive = new BehaviorSubject_1.BehaviorSubject(false);
         this.prodActiveObservable = this.prodActive.asObservable();
+        //This variable is holding the data values for the current running batch. It is shared between start-batch, finish-batch and current-batch-info.
+        //It is modified as an observable make it shareable between the components. 
         this.prodInfo = new BehaviorSubject_1.BehaviorSubject(null);
         this.prodInfoObservable = this.prodInfo.asObservable();
     }
+    //This method changes the status of a batch running or a batch not running.
     OperationsService.prototype.changeProdStatus = function (active) {
         this.prodActive.next(active);
     };
+    //This method sets the data values for the current running batch.
     OperationsService.prototype.changeProdInfo = function (info) {
         this.prodInfo.next(info);
     };
