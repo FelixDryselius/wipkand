@@ -682,8 +682,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var BehaviorSubject_1 = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var http_2 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var OperationsService = /** @class */ (function () {
-    function OperationsService() {
+    function OperationsService(http) {
+        this.http = http;
         //TODO: prodActive is now false by default (on page refresh etc.). Should get its value from the DB instead. Same with prodInfo
         //This variable is determining if a batch is currently running. It is shared between start-batch, finish-batch and current-batch-info.
         //It is modified as an observable make it shareable between the components. 
@@ -693,18 +696,40 @@ var OperationsService = /** @class */ (function () {
         //It is modified as an observable make it shareable between the components. 
         this.prodInfo = new BehaviorSubject_1.BehaviorSubject(null);
         this.prodInfoObservable = this.prodInfo.asObservable();
+        //TODO: Should URLs really be placed here? Should we collect them in a file somewhere? 
+        this.ROOT_URL = "http://localhost:8000";
+        this.orderCREATE_URL = "/api/operations/order/create/";
+        this.batchCREATE_URL = "/api/operations/batch/create/";
+        this.httpOptions = {
+            headers: new http_2.HttpHeaders({
+                'Content-Type': 'application/json'
+                //'Authorization': ''
+            })
+        };
     }
     //This method changes the status of a batch running or a batch not running.
-    OperationsService.prototype.changeProdStatus = function (active) {
-        this.prodActive.next(active);
+    OperationsService.prototype.changeProdStatus = function (startBatch) {
+        this.prodActive.next(startBatch);
     };
     //This method sets the data values for the current running batch.
     OperationsService.prototype.changeProdInfo = function (info) {
         this.prodInfo.next(info);
+        // if (info !== {}) {
+        //   this.httpStartNewBatch(info)
+        // } 
+    };
+    //TODO: Can we make a general method of these two?
+    OperationsService.prototype.createOrder = function (newOrder) {
+        console.log("POST - Create new order");
+        return this.http.post(this.ROOT_URL + this.orderCREATE_URL, JSON.stringify(newOrder), this.httpOptions);
+    };
+    OperationsService.prototype.createBatch = function (newBatch) {
+        console.log("POST - Create new batch");
+        return this.http.post(this.ROOT_URL + this.batchCREATE_URL, JSON.stringify(newBatch), this.httpOptions);
     };
     OperationsService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [http_1.HttpClient])
     ], OperationsService);
     return OperationsService;
 }());
@@ -847,9 +872,9 @@ var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.j
 var operations_service_1 = __webpack_require__("./src/app/operations.service.ts");
 var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var StartBatchComponent = /** @class */ (function () {
-    function StartBatchComponent(router, data, http) {
+    function StartBatchComponent(router, operationsService, http) {
         this.router = router;
-        this.data = data;
+        this.operationsService = operationsService;
         this.http = http;
         this.title = "Start new batch";
         this.ROOT_URL = 'http://localhost:8000/api/operations/product/';
@@ -857,8 +882,9 @@ var StartBatchComponent = /** @class */ (function () {
     StartBatchComponent.prototype.ngOnInit = function () {
         var _this = this;
         //Use operationsService to share information between start-batch, finish-batch and current-batch-info
-        this.data.prodActiveObservable.subscribe(function (active) { return _this.prodActive = active; });
-        this.data.prodInfoObservable.subscribe(function (info) { return _this.prodInfo = info; });
+        //TODO: Change to one observable. Cant be good to have many observables...
+        this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(function (active) { return _this.prodActive = active; });
+        this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(function (info) { return _this.prodInfo = info; });
         this.http.get(this.ROOT_URL).subscribe(function (data) {
             _this.prodData = data; // FILL THE ARRAY WITH DATA.
         });
@@ -866,17 +892,38 @@ var StartBatchComponent = /** @class */ (function () {
             this.newBatch = this.passedQuery;
         }
     };
+    //BUG? - If we unsubscribe to the service, will the info still be updated?
     StartBatchComponent.prototype.ngOnDestroy = function () {
-        // this.currentBatchObservable.usubscribe() // I want to do this but cant
+        this.req_order.unsubscribe();
+        this.req_batch.unsubscribe();
+        this.service_prodStatus.unsubscribe();
+        this.service_prodInfo.unsubscribe();
     };
     StartBatchComponent.prototype.submitBatch = function (event, formData) {
         this.batch = formData.value['batchnr'];
         this.order = formData.value['ordernr'];
         this.article = formData.value['prodnr'];
+        this.batchStartDate = new Date();
+        //TODO: This if-statement is bad practice. Implement form-check in HTML so that form cannot be submitted without entered values.
         if (this.batch && this.order) {
-            this.prodInfo = { batch: this.batch, order: this.order, article: this.article };
-            this.data.changeProdStatus(true);
-            this.data.changeProdInfo(this.prodInfo);
+            var newOrder = {
+                order_number: this.order,
+                article_number: this.article,
+            };
+            this.req_order = this.operationsService.createOrder(newOrder).subscribe();
+            var newBatch = {
+                batch_number: this.batch,
+                order_number: this.order,
+                start_date: this.batchStartDate
+            };
+            this.req_batch = this.operationsService.createBatch(newBatch).subscribe();
+            this.prodInfo = {
+                batch: this.batch,
+                order: this.order,
+                article: this.article,
+            };
+            this.operationsService.changeProdStatus(true);
+            this.operationsService.changeProdInfo(this.prodInfo);
             console.log("Production status: " + this.prodActive);
             this.router.navigate(['./home']);
         }

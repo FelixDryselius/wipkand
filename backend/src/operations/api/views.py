@@ -50,7 +50,7 @@ class OrderDetailAPIView(RetrieveAPIView):
 
 class OrderCreateAPIView(CreateAPIView):
     serializer_class = OrderCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
 
 class BatchListAPIView(ListAPIView):
@@ -63,7 +63,7 @@ class BatchDetailAPIView(RetrieveAPIView):
 
 class BatchCreateAPIView(CreateAPIView):
     serializer_class = BatchCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
 class BatchUpdateAPIView(RetrieveUpdateAPIView):
     serializer_class = BatchCreateUpdateSerializer
