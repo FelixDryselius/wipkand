@@ -41,7 +41,7 @@ export class OperationsService {
   }
 
 
-  //TODO: Can we make a general method of these two?
+  //TODO: Can we make a general method of these two? Pass URL and data to post as arguments and use same function.
   createOrder(newOrder: {}) {
     console.log("POST - Create new order")
     return this.http.post(this.ROOT_URL + this.orderCREATE_URL, JSON.stringify(newOrder), this.httpOptions);
