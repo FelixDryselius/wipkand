@@ -685,14 +685,20 @@ var BehaviorSubject_1 = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorS
 var OperationsService = /** @class */ (function () {
     function OperationsService() {
         //TODO: prodActive is now false by default (on page refresh etc.). Should get its value from the DB instead. Same with prodInfo
+        //This variable is determining if a batch is currently running. It is shared between start-batch, finish-batch and current-batch-info.
+        //It is modified as an observable make it shareable between the components. 
         this.prodActive = new BehaviorSubject_1.BehaviorSubject(false);
         this.prodActiveObservable = this.prodActive.asObservable();
+        //This variable is holding the data values for the current running batch. It is shared between start-batch, finish-batch and current-batch-info.
+        //It is modified as an observable make it shareable between the components. 
         this.prodInfo = new BehaviorSubject_1.BehaviorSubject(null);
         this.prodInfoObservable = this.prodInfo.asObservable();
     }
+    //This method changes the status of a batch running or a batch not running.
     OperationsService.prototype.changeProdStatus = function (active) {
         this.prodActive.next(active);
     };
+    //This method sets the data values for the current running batch.
     OperationsService.prototype.changeProdInfo = function (info) {
         this.prodInfo.next(info);
     };

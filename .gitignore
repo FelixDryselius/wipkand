@@ -9,4 +9,4 @@ website/vfal_monitor/__pycache__/urls.cpython-36.pyc
 .vscode/settings.json
 .idea/workspace.xml
 .vscode/launch.json
-backend/src/static/ang/
+/backend/src/static/ang/
