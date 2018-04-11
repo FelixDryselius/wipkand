@@ -338,7 +338,7 @@ module.exports = ""
 /***/ "./src/app/comments/comments.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h3 class=\"mainTitleComments\">\r\n  {{ mainTitle }}\r\n</h3>\r\n<h5 class=\"addCommentTitle\">\r\n  {{ addCommentTitle }}\r\n</h5>\r\n<form class=\"commentForm\">\r\n\r\n  <div class=\"form-group row commentInput\">\r\n      <div class=\"col-lg-2\">\r\n        <label>Name:</label>\r\n      </div>\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"text\" class=\"form-control\">\r\n      </div>\r\n  </div>\r\n\r\n<div class=\"form-group row\">\r\n  <div class=\"col-lg-2\">\r\n    <label>Comment:</label>\r\n  </div>\r\n  <div class=\"col-lg-4\">\r\n    <textarea type=\"text\" class=\"form-control commentTextarea\" #newComment\r\n    (keyup.enter)=\"addComment(newComment.value)\"\r\n    (blur)=\"addComment(newComment.value); newComment.value='' \" name='comment'></textarea>\r\n  </div>\r\n</div>\r\n<div class=\"notification is-primary\">\r\n\r\n<button (click)=\"addComment(newComment.value)\" class=\"btn btn-primary btn-addComment\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n</div>\r\n\r\n<hr>\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h5 class=\"commentListTitle\">\r\n    {{ commentListTitle }}\r\n  </h5>\r\n  <!-- newly generated comments: -->\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul>\r\n      <li *ngFor=\"let item of newComments\">\r\n        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{ item }}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n  <!-- Comments from API: -->\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul>\r\n      <li *ngFor=\"let comment of comments\">\r\n        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{comment.text_comment}}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</div> \r\n"
+module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h3 class=\"mainTitleComments\">\r\n  {{ mainTitle }}\r\n</h3>\r\n<h5 class=\"addCommentTitle\">\r\n  {{ addCommentTitle }}\r\n</h5>\r\n<form class=\"commentForm\">\r\n\r\n  <div class=\"form-group row commentInput\">\r\n      <div class=\"col-lg-2\">\r\n        <label>Name:</label>\r\n      </div>\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"text\" class=\"form-control\" #newCommentName>\r\n      </div>\r\n  </div>\r\n\r\n<div class=\"form-group row\">\r\n  <div class=\"col-lg-2\">\r\n    <label>Comment:</label>\r\n  </div>\r\n  <div class=\"col-lg-4\">\r\n    <textarea type=\"text\" class=\"form-control commentTextarea\" #newComment\r\n    (keyup.enter)=\"createComment(newComment.value)\"\r\n    (blur)=\"createComment(newComment.value); newComment.value='' \" name='comment'></textarea>\r\n  </div>\r\n</div>\r\n<div class=\"notification is-primary\">\r\n\r\n<button (click)=\"createComment(newComment.value, newCommentName.value)\" class=\"btn btn-primary btn-addComment\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n</div>\r\n\r\n<hr>\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h5 class=\"commentListTitle\">\r\n    {{ commentListTitle }}\r\n  </h5>\r\n  <!-- newly generated comments: -->\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul>\r\n      <li *ngFor=\"let item of newComments\">\r\n        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{ item }}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n  <!-- Comments from API: -->\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul>\r\n      <li *ngFor=\"let comment of comments\">\r\n        <b>{{ comment.post_date | date: 'M/d/yy, H:mm a' }}</b> - {{ comment.user_name }}: {{comment.text_comment}}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</div> \r\n\r\n<hr>\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -359,6 +359,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var comments_service_1 = __webpack_require__("./src/app/comments/service/comments.service.ts");
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+__webpack_require__("./node_modules/rxjs/_esm5/add/operator/map.js");
+__webpack_require__("./node_modules/rxjs/_esm5/add/operator/catch.js");
+__webpack_require__("./node_modules/rxjs/_esm5/add/operator/retry.js");
+__webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
 var CommentsComponent = /** @class */ (function () {
     function CommentsComponent(commentsService) {
         this.commentsService = commentsService;
@@ -368,25 +372,42 @@ var CommentsComponent = /** @class */ (function () {
         this.mainTitle = "Comments";
         //Variables
         this.dateNow = new Date(); // to display current date
-        this.newComments = []; // for user added comments
     } //import injectable service
     CommentsComponent.prototype.ngOnInit = function () {
+        this.getComments();
+    };
+    CommentsComponent.prototype.ngOnDestroy = function () {
+        this.commentsService;
+    };
+    CommentsComponent.prototype.getComments = function () {
         var _this = this;
         // Subscribe to service and save the data in comments list as json obj
         this.commentsService.getComments().subscribe(function (data) {
             _this.comments = data;
         });
     };
-    CommentsComponent.prototype.ngOnDestroy = function () {
-        this.commentsService;
-    };
     // Function to handle newly generated comments
-    CommentsComponent.prototype.addComment = function (newComment) {
-        if (newComment === void 0) { newComment = []; }
-        console.log(Date);
-        if (newComment) {
-            this.newComments.push(newComment);
-        }
+    CommentsComponent.prototype.createComment = function (formText, formName) {
+        var _this = this;
+        // The comment data to be posted. Temporary solution to comment id
+        var commentData = {
+            comment_id: this.comments.length,
+            user_name: formName,
+            post_date: new Date(),
+            text_comment: formText,
+            batch_number: '1000000001'
+        };
+        console.log(commentData.text_comment);
+        console.log(commentData.user_name);
+        // Converts to JSON
+        var newData = JSON.stringify(commentData);
+        console.log(newData);
+        // Runs service and subsrcibes to data. Puts data in observable
+        this.commentsService.addComment(newData).subscribe(function (data) {
+            _this.newComment = data;
+        });
+        // Gets updated comment list from api
+        this.getComments();
     };
     CommentsComponent = __decorate([
         core_1.Component({
@@ -423,11 +444,18 @@ var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var CommentsService = /** @class */ (function () {
     function CommentsService(http) {
         this.http = http;
-        this.ROUTE_URL = 'http://localhost:8000/api/operations/comment/'; // hard coded URL for api to get all comments
+        this.ROUTE_URL_GET = 'http://localhost:8000/api/operations/comment/'; // hard coded URL for api to get all comments
+        this.ROUTE_URL_POST = 'http://localhost:8000/api/operations/comment/create/';
     }
     // the method other apps subscribe to in order to get the api
     CommentsService.prototype.getComments = function () {
-        return this.http.get(this.ROUTE_URL); //should add a catch error func here, like: import "rxjs/add/operator/catch";
+        return this.http.get(this.ROUTE_URL_GET); //should add a catch error func here, like: import "rxjs/add/operator/catch";
+    };
+    CommentsService.prototype.addComment = function (data) {
+        var httpOptions = {
+            headers: new http_1.HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'my-auth-token' })
+        };
+        return this.http.post(this.ROUTE_URL_POST, data, httpOptions);
     };
     CommentsService = __decorate([
         core_1.Injectable(),
@@ -685,14 +713,20 @@ var BehaviorSubject_1 = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorS
 var OperationsService = /** @class */ (function () {
     function OperationsService() {
         //TODO: prodActive is now false by default (on page refresh etc.). Should get its value from the DB instead. Same with prodInfo
+        //This variable is determining if a batch is currently running. It is shared between start-batch, finish-batch and current-batch-info.
+        //It is modified as an observable make it shareable between the components. 
         this.prodActive = new BehaviorSubject_1.BehaviorSubject(false);
         this.prodActiveObservable = this.prodActive.asObservable();
+        //This variable is holding the data values for the current running batch. It is shared between start-batch, finish-batch and current-batch-info.
+        //It is modified as an observable make it shareable between the components. 
         this.prodInfo = new BehaviorSubject_1.BehaviorSubject(null);
         this.prodInfoObservable = this.prodInfo.asObservable();
     }
+    //This method changes the status of a batch running or a batch not running.
     OperationsService.prototype.changeProdStatus = function (active) {
         this.prodActive.next(active);
     };
+    //This method sets the data values for the current running batch.
     OperationsService.prototype.changeProdInfo = function (info) {
         this.prodInfo.next(info);
     };

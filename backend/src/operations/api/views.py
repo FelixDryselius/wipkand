@@ -95,4 +95,4 @@ class CommentDetailAPIView(RetrieveAPIView):
 #even though the batch is different
 class CommentCreateAPIView(CreateAPIView):
     serializer_class = CommentCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]

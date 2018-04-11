@@ -75,6 +75,7 @@ class CommentListSerializer(ModelSerializer):
         model = BatchComment
         fields = [
             'comment_id',
+            'user_name',
             'post_date',
             'text_comment',
             'batch_number',
