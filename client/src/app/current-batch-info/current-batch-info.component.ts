@@ -16,10 +16,23 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
 
   private prodActive: boolean;
   private prodInfo: {};
+  
+  private req_batch: any;
+  private service_prodStatus: any;
+  private service_prodInfo: any;
 
-  constructor(private route: ActivatedRoute, private data: OperationsService) { }
+
+  private test_batch;
+
+  constructor(private route: ActivatedRoute, private operationsService: OperationsService) { }
 
   ngOnInit() {
+    this.req_batch = this.operationsService.getActiveBatch().subscribe(data => {
+      console.log(data)
+      this.test_batch = data as [any];
+    })
+    console.log("Gettin batches: " + this.test_batch)
+
     this.routeSub = this.route.params.subscribe(params =>{
       //this.batchInfo = params  //not sure about var name, will change
          this.batchnr = params.batchnr
@@ -33,12 +46,15 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
     //Better to add attribute 'active' to batch model and check DB is there is an active batch running. This gives us the ability to pause a batch.
 
     //Use operationsService to share information between start-batch, finish-batch and current-batch-info
-    this.data.prodActiveObservable.subscribe(active => this.prodActive = active)
-    this.data.prodInfoObservable.subscribe(info => this.prodInfo = info)
+    this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
+    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
   }
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
+    //Test these carefully
+    //this.service_prodStatus.unsubscribe();
+    //this.service_prodInfo.unsubscribe();
   }
 }
 

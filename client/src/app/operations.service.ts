@@ -21,6 +21,7 @@ export class OperationsService {
   public ROOT_URL: string = "http://localhost:8000";
   private orderCREATE_URL: string = "/api/operations/order/create/";
   private batchCREATE_URL: string = "/api/operations/batch/create/";
+  readonly batchGET_URL: string = "/api/operations/batch/";
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -40,7 +41,6 @@ export class OperationsService {
     this.prodInfo.next(info);
   }
 
-
   //TODO: Can we make a general method of these two? Pass URL and data to post as arguments and use same function.
   createOrder(newOrder: {}) {
     console.log("POST - Create new order")
@@ -50,5 +50,9 @@ export class OperationsService {
   createBatch(newBatch: {}) {
     console.log("POST - Create new batch")
     return this.http.post(this.ROOT_URL + this.batchCREATE_URL, JSON.stringify(newBatch), this.httpOptions);
+  }
+
+  getActiveBatch() {
+    return this.http.get(this.ROOT_URL + this.batchGET_URL)
   }
 }
