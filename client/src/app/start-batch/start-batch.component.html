@@ -5,14 +5,15 @@
 <br>
 
 <!-- A form that sends input data to a function submitBatch with parameters ordernr, prodnr and batchnr -->
-<form #batchForm='ngForm' (ngSubmit)='submitBatch($event,batchForm)'>
+<!-- TODO: Make this a reactive form instead. Validate so correct batch/order numbers are entered. ngNativeValidate = quick fix that removes ANgulars validation -->
+<form #batchForm='ngForm' (ngSubmit)='submitBatch($event,batchForm)' ngNativeValidate>
 
 
   <!-- User input for order number -->
   <div class="form-group row">
       <label for="inputOrderNr" class="col-lg-4 col-form-label text-right">Add order</label>
       <div class="col-lg-4">
-      <input type="text" class="form-control" id="inputOrderNr" placeholder="Order number" name='ordernr' [(ngModel)]="newOrder">
+      <input type="text" class="form-control" id="inputOrderNr" placeholder="Order number" name='ordernr' [(ngModel)]="newOrder" required>
     </div>
   </div>
 
@@ -20,7 +21,7 @@
   <div class="form-group row">
       <label for="inputProductNr" class="col-lg-4 col-form-label text-right">Add product</label>
       <div *ngIf="prodData" class="col-lg-4 dropdown">
-          <select [(ngModel)]="selected" name="prodnr" class="selectProd">
+          <select [(ngModel)]="selected" name="prodnr" class="selectProd" required>
           <option *ngFor="let data of prodData" class="optionProd"[(ngValue)]="data.article_number">{{ data.article_number }}, {{ data.product_name }}</option>
       </select>
   </div>
@@ -30,7 +31,7 @@
   <div class="form-group row">
       <label for="inputBatchNr" class="col-lg-4 col-form-label text-right">Add batch</label>
       <div class="col-lg-4">
-      <input type="batch" class="form-control" id="inputBatchNr" placeholder="Batch number" name='batchnr' [(ngModel)]="newBatch">
+      <input type="batch" class="form-control" id="inputBatchNr" placeholder="Batch number" name='batchnr' [(ngModel)]="newBatch" required>
     </div>
     </div>  
   
