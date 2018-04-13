@@ -50,6 +50,7 @@ class OrderDetailAPIView(RetrieveAPIView):
     serializer_class = OrderDetailSerializer
     queryset = ProductOrder.objects.all()
 
+
 class OrderCreateAPIView(CreateAPIView):
     serializer_class = OrderCreateUpdateSerializer
     permission_classes = [AllowAny]

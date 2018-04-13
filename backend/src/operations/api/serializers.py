@@ -65,9 +65,37 @@ class BatchDetailSerializer(ModelSerializer):
         fields = '__all__'
 
 class BatchCreateUpdateSerializer(ModelSerializer):
+    order_number = OrderCreateUpdateSerializer()
+
     class Meta:
         model = Batch
         fields = '__all__'
+        # extra_kwargs = {
+        #     'order_number': {
+        #         'validators': [UnicodeOrderNumberValidator()],
+        #     }
+
+    def create(self, validated_data):
+        #_order_number = validated_data['order_number']
+        _order = validated_data.pop('order_number')
+        _product = _order['article_number']
+        _order_number = _order['order_number']
+        
+        try:
+            new_order = ProductOrder.objects.get(pk=_order_number)
+            print("FETCH OLD ORDER!")
+        except ProductOrder.DoesNotExist:
+            new_order = ProductOrder.objects.create(order_number=_order_number, article_number=_product)
+            print("CREATED ORDER!")
+        
+        #validated_data.append(order_number=_order_number)
+        batchData = validated_data
+        batchData['order_number'] = new_order    
+
+        batch = Batch.objects.create(**batchData)
+        print("CREATED BATCH")
+        return batch
+
 
 
 class CommentListSerializer(ModelSerializer):
@@ -89,3 +117,6 @@ class CommentCreateUpdateSerializer(ModelSerializer):
     class Meta:
         model = BatchComment
         fields = '__all__'
+
+
+
