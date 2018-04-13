@@ -60,8 +60,9 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
   //BUG? - If we unsubscribe to the service, will the info still be updated?
   ngOnDestroy() {
-    this.req_order.unsubscribe()
-    this.req_batch.unsubscribe()
+    //These are causing bugs with posts. How to unsubscribe from HTTP posts?
+    //this.req_order.unsubscribe()
+    //this.req_batch.unsubscribe()
     this.service_prodStatus.unsubscribe()
     this.service_prodInfo.unsubscribe()
   }
@@ -72,7 +73,7 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     this.batch = formData.value['batchnr'];
     this.order = formData.value['ordernr'];
     this.article = formData.value['prodnr'];
-    //this.batchStartDate = null;
+    this.batchStartDate = new Date();
 
     let newOrder = {
       order_number: this.order,
@@ -84,10 +85,9 @@ export class StartBatchComponent implements OnInit, OnDestroy {
       batch_number: this.batch,
       order_number: this.order,
       //article_number: formData.value['prodnr'],
-      //start_date: this.batchStartDate
+      start_date: this.batchStartDate
     }
-    
-    
+
     this.req_batch = this.operationsService.createBatch(newBatch).subscribe();
     this.prodInfo = {
       batch: this.batch,
