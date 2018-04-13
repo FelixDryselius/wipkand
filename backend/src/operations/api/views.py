@@ -1,6 +1,7 @@
 '''API views for operations'''
 
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 from rest_framework.generics import (
     ListAPIView,
@@ -55,7 +56,20 @@ class OrderCreateAPIView(CreateAPIView):
 
 class BatchListAPIView(ListAPIView):
     serializer_class = BatchListSerializer
-    queryset = Batch.objects.all()
+
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = Batch.objects.all()
+        query = self.request.GET.get("q")
+        print ("In the get_queryset. query is: ")
+        print(query)
+        x = type(query) is str
+        print("Type of query is string: " + str(x))
+        if query:
+            if query == 'activeBatch':
+                queryset_list = queryset_list.filter(end_date__exact=None)
+                print(queryset_list)
+        return queryset_list
+
 
 class BatchDetailAPIView(RetrieveAPIView):
     serializer_class = BatchDetailSerializer
