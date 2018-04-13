@@ -4,7 +4,7 @@
   </h3>
 <br>
 <div class="container">
-  <form #batchFinishForm='ngForm' (ngSubmit)='submitEndBatch($event,batchFinishForm.value)'>
+  <form #batchFinishForm='ngForm' (ngSubmit)='submitEndBatch($event,batchFinishForm.value)' > {% csrf_token %}
     <div class="row" >
       <div class="col-lg-6">
         <h5 >{{ groninger1 }}</h5>

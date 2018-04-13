@@ -60,10 +60,10 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
   //BUG? - If we unsubscribe to the service, will the info still be updated?
   ngOnDestroy() {
-    this.req_order.unsubscribe()
-    this.req_batch.unsubscribe()
-    this.service_prodStatus.unsubscribe()
-    this.service_prodInfo.unsubscribe()
+    // this.req_order.unsubscribe()
+    // this.req_batch.unsubscribe()
+    // this.service_prodStatus.unsubscribe()
+    // this.service_prodInfo.unsubscribe()
   }
 
 
@@ -96,7 +96,7 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     this.operationsService.changeProdInfo(this.prodInfo)
     console.log("Production status: " + this.prodActive)
 
-    this.router.navigate(['./home'])
+    this.router.navigate(['/home'])
   }
 }
 

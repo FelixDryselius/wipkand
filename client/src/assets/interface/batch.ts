@@ -1,17 +1,18 @@
 export interface Batch {
     batch_number: String;
-    start_date: String;
-    end_date: String;
+    article_number:String;
+    start_date: Date;
+    end_date: Date;
     scrap: Number;
     yield_1: Number;
     hmi1_good: Number;
     hmi1_bad: Number;
     hmi2_good: Number;
     hmi2_bad: Number;
-    rework_date: String;
+    rework_date: Date;
     applied_labels: Number;
-    label_print_time: String;
-    rework_time: String;
+    label_print_time: Number;
+    rework_time: Number;
     yield_2: Number;
     order_number: Number;
     }
