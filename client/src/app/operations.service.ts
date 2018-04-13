@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 import { catchError, retry } from 'rxjs/operators';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable'; 
+import { timeout } from 'rxjs/operators/timeout';
 
 import { Batch } from '../assets/interface/batch';
+
 
 @Injectable()
 export class OperationsService {
@@ -65,16 +68,21 @@ export class OperationsService {
   //TODO: Can we make a general method of these two? Pass URL and data to post as arguments and use same function.
   createOrder(newOrder: {}) {
     console.log("POST - Create new order")
-    return this.http.post(this.ROOT_URL + this.orderCREATE_URL, JSON.stringify(newOrder), this.httpOptions);
+    console.log("Data is: " + JSON.stringify(newOrder))
+    console.log("Url is: " + this.ROOT_URL + this.orderCREATE_URL)
+    return this.http.post(this.ROOT_URL + this.orderCREATE_URL, JSON.stringify(newOrder), this.httpOptions)
   }
 
   createBatch(newBatch: {}) {
     console.log("POST - Create new batch")
-    return this.http.post(this.ROOT_URL + this.batchCREATE_URL, JSON.stringify(newBatch), this.httpOptions);
+    console.log("Data is: " + JSON.stringify(newBatch))
+    console.log("Url is: " + this.ROOT_URL + this.batchCREATE_URL)
+    return this.http.post(this.ROOT_URL + this.batchCREATE_URL, JSON.stringify(newBatch), this.httpOptions)
   }
 
   getActiveBatch() {
-    return this.http.get(this.ROOT_URL + this.batchGET_URL)
+    let activeBatchquery = "?q=activeBatch"
+    return this.http.get(this.ROOT_URL + this.batchGET_URL + activeBatchquery)
   }
 
   //this.ROOT_URL+this.batchGET_URL+ updatedBatch.batch_number+"/edit/"
