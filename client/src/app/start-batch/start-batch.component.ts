@@ -72,21 +72,23 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     this.batch = formData.value['batchnr'];
     this.order = formData.value['ordernr'];
     this.article = formData.value['prodnr'];
-    this.batchStartDate = new Date();
+    //this.batchStartDate = null;
 
     let newOrder = {
       order_number: this.order,
       article_number: this.article,
     }
-    this.req_order = this.operationsService.createOrder(newOrder).subscribe()
+    this.req_order = this.operationsService.createOrder(newOrder).subscribe();
 
     let newBatch = {
       batch_number: this.batch,
       order_number: this.order,
-      start_date: this.batchStartDate
+      //article_number: formData.value['prodnr'],
+      //start_date: this.batchStartDate
     }
-    this.req_batch = this.operationsService.createBatch(newBatch).subscribe()
-
+    
+    
+    this.req_batch = this.operationsService.createBatch(newBatch).subscribe();
     this.prodInfo = {
       batch: this.batch,
       order: this.order,

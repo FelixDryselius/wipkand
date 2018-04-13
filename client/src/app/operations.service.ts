@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
+import {timeout} from 'rxjs/operators/timeout';
 
 @Injectable()
 export class OperationsService {
@@ -25,8 +26,8 @@ export class OperationsService {
 
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-      //'Authorization': ''
+      'Content-Type': 'application/json',
+      'Authorization': ''
     })
   }
   constructor(private http: HttpClient) { }
@@ -44,15 +45,20 @@ export class OperationsService {
   //TODO: Can we make a general method of these two? Pass URL and data to post as arguments and use same function.
   createOrder(newOrder: {}) {
     console.log("POST - Create new order")
-    return this.http.post(this.ROOT_URL + this.orderCREATE_URL, JSON.stringify(newOrder), this.httpOptions);
+    console.log("Data is: " + JSON.stringify(newOrder))
+    console.log("Url is: " + this.ROOT_URL + this.orderCREATE_URL)
+    return this.http.post(this.ROOT_URL + this.orderCREATE_URL, JSON.stringify(newOrder), this.httpOptions)
   }
 
   createBatch(newBatch: {}) {
     console.log("POST - Create new batch")
-    return this.http.post(this.ROOT_URL + this.batchCREATE_URL, JSON.stringify(newBatch), this.httpOptions);
+    console.log("Data is: " + JSON.stringify(newBatch))
+    console.log("Url is: " + this.ROOT_URL + this.batchCREATE_URL)
+    return this.http.post(this.ROOT_URL + this.batchCREATE_URL, JSON.stringify(newBatch), this.httpOptions)
   }
 
   getActiveBatch() {
-    return this.http.get(this.ROOT_URL + this.batchGET_URL)
+    let activeBatchquery = "?q=activeBatch"
+    return this.http.get(this.ROOT_URL + this.batchGET_URL + activeBatchquery)
   }
 }
