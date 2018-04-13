@@ -6,8 +6,7 @@
 
 <!-- A form that sends input data to a function submitBatch with parameters ordernr, prodnr and batchnr -->
 <!-- TODO: Make this a reactive form instead. Validate so correct batch/order numbers are entered. ngNativeValidate = quick fix that removes ANgulars validation -->
-<form #batchForm='ngForm' (ngSubmit)='submitBatch($event,batchForm)' > {% csrf_token %}
-
+<form #batchForm='ngForm' (ngSubmit)='submitBatch($event,batchForm)' >
 
   <!-- User input for order number -->
   <div class="form-group row">
