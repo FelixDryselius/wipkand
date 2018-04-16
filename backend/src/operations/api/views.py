@@ -79,6 +79,7 @@ class BatchDetailAPIView(RetrieveAPIView):
 
 class BatchCreateAPIView(CreateAPIView):
     serializer_class = BatchCreateUpdateSerializer
+    queryset = Batch.objects.all()
     permission_classes = [AllowAny]
 
 class BatchUpdateAPIView(RetrieveUpdateAPIView):
