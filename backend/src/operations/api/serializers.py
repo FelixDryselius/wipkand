@@ -94,11 +94,10 @@ class BatchDetailSerializer(ModelSerializer):
 
 
 class BatchCreateUpdateSerializer(ModelSerializer):
-    order_number = OrderCreateUpdateSerializer()
-
     class Meta:
         model = Batch
         fields = '__all__'
+
         #exclude = ('order_number',)
         # TODO: Create custom validators instead of custom CreateAPIView
         # extra_kwargs = {
@@ -135,6 +134,7 @@ def validate_order(old_order, new_product):
     if old_order != new_product:
         return False
     return True
+
 
 
 class CommentListSerializer(ModelSerializer):

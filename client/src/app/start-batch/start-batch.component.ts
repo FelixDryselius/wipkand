@@ -79,13 +79,12 @@ export class StartBatchComponent implements OnInit, OnDestroy {
       order_number: this.order,
       article_number: this.article,
     }
+    this.req_order = this.operationsService.createOrder(newOrder).subscribe();
 
     let newBatch = {
       batch_number: this.batch,
-      order_number: {
-        order_number: this.order,
-        article_number: this.article,
-      },
+      order_number: this.order,
+      //article_number: formData.value['prodnr'],
       start_date: this.batchStartDate
     }
 
@@ -99,7 +98,7 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     this.operationsService.changeProdInfo(this.prodInfo)
     console.log("Production status: " + this.prodActive)
 
-    this.router.navigate(['./home'])
+    this.router.navigate(['/home'])
   }
 }
 
