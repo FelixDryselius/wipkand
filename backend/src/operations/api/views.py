@@ -17,6 +17,7 @@ from rest_framework.generics import (
 
 from rest_framework.permissions import (
     IsAuthenticated,
+    AllowAny,
 )
 
 from operations.models import Product, ProductOrder, Batch, BatchComment
