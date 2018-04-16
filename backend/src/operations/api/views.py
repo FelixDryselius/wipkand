@@ -55,7 +55,7 @@ class OrderDetailAPIView(RetrieveAPIView):
 class OrderCreateAPIView(CreateAPIView):
     serializer_class = OrderCreateUpdateSerializer
     #permission_classes = [IsAuthenticated]
-    authentication_classes = [SessionAuthentication] #part of a test
+    #authentication_classes = [SessionAuthentication] #part of a test
 
 
 class BatchListAPIView(ListAPIView):
@@ -81,8 +81,9 @@ class BatchDetailAPIView(RetrieveAPIView):
 
 class BatchCreateAPIView(CreateAPIView):
     serializer_class = BatchCreateUpdateSerializer
-    #permission_classes = [IsAuthenticated]
-    authentication_classes = [SessionAuthentication] #part of a test
+    #authentication_classes = [SessionAuthentication] #part of a test
+    queryset = Batch.objects.all()
+    permission_classes = [AllowAny]
 
 class BatchUpdateAPIView(RetrieveUpdateAPIView):
     serializer_class = BatchCreateUpdateSerializer

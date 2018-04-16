@@ -77,6 +77,7 @@ export class OperationsService {
     console.log("POST - Create new batch")
     console.log("Data is: " + JSON.stringify(newBatch))
     console.log("Url is: " + this.ROOT_URL + this.batchCREATE_URL)
+    console.log("NEW CHANGES!!")
     return this.http.post(this.ROOT_URL + this.batchCREATE_URL, JSON.stringify(newBatch), this.httpOptions)
   }
 
