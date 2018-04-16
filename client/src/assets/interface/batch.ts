@@ -11,8 +11,8 @@ export interface Batch {
     hmi2_bad: Number;
     rework_date: Date;
     applied_labels: Number;
-    label_print_time: Number;
-    rework_time: Number;
+    label_print_time: Date;
+    rework_time: String;
     yield_2: Number;
     order_number: Number;
     }

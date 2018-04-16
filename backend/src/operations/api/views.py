@@ -3,6 +3,9 @@
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
+"""The following import and related code are part of a test"""
+from rest_framework.authentication import SessionAuthentication
+
 from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
@@ -52,6 +55,7 @@ class OrderDetailAPIView(RetrieveAPIView):
 class OrderCreateAPIView(CreateAPIView):
     serializer_class = OrderCreateUpdateSerializer
     #permission_classes = [IsAuthenticated]
+    authentication_classes = [SessionAuthentication] #part of a test
 
 
 class BatchListAPIView(ListAPIView):
@@ -78,6 +82,7 @@ class BatchDetailAPIView(RetrieveAPIView):
 class BatchCreateAPIView(CreateAPIView):
     serializer_class = BatchCreateUpdateSerializer
     #permission_classes = [IsAuthenticated]
+    authentication_classes = [SessionAuthentication] #part of a test
 
 class BatchUpdateAPIView(RetrieveUpdateAPIView):
     serializer_class = BatchCreateUpdateSerializer
@@ -110,3 +115,4 @@ class CommentDetailAPIView(RetrieveAPIView):
 class CommentCreateAPIView(CreateAPIView):
     serializer_class = CommentCreateUpdateSerializer
     permission_classes = [IsAuthenticated]
+

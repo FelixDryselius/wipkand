@@ -91,6 +91,8 @@ export class OperationsService {
 /** PUT: update the batch on the server. Returns the updated batch upon success. */
 updateBatch (updatedBatch: Batch) {
   let UPDATE_BATCH_URL = this.ROOT_URL+this.batchGET_URL+ updatedBatch.batch_number+"/edit/"
+  console.log('update batch-method runned');
+  console.log(JSON.stringify(updatedBatch));
   return this.http.put(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions)
     .pipe(
      //catchError(this.handleError((name:'updateBatch', updatedBatch:Batch))) //will work when we have added a type to the obs instead of any

@@ -29,8 +29,8 @@ export class FinishBatchComponent implements OnInit {
 
   ngOnInit() {
     this.batchInfo = {
-    batch_number: "1111",
-    article_number:"",
+    batch_number: "4445556667",
+    article_number:null,
     start_date: new Date('1995-12-17T03:24:00'),
     end_date: new Date('2005-12-17T03:24:00'),
     scrap: 0,
@@ -41,10 +41,10 @@ export class FinishBatchComponent implements OnInit {
     hmi2_bad: 0,
     rework_date: new Date('2005-12-17T12:24:00'),
     applied_labels: 0,
-    label_print_time: 20,
-    rework_time: 30,
+    label_print_time: new Date('2005-12-17T12:24:00'),
+    rework_time: "02:02",
     yield_2: 0,
-    order_number: 12
+    order_number: 1111111
     } as Batch
     
     //the following items are copied from start-batch.component
@@ -59,26 +59,24 @@ export class FinishBatchComponent implements OnInit {
   }
 
   submitEndBatch($theEvent,batchForm){  
+    console.log("prodInfo: " + this.prodInfo);
+     
+    //if(this.prodActive){ }
+  //  this.batchInfo.article_number = this.prodInfo["article"]      
+    //this.batchInfo.batch_number = this.prodInfo["batch"]
+//    this.batchInfo.order_number = this.prodInfo["order"]
 
-       
-    if(this.prodActive){
-      this.batchInfo.article_number = this.prodInfo["article"]      
-      this.batchInfo.batch_number = this.prodInfo["batch"]
-      this.batchInfo.order_number = this.prodInfo["order"]
+    this.batchInfo.hmi1_bad = batchForm.hmi1_bad
+    this.batchInfo.hmi2_bad = batchForm.hmi2_bad
+    this.batchInfo.hmi1_good = batchForm.hmi1_good
+    this.batchInfo.hmi2_good = batchForm.hmi2_good
+    this.batchInfo.yield_1 = batchForm.yield_1
 
-      this.batchInfo.hmi1_bad = batchForm.hmi1_bad
-      this.batchInfo.hmi2_bad = batchForm.hmi2_bad
-      this.batchInfo.hmi1_good = batchForm.hmi1_good
-      this.batchInfo.hmi2_good = batchForm.hmi2_good
-      this.batchInfo.yield_1 = batchForm.yield_1
+    console.log("augmented batchInfo: " + this.batchInfo);
 
-      this.operationsService.updateBatch (this.batchInfo).subscribe() 
-      
-    }
-
-
-
+    this.operationsService.updateBatch (this.batchInfo).subscribe() 
     
+
   }
 
   saveEmployee(empForm:NgForm):void {
