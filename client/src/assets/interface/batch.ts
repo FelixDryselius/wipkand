@@ -1,6 +1,6 @@
 export interface Batch {
     batch_number: String;
-    article_number:String;
+   // article_number:String; // removed from database at the moment
     start_date: Date;
     end_date: Date;
     scrap: Number;
@@ -14,6 +14,6 @@ export interface Batch {
     label_print_time: Date;
     rework_time: String;
     yield_2: Number;
-    order_number: Number;
+    order_number: {};
     }
 
