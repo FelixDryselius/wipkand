@@ -1,6 +1,10 @@
 '''API views for operations'''
 
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
+
+"""The following import and related code are part of a test"""
+from rest_framework.authentication import SessionAuthentication
 
 from rest_framework.generics import (
     ListAPIView,
@@ -13,6 +17,7 @@ from rest_framework.generics import (
 
 from rest_framework.permissions import (
     IsAuthenticated,
+    AllowAny,
 )
 
 from operations.models import Product, ProductOrder, Batch, BatchComment
@@ -50,12 +55,26 @@ class OrderDetailAPIView(RetrieveAPIView):
 
 class OrderCreateAPIView(CreateAPIView):
     serializer_class = OrderCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
+    #authentication_classes = [SessionAuthentication] #part of a test
 
 
 class BatchListAPIView(ListAPIView):
     serializer_class = BatchListSerializer
-    queryset = Batch.objects.all()
+
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = Batch.objects.all()
+        query = self.request.GET.get("q")
+        print ("In the get_queryset. query is: ")
+        print(query)
+        x = type(query) is str
+        print("Type of query is string: " + str(x))
+        if query:
+            if query == 'activeBatch':
+                queryset_list = queryset_list.filter(end_date__exact=None)
+                print(queryset_list)
+        return queryset_list
+
 
 class BatchDetailAPIView(RetrieveAPIView):
     serializer_class = BatchDetailSerializer
@@ -63,7 +82,9 @@ class BatchDetailAPIView(RetrieveAPIView):
 
 class BatchCreateAPIView(CreateAPIView):
     serializer_class = BatchCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    #authentication_classes = [SessionAuthentication] #part of a test
+    queryset = Batch.objects.all()
+    permission_classes = [AllowAny]
 
 class BatchUpdateAPIView(RetrieveUpdateAPIView):
     serializer_class = BatchCreateUpdateSerializer
@@ -95,4 +116,6 @@ class CommentDetailAPIView(RetrieveAPIView):
 #even though the batch is different
 class CommentCreateAPIView(CreateAPIView):
     serializer_class = CommentCreateUpdateSerializer
-    #permission_classes = [IsAuthenticated]
+
+    permission_classes = [IsAuthenticated]
+

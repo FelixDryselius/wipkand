@@ -1,78 +1,200 @@
-<div class="text-center" style="margin-top:15px;">
-      <h3 class="h3header">
-      {{ title }}
-    </h3>
-    <br>
-    <div class="finishBatch">
-    <div class="row" style="margin-top:20px;">
-      <h5 class="col-lg-6">
-        {{ groninger1 }}
-      </h5>
-      <h5 class="col-lg-6">
-          {{ groninger2 }}
-      </h5>
+<div class="text-center">
+  <h3 class="h3header">
+  {{ title }}
+  </h3>
+<br>
+<div class="container">
+  <form #batchFinishForm='ngForm' (ngSubmit)='submitEndBatch($event,batchFinishForm.value)' > 
+    <div class="row" >
+      <div class="col-lg-6">
+        <h5 >{{ groninger1 }}</h5>
+      </div>
+      <div class="col-lg-6">
+        <h5 >{{ groninger2 }}</h5>
+      </div>
     </div>
-    <form #batchEndForm='ngForm' (ngSubmit)='submitEndBatch($event,batchEndForm)'>
-    
-      <div class="form-group row firstInput">
-        <div class="col-lg-4">
-          <input type="total" class="form-control">
+
+  <div class="form-group row">
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="hmi1_good" >Approved/Good </label>
+          <input id="hmi1_good" name="hmi1_good" type="text" [(ngModel)]="hmi1_good" class="form-control">
+      </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group">
+          <label for="hmi2_good" >Approved/Good </label>
+            <input id="hmi2_good" name="hmi2_good" type="text" [(ngModel)]="hmi2_good" class="form-control">
         </div>
-        <label class="col-lg-4 col-form-label text-center finishBatchLabels">Total</label>
+      </div>
+  </div>
+
+  <div class="form-group row">
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label for="hmi1_bad" >Rejected/Bad </label>
+            <input id="hmi1_bad" name="hmi1_bad" type="text" [(ngModel)]="hmi1_bad" class="form-control">
+        </div>
+      </div>
+      <div class="col-lg-6">
+          <div class="form-group">
+              <label for="hmi2_bad" >Rejected/Bad </label>
+                <input id="hmi2_bad" name="hmi2_bad" type="text" [(ngModel)]="hmi2_bad" class="form-control">
+            </div>
+        </div>
+    </div>
+
+
+
+
+      <div class="form-group row" >
+        <div class="col-lg-6">
+          <label for="inputTotal" >Re-labeling: </label>
+              <div class="form-control">
+                <div class="row">
+                <div class="col-lg-6">
+                <label class="radio-inline">
+                    Yes:
+                  <input type="radio" value="true" name="reLabeling" [(ngModel)]="reLabeling">
+                </label>
+              </div>
+                <div class="col-lg-6">
+                <label class="radio-inline">
+                    No:
+                  <input type="radio" value="false" name="reLabeling" [(ngModel)]="reLabeling" >                 
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="form-group">
+                <label for="yield" >Yield 1 </label>
+                  <input id="yield_1" name="yield_1" type="text" [(ngModel)]="yield_1" class="form-control">
+              </div> 
+        </div>
+      </div>
+      <div class="panel-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+</div>
+</div>
+
+{{ batchFinishForm.value | json }}
+
+{{ batchInfo.hmi1_bad }}
+
+<!-- 
+<form #endTestForm='ngForm' (ngSubmit)="saveEmployee(endTestForm)">
+  
+    <div class="form-group">
+      <label for="fullName" >Full Name</label>
+        <input id="fullName" name="fn" type="text" [(ngModel)]="fullName" class="form-control">
+    </div>
+     <div class="form-group">
+      <label for="email" >Email</label>
+        <input id="email" name="em" type="text" [(ngModel)]="email" class="form-control">
+    </div> 
+    <div class="panel-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+    </form>
+  {{ endTestForm.value | json }}
+  
+  
+  
+   -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- OLD INPUT, IT'S NOT WORKING BUT GOOD LOOKING: 
+
+<div class="text-center" style="margin-top:15px;">
+    <h3 class="h3header">
+    {{ title }}
+  </h3>
+  <br>
+  <div class="finishBatch">
+  <div class="row" style="margin-top:20px;">
+    <h5 class="col-lg-6">
+      {{ groninger1 }}
+    </h5>
+    <h5 class="col-lg-6">
+        {{ groninger2 }}
+    </h5>
+  </div>
+  <form #batchEndForm='ngForm' (ngSubmit)='submitEndBatch($event,batchEndForm)'>
+  
+    <div class="form-group row firstInput">
+      <div class="col-lg-4">
+        <input type="total" class="form-control">
+      </div>
+      <label class="col-lg-4 col-form-label text-center finishBatchLabels">Total</label>
+      <div class="col-lg-4">
+          <input type="total" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group row firstInput">
         <div class="col-lg-4">
-            <input type="total" class="form-control">
+          <input type="approved" class="form-control">
+        </div>
+        <label class="col-lg-4 col-form-label text-center finishBatchLabels">Approved/Good</label>
+        <div class="col-lg-4">
+            <input type="approved" class="form-control">
         </div>
       </div>
 
       <div class="form-group row firstInput">
           <div class="col-lg-4">
-            <input type="approved" class="form-control">
+            <input type="rejected" class="form-control">
           </div>
-          <label class="col-lg-4 col-form-label text-center finishBatchLabels">Approved/Good</label>
+          <label class="col-lg-4 col-form-label text-center finishBatchLabels">Rejected/Bad</label>
           <div class="col-lg-4">
-              <input type="approved" class="form-control">
-          </div>
-        </div>
-
-        <div class="form-group row firstInput">
-            <div class="col-lg-4">
               <input type="rejected" class="form-control">
-            </div>
-            <label class="col-lg-4 col-form-label text-center finishBatchLabels">Rejected/Bad</label>
-            <div class="col-lg-4">
-                <input type="rejected" class="form-control">
+          </div>
+        </div>  
+    
+        <div class="form-group row firstInput border border-secondary col-lg-6" style="margin-top:50px; margin-left:97px;">
+            <label for="inputTotal" class="col-lg-4 col-form-label text-center finishBatchLabels">Re-labeling</label>
+            <div style="margin-top:7px;">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                <label class="form-check-label finishBatchLabels" for="inlineCheckbox1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                <label class="form-check-label finishBatchLabels" for="inlineCheckbox2">No</label>
+              </div>
             </div>
           </div>  
-      
-          <div class="form-group row firstInput border border-secondary col-lg-6" style="margin-top:50px; margin-left:97px;">
-              <label for="inputTotal" class="col-lg-4 col-form-label text-center finishBatchLabels">Re-labeling</label>
-              <div style="margin-top:7px;">
-              <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                  <label class="form-check-label finishBatchLabels" for="inlineCheckbox1">Yes</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                  <label class="form-check-label finishBatchLabels" for="inlineCheckbox2">No</label>
-                </div>
-              </div>
-            </div>  
 
-            <div class="form-group firstInput row yieldField">
-              <label class="col-lg-4 col-form-label text-center finishBatchLabels">Yield</label>
-              <div class="col-lg-4">
-                <input type="yield" class="form-control">
-              </div> 
+          <div class="form-group firstInput row yieldField">
+            <label class="col-lg-4 col-form-label text-center finishBatchLabels">Yield</label>
+            <div class="col-lg-4">
+              <input type="yield" class="form-control">
             </div> 
+          </div> 
 
-        <div class="btn-finishBatch">
-          <button type="submit" class="btn btn-primary  finishBatchLabels" routerLink="/batch-rework" routerLinkActive="active">
-            Update
-          </button>
-          <button type="submit" class="btn btn-secondary finishBatchLabels">
-            Cancel
-          </button>
-        </div>
-    </form>
-  </div>
+      <div class="btn-finishBatch">
+        <button type="submit" class="btn btn-primary  finishBatchLabels" routerLink="/batch-rework" routerLinkActive="active">
+          Update
+        </button>
+        <button type="submit" class="btn btn-secondary finishBatchLabels">
+          Cancel
+        </button>
+      </div>
+  </form>
 </div>
+</div>
+-->
