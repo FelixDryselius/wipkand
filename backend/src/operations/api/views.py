@@ -14,7 +14,6 @@ from rest_framework.generics import (
 
 from rest_framework.permissions import (
     IsAuthenticated,
-    AllowAny
 )
 
 from operations.models import Product, ProductOrder, Batch, BatchComment
@@ -50,10 +49,9 @@ class OrderDetailAPIView(RetrieveAPIView):
     serializer_class = OrderDetailSerializer
     queryset = ProductOrder.objects.all()
 
-
 class OrderCreateAPIView(CreateAPIView):
     serializer_class = OrderCreateUpdateSerializer
-    permission_classes = [AllowAny]
+    #permission_classes = [IsAuthenticated]
 
 
 class BatchListAPIView(ListAPIView):
@@ -79,7 +77,7 @@ class BatchDetailAPIView(RetrieveAPIView):
 
 class BatchCreateAPIView(CreateAPIView):
     serializer_class = BatchCreateUpdateSerializer
-    permission_classes = [AllowAny]
+    #permission_classes = [IsAuthenticated]
 
 class BatchUpdateAPIView(RetrieveUpdateAPIView):
     serializer_class = BatchCreateUpdateSerializer
