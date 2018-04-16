@@ -103,7 +103,7 @@ class BatchCreateUpdateSerializer(ModelSerializer):
         # extra_kwargs = {
         #     'order_number': {
         #         'validators': []
-        #         [UnicodeOrderNumberValidator()],
+        #         [UnicodeOrderNumberValidator()]
         #     }
         # }
 

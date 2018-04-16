@@ -81,6 +81,13 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     }
     this.req_order = this.operationsService.createOrder(newOrder).subscribe();
 
+
+//COMMENT!
+
+
+//COMMENT!
+
+
     let newBatch = {
       batch_number: this.batch,
       order_number: this.order,
