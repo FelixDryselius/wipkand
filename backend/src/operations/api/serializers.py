@@ -94,6 +94,7 @@ class BatchDetailSerializer(ModelSerializer):
 
 
 class BatchCreateUpdateSerializer(ModelSerializer):
+    order_number = OrderCreateUpdateSerializer()
     class Meta:
         model = Batch
         fields = '__all__'
