@@ -22,13 +22,12 @@
   </div>
   <div class="col-lg-4">
     <textarea type="text" class="form-control commentTextarea" #newComment
-    (keyup.enter)="createComment(newComment.value)"
     ></textarea>
   </div>
 </div>
 <div class="notification is-primary">
 
-<button (click)="createComment(newComment.value, newCommentName.value)" class="btn btn-primary btn-addComment">Add comment</button>
+<button (click)="createComment(newComment.value, newCommentName.value); newComment.value=''; newCommentName.value=''; " class="btn btn-primary btn-addComment">Add comment</button>
 
 </div>
 </form>

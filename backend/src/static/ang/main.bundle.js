@@ -338,7 +338,7 @@ module.exports = ""
 /***/ "./src/app/comments/comments.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h3 class=\"mainTitleComments\">\r\n  {{ mainTitle }}\r\n</h3>\r\n<h5 class=\"addCommentTitle\">\r\n  {{ addCommentTitle }}\r\n</h5>\r\n<form class=\"commentForm\">\r\n\r\n  <div class=\"form-group row commentInput\">\r\n      <div class=\"col-lg-2\">\r\n        <label>Name:</label>\r\n      </div>\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"text\" class=\"form-control\" #newCommentName>\r\n      </div>\r\n  </div>\r\n\r\n<div class=\"form-group row\">\r\n  <div class=\"col-lg-2\">\r\n    <label>Comment:</label>\r\n  </div>\r\n  <div class=\"col-lg-4\">\r\n    <textarea type=\"text\" class=\"form-control commentTextarea\" #newComment\r\n    (keyup.enter)=\"createComment(newComment.value)\"\r\n    ></textarea>\r\n  </div>\r\n</div>\r\n<div class=\"notification is-primary\">\r\n\r\n<button (click)=\"createComment(newComment.value, newCommentName.value)\" class=\"btn btn-primary btn-addComment\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n</div>\r\n\r\n<hr>\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h5 class=\"commentListTitle\">\r\n    {{ commentListTitle }}\r\n  </h5>\r\n  <!-- newly generated comments: -->\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul>\r\n      <li *ngFor=\"let item of newComments\">\r\n        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{ item }}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n  <!-- Comments from API: -->\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul>\r\n      <li *ngFor=\"let comment of comments\">\r\n        <b>{{ comment.post_date | date: 'M/d/yy, H:mm a' }}</b> - {{ comment.user_name }}: {{comment.text_comment}}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</div> \r\n\r\n<hr>\r\n\r\n\r\n\r\n"
+module.exports = "<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h3 class=\"mainTitleComments\">\r\n  {{ mainTitle }}\r\n</h3>\r\n<h5 class=\"addCommentTitle\">\r\n  {{ addCommentTitle }}\r\n</h5>\r\n<form class=\"commentForm\">\r\n\r\n  <div class=\"form-group row commentInput\">\r\n      <div class=\"col-lg-2\">\r\n        <label>Name:</label>\r\n      </div>\r\n      <div class=\"col-lg-4\">\r\n        <input type=\"text\" class=\"form-control\" #newCommentName>\r\n      </div>\r\n  </div>\r\n\r\n<div class=\"form-group row\">\r\n  <div class=\"col-lg-2\">\r\n    <label>Comment:</label>\r\n  </div>\r\n  <div class=\"col-lg-4\">\r\n    <textarea type=\"text\" class=\"form-control commentTextarea\" #newComment\r\n    ></textarea>\r\n  </div>\r\n</div>\r\n<div class=\"notification is-primary\">\r\n\r\n<button (click)=\"createComment(newComment.value, newCommentName.value); newComment.value=''; newCommentName.value=''; \" class=\"btn btn-primary btn-addComment\">Add comment</button>\r\n\r\n</div>\r\n</form>\r\n</div>\r\n\r\n<hr>\r\n<div class=\"text-center\" style=\"margin-top:15px;\">\r\n  <h5 class=\"commentListTitle\">\r\n    {{ commentListTitle }}\r\n  </h5>\r\n  <!-- newly generated comments: -->\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul>\r\n      <li *ngFor=\"let item of newComments\">\r\n        <b>{{dateNow | date: 'M/d/yy, H:mm a'}}</b> - {{ item }}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n  <!-- Comments from API: -->\r\n  <div class=\"col-lg-12 text-left notification is-primary commentList\">\r\n    <ul>\r\n      <li *ngFor=\"let comment of comments\">\r\n        <b>{{ comment.post_date | date: 'M/d/yy, H:mm a' }}</b> - {{ comment.user_name }}: {{comment.text_comment}}\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</div> \r\n\r\n<hr>\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -399,17 +399,14 @@ var CommentsComponent = /** @class */ (function () {
             text_comment: formText,
             batch_number: '1000000001'
         };
-        console.log(commentData.text_comment);
-        console.log(commentData.user_name);
         // Converts to JSON
         var newData = JSON.stringify(commentData);
-        console.log(newData);
         // Runs service and subsrcibes to data. Puts data in observable
         this.commentsService.addComment(newData).subscribe(function (data) {
             _this.newComment = data;
+            // Gets updated comment list from api
+            _this.getComments();
         });
-        // Gets updated comment list from api
-        this.getComments();
     };
     CommentsComponent = __decorate([
         core_1.Component({

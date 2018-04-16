@@ -53,19 +53,16 @@ export class CommentsComponent implements OnInit {
       text_comment: formText,
       batch_number: '1000000001'
     }
-    console.log(commentData.text_comment)
-    console.log(commentData.user_name)
     // Converts to JSON
     let newData = JSON.stringify(commentData)
-
-    console.log(newData)
 
     // Runs service and subsrcibes to data. Puts data in observable
     this.commentsService.addComment(newData).subscribe(data =>{
       this.newComment = data as Observable<any>
+      
+      // Gets updated comment list from api
+      this.getComments()
   });
-
-  // Gets updated comment list from api
-  this.getComments()
+ 
 }
 }
