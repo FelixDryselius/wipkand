@@ -80,17 +80,12 @@ export class StartBatchComponent implements OnInit, OnDestroy {
       article_number: this.article,
     }
 
-
-//COMMENT!
-
-
-//COMMENT!
-
-
     let newBatch = {
       batch_number: this.batch,
-      order_number: this.order,
-      //article_number: formData.value['prodnr'],
+      order_number: {
+        order_number: this.order,
+        article_number: this.article,
+      },
       start_date: this.batchStartDate
     }
 
