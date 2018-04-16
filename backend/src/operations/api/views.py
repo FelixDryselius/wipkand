@@ -1,6 +1,7 @@
 '''API views for operations'''
 
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 from rest_framework.generics import (
     ListAPIView,
@@ -13,6 +14,7 @@ from rest_framework.generics import (
 
 from rest_framework.permissions import (
     IsAuthenticated,
+    AllowAny
 )
 
 from operations.models import Product, ProductOrder, Batch, BatchComment
@@ -48,14 +50,28 @@ class OrderDetailAPIView(RetrieveAPIView):
     serializer_class = OrderDetailSerializer
     queryset = ProductOrder.objects.all()
 
+
 class OrderCreateAPIView(CreateAPIView):
     serializer_class = OrderCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 
 class BatchListAPIView(ListAPIView):
     serializer_class = BatchListSerializer
-    queryset = Batch.objects.all()
+
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = Batch.objects.all()
+        query = self.request.GET.get("q")
+        print ("In the get_queryset. query is: ")
+        print(query)
+        x = type(query) is str
+        print("Type of query is string: " + str(x))
+        if query:
+            if query == 'activeBatch':
+                queryset_list = queryset_list.filter(end_date__exact=None)
+                print(queryset_list)
+        return queryset_list
+
 
 class BatchDetailAPIView(RetrieveAPIView):
     serializer_class = BatchDetailSerializer
@@ -63,7 +79,8 @@ class BatchDetailAPIView(RetrieveAPIView):
 
 class BatchCreateAPIView(CreateAPIView):
     serializer_class = BatchCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    queryset = Batch.objects.all()
+    permission_classes = [AllowAny]
 
 class BatchUpdateAPIView(RetrieveUpdateAPIView):
     serializer_class = BatchCreateUpdateSerializer
