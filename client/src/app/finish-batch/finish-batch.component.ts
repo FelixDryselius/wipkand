@@ -1,8 +1,11 @@
+//C Core imports
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { OperationsService } from '../operations.service';
+import { Router } from '@angular/router';
 
+// Our made imports
 import { Batch } from '../../assets/interface/batch';
+import { OperationsService } from '../operations.service';
 
 @Component({
   selector: 'app-finish-batch',
@@ -25,7 +28,7 @@ export class FinishBatchComponent implements OnInit {
   private service_prodInfo: any;
   
   
-  constructor( private operationsService: OperationsService) { }
+  constructor(private router: Router, private operationsService: OperationsService) { }
 
   ngOnInit() {  
     //the following items are copied from start-batch.component
@@ -43,6 +46,7 @@ export class FinishBatchComponent implements OnInit {
     // TODO:  add these attributes so the whole batch kan close:
     // scrap, rework_date, applied_labels, label_print_time, rework_time, yield_2
     let batchInfo = {}
+    console.log("submit end runned");
     if(this.prodActive){ 
       batchInfo = {
         batch_number: this.prodInfo["batch"],
@@ -54,8 +58,12 @@ export class FinishBatchComponent implements OnInit {
         hmi1_good: batchForm.hmi1_good,
         hmi2_good: batchForm.hmi2_good,
       } 
+      this.operationsService.updateBatch(batchInfo).subscribe() 
     }
-    this.operationsService.updateBatch(batchInfo).subscribe() 
+    this.operationsService.changeProdStatus(false) 
+    this.router.navigate(['/home'])
+    
+    
     
 
   }
