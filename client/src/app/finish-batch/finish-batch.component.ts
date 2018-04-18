@@ -23,7 +23,7 @@ export class FinishBatchComponent implements OnInit {
 
  //the following items are copied from start-batch.component
   private prodActive: boolean;
-  private prodInfo: {};
+  private prodInfo: any;
   private service_prodStatus: any;
   private service_prodInfo: any;
   
@@ -49,8 +49,7 @@ export class FinishBatchComponent implements OnInit {
     console.log("submit end runned");
     if(this.prodActive){ 
       batchInfo = {
-        batch_number: this.prodInfo["batch"],
-        start_date: this.prodInfo["batchStartDate"],
+        batch_number: this.prodInfo.batch_number,
         end_date: new Date(),
         yield_1: batchForm.yield_1,
         hmi1_bad: batchForm.hmi1_bad,
@@ -60,9 +59,10 @@ export class FinishBatchComponent implements OnInit {
       } 
       this.operationsService.updateBatch(batchInfo).subscribe() 
     }
-    console.log(batchInfo)
-    this.operationsService.updateBatch(batchInfo).subscribe() 
-    this.operationsService.changeProdStatus(false);
+    
+    this.operationsService.changeProdStatus(false) 
+    this.operationsService.changeProdInfo(null)
+
     this.router.navigate(['/home'])
   }
 }
