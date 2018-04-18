@@ -41,8 +41,8 @@ import {Ng2PageScrollModule} from 'ng2-page-scroll';
     FinishBatchComponent,
     BatchReworkComponent,
     CurrentBatchInfoComponent,
-    SortByPipe
-    AuthComponent,
+    SortByPipe,
+    AuthComponent
 
   ],
   imports: [
