@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'rest_framework',
     'operations',
+    'prodStat',
     'floorstock.apps.FloorstockConfig',
     #'operations.apps.OperationsConfig',
     'django.contrib.admin',

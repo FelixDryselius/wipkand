@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import *
-
-# Register your models here.
+from operations.models import *
 
 admin.site.register(Product)
 admin.site.register(ProductOrder)
