@@ -6,6 +6,9 @@ from rest_framework.filters import (
     OrderingFilter,
 )
 
+from rest_framework import generics, status
+from rest_framework.response import Response
+
 from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
 from rest_framework.generics import (
     CreateAPIView,
@@ -25,7 +28,9 @@ from rest_framework.permissions import (
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from accounts.api.serializers import MyTokenObtainPairSerializer
+from rest_framework_simplejwt.authentication import AUTH_HEADER_TYPES
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from accounts.api.serializers import VFALTokenSerializer
 
 
 from accounts.api.serializers import (
@@ -41,6 +46,45 @@ class UserCreateAPIView(CreateAPIView):
     queryset = User.objects.all()
 
 
-class AuthView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
+class AuthView(generics.GenericAPIView):
+    serializer_class = VFALTokenSerializer
     permission_classes = [AllowAny]
+
+    def get_authenticate_header(self, request):
+        return '{0} realm="{1}"'.format(
+            AUTH_HEADER_TYPES[0],
+            self.www_authenticate_realm,
+        )
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
+
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+
+
+
+
+class TokenViewBase(generics.GenericAPIView):
+    permission_classes = ()
+    authentication_classes = ()
+
+    serializer_class = None
+
+    www_authenticate_realm = 'api'
+
+
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
+
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)

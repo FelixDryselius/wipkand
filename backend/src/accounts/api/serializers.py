@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.serializers import (
     ModelSerializer,
 )
+from rest_framework import serializers
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -24,14 +25,16 @@ class UserCreateSerializer(ModelSerializer):
                         }
 
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+class VFALTokenSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
-        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+        token = super(VFALTokenSerializer, cls).get_token(user)
 
         # Add custom claims
-        #token['name'] = user.name
-        token['test'] = 'test'
-        # ...
-
+        token['username'] = user.username
         return token
+
+    def validate(self, attrs):
+        data = super(VFALTokenSerializer, self).validate(attrs)
+        data['username'] = attrs['username']
+        return data

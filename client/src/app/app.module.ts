@@ -20,6 +20,7 @@ import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-in
 import { CommentsService } from './comments/service/comments.service';
 import { OperationsService } from './operations.service';
 import { AuthComponent } from './auth/auth.component';
+import { AuthAPIService } from './auth/auth.service';
 
 
 
