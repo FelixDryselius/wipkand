@@ -1,18 +1,18 @@
 
-from django.contrib.auth import get_user_model
+from datetime import datetime
 
-from rest_framework.serializers import (
-    ModelSerializer,
-)
+from django.contrib.auth import get_user_model
+from django.utils.six import text_type
+
 from rest_framework import serializers
 
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
+from rest_framework_simplejwt.serializers import TokenObtainSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
 
-class UserCreateSerializer(ModelSerializer):
+class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
@@ -25,16 +25,19 @@ class UserCreateSerializer(ModelSerializer):
                         }
 
 
-class VFALTokenSerializer(TokenObtainPairSerializer):
+class VFALTokenSerializer(TokenObtainSerializer):
     @classmethod
     def get_token(cls, user):
-        token = super(VFALTokenSerializer, cls).get_token(user)
-
-        # Add custom claims
-        token['username'] = user.username
+        token = RefreshToken.for_user(user)
         return token
 
     def validate(self, attrs):
         data = super(VFALTokenSerializer, self).validate(attrs)
-        data['username'] = attrs['username']
+
+        refresh = self.get_token(self.user)
+        data['refresh'] = text_type(refresh)
+        data['access'] = text_type(refresh.access_token)
+        data['expires'] = datetime.utcfromtimestamp(refresh['exp'])
+        data['user'] = attrs['username']
+
         return data
