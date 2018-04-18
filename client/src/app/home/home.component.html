@@ -1,13 +1,13 @@
 <div class="homeContent">
   <div class="homeHeader">
     <h2>Home</h2>
-    <h5>Current shift: day</h5>
+    <h5 class="currentShift">Current shift: day</h5>
   </div>
 
   <div class="shift">   
     <div class="shiftLeftCol">
-        <h3 class="inputLabelBox"># shift</h3>
-        <h3 class="inputLabelBox"># produced</h3>
+        <h3 class="inputLabelBox"># Shift</h3>
+        <h3 class="inputLabelBox"># Produced</h3>
         <h3 class="inputLabelBox"># Discarded vials</h3>
     </div> 
     <div class="wrapper">
@@ -52,7 +52,107 @@
     </div>
   </div>
   <div class="fsAndCom">
-    <div class="floorstock">Article</div>
+    <div class="floorstock">
+      <div class="floorstockTitle"><h3>Label roll/Groningen</h3></div>
+      <div class="floorstockBox">
+          <div class="input-group input-number-group">
+              <div class="input-group-button">
+                <span class="input-number-decrement">-</span>
+              </div>
+              <input class="input-number" type="number" value="1" min="0" max="1000">
+              <div class="input-group-button">
+                <span class="input-number-increment">+</span>
+              </div>
+            </div>
+        <p class="stockName">Blank301-6914</p>
+      </div>
+
+      <div class="floorstockBox">
+          <div class="input-group input-number-group">
+              <div class="input-group-button">
+                <span class="input-number-decrement">-</span>
+              </div>
+              <input class="input-number" type="number" value="1" min="0" max="1000">
+              <div class="input-group-button">
+                <span class="input-number-increment">+</span>
+              </div>
+            </div>
+        <p class="stockName">Label roll Karbon 001-1995</p>
+      </div>
+
+      <div class="floorstockTitle"><h3>Other stock</h3></div>
+
+      <div class="floorstockBox">
+          <div class="input-group input-number-group">
+              <div class="input-group-button">
+                <span class="input-number-decrement">-</span>
+              </div>
+              <input class="input-number" type="number" value="1" min="0" max="1000">
+              <div class="input-group-button">
+                <span class="input-number-increment">+</span>
+              </div>
+            </div>
+        <p class="stockName">Sleever roll 301-6906</p>
+      </div>
+
+      <div class="floorstockBox">
+          <div class="input-group input-number-group">
+              <div class="input-group-button">
+                <span class="input-number-decrement">-</span>
+              </div>
+              <input class="input-number" type="number" value="1" min="0" max="1000">
+              <div class="input-group-button">
+                <span class="input-number-increment">+</span>
+              </div>
+            </div>
+        <p class="stockName">Pester roll small 301-6907</p>
+      </div>
+
+      <div class="floorstockBox">
+          <div class="input-group input-number-group">
+              <div class="input-group-button">
+                <span class="input-number-decrement">-</span>
+              </div>
+              <input class="input-number" type="number" value="1" min="0" max="1000">
+              <div class="input-group-button">
+                <span class="input-number-increment">+</span>
+              </div>
+            </div>
+        <p class="stockName">Pester roll large 301-6908</p>
+      </div>
+
+      <div class="floorstockBox">
+          <div class="input-group input-number-group">
+              <div class="input-group-button">
+                <span class="input-number-decrement">-</span>
+              </div>
+              <input class="input-number" type="number" value="1" min="0" max="1000">
+              <div class="input-group-button">
+                <span class="input-number-increment">+</span>
+              </div>
+            </div>
+        <p class="stockName">Vågskrivare roll</p>
+      </div>
+
+      <div class="floorstockBox">
+          <div class="input-group input-number-group">
+              <div class="input-group-button">
+                <span class="input-number-decrement">-</span>
+              </div>
+              <input class="input-number" type="number" value="1" min="0" max="1000">
+              <div class="input-group-button">
+                <span class="input-number-increment">+</span>
+              </div>
+            </div>
+        <p class="stockName">Box label roll and karbon</p>
+      </div>
+
+      <div class="floorstockBox updateFloorstock">
+          <button type="submit" class="btn btn-primary btnShift" >Update</button>
+      </div>
+
+    </div>
+
     <div class="addComment">Aside</div>
   </div>
 </div>

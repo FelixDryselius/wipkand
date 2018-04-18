@@ -70,14 +70,14 @@
   }
 
   .discVials {
-    justify-content: space-between;;
+    justify-content: space-between;
   }
 
   .inputDiscVials {
       margin-left: 2.2%;
   }
 
-  .btnShift {
+  .btnShift, .currentShift {
       margin-right: 2.2%;
   }
 
@@ -87,10 +87,95 @@
 }
 
 .floorstock {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     order: 1;
     background: red;
 }
+
+.floorstockBox, .floorstockTitle {
+    display: flex;
+    flex-direction: row;
+    height: 6vh;    
+    border: solid;
+}
+
+.floorstockTitle {
+    justify-content: center;
+    align-items: center;
+}
+
+/* Start plus minus button --------------------------------------------- */
+
+    .input-group {
+        width: auto;
+    }
+
+  /* Digit center align */
+  .input-number-group input[type=number]::-webkit-inner-spin-button,
+  .input-number-group input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+            appearance: none;
+  }
+  
+  /* Plus and minus sign center align */
+  .input-number-group .input-group-button {
+    line-height: calc(8vh/2 - 0.5vh);
+  }
+  
+  .input-number-group .input-number {
+    width: 8vh;
+    padding: 0 1.2vh;
+    text-align: center;
+    outline: none;
+    display: block;
+    margin: 0;
+  }
+  
+  .input-number-group .input-number,
+  .input-number-group .input-number-decrement,
+  .input-number-group .input-number-increment {
+    border: 1px solid #cacaca;
+    height: 5vh;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    border-radius: 0;
+  }
+  
+  .input-number-group .input-number-decrement,
+  .input-number-group .input-number-increment {
+    display: inline-block;
+    width: 4vh;
+    background: #e6e6e6;
+    color: #0a0a0a;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: 400;
+  }
+  
+  .input-number-decrement {
+    margin-right: 0.3rem;
+  }
+  
+  .input-number-increment {
+    margin-left: 0.3rem;
+  }
+
+  /* End plus minus button --------------------------------------------- */
+
+  .stockName {
+      font-size: 1.5em;
+      margin-left: 2%;
+  }
+
+  .updateFloorstock {
+      justify-content: flex-end;
+  }
 
 .addComment {
     flex: 0 0 70%;
