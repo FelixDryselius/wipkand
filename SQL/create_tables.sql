@@ -47,3 +47,29 @@ CREATE TABLE batch_comment
   PRIMARY KEY (comment_ID, batch_number),
   FOREIGN KEY (batch_number) REFERENCES batch(batch_number)
 );
+
+CREATE TABLE floorstock_item
+(
+  item_id varchar(255) NOT NULL,
+  item_name varchar(255),
+  PRIMARY KEY (item_id)
+);
+
+CREATE TABLE production_statistic
+(
+  batch_number char(10) NOT NULL,
+  time_stamp datetime NOT NULL,
+  production_quantity INT,
+  staff_quantity INT,
+  PRIMARY KEY (batch_number, time_stamp),
+  FOREIGN KEY (batch_number) REFERENCES batch(batch_number)
+);
+
+CREATE TABLE floorstock_statistic
+(
+  floorstock_item_id char(255) NOT NULL,
+  time_stamp datetime NOT NULL,
+  quantity INT,
+  PRIMARY KEY (floorstock_item_id, time_stamp),
+  FOREIGN KEY (floorstock_item_id) REFERENCES floorstock_item(item_id)
+);

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'operations',
     'accounts',
+    'prodStat',
     'floorstock.apps.FloorstockConfig',
     'django.contrib.admin',
     'django.contrib.auth',

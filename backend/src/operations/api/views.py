@@ -119,5 +119,5 @@ class CommentDetailAPIView(RetrieveAPIView):
 class CommentCreateAPIView(CreateAPIView):
     serializer_class = CommentCreateUpdateSerializer
 
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 

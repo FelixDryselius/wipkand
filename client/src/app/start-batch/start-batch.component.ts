@@ -91,9 +91,9 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
     this.req_batch = this.operationsService.createBatch(newBatch).subscribe();
     this.prodInfo = {
-      batch: this.batch,
-      order: this.order,
-      article: this.article,
+      batch_number: this.batch,
+      order_number: this.order,
+      article_number: this.article,
     }
     this.operationsService.changeProdStatus(true);
     this.operationsService.changeProdInfo(this.prodInfo)
