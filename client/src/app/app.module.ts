@@ -19,6 +19,7 @@ import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
 import { CommentsService } from './comments/service/comments.service';
 import { OperationsService } from './operations.service';
+import { AuthComponent } from './auth/auth.component';
 
 
 
@@ -35,6 +36,7 @@ import { OperationsService } from './operations.service';
     FinishBatchComponent,
     BatchReworkComponent,
     CurrentBatchInfoComponent,
+    AuthComponent,
 
   ],
   imports: [

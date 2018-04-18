@@ -77,14 +77,16 @@ class BatchListAPIView(ListAPIView):
 
 
 class BatchDetailAPIView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [SessionAuthentication]
     serializer_class = BatchDetailSerializer
     queryset = Batch.objects.all()
 
 class BatchCreateAPIView(CreateAPIView):
     serializer_class = BatchCreateUpdateSerializer
-    #authentication_classes = [SessionAuthentication] #part of a test
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [SessionAuthentication]
     queryset = Batch.objects.all()
-    permission_classes = [AllowAny]
 
 class BatchUpdateAPIView(RetrieveUpdateAPIView):
     serializer_class = BatchCreateUpdateSerializer

@@ -26,6 +26,7 @@ urlpatterns = [
 
     #API urls
     path('api/operations/', include('operations.api.urls'), name = 'operations-api'),
+    path('api/users/', include('accounts.api.urls'), name= 'users-api'),
 
     url(r'^.*/$',TemplateView.as_view(template_name = "tempHome.html"), name='home')
 ]
