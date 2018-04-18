@@ -19,6 +19,10 @@ import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
 import { CommentsService } from './comments/service/comments.service';
 import { OperationsService } from './operations.service';
+import { SortByPipe } from './sort-by.pipe'
+
+//3rd party imports:
+import {Ng2PageScrollModule} from 'ng2-page-scroll';
 
 
 
@@ -35,18 +39,21 @@ import { OperationsService } from './operations.service';
     FinishBatchComponent,
     BatchReworkComponent,
     CurrentBatchInfoComponent,
+    SortByPipe
 
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     FormsModule,
     HttpModule,
     HttpClientModule,
-    AppRoutingModule
+    Ng2PageScrollModule
+    
   ],
 
 
-  providers: [CommentsService, OperationsService],
+  providers: [CommentsService, OperationsService, SortByPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

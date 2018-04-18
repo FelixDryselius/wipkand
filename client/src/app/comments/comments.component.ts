@@ -2,6 +2,10 @@ import { CommentsService } from './service/comments.service';
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Post } from '../../assets/interface/comment';
+import { SortByPipe } from '../sort-by.pipe';
+
+
+//3rd party imports
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/retry';
@@ -41,28 +45,4 @@ export class CommentsComponent implements OnInit {
     });
   }
 
-  // Function to handle newly generated comments
-  createComment(formText, formName) {
-    // The comment data to be posted. Temporary solution to comment id
-    console.log(typeof formText)
-    console.log(typeof formName)
-    let commentData = {
-      comment_id: this.comments.length,
-      user_name: formName,
-      post_date: new Date(),
-      text_comment: formText,
-      batch_number: '1000000001'
-    }
-    // Converts to JSON
-    let newData = JSON.stringify(commentData)
-
-    // Runs service and subsrcibes to data. Puts data in observable
-    this.commentsService.addComment(newData).subscribe(data =>{
-      this.newComment = data as Observable<any>
-      
-      // Gets updated comment list from api
-      this.getComments()
-  });
- 
-}
 }
