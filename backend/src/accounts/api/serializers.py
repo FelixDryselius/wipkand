@@ -24,15 +24,14 @@ class UserCreateSerializer(serializers.ModelSerializer):
                         {"write_only": True}
                         }
 
-
-class VFALTokenSerializer(TokenObtainSerializer):
+class JWTTokenSerializer(TokenObtainSerializer):
     @classmethod
     def get_token(cls, user):
         token = RefreshToken.for_user(user)
         return token
 
     def validate(self, attrs):
-        data = super(VFALTokenSerializer, self).validate(attrs)
+        data = super(JWTTokenSerializer, self).validate(attrs)
 
         refresh = self.get_token(self.user)
         data['refresh'] = text_type(refresh)
