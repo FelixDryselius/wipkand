@@ -19,6 +19,8 @@ import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
 import { CommentsService } from './comments/service/comments.service';
 import { OperationsService } from './operations.service';
+import { AuthComponent } from './auth/auth.component';
+import { AuthAPIService } from './auth/auth.service';
 import { SortByPipe } from './sort-by.pipe'
 
 //3rd party imports:
@@ -40,6 +42,7 @@ import {Ng2PageScrollModule} from 'ng2-page-scroll';
     BatchReworkComponent,
     CurrentBatchInfoComponent,
     SortByPipe
+    AuthComponent,
 
   ],
   imports: [
