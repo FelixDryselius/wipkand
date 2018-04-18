@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { OperationsService } from '../operations.service';
+import { Router } from '@angular/router';
 
 import { Batch } from '../../assets/interface/batch';
 
@@ -25,7 +26,7 @@ export class FinishBatchComponent implements OnInit {
   private service_prodInfo: any;
   
   
-  constructor( private operationsService: OperationsService) { }
+  constructor(private router: Router, private operationsService: OperationsService) { }
 
   ngOnInit() {  
     //the following items are copied from start-batch.component
@@ -55,8 +56,9 @@ export class FinishBatchComponent implements OnInit {
         hmi2_good: batchForm.hmi2_good,
       } 
     }
+    console.log(batchInfo)
     this.operationsService.updateBatch(batchInfo).subscribe() 
-    
-
+    this.operationsService.changeProdStatus(false);
+    this.router.navigate(['/home'])
   }
 }
