@@ -1,11 +1,110 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Start home style */
+
+.homeContent {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin: 0;
+    padding: 1em;
+}
+
+.homeHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: yellowgreen;
+    height: 5vh;
+}
+
+.shift {    
+    display: flex;
+    flex-direction: row;
+    background: blue;
+    height: 32vh;
+  }  
+  
+  .shiftLeftCol {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin: 0; 
+    flex: 1;
+  }  
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 5;
+  }
+
+  .hours {
+    display: flex;
+    flex-direction: row;
+    height: 8vh;    
+    justify-content: space-around; 
+    align-items: center;
+  }
+    
+  .hour {
+      font-size: 2em;
+  }
+
+  .inputHourBox, .inputLabelBox, .discVials {
+    display: flex;
+    flex-direction: row;
+    height: 8vh;    
+    justify-content: space-around; 
+    align-items: center;
+  }
+
+  .inputLabelBox {
+      justify-content: flex-start;
+      margin: 0;
+  }
+
+  .inputHour, .inputDiscVials {
+    width: 8%;
+  }
+
+  .discVials {
+    justify-content: space-between;;
+  }
+
+  .inputDiscVials {
+      margin-left: 2.2%;
+  }
+
+  .btnShift {
+      margin-right: 2.2%;
+  }
+
+.fsAndCom {
+    display: flex;
+    flex: 1;
+}
+
+.floorstock {
+    flex: 1;
+    order: 1;
+    background: red;
+}
+
+.addComment {
+    flex: 0 0 70%;
+    background: beige;
+    order: 2;
+}
+
+
+/* End home style */
+
 /* Start finish batch style */
 .btn-startBatch {
     margin-top: 40px;
 }
-
-
 
 .firstInput {
     margin-left: 83px;

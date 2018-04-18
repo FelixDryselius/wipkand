@@ -26,7 +26,7 @@ export class FinishBatchComponent implements OnInit {
   private prodInfo: {};
   private service_prodStatus: any;
   private service_prodInfo: any;
-  
+
   
   constructor(private router: Router, private operationsService: OperationsService) { }
 
@@ -60,8 +60,6 @@ export class FinishBatchComponent implements OnInit {
       } 
       this.operationsService.updateBatch(batchInfo).subscribe() 
     }
-    console.log(batchInfo)
-    this.operationsService.updateBatch(batchInfo).subscribe() 
     this.operationsService.changeProdStatus(false);
     this.router.navigate(['/home'])
   }

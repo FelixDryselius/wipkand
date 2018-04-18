@@ -1,45 +1,58 @@
-<h2>Sidebar</h2>
-<hr>
-<p>
-  Batch number: <b>{{ batchnr }}</b>
-</p>
-<p>
-  Order number: <b>{{ ordernr }}</b>
-</p>
+<div class="homeContent">
+  <div class="homeHeader">
+    <h2>Home</h2>
+    <h5>Current shift: day</h5>
+  </div>
 
-<h2>
-  <i>Examples of content on this page:</i>
-</h2>
+  <div class="shift">   
+    <div class="shiftLeftCol">
+        <h3 class="inputLabelBox"># shift</h3>
+        <h3 class="inputLabelBox"># produced</h3>
+        <h3 class="inputLabelBox"># Discarded vials</h3>
+    </div> 
+    <div class="wrapper">
+      <div class="hours">
+        <div class="hour">07-08</div>
+        <div class="hour">08-09</div>
+        <div class="hour">09-10</div>
+        <div class="hour">10-11</div>
+        <div class="hour">11-12</div>
+        <div class="hour">12-13</div>
+        <div class="hour">13-14</div>
+        <div class="hour">14-15</div>
+      </div>
+    
+      <div class="inputHourBox">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+      </div>
 
-<br>
-<h4>
-  *Current Batch Details.
-</h4>
-<p>
-  All info for current batch. Yield, Scrap, HMI output, labels used etc. Ability to enter more data for the batch. 
-  Should operators be able to enter data for a batch <b>during</b> production of a batch or only when the batch is finished?  
-</p>
+      <div class="inputHourBox">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+          <input type="text" class="inputHour form-control">
+      </div>
 
-<br>
-<h4>
-  *VFAL output statistics.
-</h4>
-<p>
-  Current production output over time in a graph. Compare with expected output.
-</p>
+      <div class="discVials">
+          <input type="text" class="inputDiscVials form-control">
+          <button type="submit" class="btn btn-primary btnShift" >Update</button>
+      </div>
 
-<br>
-<h4>
-  *Message box.
-</h4>
-<p>
-    Manager/planner can communicate with operators through this message box. Sort of like a chat, with notification when there is an unread message.
-</p>
-
-<br>
-<h4>
-  *Comments.
-</h4>
-<p>
-  Put comments section on this page instead. Add and view comment history on this page. 
-</p>
+    </div>
+  </div>
+  <div class="fsAndCom">
+    <div class="floorstock">Article</div>
+    <div class="addComment">Aside</div>
+  </div>
+</div>
