@@ -26,7 +26,7 @@ import { AuthAPIService } from './auth/auth.service';
 
 
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
-import { ExperimentModule } from './experiment/experiment.module';
+
 import { OperationModule } from './operation/operation.module';
 
 
@@ -57,7 +57,7 @@ import { OperationModule } from './operation/operation.module';
     HttpModule,
     HttpClientModule,
     Ng2PageScrollModule,
-    ExperimentModule,
+
 
     OperationModule
     
