@@ -28,6 +28,8 @@ class AuthView(generics.GenericAPIView):
     serializer_class = JWTTokenSerializer
     permission_classes = [AllowAny]
 
+    www_authenticate_realm = 'api'
+
     def get_authenticate_header(self, request):
         return '{0} realm="{1}"'.format(
             AUTH_HEADER_TYPES[0],

@@ -2,6 +2,7 @@
 import { RouterModule, Routes, Router } from '@angular/router';
 import { NgModule } from '@angular/core';
 
+import { AuthComponent } from './auth/auth.component';
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
 import { CommentsComponent } from './comments/comments.component';
 import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component'
@@ -20,6 +21,10 @@ const appRoutes: Routes = [
        path:"",
        redirectTo: '/home', 
        pathMatch: 'full' 
+    },
+    {
+        path:"login",
+        component: AuthComponent,
     },
     {
         path:"batch-history",
