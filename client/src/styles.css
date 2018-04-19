@@ -10,101 +10,32 @@
     padding: 1em;
 }
 
-.homeHeader {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background: yellowgreen;
-    height: 5vh;
+.chooseShift {
+    height: 65%;
+    margin-top: 1.2%;
+    margin-left: 5%;
 }
 
-.shift {    
-    display: flex;
-    flex-direction: row;
-    background: blue;
-    height: 32vh;
-  }  
-  
-  .shiftLeftCol {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    margin: 0; 
-    flex: 1;
-  }  
-
-  .wrapper {
-    display: flex;
-    flex-direction: column;
-    flex: 5;
-  }
-
-  .hours {
-    display: flex;
-    flex-direction: row;
-    height: 8vh;    
-    justify-content: space-around; 
-    align-items: center;
-  }
-    
-  .hour {
-      font-size: 2em;
-  }
-
-  .inputHourBox, .inputLabelBox, .discVials {
-    display: flex;
-    flex-direction: row;
-    height: 8vh;    
-    justify-content: space-around; 
-    align-items: center;
-  }
-
-  .inputLabelBox {
-      justify-content: flex-start;
-      margin: 0;
-  }
-
-  .inputHour, .inputDiscVials {
-    width: 8%;
-  }
-
-  .discVials {
-    justify-content: space-between;
-  }
-
-  .inputDiscVials {
-      margin-left: 2.2%;
-  }
-
-  .btnShift, .currentShift {
-      margin-right: 2.2%;
-  }
-
-.fsAndCom {
-    display: flex;
-    flex: 1;
+.table td {
+    vertical-align: middle;
 }
 
-.floorstock {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    order: 1;
-    background: red;
+.verticalShift {
+    margin-top: 29%;
 }
 
-.floorstockBox, .floorstockTitle {
-    display: flex;
-    flex-direction: row;
-    height: 6vh;    
-    border: solid;
+.verticalProduced {
+    margin-top: 12%;
 }
 
-.floorstockTitle {
-    justify-content: center;
-    align-items: center;
+.verticalVials {
+    margin-top: 11%;
 }
+
+.floorstockSection {
+    margin-top: 15%;
+}
+
 
 /* Start plus minus button --------------------------------------------- */
 
@@ -118,37 +49,36 @@
     -webkit-appearance: none;
             appearance: none;
   }
-  
+
   /* Plus and minus sign center align */
   .input-number-group .input-group-button {
-    line-height: calc(8vh/2 - 0.5vh);
+    line-height: 70%;
   }
-  
+
   .input-number-group .input-number {
-    width: 8vh;
-    padding: 0 1.2vh;
+    width: 50%;
     text-align: center;
     outline: none;
     display: block;
     margin: 0;
   }
-  
+
   .input-number-group .input-number,
   .input-number-group .input-number-decrement,
   .input-number-group .input-number-increment {
     border: 1px solid #cacaca;
-    height: 5vh;
+    height: 5%;
     -webkit-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
     border-radius: 0;
   }
-  
+
   .input-number-group .input-number-decrement,
   .input-number-group .input-number-increment {
     display: inline-block;
-    width: 4vh;
+    width: 4%;
     background: #e6e6e6;
     color: #0a0a0a;
     text-align: center;
@@ -157,31 +87,16 @@
     font-size: 2rem;
     font-weight: 400;
   }
-  
+
   .input-number-decrement {
     margin-right: 0.3rem;
   }
-  
+
   .input-number-increment {
     margin-left: 0.3rem;
   }
 
   /* End plus minus button --------------------------------------------- */
-
-  .stockName {
-      font-size: 1.5em;
-      margin-left: 2%;
-  }
-
-  .updateFloorstock {
-      justify-content: flex-end;
-  }
-
-.addComment {
-    flex: 0 0 70%;
-    background: beige;
-    order: 2;
-}
 
 
 /* End home style */
@@ -219,36 +134,22 @@
 
 /* Start comments style */
 
+.commentSection {
+    margin-top: 5%;
+    margin-left: 5%;
+}
+
 .commentForm {
     margin-top: 5%;
 }
 
-.mainTitleComments {
-    margin-top: 3%;
-}
-
-.addCommentTitle {
-    margin-top: 5%;
-    margin-right: 50%;
-}
-
-.commentListTitle {
-    margin-top: 4%;
-    margin-right: 50%;
-}
-
-.commentList {
-    margin-top: 1%;
-}
-
 .btn-addComment {
-    margin-top: 8%;
-    margin-right: 50%;
+    margin-top: 13%;
 }
 
 .commentTextarea {
-    height: 200%;
-    width: 200%;
+    height: 300%;
+    width: 38%;
 }
 
 /* End comments style */

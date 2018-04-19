@@ -59,14 +59,10 @@ export class FinishBatchComponent implements OnInit {
       } 
       this.operationsService.updateBatch(batchInfo).subscribe() 
     }
-<<<<<<< HEAD
-    this.operationsService.changeProdStatus(false);
-=======
     
     this.operationsService.changeProdStatus(false) 
     this.operationsService.changeProdInfo(null)
 
->>>>>>> c98626a0f2c54d5329559f3c47fc98c49ba58041
     this.router.navigate(['/home'])
   }
 }
