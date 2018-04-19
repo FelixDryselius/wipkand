@@ -7,7 +7,6 @@ import { NgModule } from '@angular/core';
 
 
 //3rd party and application imports:
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { StartBatchComponent } from './start-batch.component';
 import { StartBatchRoutingModule } from './start-batch-routing.module';
 
@@ -19,8 +18,7 @@ import { StartBatchRoutingModule } from './start-batch-routing.module';
     BrowserModule,
     FormsModule,
     HttpModule,
-    HttpClientModule,
-    Ng2PageScrollModule,
+    HttpClientModule
   ],
   declarations: [
     StartBatchComponent

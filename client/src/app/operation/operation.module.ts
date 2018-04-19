@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FinishBatchModule } from './finish-batch/finish-batch.module';
 import { OperationRoutingModule } from './operation-routing.module';
 import { StartBatchModule } from './start-batch/start-batch.module';
+import { CommentModule } from './comment/comment.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { StartBatchModule } from './start-batch/start-batch.module';
     CommonModule,
     FinishBatchModule,
     OperationRoutingModule,
-    StartBatchModule
+    StartBatchModule,
+    CommentModule
   ],
   declarations: [ ]
 })

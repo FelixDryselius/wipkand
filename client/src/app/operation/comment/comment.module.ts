@@ -6,20 +6,24 @@ import { HttpModule } from '@angular/http';
 import { NgModule } from '@angular/core';
 
 //3rd party and application imports:
-import { FinishBatchComponent } from './finish-batch.component';
-import { FinishBatchRoutingModule } from './finish-batch-routing.module';
+import { CommentComponent } from './comment.component';
+import { CommentRoutingModule } from './comment-routing.module';
+import { CommentsService } from './comments.service';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 @NgModule({
   imports: [
     CommonModule,
-    FinishBatchRoutingModule,
+    CommentRoutingModule,
     BrowserModule,
     FormsModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    Ng2PageScrollModule    
   ],
   declarations: [
-    FinishBatchComponent
-  ]
+    CommentComponent
+  ],
+  providers: [CommentsService]
 })
-export class FinishBatchModule { }
+export class CommentModule { }

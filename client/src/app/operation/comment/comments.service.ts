@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { Post } from '../../../assets/interface/comment';
 
+// 3rd party imports:
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()

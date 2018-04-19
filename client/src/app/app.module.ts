@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 
 import { HomeComponent } from './home/home.component';
-import { CommentsComponent } from './comments/comments.component';
+
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { FloorstockComponent } from './floorstock/floorstock.component';
 import { ShiftChangeComponent } from './shift-change/shift-change.component';
@@ -17,7 +17,7 @@ import { BatchHistoryComponent } from './batch-history/batch-history.component';
 
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
-import { CommentsService } from './comments/service/comments.service';
+
 import { OperationsService } from './operations.service';
 import { AuthComponent } from './auth/auth.component';
 import { AuthAPIService } from './auth/auth.service';
@@ -36,7 +36,7 @@ import { OperationModule } from './operation/operation.module';
     AppComponent,
 
     HomeComponent,
-    CommentsComponent,
+
     ScoreboardComponent,
     FloorstockComponent,
     ShiftChangeComponent,
@@ -63,7 +63,7 @@ import { OperationModule } from './operation/operation.module';
   ],
 
 
-  providers: [CommentsService, OperationsService, SortByPipe],
+  providers: [OperationsService, SortByPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
