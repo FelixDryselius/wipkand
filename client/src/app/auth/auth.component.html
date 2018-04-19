@@ -1,4 +1,8 @@
 <h1>Login:</h1>
+<div *ngIf='userData'>
+    <p>{{ userData.user }}</p>
+    <p>{{ userData.access }}</p>
+</div>
 
 <form *ngIf='!userData' [formGroup]='loginForm' #ourLoginDir='ngForm' (submit)='handleSubmit($event, ourLoginDir, loginForm)'>
   <input type='text' id='username' formControlName='usernameField'>

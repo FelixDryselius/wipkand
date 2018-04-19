@@ -20,7 +20,8 @@ export class TokenInterceptor implements HttpInterceptor {
   ) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // let csrftoken = this.cookieService.get('csrftoken')
-    let jwttoken = this.cookieService.get('jwttoken')
+    //let jwttoken = this.cookieService.get('jwttoken')
+    let jwttoken = ''
     if (jwttoken) {
       request = request.clone({
         setHeaders: {
@@ -39,7 +40,6 @@ export class TokenInterceptor implements HttpInterceptor {
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401 || err.status === 403) {
           console.log("error occured")
-
         }
       }
     });
