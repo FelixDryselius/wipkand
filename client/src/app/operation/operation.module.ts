@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 //3rd party and application imports:
 import { FinishBatchModule } from './finish-batch/finish-batch.module';
+import { HomeModule } from './home/home.module';
 import { OperationRoutingModule } from './operation-routing.module';
 import { StartBatchModule } from './start-batch/start-batch.module';
 import { CommentModule } from './comment/comment.module';
@@ -14,7 +15,8 @@ import { CommentModule } from './comment/comment.module';
     FinishBatchModule,
     OperationRoutingModule,
     StartBatchModule,
-    CommentModule
+    CommentModule,
+    HomeModule
   ],
   declarations: [ ],
   providers: []

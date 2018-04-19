@@ -8,7 +8,6 @@ import { HttpClientModule } from '@angular/common/http'
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 
-import { HomeComponent } from './home/home.component';
 
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { FloorstockComponent } from './floorstock/floorstock.component';
@@ -36,7 +35,7 @@ import { OperationModule } from './operation/operation.module';
   declarations: [
     AppComponent,
 
-    HomeComponent,
+
 
     ScoreboardComponent,
     FloorstockComponent,
