@@ -35,6 +35,6 @@ export class AuthAPIService {
         let token = "..."
         let apiLoginEndpoint = `${this.baseUrl}users/token/`;
         let httpOptions = this.createHeaders(token);
-        return this.http.post(apiLoginEndpoint, data, httpOptions)
+        return this.http.post(apiLoginEndpoint, data) // , httpOptions
     }
 }

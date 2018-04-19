@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { AuthLoginData } from './auth'
 import { User } from './user'
 
-
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-auth',
@@ -24,6 +24,7 @@ export class AuthComponent implements OnInit {
   passwordField: FormControl;
   constructor(
     private authAPI: AuthAPIService,
+    private cookieService: CookieService,
   ) { }
 
   ngOnInit() {
@@ -46,6 +47,8 @@ export class AuthComponent implements OnInit {
   doLogin(data) {
     this.authAPI.login(data).subscribe(data => {
       this.userData = data as User
+      let accessToken = this.userData.access || null;
+      this.cookieService.set( 'jwttoken', accessToken);
       console.log("Login Success!")
     })
   }

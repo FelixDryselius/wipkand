@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http'
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './auth/token.interceptor';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
@@ -23,10 +25,9 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthAPIService } from './auth/auth.service';
 import { SortByPipe } from './sort-by.pipe'
 
-//3rd party imports:
-import {Ng2PageScrollModule} from 'ng2-page-scroll';
-
-
+//Third party imports:
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -50,15 +51,22 @@ import {Ng2PageScrollModule} from 'ng2-page-scroll';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    
+
     HttpModule,
     HttpClientModule,
     Ng2PageScrollModule
-    
+
   ],
-
-
-  providers: [AuthAPIService, CommentsService, OperationsService, SortByPipe],
+  providers: [AuthAPIService,
+    CommentsService,
+    OperationsService, 
+    SortByPipe,
+    CookieService,
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: TokenInterceptor,
+        multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
