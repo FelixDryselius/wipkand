@@ -21,6 +21,10 @@ import { CommentsService } from './comments/service/comments.service';
 import { OperationsService } from './operations.service';
 import { AuthComponent } from './auth/auth.component';
 import { AuthAPIService } from './auth/auth.service';
+import { SortByPipe } from './sort-by.pipe'
+
+//3rd party imports:
+import {Ng2PageScrollModule} from 'ng2-page-scroll';
 
 
 
@@ -37,19 +41,22 @@ import { AuthAPIService } from './auth/auth.service';
     FinishBatchComponent,
     BatchReworkComponent,
     CurrentBatchInfoComponent,
-    AuthComponent,
+    SortByPipe,
+    AuthComponent
 
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     FormsModule,
     HttpModule,
     HttpClientModule,
-    AppRoutingModule
+    Ng2PageScrollModule
+    
   ],
 
 
-  providers: [CommentsService, OperationsService],
+  providers: [CommentsService, OperationsService, SortByPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
