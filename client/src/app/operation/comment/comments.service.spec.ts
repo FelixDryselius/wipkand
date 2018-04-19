@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { CommentsService } from './comments.service';
+import { CommentService } from './comment.service';
 
-describe('CommentsService', () => {
+describe('CommentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CommentsService]
+      providers: [CommentService]
     });
   });
 
-  it('should be created', inject([CommentsService], (service: CommentsService) => {
+  it('should be created', inject([CommentService], (service: CommentService) => {
     expect(service).toBeTruthy();
   }));
 });

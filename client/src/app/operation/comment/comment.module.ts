@@ -8,8 +8,9 @@ import { NgModule } from '@angular/core';
 //3rd party and application imports:
 import { CommentComponent } from './comment.component';
 import { CommentRoutingModule } from './comment-routing.module';
-import { CommentsService } from './comments.service';
+import { CommentService } from './comment.service';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { SortByPipe } from '../../sort-by.pipe';
 
 @NgModule({
   imports: [
@@ -24,6 +25,6 @@ import { Ng2PageScrollModule } from 'ng2-page-scroll';
   declarations: [
     CommentComponent
   ],
-  providers: [CommentsService]
+  providers: [CommentService, SortByPipe]
 })
 export class CommentModule { }

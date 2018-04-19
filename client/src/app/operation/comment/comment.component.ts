@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 
 // Application imports
-import { CommentsService } from './comments.service'; 
+import { CommentService } from './comment.service'; 
 import { SortByPipe } from '../../sort-by.pipe';
 
 //3rd party imports
@@ -28,19 +28,19 @@ export class CommentComponent implements OnInit {
   comments: JSON []; // list of comments from API
   newComment: Observable<any>; // for user added comments
   
-  constructor(private sortBy: SortByPipe, private commentsService:CommentsService) { } //import injectable service
+  constructor(private sortBy: SortByPipe, private commentService:CommentService) { } //import injectable service
 
   ngOnInit() {
-    this.getComments()
+    this.getComment()
   }
   
   ngOnDestroy() {
-    this.commentsService
+    this.commentService
   }
 
-  getComments() {
+  getComment() {
     // Subscribe to service and save the data in comments list as json obj
-    this.commentsService.getComments().subscribe(data =>{
+    this.commentService.getComment().subscribe(data =>{
       this.comments = data as JSON []
     });
   }

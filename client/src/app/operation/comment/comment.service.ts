@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
-export class CommentsService {
+export class CommentService {
   
   readonly ROUTE_URL_GET = 'http://localhost:8000/api/operations/comment/'; // hard coded URL for api to get all comments
   readonly ROUTE_URL_POST = 'http://localhost:8000/api/operations/comment/create/';
@@ -15,7 +15,7 @@ export class CommentsService {
   constructor(private http:HttpClient) { }
 
   // the method other apps subscribe to in order to get the api
-  getComments() {
+  getComment() {
     return this.http.get(this.ROUTE_URL_GET) //should add a catch error func here, like: import "rxjs/add/operator/catch";
   }
 

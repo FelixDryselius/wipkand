@@ -21,7 +21,7 @@ import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-in
 import { OperationsService } from './operations.service';
 import { AuthComponent } from './auth/auth.component';
 import { AuthAPIService } from './auth/auth.service';
-import { SortByPipe } from './sort-by.pipe'
+
 
 
 
@@ -44,7 +44,7 @@ import { OperationModule } from './operation/operation.module';
    
     BatchReworkComponent,
     CurrentBatchInfoComponent,
-    SortByPipe,
+
     AuthComponent,
     
 
@@ -63,7 +63,7 @@ import { OperationModule } from './operation/operation.module';
   ],
 
 
-  providers: [OperationsService, SortByPipe],
+  providers: [OperationsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

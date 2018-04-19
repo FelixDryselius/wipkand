@@ -6,7 +6,7 @@ import { FinishBatchModule } from './finish-batch/finish-batch.module';
 import { OperationRoutingModule } from './operation-routing.module';
 import { StartBatchModule } from './start-batch/start-batch.module';
 import { CommentModule } from './comment/comment.module';
-
+import { SortByPipe } from '../sort-by.pipe';
 
 @NgModule({
   imports: [
@@ -16,6 +16,7 @@ import { CommentModule } from './comment/comment.module';
     StartBatchModule,
     CommentModule
   ],
-  declarations: [ ]
+  declarations: [ ],
+  providers: [SortByPipe]
 })
 export class OperationModule { }
