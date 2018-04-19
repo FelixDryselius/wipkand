@@ -57,11 +57,11 @@ CREATE TABLE floorstock_item
 
 CREATE TABLE production_statistic
 (
-  batch_number char(10) NOT NULL,
   time_stamp datetime NOT NULL,
+  batch_number char(10) NOT NULL,
   production_quantity INT,
   staff_quantity INT,
-  PRIMARY KEY (batch_number, time_stamp),
+  PRIMARY KEY (time_stamp),
   FOREIGN KEY (batch_number) REFERENCES batch(batch_number)
 );
 
