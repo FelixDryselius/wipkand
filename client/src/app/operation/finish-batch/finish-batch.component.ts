@@ -1,11 +1,9 @@
-//C Core imports
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-// Our made imports
-import { Batch } from '../../assets/interface/batch';
-import { OperationsService } from '../operations.service';
+// 3rd party and application imports:
+import { OperationsService } from '../../operations.service';
 
 @Component({
   selector: 'app-finish-batch',
@@ -16,7 +14,6 @@ export class FinishBatchComponent implements OnInit {
   title = "Finish batch";
   groninger1 = "Final HMI Data Groninger 1";
   groninger2 = "Final HMI Data Groninger 2";
-
 
 
   reLabeling = "false" //making the radio button "no" checked default 

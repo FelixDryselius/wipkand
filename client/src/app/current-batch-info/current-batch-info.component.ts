@@ -12,9 +12,11 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   private prodActive: boolean;
   private prodInfo: {};
   
+  //observables
   private req_batch: any;
-  private service_prodStatus: any;
   private service_prodInfo: any;
+  private service_prodStatus: any;
+
 
   constructor(private route: ActivatedRoute, private operationsService: OperationsService) { }
 
@@ -33,15 +35,6 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
     this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
-
-    
-    // if(this.dbData){
-    //    this.prodInfo = {
-    //    batch: this.dbData[0].batch,
-    //    order: this.dbData[0].order,
-    //    article: this.dbData[0].article,
-    //   }
-    // }
   }
   ngOnDestroy() {
     //Test these carefully

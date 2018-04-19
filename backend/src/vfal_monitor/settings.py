@@ -33,9 +33,9 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'rest_framework',
     'operations',
+    'accounts',
     'prodStat',
     'floorstock.apps.FloorstockConfig',
-    #'operations.apps.OperationsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -140,3 +140,5 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static-root')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,"static")
 ]
+
+from vfal_monitor.restconf.main import *

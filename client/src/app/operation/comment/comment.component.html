@@ -1,0 +1,55 @@
+
+<!-- TODO: MAKE THE ACTIVE LINK HIGHLIGT WORK -->
+<!-- TODO: Add these CSS-changes to appropriate stylesheet -->
+<head>
+  <style>
+  ul.nav-pills {  
+  position: fixed;
+  }
+  </style>
+</head>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-8">
+        <div style="position: relative;" data-spy="scroll" data-target="#myScrollspy" data-offset="1">
+
+          <div class="card-group" *ngFor="let comment of  comments ; let i = index" id="comment{{i}}">
+            <div class="card col-4">                
+              <div class="card-body align-items-center">
+                <h5 class="card-title d-flex justify-content-center ">Comment data: </h5>  
+                <ul>
+                  <li>
+                    Author: {{ comment.user_name }} 
+                  </li>
+                  <li>
+                    Date: {{ comment.post_date | date:"yy/MM/dd HH:mm" }} 
+                  </li>
+                  <li>
+                    Batch: {{ comment.batch_number }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card col-8" >
+              <div class="card-body" >
+                <h6 class="card-title">Comment</h6>
+                <p class="card-text">{{ comment.text_comment }}</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4" >
+        <div class="list-group" id="myScrollspy" style="position: fixed;"  >
+          <a class="list-group-item list-group-item-action" *ngFor="let thisComment of comments  ; let n = index" pageScroll href="#comment{{n}}">
+            <b>Time: {{thisComment.post_date | date:"yy/MM/dd HH:mm"}}, Batch: {{ thisComment.batch_number }} </b>
+          </a>
+        </div> 
+      </div> 
+
+    </div>
+  </div>

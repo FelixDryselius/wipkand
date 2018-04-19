@@ -112,13 +112,16 @@ class BatchCreateUpdateSerializer(ModelSerializer):
     def create(self, validated_data):
         entered_order = validated_data.pop('order_number')
         selected_product = entered_order['article_number']
+        
         try:
             order_to_use = ProductOrder.objects.get(pk=entered_order['order_number'])
             print("FETCH OLD ORDER!")
             associated_product = order_to_use.article_number
+            
             if not validate_order(associated_product.article_number, selected_product.article_number):
                 print("WRONG NEW PRODUCT NUMBER")
                 raise ValidationError("An order with a different article number already exists!")
+        
         except ProductOrder.DoesNotExist:
             order_to_use = ProductOrder.objects.create(
                 order_number=entered_order['order_number'], article_number=selected_product)
