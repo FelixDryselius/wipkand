@@ -1,0 +1,27 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http'
+import { HttpModule } from '@angular/http';
+import { NgModule } from '@angular/core';
+
+//3rd party and application imports:
+import { FinishBatchComponent } from './finish-batch.component';
+import { FinishBatchRoutingModule } from './finish-batch-routing.module';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FinishBatchRoutingModule,
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    HttpClientModule,
+    Ng2PageScrollModule
+  ],
+  declarations: [
+    FinishBatchComponent
+  ]
+})
+export class FinishBatchModule { }
