@@ -6,6 +6,6 @@ from prodStat.api.views import (
 )
 
 urlpatterns = [
-    path('statistics/', ProductionStatisticAPIView.as_view(), name='list'),
-    path('statistics/<str:pk>/', ProductionStatisticAPIDetailView.as_view(), name='detail')
+    path('', ProductionStatisticAPIView.as_view(), name='list'),
+    path('<str:pk>/', ProductionStatisticAPIDetailView.as_view(), name='detail')
 ]
