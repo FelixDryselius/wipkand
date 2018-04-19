@@ -10,21 +10,23 @@ import { CommentComponent } from './comment.component';
 import { CommentRoutingModule } from './comment-routing.module';
 import { CommentService } from './comment.service';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
-import { SortByPipe } from '../../sort-by.pipe';
+
+
 
 @NgModule({
   imports: [
+    BrowserModule,
     CommonModule,
     CommentRoutingModule,
-    BrowserModule,
     FormsModule,
     HttpModule,
     HttpClientModule,
-    Ng2PageScrollModule    
+    Ng2PageScrollModule,
+        
   ],
   declarations: [
     CommentComponent
   ],
-  providers: [CommentService, SortByPipe]
+  providers: [CommentService]
 })
 export class CommentModule { }

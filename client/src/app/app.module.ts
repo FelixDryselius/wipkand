@@ -31,6 +31,7 @@ import { OperationModule } from './operation/operation.module';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,7 @@ import { OperationModule } from './operation/operation.module';
     CurrentBatchInfoComponent,
 
     AuthComponent,
-    
+
 
   ],
   imports: [
