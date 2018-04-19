@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http'
 
@@ -49,6 +49,8 @@ import {Ng2PageScrollModule} from 'ng2-page-scroll';
     AppRoutingModule,
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
+    
     HttpModule,
     HttpClientModule,
     Ng2PageScrollModule
@@ -56,7 +58,7 @@ import {Ng2PageScrollModule} from 'ng2-page-scroll';
   ],
 
 
-  providers: [CommentsService, OperationsService, SortByPipe],
+  providers: [AuthAPIService, CommentsService, OperationsService, SortByPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
