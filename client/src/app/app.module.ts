@@ -16,9 +16,9 @@ import { ShiftChangeComponent } from './shift-change/shift-change.component';
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
 
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
-import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
 
-import { OperationsService } from './operations.service';
+
+import { OperationsService } from './operation/shared/services/operations.service';
 import { AuthComponent } from './auth/auth.component';
 import { AuthAPIService } from './auth/auth.service';
 
@@ -44,7 +44,7 @@ import { OperationModule } from './operation/operation.module';
     BatchHistoryComponent,
    
     BatchReworkComponent,
-    CurrentBatchInfoComponent,
+
 
     AuthComponent,
 

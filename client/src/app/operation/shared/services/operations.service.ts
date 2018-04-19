@@ -7,7 +7,6 @@ import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams} from '@angular/
 import { Observable } from 'rxjs/Observable'; 
 import { timeout } from 'rxjs/operators/timeout';
 
-import { Batch } from '../assets/interface/batch';
 
 
 @Injectable()

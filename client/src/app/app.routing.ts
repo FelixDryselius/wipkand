@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
 
-import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component'
+
 import { FloorstockComponent } from './floorstock/floorstock.component';
 import { HomeComponent } from './home/home.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
@@ -25,10 +25,7 @@ const appRoutes: Routes = [
         path:"batch-history",
         component: BatchHistoryComponent,
     },
-    {
-        path: "running-batch",
-        component: CurrentBatchInfoComponent,
-    },
+
 
 
     {

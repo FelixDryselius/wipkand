@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 // 3rd party and application imports:
-import { OperationsService } from '../../operations.service';
+import { OperationsService } from '../shared/services/operations.service';
 
 @Component({
   selector: 'app-finish-batch',
