@@ -17,12 +17,12 @@ export class AuthAPIService {
    
 
   constructor(
-    private http: HttpClient,
+    //private http: HttpClient,
     ){ }
 
-    login(data:any): Observable<any>{
-        let apiLoginEndpoint = `${this.baseUrl}auth/`;
-        let httpOptions:{};
-        return this.http.post(apiLoginEndpoint, data, httpOptions)
-    }
+    // login(data:any): Observable<any>{
+    //     let apiLoginEndpoint = `${this.baseUrl}auth/`;
+    //     let httpOptions = {headers: new HttpHeaders({"Content-type": 'application/json'})}
+    //     return this.http.post(apiLoginEndpoint, data, httpOptions)
+    // }
 }
