@@ -21,6 +21,6 @@ import { StartBatchModule } from './start-batch/start-batch.module';
   ],
   declarations: [ ],
   providers: [],
-  exports[CurrentBatchInfoModule]
+  exports: [CurrentBatchInfoModule]
 })
 export class OperationModule { }
