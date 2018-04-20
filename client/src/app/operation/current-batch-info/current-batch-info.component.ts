@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { OperationsService } from '../operations.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { OperationsService } from '../shared/services/operations.service';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   private service_prodStatus: any;
 
 
-  constructor(private route: ActivatedRoute, private operationsService: OperationsService) { }
+  constructor(private route: ActivatedRoute, private operationsService: OperationsService, private router: Router) { }
 
   ngOnInit() {
     this.req_batch = this.operationsService.getActiveBatch().subscribe(data => {
@@ -40,6 +40,13 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
     //Test these carefully
     //this.service_prodStatus.unsubscribe();
     //this.service_prodInfo.unsubscribe();
+  }
+
+  start_batch(){
+    this.router.navigate(['/start-batch'])
+  }
+  finish_batch(){
+    this.router.navigate(['/finish-batch'])
   }
 }
 

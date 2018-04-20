@@ -1,11 +1,9 @@
-//C Core imports
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-// Our made imports
-import { Batch } from '../../assets/interface/batch';
-import { OperationsService } from '../operations.service';
+// 3rd party and application imports:
+import { OperationsService } from '../shared/services/operations.service';
 
 @Component({
   selector: 'app-finish-batch',
@@ -18,7 +16,6 @@ export class FinishBatchComponent implements OnInit {
   groninger2 = "Final HMI Data Groninger 2";
 
 
-
   reLabeling = "false" //making the radio button "no" checked default 
 
  //the following items are copied from start-batch.component
@@ -26,7 +23,7 @@ export class FinishBatchComponent implements OnInit {
   private prodInfo: any;
   private service_prodStatus: any;
   private service_prodInfo: any;
-  
+
   
   constructor(private router: Router, private operationsService: OperationsService) { }
 

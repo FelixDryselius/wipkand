@@ -1,11 +1,110 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Start home style */
+
+.homeContent {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin: 0;
+    padding: 1em;
+}
+
+.chooseShift {
+    height: 65%;
+    margin-top: 1.2%;
+    margin-left: 5%;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.verticalShift {
+    margin-top: 29%;
+}
+
+.verticalProduced {
+    margin-top: 12%;
+}
+
+.verticalVials {
+    margin-top: 11%;
+}
+
+.floorstockSection {
+    margin-top: 15%;
+}
+
+
+/* Start plus minus button --------------------------------------------- */
+
+    .input-group {
+        width: auto;
+    }
+
+  /* Digit center align */
+  .input-number-group input[type=number]::-webkit-inner-spin-button,
+  .input-number-group input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+            appearance: none;
+  }
+
+  /* Plus and minus sign center align */
+  .input-number-group .input-group-button {
+    line-height: 70%;
+  }
+
+  .input-number-group .input-number {
+    width: 50%;
+    text-align: center;
+    outline: none;
+    display: block;
+    margin: 0;
+  }
+
+  .input-number-group .input-number,
+  .input-number-group .input-number-decrement,
+  .input-number-group .input-number-increment {
+    border: 1px solid #cacaca;
+    height: 5%;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    border-radius: 0;
+  }
+
+  .input-number-group .input-number-decrement,
+  .input-number-group .input-number-increment {
+    display: inline-block;
+    width: 4%;
+    background: #e6e6e6;
+    color: #0a0a0a;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: 400;
+  }
+
+  .input-number-decrement {
+    margin-right: 0.3rem;
+  }
+
+  .input-number-increment {
+    margin-left: 0.3rem;
+  }
+
+  /* End plus minus button --------------------------------------------- */
+
+
+/* End home style */
+
 /* Start finish batch style */
 .btn-startBatch {
     margin-top: 40px;
 }
-
-
 
 .firstInput {
     margin-left: 83px;
@@ -35,36 +134,22 @@
 
 /* Start comments style */
 
+.commentSection {
+    margin-top: 5%;
+    margin-left: 5%;
+}
+
 .commentForm {
     margin-top: 5%;
 }
 
-.mainTitleComments {
-    margin-top: 3%;
-}
-
-.addCommentTitle {
-    margin-top: 5%;
-    margin-right: 50%;
-}
-
-.commentListTitle {
-    margin-top: 4%;
-    margin-right: 50%;
-}
-
-.commentList {
-    margin-top: 1%;
-}
-
 .btn-addComment {
-    margin-top: 8%;
-    margin-right: 50%;
+    margin-top: 13%;
 }
 
 .commentTextarea {
-    height: 200%;
-    width: 200%;
+    height: 300%;
+    width: 38%;
 }
 
 /* End comments style */

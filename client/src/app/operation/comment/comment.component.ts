@@ -1,11 +1,11 @@
-import { CommentsService } from './service/comments.service'; 
 import { Component, OnInit, OnDestroy} from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Post } from '../../assets/interface/comment';
-import { SortByPipe } from '../sort-by.pipe';
+
+// Application imports
+import { CommentService } from './comment.service'; 
 
 
 //3rd party imports
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/retry';
@@ -13,11 +13,11 @@ import 'rxjs/add/observable/of';
 
 
 @Component({
-  selector: 'app-comments',
-  templateUrl: './comments.component.html',
-  styleUrls: ['./comments.component.css'],
+  selector: 'app-comment',
+  templateUrl: './comment.component.html',
+  styleUrls: ['./comment.component.css'],
 })
-export class CommentsComponent implements OnInit {
+export class CommentComponent implements OnInit {
   //Dynamic titles: 
   addCommentTitle = "Add comment";
   commentListTitle = "Comments list";
@@ -28,19 +28,19 @@ export class CommentsComponent implements OnInit {
   comments: JSON []; // list of comments from API
   newComment: Observable<any>; // for user added comments
   
-  constructor(private commentsService:CommentsService) { } //import injectable service
+  constructor(private commentService:CommentService) { } //import injectable service
 
   ngOnInit() {
-    this.getComments()
+    this.getComment()
   }
   
   ngOnDestroy() {
-    this.commentsService
+    this.commentService
   }
 
-  getComments() {
+  getComment() {
     // Subscribe to service and save the data in comments list as json obj
-    this.commentsService.getComments().subscribe(data =>{
+    this.commentService.getComment().subscribe(data =>{
       this.comments = data as JSON []
     });
   }
