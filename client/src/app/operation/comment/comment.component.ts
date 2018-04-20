@@ -4,6 +4,7 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
 import { CommentService } from './comment.service'; 
 
 
+
 //3rd party imports
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -28,10 +29,12 @@ export class CommentComponent implements OnInit {
   comments: JSON []; // list of comments from API
   newComment: Observable<any>; // for user added comments
   
-  constructor( private commentService:CommentService) { } //import injectable service
+  
+  constructor(private commentService:CommentService) { } //import injectable service
 
   ngOnInit() {
     this.getComment()
+
   }
   
   ngOnDestroy() {
