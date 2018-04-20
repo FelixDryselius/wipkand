@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http'
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './auth/token.interceptor';
+//import { TokenInterceptor } from './auth/token.interceptor';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
@@ -63,12 +63,13 @@ import { AuthLogoutComponent } from './auth-logout/auth-logout.component';
   ],
   providers: [AuthAPIService,
     OperationsService, 
-    CookieService,
-    {
-        provide: HTTP_INTERCEPTORS,
-        useClass: TokenInterceptor,
-        multi: true
-    }],
+    // CookieService,
+    // {
+    //     provide: HTTP_INTERCEPTORS,
+    //     useClass: TokenInterceptor,
+    //     multi: true
+    // }
+  ],
 
   bootstrap: [AppComponent]
 })

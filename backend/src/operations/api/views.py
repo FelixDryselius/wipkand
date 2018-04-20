@@ -39,28 +39,34 @@ class ProductListAPIView(ListAPIView):
     '''List of products'''
     serializer_class = ProductListSerializer
     queryset = Product.objects.all()
+    permission_classes = [AllowAny]
 
 class ProductDetailAPIView(RetrieveAPIView):
     serializer_class = ProductDetailSerializer
     queryset = Product.objects.all()
+    permission_classes = [AllowAny]
 
 
 class OrderListAPIView(ListAPIView):
     serializer_class = OrderListSerializer
     queryset = ProductOrder.objects.all()
+    permission_classes = [AllowAny]
 
 class OrderDetailAPIView(RetrieveAPIView):
     serializer_class = OrderDetailSerializer
     queryset = ProductOrder.objects.all()
+    permission_classes = [AllowAny]
 
 class OrderCreateAPIView(CreateAPIView):
     serializer_class = OrderCreateUpdateSerializer
+    permission_classes = [AllowAny]
     #permission_classes = [IsAuthenticated]
     #authentication_classes = [SessionAuthentication] #part of a test
 
 
 class BatchListAPIView(ListAPIView):
     serializer_class = BatchListSerializer
+    permission_classes = [AllowAny]
 
     def get_queryset(self, *args, **kwargs):
         queryset_list = Batch.objects.all()
@@ -77,24 +83,26 @@ class BatchListAPIView(ListAPIView):
 
 
 class BatchDetailAPIView(RetrieveAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     authentication_classes = [SessionAuthentication]
     serializer_class = BatchDetailSerializer
     queryset = Batch.objects.all()
 
 class BatchCreateAPIView(CreateAPIView):
     serializer_class = BatchCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     authentication_classes = [SessionAuthentication]
     queryset = Batch.objects.all()
 
 class BatchUpdateAPIView(RetrieveUpdateAPIView):
+    permission_classes = [AllowAny]
     serializer_class = BatchCreateUpdateSerializer
     queryset = Batch.objects.all()
 
 
 class CommentListAPIView(ListAPIView):
     '''Gets list of comments for a batch, or all comments if no batch is specified'''
+    permission_classes = [AllowAny]
     serializer_class = CommentListSerializer
     queryset = BatchComment.objects.all()
     lookup_url_kwarg = 'batch_number'
@@ -110,6 +118,7 @@ class CommentListAPIView(ListAPIView):
 class CommentDetailAPIView(RetrieveAPIView):
     '''Gets detail of batch and comment id'''
     serializer_class = CommentDetailSerializer
+    permission_classes = [AllowAny]
 
     def get_object(self):
         return get_object_or_404(BatchComment, **self.kwargs)
@@ -118,6 +127,7 @@ class CommentDetailAPIView(RetrieveAPIView):
 #even though the batch is different
 class CommentCreateAPIView(CreateAPIView):
     serializer_class = CommentCreateUpdateSerializer
+    permission_classes = [AllowAny]
 
     #permission_classes = [IsAuthenticated]
 
