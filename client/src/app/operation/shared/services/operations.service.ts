@@ -25,9 +25,14 @@ export class OperationsService {
 
   //TODO: Should URLs really be placed here? Should we collect them in a file somewhere? 
   public ROOT_URL: string = "http://localhost:8000";
+
   private orderCREATE_URL: string = "/api/operations/order/create/";
   private batchCREATE_URL: string = "/api/operations/batch/create/";
   readonly batchGET_URL: string = "/api/operations/batch/";
+
+  // Scoreboard URLs
+  private scoreboardListURL: string = "/api/statistics/";
+  
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -92,6 +97,9 @@ export class OperationsService {
     return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions)
   }
 
-
+  updateScoreboard(updatedCell: any) {
+    let UPDATE_SCOREBOARD_URL = this.ROOT_URL+this.scoreboardListURL+ updatedCell.time_stamp+'/' // The URL to correct API
+    return this.http.patch(UPDATE_SCOREBOARD_URL, JSON.stringify(updatedCell), this.httpOptions)
+  }
 
 }

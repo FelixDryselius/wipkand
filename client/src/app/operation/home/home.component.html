@@ -46,7 +46,8 @@
               </div>
             </div>
             <div class="col-md-10">
-              <table class="table ">
+              <form class="productionForm" #productionForm='ngForm' (ngSubmit)='submitProduction($event,productionForm)'>
+              <table class="table">
                 <thead>
                   <tr>
                     <th class="text-center">07-08</th>
@@ -56,13 +57,13 @@
                     <th class="text-center">11-12</th>
                     <th class="text-center">12-13</th>
                     <th class="text-center">13-14</th>
-                    <th class="text-center">14-15</th>
+                    <th class="text-center">14-15t8</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                       <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                          <input type="number" class="form-control input-number" name='onShiftOne' [(ngModel)]="addshiftOne" [value]="1" required>
                       </td>
                       <td class="align-middle">
                           <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
@@ -88,7 +89,7 @@
                   </tr>
                   <tr>
                       <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                          <input type="number" class="form-control input-number" name='prodShiftOne' [(ngModel)]="addProdOne" required>
                       </td>
                       <td class="align-middle">
                           <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
@@ -123,11 +124,12 @@
                     <td></td>
                     <td></td>
                     <td class="align-middle">
-                        <button type="button" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </td>
                   </tr>
                 </tbody>
               </table>
+              </form>
             </div>
           </div>
         </div>
@@ -277,7 +279,7 @@
                         Add comment
                       </h3>
                     </div>
-                  </div>
+                  </div> 
                   <form class="commentForm" #commentForm='ngForm' (ngSubmit)='submitComment($event,commentForm)'>
                   <div class="row form-group commentInput">
                     <div class="col-md-2">

@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 // Application imports
-import { OperationsService } from '../../operations.service';
+import { OperationsService } from '../shared/services/operations.service';
 import { CommentService } from '../comment/comment.service';
 
 @Component({
@@ -24,6 +24,13 @@ export class HomeComponent implements OnInit {
   private commentName: any;
   private commentText: any;
   private req_comment: any;
+
+  // Variables for submitting data in scoreboard
+
+  private onShiftOne: Number;
+  private prodShiftOne: Number;
+  private cellDate: String;
+  private timestamps = ["07:00:00Z", "08:00:00Z", "09:00:00Z", "10:00:00Z", "11:00:00Z", "12:00:00Z", "13:00:00Z", "14:00:00Z", "15:00:00Z"];
 
   // A list storing comments fetched from api
   comments: JSON [];
@@ -53,7 +60,7 @@ export class HomeComponent implements OnInit {
 
   submitComment(event, formData) {
     //TODO: Do we really need to store these values in the class? 
-    
+
     this.commentName = formData.value['commentName'];
     this.commentText = formData.value['commentText'];
     this.commentDate = new Date();
@@ -76,26 +83,22 @@ export class HomeComponent implements OnInit {
     formData.resetForm()
   }
 
-  submitFloorstock(event, formData) {
+  submitProduction(event, formData) {
     //TODO: Do we really need to store these values in the class? 
     
-    this.commentName = formData.value['commentName'];
-    this.commentText = formData.value['commentText'];
-    this.commentDate = new Date();
-    
-    let newComment = {
-      comment_id: this.comments.length, 
-      user_name: this.commentName,
-      post_date: this.commentDate,
-      text_comment: this.commentText,
+    this.onShiftOne = formData.value['onShiftOne']
+    this.prodShiftOne = formData.value['prodShiftOne']
+    this.cellDate = "2018-03-01T"+this.timestamps[0];
+
+    let hourOne = {
+      time_stamp: this.cellDate,
+      production_quantity: this.prodShiftOne,
+      staff_quantity: this.onShiftOne,
       batch_number: this.prodInfo.batch_number,
     }
 
-    // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
-    this.req_comment = this.commentService.addComment(newComment).subscribe(data=>{this.getComment()});
+    this.operationsService.updateScoreboard(hourOne).subscribe();
 
-    // Resets form
-    formData.resetForm()
   }  
 
 }
