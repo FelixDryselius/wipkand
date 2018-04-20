@@ -15,6 +15,9 @@ import { CommentService } from '../comment/comment.service';
 })
 export class HomeComponent implements OnInit {
 
+  commentAdded = false;
+  commentAddedNotification = 'Your comment was added!';
+
   // Variables for creating a new comment. 
   private commentDate: Date;
   private commentId: Number;
@@ -65,6 +68,9 @@ export class HomeComponent implements OnInit {
 
     // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
     this.req_comment = this.commentService.addComment(newComment).subscribe(data=>{this.getComment()});
+
+    // Triggers notification
+    this.commentAdded = true;
 
     // Resets form
     formData.resetForm()

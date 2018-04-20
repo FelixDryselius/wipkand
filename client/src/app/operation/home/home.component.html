@@ -306,6 +306,11 @@
                     </div>
 
                     </form>
+                    <div class="col-md-12">
+                        <p *ngIf="commentAdded" class="text-left">
+                          {{ commentAddedNotification }} 
+                        </p>
+                    </div>
                   </div>
                 </div>
               </div>
