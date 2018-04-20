@@ -70,6 +70,28 @@ export class HomeComponent implements OnInit {
     formData.resetForm()
   }
 
+  submitFloorstock(event, formData) {
+    //TODO: Do we really need to store these values in the class? 
+    
+    this.commentName = formData.value['commentName'];
+    this.commentText = formData.value['commentText'];
+    this.commentDate = new Date();
+    
+    let newComment = {
+      comment_id: this.comments.length, 
+      user_name: this.commentName,
+      post_date: this.commentDate,
+      text_comment: this.commentText,
+      batch_number: this.prodInfo.batch_number,
+    }
+
+    // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
+    this.req_comment = this.commentService.addComment(newComment).subscribe(data=>{this.getComment()});
+
+    // Resets form
+    formData.resetForm()
+  }  
+
 }
 
 
