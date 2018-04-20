@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
@@ -17,7 +16,7 @@ import { Ng2PageScrollModule } from 'ng2-page-scroll';
 @NgModule({
   imports: [
     ApplicationPipeModule,
-    BrowserModule,
+
     CommonModule,
     CommentRoutingModule,
     FormsModule,
