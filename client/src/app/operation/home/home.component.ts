@@ -26,7 +26,6 @@ export class HomeComponent implements OnInit {
   private req_comment: any;
 
   // Variables for submitting data in scoreboard
-
   private onShiftOne: Number;
   private prodShiftOne: Number;
   private cellDate: String;
@@ -83,12 +82,20 @@ export class HomeComponent implements OnInit {
     formData.resetForm()
   }
 
+  getTimestamp(id: number): string {
+    console.log(this.timestamps[id])
+    return this.timestamps[id];
+  }
+
   submitProduction(event, formData) {
     //TODO: Do we really need to store these values in the class? 
     
+    console.log("log "+formData.model['onShiftOne'])
+
     this.onShiftOne = formData.value['onShiftOne']
     this.prodShiftOne = formData.value['prodShiftOne']
     this.cellDate = "2018-03-01T"+this.timestamps[0];
+
 
     let hourOne = {
       time_stamp: this.cellDate,
