@@ -21,7 +21,6 @@ SIMPLE_JWT = {
     'USER_ID_CLAIM': 'user_id',
 
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-    #'AUTH_TOKEN_CLASSES': ('accounts.api.utils.MyTokenObtainPairSerializer',),
 
     'TOKEN_TYPE_CLAIM': 'token_type',
 

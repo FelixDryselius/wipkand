@@ -20,8 +20,9 @@ export class TokenInterceptor implements HttpInterceptor {
   ) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // let csrftoken = this.cookieService.get('csrftoken')
-    //let jwttoken = this.cookieService.get('jwttoken')
-    let jwttoken = ''
+    let jwttoken = this.cookieService.get('jwttoken')
+    debugger;
+    //let jwttoken = ''
     if (jwttoken) {
       request = request.clone({
         setHeaders: {

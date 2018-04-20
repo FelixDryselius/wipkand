@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { AuthAPIService } from './auth.service';
 
 import { HttpClient } from '@angular/common/http';
@@ -47,9 +47,9 @@ export class AuthComponent implements OnInit {
   doLogin(data) {
     this.authAPI.login(data).subscribe(data => {
       this.userData = data as User
-      //let accessToken = this.userData.access || null;
-      console.log("before cookie set")
-      //this.cookieService.set( 'jwttoken', accessToken);
+      let accessToken = this.userData.access || null;
+      console.log("before cookie set. Access token is: " + accessToken)
+      this.cookieService.set('jwttoken', accessToken);
       console.log("Login Success!")
     })
   }
@@ -65,7 +65,7 @@ export class AuthComponent implements OnInit {
       console.log(authLoginData)
       this.doLogin(authLoginData);
       ourLoginDir.resetForm({})
-      
+
     }
   }
 }

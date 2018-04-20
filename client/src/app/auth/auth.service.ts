@@ -32,9 +32,10 @@ export class AuthAPIService {
     }
 
     login(data: AuthLoginData): Observable<any> {
-        let token = "..."
+        //let token = "..."
         let apiLoginEndpoint = `${this.baseUrl}users/token/`;
-        let httpOptions = this.createHeaders(token);
+        let httpOptions = this.createHeaders();
+        debugger;
         return this.http.post(apiLoginEndpoint, data) // , httpOptions
     }
 }

@@ -28,6 +28,7 @@ import { SortByPipe } from './sort-by.pipe'
 //Third party imports:
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthLogoutComponent } from './auth-logout/auth-logout.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { CookieService } from 'ngx-cookie-service';
     BatchReworkComponent,
     CurrentBatchInfoComponent,
     SortByPipe,
-    AuthComponent
+    AuthComponent,
+    AuthLogoutComponent
 
   ],
   imports: [
