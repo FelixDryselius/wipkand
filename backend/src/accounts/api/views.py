@@ -27,6 +27,7 @@ class UserCreateAPIView(CreateAPIView):
 class AuthView(generics.GenericAPIView):
     serializer_class = JWTTokenSerializer
     permission_classes = [AllowAny]
+    authentication_classes = []
 
     www_authenticate_realm = 'api'
 
