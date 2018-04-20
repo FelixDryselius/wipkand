@@ -9,13 +9,12 @@
   </style>
 </head>
 
-<body style="position: relative;" data-spy="scroll" data-target="#myScrollspy" data-offset="1"> 
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-8">
         <div style="position: relative;" data-spy="scroll" data-target="#myScrollspy" data-offset="1">
 
-          <div class="card-group" *ngFor="let comment of  (comments | sortBy:'post_date'); let i = index" id="comment{{i}}">
+          <div class="card-group" *ngFor="let comment of (comments | sortBy:post_date) ; let i = index" id="comment{{i}}">
             <div class="card col-4">                
               <div class="card-body align-items-center">
                 <h5 class="card-title d-flex justify-content-center ">Comment data: </h5>  
@@ -46,7 +45,7 @@
 
       <div class="col-4" >
         <div class="list-group" id="myScrollspy" style="position: fixed;"  >
-          <a class="list-group-item list-group-item-action" *ngFor="let thisComment of (comments | sortBy:'post_date') ; let n = index" pageScroll href="#comment{{n}}">
+          <a class="list-group-item list-group-item-action" *ngFor="let thisComment of (comments | sortBy:post_date); let n = index" pageScroll href="#comment{{n}}">
             <b>Time: {{thisComment.post_date | date:"yy/MM/dd HH:mm"}}, Batch: {{ thisComment.batch_number }} </b>
           </a>
         </div> 
@@ -54,4 +53,3 @@
 
     </div>
   </div>
-</body> 
