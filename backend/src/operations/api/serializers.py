@@ -99,15 +99,6 @@ class BatchCreateUpdateSerializer(ModelSerializer):
         model = Batch
         fields = '__all__'
 
-        #exclude = ('order_number',)
-        # TODO: Create custom validators instead of custom CreateAPIView
-        # extra_kwargs = {
-        #     'order_number': {
-        #         'validators': []
-        #         [UnicodeOrderNumberValidator()]
-        #     }
-        # }
-
     # Do we need save after objects.create()?
     def create(self, validated_data):
         entered_order = validated_data.pop('order_number')

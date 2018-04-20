@@ -4,9 +4,9 @@
     <p>Order ID: {{ prodInfo.order_number }}</p>
     <p>Article number: {{ prodInfo.article_number }}</p>
     <p>Batch number: {{ prodInfo.batch_number }}</p>
-    <a class="btn btn-primary" routerLink="./finish-batch">Finish batch</a>
+    <a class="btn btn-primary" (click)="finish_batch()">Finish batch</a>
 </ng-template>
 
 <ng-template #pStop>
-    <a class="btn btn-primary" routerLink="./start-batch">Start Batch</a>
+    <a class="btn btn-primary" (click)="start_batch()">Start Batch</a>
 </ng-template>

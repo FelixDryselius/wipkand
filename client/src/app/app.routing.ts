@@ -2,9 +2,11 @@
 import { RouterModule, Routes, Router } from '@angular/router';
 import { NgModule } from '@angular/core';
 
+import { AuthComponent } from './auth/auth.component';
+import { AuthLogoutComponent } from './auth-logout/auth-logout.component'
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
 
-import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component'
+
 import { FloorstockComponent } from './floorstock/floorstock.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { ShiftChangeComponent } from './shift-change/shift-change.component';
@@ -21,13 +23,18 @@ const appRoutes: Routes = [
        pathMatch: 'full' 
     },
     {
+        path:"login",
+        component: AuthComponent,
+    },
+    {
+        path:"logout",
+        component: AuthLogoutComponent,
+    },
+    {
         path:"batch-history",
         component: BatchHistoryComponent,
     },
-    {
-        path: "running-batch",
-        component: CurrentBatchInfoComponent,
-    },
+
 
 
     {

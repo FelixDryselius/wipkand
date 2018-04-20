@@ -29,7 +29,6 @@ export class CommentComponent implements OnInit {
   comments: JSON []; // list of comments from API
   newComment: Observable<any>; // for user added comments
   
-  
   constructor(private commentService:CommentService) { } //import injectable service
 
   ngOnInit() {
