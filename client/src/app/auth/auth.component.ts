@@ -47,9 +47,12 @@ export class AuthComponent implements OnInit {
   doLogin(data) {
     this.authAPI.login(data).subscribe(data => {
       this.userData = data as User
-      let accessToken = this.userData.access || null;
-      console.log("before cookie set. Access token is: " + accessToken)
-      this.cookieService.set('jwttoken', accessToken);
+      let token = {
+        accessToken: this.userData.access || null,
+        refreshToken: this.userData.refresh || null,
+        expiry: new Date(this.userData.expires) || null
+      } 
+      this.authAPI.performLogin(token)
       console.log("Login Success!")
     })
   }
