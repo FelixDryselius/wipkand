@@ -88,7 +88,7 @@ export class OperationsService {
 
   
 
-  getBatchList() {
+  getBatchList():Observable<any> {
     return this.http.get(this.ROOT_URL + this.batchGET_URL)
   }
   //TODO: These can be the same function
