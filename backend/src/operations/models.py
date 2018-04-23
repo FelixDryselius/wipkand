@@ -21,6 +21,8 @@ class ProductOrder(models.Model):
     class Meta:
         managed = False
         db_table = 'product_order'
+        ordering = ['-order_number']
+
 
 class Batch(models.Model):
     batch_number = models.CharField(primary_key=True, max_length=10)
@@ -41,6 +43,7 @@ class Batch(models.Model):
     class Meta:
         managed = False
         db_table = 'batch'
+        ordering = ['-start_date']
 
 
 class BatchComment(models.Model):
@@ -54,3 +57,4 @@ class BatchComment(models.Model):
         managed = False
         db_table = 'batch_comment'
         unique_together = (('comment_id', 'batch_number'),)
+        ordering = ['-post_date']
