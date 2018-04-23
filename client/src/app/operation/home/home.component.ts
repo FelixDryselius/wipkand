@@ -170,7 +170,6 @@ export class HomeComponent implements OnInit {
 
     // Collects all changes and stores as dictionary in object results
     for(let key in formData.value) {
-      console.log(typeof formData.value[key])
       if(typeof formData.value[key] == 'number') {
         results[key] = formData.value[key];
      }
@@ -189,13 +188,14 @@ export class HomeComponent implements OnInit {
     } 
 
     else if (key.substr(key.length-2)=='pq') {
+      
       change = {
         time_stamp: key.slice(0, -3),
         production_quantity: results[key],
         batch_number: this.prodInfo.batch_number,
       }
     this.operationsService.updateProdStats(change).subscribe();
-  } 
+  }
    }
 
   }  
