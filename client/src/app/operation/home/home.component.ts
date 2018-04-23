@@ -26,13 +26,66 @@ export class HomeComponent implements OnInit {
   private req_comment: any;
 
   // Variables for submitting data in scoreboard
-  private onShiftOne: Number;
-  private prodShiftOne: Number;
-  private cellDate: String;
-  private timestamps = ["07:00:00Z", "08:00:00Z", "09:00:00Z", "10:00:00Z", "11:00:00Z", "12:00:00Z", "13:00:00Z", "14:00:00Z", "15:00:00Z"];
+
+  // Object used for selecting shift
+  private shifts:any[]=[
+    {shift:'day'}, 
+    {shift:'evening'}, 
+    {shift:'night'} 
+]
+
+  // Variable used for determining which html code to render (day, evening or night)
+  private selectedShift: String;
+
+  // Arrays containg times of shifts
+  private dayShiftTimes:any[]=[
+    {time:'08-09'}, 
+    {time:'09-10'}, 
+    {time:'10-11'}, 
+    {time:'11-12'}, 
+    {time:'12-13'}, 
+    {time:'13-14'}, 
+    {time:'14-15'},
+    {time:'15-16'}, 
+  ]
+  private eveningShiftTimes:any[]=[
+    {time:'16-17'}, 
+    {time:'17-18'}, 
+    {time:'18-19'}, 
+    {time:'19-20'}, 
+    {time:'20-21'}, 
+    {time:'21-22'}, 
+    {time:'22-23'},
+    {time:'23-00'},
+  ]
+  private nightShiftTimes:any[]=[
+    {time:'00-01'}, 
+    {time:'01-02'}, 
+    {time:'02-03'}, 
+    {time:'03-04'}, 
+    {time:'04-05'}, 
+    {time:'05-06'}, 
+    {time:'06-07'}, 
+    {time:'07-08'},
+  ]
+
+  // Array with subscribed production data
+  private shiftProdStats: JSON[];
+
+  // Arrays containing names of ngModels for every input element
+  ngModelStaffDay:any[] = [];
+  ngModelStaffEve:any[] = [];
+  ngModelStaffNight:any[] = [];
+  ngModelProdDay:any[] = [];
+  ngModelProdEve:any[] = [];
+  ngModelProdNight:any[] = [];
 
   // A list storing comments fetched from api
   comments: JSON [];
+
+  // A list storing producttion statistics fetched from api
+  prodStats: JSON [];
+  first_hour: JSON [];
   
   //the following items are copied from start-batch.component
   private prodActive: boolean;
@@ -47,6 +100,11 @@ export class HomeComponent implements OnInit {
     //the following items are copied from start-batch.component. Subscribes to be able to connect comment to running batch
     this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
+    
+    //get production statistics from api
+    this.operationsService.getProdStats().subscribe(data =>{
+    this.prodStats = data as JSON []
+    });
   }
 
   getComment() {
@@ -54,12 +112,35 @@ export class HomeComponent implements OnInit {
     this.commentService.getComment().subscribe(data =>{
       this.comments = data as JSON []
     });
-    
   }
+
+  // Changes current shift
+  onChange(chosenShift) {
+
+    this.operationsService.getProdStats().subscribe((data:any) =>{
+      this.prodStats = data as JSON []
+      });
+
+      if (chosenShift.shift == 'day') {
+        this.shiftProdStats = this.prodStats.slice(8, 16)
+      }
+
+      if (chosenShift.shift == 'evening') {
+        this.shiftProdStats = this.prodStats.slice(16, 24)
+      }
+
+      if (chosenShift.shift == 'night') {
+        this.shiftProdStats = this.prodStats.slice(0, 8)
+      }
+    
+    this.selectedShift = chosenShift.shift;
+  }
+
+
 
   submitComment(event, formData) {
     //TODO: Do we really need to store these values in the class? 
-
+    console.log(formData.value)
     this.commentName = formData.value['commentName'];
     this.commentText = formData.value['commentText'];
     this.commentDate = new Date();
@@ -82,29 +163,40 @@ export class HomeComponent implements OnInit {
     formData.resetForm()
   }
 
-  getTimestamp(id: number): string {
-    console.log(this.timestamps[id])
-    return this.timestamps[id];
-  }
-
-  submitProduction(event, formData) {
+  updateProduction(event, formData) {
     //TODO: Do we really need to store these values in the class? 
-    
-    console.log("log "+formData.model['onShiftOne'])
 
-    this.onShiftOne = formData.value['onShiftOne']
-    this.prodShiftOne = formData.value['prodShiftOne']
-    this.cellDate = "2018-03-01T"+this.timestamps[0];
+    let results = {};
 
+    // Collects all changes and stores as dictionary in object results
+    for(let key in formData.value) {
+      console.log(typeof formData.value[key])
+      if(typeof formData.value[key] == 'number') {
+        results[key] = formData.value[key];
+     }
+   }
 
-    let hourOne = {
-      time_stamp: this.cellDate,
-      production_quantity: this.prodShiftOne,
-      staff_quantity: this.onShiftOne,
-      batch_number: this.prodInfo.batch_number,
-    }
+   // Sends updated data to service for patch request
+   for(let key in results) {
+     let change = {}
+     if (key.substr(key.length-2)=='sq') {
+        change = {
+          time_stamp: key.slice(0, -3),
+          staff_quantity: results[key],
+          batch_number: this.prodInfo.batch_number,
+        }
+      this.operationsService.updateProdStats(change).subscribe();
+    } 
 
-    this.operationsService.updateScoreboard(hourOne).subscribe();
+    else if (key.substr(key.length-2)=='pq') {
+      change = {
+        time_stamp: key.slice(0, -3),
+        production_quantity: results[key],
+        batch_number: this.prodInfo.batch_number,
+      }
+    this.operationsService.updateProdStats(change).subscribe();
+  } 
+   }
 
   }  
 
