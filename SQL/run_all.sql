@@ -75,10 +75,12 @@ CREATE TABLE production_statistic
 
 CREATE TABLE floorstock_statistic
 (
-  floorstock_item_id char(255) NOT NULL,
   time_stamp datetime NOT NULL,
+  floorstock_item_id char(255) NOT NULL,
   quantity INT,
-  PRIMARY KEY (floorstock_item_id, time_stamp),
+  batch_number char(10) NOT NULL,
+  PRIMARY KEY (time_stamp, floorstock_item_id),
+  FOREIGN KEY (batch_number) REFERENCES batch(batch_number),
   FOREIGN KEY (floorstock_item_id) REFERENCES floorstock_item(item_id)
 );
 
@@ -285,26 +287,26 @@ INSERT INTO production_statistic (batch_number, time_stamp, production_quantity,
 VALUES ('1000000001', '2018-03-01 23:00:00', 2000, 3);
 
 
-INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity)
-VALUES ('001-1995', '2018-03-01 00:30:00', 1);
+INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity, batch_number)
+VALUES ('001-1995', '2018-03-01 00:30:00', 1, '1000000001');
 
-INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity)
-VALUES ('301-6914', '2018-03-01 01:30:00', 1);
+INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity, batch_number)
+VALUES ('301-6914', '2018-03-01 01:30:00', 1, '1000000001');
 
-INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity)
-VALUES ('301-6915', '2018-03-01 02:30:00', 1);
+INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity, batch_number)
+VALUES ('301-6915', '2018-03-01 02:30:00', 1, '1000000002');
 
-INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity)
-VALUES ('301-6906', '2018-03-01 03:30:00', 1);
+INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity, batch_number)
+VALUES ('301-6906', '2018-03-01 03:30:00', 1, '1000000002');
 
-INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity)
-VALUES ('301-6907', '2018-03-01 04:30:00', 2);
+INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity, batch_number)
+VALUES ('301-6907', '2018-03-01 04:30:00', 2, '1000000003');
 
-INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity)
-VALUES ('scale_roll', '2018-03-01 05:30:00', 1);
+INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity, batch_number)
+VALUES ('scale_roll', '2018-03-01 05:30:00', 1, '1000000003');
 
-INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity)
-VALUES ('zebra_label', '2018-03-01 06:30:00', 1);
+INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity, batch_number)
+VALUES ('zebra_label', '2018-03-01 06:30:00', 1, '1000000003');
 
-INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity)
-VALUES ('001-1995', '2018-03-01 07:30:00', 1);
+INSERT INTO floorstock_statistic (floorstock_item_id, time_stamp, quantity, batch_number)
+VALUES ('001-1995', '2018-03-01 07:30:00', 1, '1000000004');
