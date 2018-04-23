@@ -50,7 +50,7 @@ const appRoutes: Routes = [
     
     {
         path: 'statistics',
-        loadChildren: () => StatisticsModule
+        loadChildren: () => StatisticsModule,
     },
 
     {

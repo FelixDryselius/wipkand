@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { ApplicationPipeModule } from '../../shared/application-pipes/application-pipe.module';
 import { CommentComponent } from './comment.component';
 import { CommentRoutingModule } from './comment-routing.module';
-import { CommentService } from './comment.service';
+import { CommentService } from '../../shared/application-services/comment.service';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 

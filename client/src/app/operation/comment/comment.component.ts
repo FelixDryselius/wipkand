@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 
 // Application imports
-import { CommentService } from './comment.service'; 
+import { CommentService } from '../../shared/application-services/comment.service';
 
 
 //3rd party imports
