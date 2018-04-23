@@ -1,36 +1,29 @@
 from django.urls import path
 
 from operations.api.views import (
-    ProductListAPIView,
+
+    ProductAPIView,
     ProductDetailAPIView,
-    OrderListAPIView,
+    OrderAPIView,
     OrderDetailAPIView,
-    OrderCreateAPIView,
-    BatchListAPIView,
+    BatchAPIView,
     BatchDetailAPIView,
-    BatchCreateAPIView,
-    BatchUpdateAPIView,
-    CommentListAPIView,
-    CommentDetailAPIView,
-    CommentCreateAPIView,
+    CommentAPIView,
+    CommentDetailAPIView
 )
 
-#TODO: Split comments up to its own app
+#TODO: Split comments up to its own app maybe?
 urlpatterns = [
-    path('product/', ProductListAPIView.as_view(), name='product-list'),
+    path('product/', ProductAPIView.as_view(), name='product-list'),
     path('product/<str:pk>/', ProductDetailAPIView.as_view(), name='product-detail'),
 
-    path('order/', OrderListAPIView.as_view(), name='order-list'),
-    path('order/create/', OrderCreateAPIView.as_view(), name='order-create'),
+    path('order/', OrderAPIView.as_view(), name='order-list'),
     path('order/<str:pk>/', OrderDetailAPIView.as_view(), name='order-detail'),
 
-    path('batch/', BatchListAPIView.as_view(), name='batch-list'),
-    path('batch/create/', BatchCreateAPIView.as_view(), name='batch-create'),
+    path('batch/', BatchAPIView.as_view(), name='batch-list'),
     path('batch/<str:pk>/', BatchDetailAPIView.as_view(), name='batch-detail'),
-    path('batch/<str:pk>/edit/', BatchUpdateAPIView.as_view(), name='batch-update'),
 
-    path('comment/', CommentListAPIView.as_view(), name='comment-list'),
-    path('comment/create/', CommentCreateAPIView.as_view(), name='comment-create'),
-    path('comment/<str:batch_number>/', CommentListAPIView.as_view(), name='batch-comment-list'),
+    path('comment/', CommentAPIView.as_view(), name='comment-list'),
+    path('comment/<str:batch_number>/', CommentAPIView.as_view(), name='batch-comment-list'),
     path('comment/<str:batch_number>/<int:pk>/', CommentDetailAPIView.as_view(), name='comment-detail'),
 ]

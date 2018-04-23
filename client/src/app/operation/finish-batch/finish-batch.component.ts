@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 // 3rd party and application imports:
 import { OperationsService } from '../shared/services/operations.service';
+import { Batch } from '../../shared/interfaces/batch';
 
 @Component({
   selector: 'app-finish-batch',
@@ -48,13 +49,13 @@ export class FinishBatchComponent implements OnInit {
       batchInfo = {
         batch_number: this.prodInfo.batch_number,
         end_date: new Date(),
-        yield_1: batchForm.yield_1,
+        production_yield: batchForm.yield_1,
         hmi1_bad: batchForm.hmi1_bad,
         hmi2_bad: batchForm.hmi2_bad,
         hmi1_good: batchForm.hmi1_good,
         hmi2_good: batchForm.hmi2_good,
       } 
-      this.operationsService.updateBatch(batchInfo).subscribe() 
+      this.operationsService.updateBatch(batchInfo as Batch).subscribe() 
     }
     
     this.operationsService.changeProdStatus(false) 

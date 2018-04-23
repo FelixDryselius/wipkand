@@ -25,10 +25,9 @@ export class OperationsService {
   prodInfoObservable = this.prodInfo.asObservable();
 
   //TODO: Should URLs really be placed here? Should we collect them in a file somewhere? 
-  public ROOT_URL: string = "http://localhost:8000";
-  private orderCREATE_URL: string = "/api/operations/order/create/";
-  private batchCREATE_URL: string = "/api/operations/batch/create/";
-  readonly batchGET_URL: string = "/api/operations/batch/";
+  readonly URL_ROOT: string = "http://localhost:8000";
+  readonly URL_ORDER_API: string = "/api/operations/order/";
+  readonly URL_BATCH_API: string = "/api/operations/batch/";
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -68,8 +67,8 @@ export class OperationsService {
   createBatch(newBatch: {}) {
     console.log("POST - Create new batch")
     console.log("Data is: " + JSON.stringify(newBatch))
-    console.log("Url is: " + this.ROOT_URL + this.batchCREATE_URL)
-    return this.http.post(this.ROOT_URL + this.batchCREATE_URL, JSON.stringify(newBatch), this.httpOptions).map(data => {
+    console.log("Url is: " + this.URL_ROOT + this.URL_BATCH_API)
+    return this.http.post(this.URL_ROOT + this.URL_BATCH_API, JSON.stringify(newBatch), this.httpOptions).map(data => {
       console.log(data)
       let runningBatch = data as Batch
       this.setCurrentBatchInfo(runningBatch);
@@ -89,17 +88,20 @@ export class OperationsService {
   
 
   getBatchList() {
-    return this.http.get(this.ROOT_URL + this.batchGET_URL)
+    return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
   //TODO: These can be the same function
   getBatchDetail(query?: string) {
-    return this.http.get(this.ROOT_URL + this.batchGET_URL + query)
+    return this.http.get(this.URL_ROOT + this.URL_BATCH_API + query)
   }
 
   /* PATCH: update the batch on the server.  */
   /* TODO: Create pipe or similar to catch errors */
-  updateBatch(updatedBatch: any) {
-    let UPDATE_BATCH_URL = this.ROOT_URL + this.batchGET_URL + updatedBatch.batch_number + "/edit/" // The URL to correct API
+  updateBatch(updatedBatch: Batch) {
+    let UPDATE_BATCH_URL = this.URL_ROOT + this.URL_BATCH_API + updatedBatch.batch_number + "/" // The URL to correct API
+    console.log("updating batch! url is: " + UPDATE_BATCH_URL)
+    console.log("Data is: ")
+    console.log(updatedBatch)
     return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions)
   }
 
