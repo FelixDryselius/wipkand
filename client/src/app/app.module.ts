@@ -10,7 +10,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 
-import { HomeComponent } from './home/home.component';
 
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { FloorstockComponent } from './floorstock/floorstock.component';
@@ -37,7 +36,7 @@ import { BatchHistoryDetailComponent } from './batch-history-detail/batch-histor
   declarations: [
     AppComponent,
 
-    HomeComponent,
+
 
     ScoreboardComponent,
     FloorstockComponent,

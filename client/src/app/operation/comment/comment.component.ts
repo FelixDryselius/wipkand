@@ -4,6 +4,7 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
 import { CommentService } from './comment.service'; 
 
 
+
 //3rd party imports
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -32,6 +33,7 @@ export class CommentComponent implements OnInit {
 
   ngOnInit() {
     this.getComment()
+
   }
   
   ngOnDestroy() {
