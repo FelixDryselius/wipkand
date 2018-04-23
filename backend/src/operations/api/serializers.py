@@ -73,6 +73,7 @@ class OrderCreateUpdateSerializer(ModelSerializer):
 
 
 class BatchListSerializer(ModelSerializer):
+    order_number = OrderDetailSerializer()
     class Meta:
         model = Batch
         fields = [
@@ -81,9 +82,8 @@ class BatchListSerializer(ModelSerializer):
             'end_date',
             'rework_date',
             'scrap',
-            'yield_1',
-            'yield_2',
-            'order_number',
+            'production_yield',
+            'order_number'
         ]
 
 

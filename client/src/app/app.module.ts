@@ -4,7 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http'
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './auth/token.interceptor';
+//import { TokenInterceptor } from './auth/token.interceptor';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { HomeComponent } from './home/home.component';
@@ -21,7 +22,10 @@ import { AuthAPIService } from './auth/auth.service';
 //Third party imports:
 import { CookieService } from 'ngx-cookie-service';
 import { OperationModule } from './operation/operation.module';
+import { AuthLogoutComponent } from './auth-logout/auth-logout.component';
+import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component';
 import { StatisticsModule } from './statistics/statistics.module';
+
 
 
 @NgModule({
@@ -34,6 +38,10 @@ import { StatisticsModule } from './statistics/statistics.module';
     BatchHistoryComponent,
     BatchReworkComponent,
     AuthComponent,
+    AuthLogoutComponent,
+    BatchHistoryDetailComponent
+
+
   ],
   imports: [
     AppRoutingModule,
@@ -47,12 +55,13 @@ import { StatisticsModule } from './statistics/statistics.module';
   ],
   providers: [AuthAPIService,
     OperationsService, 
-    CookieService,
-    {
-        provide: HTTP_INTERCEPTORS,
-        useClass: TokenInterceptor,
-        multi: true
-    }],
+    // CookieService,
+    // {
+    //     provide: HTTP_INTERCEPTORS,
+    //     useClass: TokenInterceptor,
+    //     multi: true
+    // }
+  ],
 
   bootstrap: [AppComponent]
 })
