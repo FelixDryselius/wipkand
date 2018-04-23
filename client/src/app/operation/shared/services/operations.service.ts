@@ -3,9 +3,10 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { catchError, retry } from 'rxjs/operators';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams} from '@angular/common/http';
-import { Observable } from 'rxjs/Observable'; 
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import { timeout } from 'rxjs/operators/timeout';
+import { Batch } from '../../../shared/interfaces/batch';
 
 
 
@@ -32,7 +33,7 @@ export class OperationsService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-     // 'Authorization': ''
+      // 'Authorization': ''
     })
   }
 
@@ -64,21 +65,27 @@ export class OperationsService {
     this.prodInfo.next(info);
   }
 
-  //TODO: Can we make a general method of these two? Pass URL and data to post as arguments and use same function.
-  createOrder(newOrder: {}) {
-    console.log("POST - Create new order")
-    console.log("Data is: " + JSON.stringify(newOrder))
-    console.log("Url is: " + this.ROOT_URL + this.orderCREATE_URL)
-    return this.http.post(this.ROOT_URL + this.orderCREATE_URL, JSON.stringify(newOrder), this.httpOptions)
-  }
-
   createBatch(newBatch: {}) {
     console.log("POST - Create new batch")
     console.log("Data is: " + JSON.stringify(newBatch))
     console.log("Url is: " + this.ROOT_URL + this.batchCREATE_URL)
-    console.log("NEW CHANGES!!")
-    return this.http.post(this.ROOT_URL + this.batchCREATE_URL, JSON.stringify(newBatch), this.httpOptions)
+    return this.http.post(this.ROOT_URL + this.batchCREATE_URL, JSON.stringify(newBatch), this.httpOptions).map(data => {
+      console.log(data)
+      let runningBatch = data as Batch
+      this.setCurrentBatchInfo(runningBatch);
+    })
   }
+
+  setCurrentBatchInfo(data: Batch) {
+    let currentBatch = {
+      batch_number: data.batch_number,
+      order_number: data.order_number.order_number,
+      article_number: data.order_number.article_number,
+    }
+    this.changeProdStatus(true);
+    this.changeProdInfo(currentBatch)
+  }
+
 
   getActiveBatch() {
     let activeBatchquery = "?q=activeBatch"
@@ -87,8 +94,8 @@ export class OperationsService {
 
   /* PATCH: update the batch on the server.  */
   /* TODO: Create pipe or similar to catch errors */
-  updateBatch (updatedBatch: any) {
-    let UPDATE_BATCH_URL = this.ROOT_URL+this.batchGET_URL+ updatedBatch.batch_number+"/edit/" // The URL to correct API
+  updateBatch(updatedBatch: any) {
+    let UPDATE_BATCH_URL = this.ROOT_URL + this.batchGET_URL + updatedBatch.batch_number + "/edit/" // The URL to correct API
     return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions)
   }
 

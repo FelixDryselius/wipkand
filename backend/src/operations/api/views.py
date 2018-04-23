@@ -91,7 +91,7 @@ class BatchDetailAPIView(RetrieveAPIView):
 class BatchCreateAPIView(CreateAPIView):
     serializer_class = BatchCreateUpdateSerializer
     permission_classes = [AllowAny]
-    authentication_classes = [SessionAuthentication]
+    #authentication_classes = [SessionAuthentication]
     queryset = Batch.objects.all()
 
 class BatchUpdateAPIView(RetrieveUpdateAPIView):
