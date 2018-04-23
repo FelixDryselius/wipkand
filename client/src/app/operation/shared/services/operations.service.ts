@@ -115,7 +115,7 @@ export class OperationsService {
   }
 
   updateProdStats(updatedCell: any) {
-    let UPDATE_SCOREBOARD_URL = this.ROOT_URL+this.scoreboardListURL+ updatedCell.time_stamp+'/' // The URL to correct API
+    let UPDATE_SCOREBOARD_URL = this.URL_ROOT+this.scoreboardListURL+ updatedCell.time_stamp+'/' // The URL to correct API
     return this.http.patch(UPDATE_SCOREBOARD_URL, JSON.stringify(updatedCell), this.httpOptions)
   }
 
