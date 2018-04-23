@@ -92,12 +92,12 @@ export class OperationsService {
 
   
 
-  getBatchList() {
+  getBatchList():Observable<any> {
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
   //TODO: These can be the same function
   getBatchDetail(query?: string) {
-    return this.http.get(this.URL_ROOT + this.URL_BATCH_API + query)
+    return this.http.get(this.URL_ROOT+this.URL_BATCH_API  + query)
   }
 
   /* PATCH: update the batch on the server.  */
