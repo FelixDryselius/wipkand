@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { AuthComponent } from './auth/auth.component';
 import { AuthLogoutComponent } from './auth-logout/auth-logout.component'
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
-
+import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component'; 
 
 import { FloorstockComponent } from './floorstock/floorstock.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
@@ -34,9 +34,10 @@ const appRoutes: Routes = [
         path:"batch-history",
         component: BatchHistoryComponent,
     },
-
-
-
+    {
+        path:"batch-history/:id",
+        component: BatchHistoryDetailComponent,
+    },
     {
         path:"floorstock",
         component: FloorstockComponent,

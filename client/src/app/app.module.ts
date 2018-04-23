@@ -29,6 +29,7 @@ import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { CookieService } from 'ngx-cookie-service';
 import { OperationModule } from './operation/operation.module';
 import { AuthLogoutComponent } from './auth-logout/auth-logout.component';
+import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { AuthLogoutComponent } from './auth-logout/auth-logout.component';
 
 
     AuthComponent,
-    AuthLogoutComponent
+    AuthLogoutComponent,
+    BatchHistoryDetailComponent
 
 
   ],

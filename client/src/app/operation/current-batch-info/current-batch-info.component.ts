@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OperationsService } from '../shared/services/operations.service';
+import { Batch } from '../../shared/interfaces/batch'
 
 
 @Component({
@@ -11,27 +12,23 @@ import { OperationsService } from '../shared/services/operations.service';
 export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   private prodActive: boolean;
   private prodInfo: {};
-  
+
   //observables
   private req_batch: any;
   private service_prodInfo: any;
   private service_prodStatus: any;
 
-
   constructor(private route: ActivatedRoute, private operationsService: OperationsService, private router: Router) { }
 
   ngOnInit() {
-    this.req_batch = this.operationsService.getActiveBatch().subscribe(data => {
-      let dbData;
-      dbData = data;
-      this.prodInfo = dbData[0];
-      if(this.prodInfo){ // this if-loop inside here so that the 'get requests' have time to return
-        this.operationsService.changeProdStatus(true);
-        this.operationsService.changeProdInfo(this.prodInfo)
+    let activeBatchquery = "?q=activeBatch"
+    this.req_batch = this.operationsService.getBatchDetail(activeBatchquery).subscribe(data => {
+      let runningBatch = data[0] as Batch
+      if (runningBatch) {
+        this.operationsService.setCurrentBatchInfo(runningBatch)
       }
     })
-
-    //Use operationsService to share information between start-batch, finish-batch and current-batch-info
+    //TODO: Make this one observable
     this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
@@ -42,10 +39,10 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
     //this.service_prodInfo.unsubscribe();
   }
 
-  start_batch(){
+  start_batch() {
     this.router.navigate(['/start-batch'])
   }
-  finish_batch(){
+  finish_batch() {
     this.router.navigate(['/finish-batch'])
   }
 }
