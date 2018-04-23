@@ -86,10 +86,14 @@ export class OperationsService {
     this.changeProdInfo(currentBatch)
   }
 
+  
 
-  getActiveBatch() {
-    let activeBatchquery = "?q=activeBatch"
-    return this.http.get(this.ROOT_URL + this.batchGET_URL + activeBatchquery)
+  getBatchList() {
+    return this.http.get(this.ROOT_URL + this.batchGET_URL)
+  }
+  //TODO: These can be the same function
+  getBatchDetail(query?: string) {
+    return this.http.get(this.ROOT_URL + this.batchGET_URL + query)
   }
 
   /* PATCH: update the batch on the server.  */

@@ -21,7 +21,8 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private operationsService: OperationsService, private router: Router) { }
 
   ngOnInit() {
-    this.req_batch = this.operationsService.getActiveBatch().subscribe(data => {
+    let activeBatchquery = "?q=activeBatch"
+    this.req_batch = this.operationsService.getBatchDetail(activeBatchquery).subscribe(data => {
       let runningBatch = data[0] as Batch
       if (runningBatch) {
         this.operationsService.setCurrentBatchInfo(runningBatch)

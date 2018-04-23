@@ -82,8 +82,7 @@ class BatchListSerializer(ModelSerializer):
             'end_date',
             'rework_date',
             'scrap',
-            'yield_1',
-            'yield_2',
+            'production_yield',
             'order_number'
         ]
 
