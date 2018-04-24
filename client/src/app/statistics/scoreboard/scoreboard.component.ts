@@ -21,6 +21,8 @@ export class ScoreboardComponent implements OnInit {
   productionStatistics = [];
   comments:any;
   latestBatchNumbers: any[];
+
+  numberOfBatchesBack;
   
 
 
@@ -28,6 +30,7 @@ export class ScoreboardComponent implements OnInit {
   constructor(private commentService:CommentService, private operationsService: OperationsService) { }
 
   ngOnInit() {
+    this.numberOfBatchesBack = '1';
     // this.getProdStatLatestBatches
     // this.latestBatchNumbers = this.getBatchNumbers("?limit=5")
     // this.getProductionStatistics('?search=')
@@ -35,30 +38,21 @@ export class ScoreboardComponent implements OnInit {
 
     // this.productionStatisticsSubscribe = this.statisticsService.getStatistics(batchNumber).subscribe(data => {
     //   this.productionStatistics = data  })
-   for(let i=0; i<5; i++){
-      let query = '?limit=1&offset=' + String(i)
+
+      let query = '?limit=1&offset=' + this.numberOfBatchesBack
       this.getProdStatLatestBatches(query).subscribe(data =>{
         console.log('init of getProdStatLatestBatches started..')
         this.productionStatistics = (data as QueryResponse).results as JSON []
         console.log(this.productionStatistics);
       });
-   }
 
 
-
-    this.comments = this.getComment()
   }
   nextBatch() {
     //this function will guid the user to the next page with the next batch. Waiting for backend to complete
   }
-  getComment(batchNumber?:string) { //batchNumber will be used later
-    // Subscribe to service and save the data in comments list as json obj
-    let tempData
-    this.commentService.getComment().subscribe(data =>{
-      tempData = data as JSON []
-    });
-    return tempData
-  }
+    
+  
   // getProductionStatistics(query?:string) { 
   //   let tempData
   //   this.operationsService.getProductionStatistics(query).subscribe(data =>{
@@ -101,10 +95,11 @@ export class ScoreboardComponent implements OnInit {
     let tempData
     console.log('getProdStatLatestBatches started');
     return this.operationsService.getBatchDetail(query).switchMap(data =>{
-      tempData =  (data as QueryResponse).results as JSON
-      let superTemp = tempData as Batch
+      tempData =  (data as QueryResponse).results as JSON []
+      let superTemp = tempData.pop() as Batch
 
       console.log('this is tempData: ' + superTemp.batch_number);
+//      this.comments = this.getComment(superTemp.batch_number);
       return this.operationsService.getProductionStatistics('?search='+superTemp.batch_number) 
     })
      
