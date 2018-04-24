@@ -77,13 +77,13 @@ export class BatchHistoryDetailComponent implements OnInit {
     this.commentObservable = this.commentService.getComment(this.batchDetailID)
     this.commentSub = this.commentObservable.subscribe(data => {
       this.comments = (data as QueryResponse).results
-      console.log(this.comments)
     })
 
-    this.statisticsObservable = this.commentService.getComment(this.batchDetailID)
-    this.statisticsSub = this.commentObservable.subscribe(data => {
+    let queryStatistics = '?search=' + this.batchDetailID
+    this.statisticsObservable = this.operationsService.getProductionStatistics(queryStatistics)
+    this.statisticsSub = this.statisticsObservable.subscribe(data => {
       this.statistics = (data as QueryResponse).results
-      console.log(this.comments)
+      console.log(this.statistics)
     })
 
 
@@ -98,29 +98,6 @@ export class BatchHistoryDetailComponent implements OnInit {
     console.log(batchForm)
     this.operationsService.updateBatch(batchForm as Batch).subscribe()
   }
-  // submitEndBatch($theEvent,batchForm){  
-  //   // TODO:  add these attributes so the whole batch kan close:
-  //   // scrap, rework_date, applied_labels, label_print_time, rework_time, yield_2
-  //   let batchInfo = {}
-  //   console.log("submit end runned");
-  //   if(this.prodActive){ 
-  //     batchInfo = {
-  //       batch_number: this.prodInfo.batch_number,
-  //       end_date: new Date(),
-  //       production_yield: batchForm.yield_1,
-  //       hmi1_bad: batchForm.hmi1_bad,
-  //       hmi2_bad: batchForm.hmi2_bad,
-  //       hmi1_good: batchForm.hmi1_good,
-  //       hmi2_good: batchForm.hmi2_good,
-  //     } 
-  //     this.operationsService.updateBatch(batchInfo as Batch).subscribe() 
-  //   }
-
-  //   this.operationsService.changeProdStatus(false) 
-  //   this.operationsService.changeProdInfo(null)
-
-  //   this.router.navigate(['/home'])
-  // }
   goBack() {
     this.location.back()
   }
