@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit {
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
     
     //get production statistics from api
-    this.operationsService.getProdStats().subscribe(data =>{
+    this.operationsService.getProductionStatistics().subscribe(data =>{
     this.prodStats = data as JSON []
     });
   }
@@ -117,7 +117,7 @@ export class HomeComponent implements OnInit {
   // Changes current shift
   onChange(chosenShift) {
 
-    this.operationsService.getProdStats().subscribe((data:any) =>{
+    this.operationsService.getProductionStatistics().subscribe((data:any) =>{
       this.prodStats = data as JSON []
       });
 

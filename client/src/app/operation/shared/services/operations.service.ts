@@ -92,7 +92,7 @@ export class OperationsService {
 
   
 
-  getBatchList():Observable<any> {
+  getBatchList(query?:String):Observable<any> {
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
   //TODO: These can be the same function
@@ -110,8 +110,8 @@ export class OperationsService {
     return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions)
   }
 
-  getProdStats() {
-    return this.http.get(this. scoreboardListURL)
+  getProductionStatistics(query?:String) {
+    return this.http.get(this.scoreboardListURL+query)
   }
 
   updateProdStats(updatedCell: any) {

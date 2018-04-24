@@ -15,7 +15,7 @@ export class CommentService {
   constructor(private http:HttpClient) { }
 
   // the method other apps subscribe to in order to get the api
-  getComment() {
+  getComment(batchNumber?:string) {
     return this.http.get(this.ROUTE_URL_GET) //should add a catch error func here, like: import "rxjs/add/operator/catch";
   }
 
