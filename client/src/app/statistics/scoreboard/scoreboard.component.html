@@ -58,14 +58,14 @@
       <th scope="col">Staff Number</th>
     </tr>
   </thead>
-  <tbody>
+ < <tbody>
     <tr *ngFor="let item of productionStatistics">
-      <td>{{item.time_stamp | date:'dd, LLL, y HH:mm'}}</td>
+      <td>{{item.time_stamp  }}</td> <!--<td>{{item.time_stamp | sortBy:post_date }}</td> -->
       <td>{{ item.batch_number }}</td>
       <td>{{ item.production_quantity }}</td>
       <td>{{ item.staff_quantity }}</td>
     </tr>
-  </tbody>
+  </tbody> 
 </table>
 
 
@@ -81,10 +81,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr  *ngFor="let comment of (comments | sortBy:post_date)">
+     <tr  *ngFor="let comment of comments"> <!-- <tr  *ngFor="let comment of (comments|sortBy:date_stamp) "></tr>-->
       <td> {{ comment.user_name }}</td>
-      <td>{{ comment.post_date | date:"yy/MM/dd HH:mm" }} </td>
-      <td colspan="3">{{ comment.text_comment }}</td>
+      <td>{{ comment.post_date}} </td>  <!-- <td>{{ comment.post_date | date:"yy/MM/dd HH:mm" }} </td> -->
+      <td colspan="3">{{ comment.text_comment }}</td> 
     </tr>
   </tbody>
 </table>

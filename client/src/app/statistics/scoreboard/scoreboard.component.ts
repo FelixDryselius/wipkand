@@ -19,7 +19,7 @@ import { Observable } from 'rxjs/Observable';
 export class ScoreboardComponent implements OnInit {
   productionStatisticsSubscribe: any; 
   productionStatistics = [];
-  comments:any;
+  comments=[];
   latestBatchNumbers: any[];
 
   numberOfBatchesBack;
@@ -30,7 +30,7 @@ export class ScoreboardComponent implements OnInit {
   constructor(private commentService:CommentService, private operationsService: OperationsService) { }
 
   ngOnInit() {
-    this.numberOfBatchesBack = '1';
+    this.numberOfBatchesBack = '0';
     // this.getProdStatLatestBatches
     // this.latestBatchNumbers = this.getBatchNumbers("?limit=5")
     // this.getProductionStatistics('?search=')
@@ -41,55 +41,26 @@ export class ScoreboardComponent implements OnInit {
 
       let query = '?limit=1&offset=' + this.numberOfBatchesBack
       this.getProdStatLatestBatches(query).subscribe(data =>{
-        console.log('init of getProdStatLatestBatches started..')
         this.productionStatistics = (data as QueryResponse).results as JSON []
-        console.log(this.productionStatistics);
       });
 
+  // this.getBatchComments();
 
   }
-  nextBatch() {
-    //this function will guid the user to the next page with the next batch. Waiting for backend to complete
-  }
-    
   
-  // getProductionStatistics(query?:string) { 
-  //   let tempData
-  //   this.operationsService.getProductionStatistics(query).subscribe(data =>{
-  //     this.productionStatistics = (data as QueryResponse).results as JSON []
-      
-  //   })
-  //   console.log("this is tempdata: "+tempData);
-  //   return tempData
-  // }
-  // getBatchNumbers(query?:string) { 
-  //   let tempData
-  //   let batchNumberList = []
-  //   this.operationsService.getBatchDetail(query).subscribe(data =>{
-  //     tempData =  (data as QueryResponse).results as JSON []
-  //     tempData = data as Batch
-  //     for( let item of tempData){
-  //       batchNumberList.push(item.batch_number)
-  //     }      
-  //   })  
-  //   return batchNumberList
-  // }
+  nextBatch() {
+  }
+  beforeBatch() {
 
-
-  // public getProdStatLatestBatches(query?:String){ 
-  //   let tempData
-  //   let batchNumberList = []
-  //   console.log('getProdStatLatestBatches started');
-    
-  //   return this.operationsService.getBatchDetail(query).switchMap(data =>{
-  //     tempData =  (data as QueryResponse).results as JSON []
-  //     let superTemp = tempData as Batch []
-  //     console.log('this is superTemp: ' + superTemp.pop().batch_number);
-  //     let test = superTemp.pop().batch_number
-  //     return this.operationsService.getProductionStatistics('?search='+test) 
-  //   })
-     
+  }
           
+  getBatchComments(query?:string) {
+   this.commentService.getComment(query).subscribe(data =>{
+      console.log((data as QueryResponse).results as JSON []  );
+      this.comments = (data as QueryResponse).results as JSON []   
+      
+    })
+  }
 
   public getProdStatLatestBatches(query?:String){ 
     let tempData
@@ -100,6 +71,7 @@ export class ScoreboardComponent implements OnInit {
 
       console.log('this is tempData: ' + superTemp.batch_number);
 //      this.comments = this.getComment(superTemp.batch_number);
+      this.getBatchComments(superTemp.batch_number)
       return this.operationsService.getProductionStatistics('?search='+superTemp.batch_number) 
     })
      
