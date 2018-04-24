@@ -11,14 +11,12 @@
             <h3>
               Shift:
             </h3>
-            <select class="chooseShift">
-                <option value="Day">Day</option>
-                <option value="Evening">Evening</option>
-                <option value="Night">Night</option>
+             <select class="chooseShift" [(ngModel)]="selectedShift" (ngModelChange)="onChange($event)" >
+              <option *ngFor="let chosenShift of shifts" [selected]="chosenShift.shift == 'day'" [ngValue]="chosenShift"> {{chosenShift.shift}} </option>
             </select>
-          </div>
-        </div>
       </div>
+    </div>
+  </div>
 
       <div class="container-fluid bg-info">
           <div class="row">
@@ -46,88 +44,136 @@
               </div>
             </div>
             <div class="col-md-10">
-              <table class="table ">
+              <form class="productionForm" #productionForm='ngForm' (ngSubmit)='updateProduction($event,productionForm)'>
+              
+              <!-- DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY -->
+              <table *ngIf="selectedShift == 'day'" class="table">
                 <thead>
-                  <tr>
-                    <th class="text-center">07-08</th>
-                    <th class="text-center">08-09</th>
-                    <th class="text-center">09-10</th>
-                    <th class="text-center">10-11</th>
-                    <th class="text-center">11-12</th>
-                    <th class="text-center">12-13</th>
-                    <th class="text-center">13-14</th>
-                    <th class="text-center">14-15</th>
+
+                  <tr >
+                    <th *ngFor="let times of dayShiftTimes" class="text-center">{{ times.time }}</th>
                   </tr>
+
                 </thead>
                 <tbody>
-                  <tr>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+
+                    <tr>
+                      <td *ngFor="let stat of shiftProdStats" class="align-middle">
+                        <input  type="number" class="form-control input-number" placeholder="{{ stat.staff_quantity }}" name='{{ stat.time_stamp }}_sq' [(ngModel)]="ngModelStaffDay[stat.time_stamp]" required>
                       </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                    </tr>
+
+                    <tr>
+                      <td *ngFor="let stat of shiftProdStats" class="align-middle">
+                        <input type="number" class="form-control input-number" placeholder="{{ stat.production_quantity }}" name='{{ stat.time_stamp }}_pq' [(ngModel)]="ngModelProdDay[stat.time_stamp]" required>
                       </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                  </tr>
-                  <tr>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                      <td class="align-middle">
-                          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                      </td>
-                  </tr>
-                  <tr>
-                    <td class="align-middle">
-                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="align-middle">
-                        <button type="button" class="btn btn-primary">Update</button>
-                    </td>
-                  </tr>
+                    </tr>
+
+                    <tr>
+                        <td class="align-middle">
+                            <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="align-middle">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </td>
+                      </tr>
+
                 </tbody>
-              </table>
+
+                </table>
+                
+                <!-- EVENIIIIIIIIIIIIIIIIIIIIIIIIIIIIIING -->
+                <table *ngIf="selectedShift == 'evening'" class="table">
+                    <thead>
+
+                      <tr >
+                        <th *ngFor="let times of eveningShiftTimes" class="text-center">{{ times.time }}</th>
+                      </tr>
+
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                          <td *ngFor="let stat of shiftProdStats" class="align-middle">
+                            <input type="number" class="form-control input-number" placeholder="{{ stat.staff_quantity }}" name='{{ stat.time_stamp }}_sq' [(ngModel)]="ngModelStaffEve[stat.time_stamp]" required>
+                          </td>
+                        </tr>
+    
+                        <tr>
+                          <td *ngFor="let stat of shiftProdStats" class="align-middle">
+                            <input type="number" class="form-control input-number" placeholder="{{ stat.production_quantity }}" name='{{ stat.time_stamp }}_pq' [(ngModel)]="ngModelProdEve[stat.time_stamp]" required>
+                          </td>
+                        </tr>
+    
+                        <tr>
+                            <td class="align-middle">
+                                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="align-middle">
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </td>
+                          </tr>
+    
+                    </tbody>
+    
+                    </table>
+
+                    <!-- NIIIIIIIIIIIIIIIIIIIIIIIIIIGHT -->
+                    <table *ngIf="selectedShift == 'night'" class="table">
+                        <thead>
+                          
+                          <tr >
+                            <th *ngFor="let times of nightShiftTimes" class="text-center">{{ times.time }}</th>
+                          </tr>
+    
+                        </thead>
+                        <tbody>
+    
+                            <tr>
+                              <td *ngFor="let stat of shiftProdStats" class="align-middle">
+                                <input type="number" class="form-control input-number" placeholder="{{ stat.staff_quantity }}" name='{{ stat.time_stamp }}_sq' [(ngModel)]="ngModelStaffNight[stat.time_stamp]" required>
+                              </td>
+                            </tr>
+        
+                            <tr>
+                              <td *ngFor="let stat of shiftProdStats" class="align-middle">
+                                <input type="number" class="form-control input-number" placeholder="{{ stat.production_quantity }}" name='{{ stat.time_stamp }}_pq' [(ngModel)]="ngModelProdEve[stat.time_stamp]" required>
+                              </td>
+                            </tr>
+        
+                            <tr>
+                                <td class="align-middle">
+                                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="align-middle">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </td>
+                              </tr>
+        
+                        </tbody>
+        
+                        </table>
+              
+              </form>
+              
             </div>
           </div>
         </div>
@@ -136,6 +182,7 @@
             <div class="row">
               <div class="col-md-3">
                 <div class="floorstockSection">
+                <form class="floorstockForm" #floorstockForm='ngForm' (ngSubmit)='submitFloorstock($event,floorstockForm)'>
                 <div class="row">
                   <div class="col-md-12">
                     <h3 class="text-center">Label roll</h3>
@@ -144,7 +191,7 @@
                 <table class="table">
                   <tbody>
                     <tr class="table-success">
-                      <td>          
+                      <td>
                         <div class="input-group input-number-group">
                           <div class="input-group-button">
                             <span class="input-number-decrement">-</span>
@@ -155,10 +202,10 @@
                           </div>
                         </div>
                       </td>
-                      <td>Blank301-6914</td>
+                      <td>Blank 301-6914</td>
                     </tr>
                     <tr class="table-success">
-                        <td>          
+                        <td>
                           <div class="input-group input-number-group">
                             <div class="input-group-button">
                               <span class="input-number-decrement">-</span>
@@ -170,7 +217,7 @@
                           </div>
                         </td>
                         <td>Label roll Karbon 001-1995</td>
-                      </tr>      
+                      </tr>
                   </tbody>
                 </table>
 
@@ -182,7 +229,7 @@
                     <table class="table">
                       <tbody>
                         <tr class="table-success">
-                          <td>          
+                          <td>
                             <div class="input-group input-number-group">
                               <div class="input-group-button">
                                 <span class="input-number-decrement">-</span>
@@ -196,7 +243,7 @@
                           <td>Sleever roll 301-6906</td>
                         </tr>
                         <tr class="table-success">
-                            <td>          
+                            <td>
                               <div class="input-group input-number-group">
                                 <div class="input-group-button">
                                   <span class="input-number-decrement">-</span>
@@ -208,9 +255,9 @@
                               </div>
                             </td>
                             <td>Pester roll small 301-6907</td>
-                          </tr>  
+                          </tr>
                           <tr class="table-success">
-                              <td>          
+                              <td>
                                 <div class="input-group input-number-group">
                                   <div class="input-group-button">
                                     <span class="input-number-decrement">-</span>
@@ -224,7 +271,7 @@
                               <td>Pester roll large 301-6908</td>
                             </tr>
                             <tr class="table-success">
-                                <td>          
+                                <td>
                                   <div class="input-group input-number-group">
                                     <div class="input-group-button">
                                       <span class="input-number-decrement">-</span>
@@ -238,31 +285,34 @@
                                 <td>Vågskrivare roll</td>
                               </tr>
                               <tr class="table-success">
-                                  <td>          
+                                  <td>
                                     <div class="input-group input-number-group">
                                       <div class="input-group-button">
                                         <span class="input-number-decrement">-</span>
                                       </div>
-                                      <input class="input-number" type="number" value="1" min="0" max="1000">
+
+                                      <input class="input-number" type="number" ngModel placeholder="0" name='labelBox' [(ngModel)]="addLabelBox" required>
+
                                       <div class="input-group-button">
                                         <span class="input-number-increment">+</span>
                                       </div>
                                     </div>
                                   </td>
                                   <td>Label box and karbon</td>
-                                </tr>    
+                                </tr>
                       </tbody>
                     </table>
 
                 <div class="row">
-                  <div class="col-md-12 text-right">  
+                  <div class="col-md-12 text-right">
                     <button type="button" class="btn btn-primary">
                       Update
                     </button>
                   </div>
                 </div>
-                </div>
-              </div>
+              </form>
+            </div>
+          </div>
 
 
               <div class="col-md-9">
@@ -274,64 +324,42 @@
                       </h3>
                     </div>
                   </div>
-                  <form class="commentForm">
+                  <form class="commentForm" #commentForm='ngForm' (ngSubmit)='submitComment($event,commentForm)'>
                   <div class="row form-group commentInput">
                     <div class="col-md-2">
                         <label>Name:</label>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" #newCommentName>
+                        <input type="text" class="form-control" name='commentName' [(ngModel)]="newName" required>
                     </div>
                   </div>
                   <div class="row form-group">
                     <div class="col-md-2">
                         <label>Comment:</label>
                     </div>
+
                     <div class="col-md-10">
-                        <textarea type="text" class="form-control commentTextarea" #newComment></textarea>
+                        <textarea type="text" class="form-control commentTextarea" name='commentText' [(ngModel)]="newComment" required></textarea>
                     </div>
                   </div>
+
                   <div class="row btn-addComment">
                       <div class="notification is-primary col-md-6 text-right">
-                          <button (click)="createComment(newComment.value, newCommentName.value); newComment.value=''; newCommentName.value=''; " class="btn btn-primary">
+                          <button type="submit" class="btn btn-primary">
                             Add comment
-                          </button>   
+                          </button>
                       </div>
-                      </div>
+                    </div>
+
                     </form>
+                    <div class="col-md-12">
+                        <p *ngIf="commentAdded" class="text-left">
+                          {{ commentAddedNotification }}
+                        </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-              
 
-
-
-
-<!--
-  <form class="commentForm">
-
-  <div class="form-group row commentInput">
-      <div class="col-lg-2">
-        <label>Name:</label>
-      </div>
-      <div class="col-lg-4">
-        <input type="text" class="form-control" #newCommentName>
-      </div>
-  </div>
-
-<div class="form-group row">
-  <div class="col-lg-2">
-    <label>Comment:</label>
-  </div>
-  <div class="col-lg-4">
-    <textarea type="text" class="form-control commentTextarea" #newComment
-    ></textarea>
-  </div>
-</div>
-<div class="notification is-primary">
-
-<button (click)="createComment(newComment.value, newCommentName.value); newComment.value=''; newCommentName.value=''; " class="btn btn-primary btn-addComment">Add comment</button>
-
-</div>
-</form>-->
+            <hr>

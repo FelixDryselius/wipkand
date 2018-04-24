@@ -25,9 +25,14 @@ export class OperationsService {
   prodInfoObservable = this.prodInfo.asObservable();
 
   //TODO: Should URLs really be placed here? Should we collect them in a file somewhere? 
+
   readonly URL_ROOT: string = "http://localhost:8000";
   readonly URL_ORDER_API: string = "/api/operations/order/";
   readonly URL_BATCH_API: string = "/api/operations/batch/";
+
+  // Scoreboard URLs
+  private scoreboardListURL: string = "/api/statistics/";
+  
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -87,12 +92,12 @@ export class OperationsService {
 
   
 
-  getBatchList() {
+  getBatchList():Observable<any> {
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
   //TODO: These can be the same function
   getBatchDetail(query?: string) {
-    return this.http.get(this.URL_ROOT + this.URL_BATCH_API + query)
+    return this.http.get(this.URL_ROOT+this.URL_BATCH_API  + query)
   }
 
   /* PATCH: update the batch on the server.  */
@@ -105,6 +110,13 @@ export class OperationsService {
     return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions)
   }
 
+  getProdStats() {
+    return this.http.get(this. scoreboardListURL)
+  }
 
+  updateProdStats(updatedCell: any) {
+    let UPDATE_SCOREBOARD_URL = this.URL_ROOT+this.scoreboardListURL+ updatedCell.time_stamp+'/' // The URL to correct API
+    return this.http.patch(UPDATE_SCOREBOARD_URL, JSON.stringify(updatedCell), this.httpOptions)
+  }
 
 }

@@ -106,3 +106,99 @@
     </div>
   </div>
 </div>
+  
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-6">
+      <form *ngIf="batchObservable | async; else loading" [formGroup]="batchDetailForm" (ngSubmit)="submitBatchDetails()">
+          <ul class="list-group">
+              <li class="list-group-item">
+                  <label for="batch_number">Batch Number</label>
+                  <input id="batch_number" formControlName="batch_number" />
+              </li>
+              <li class="list-group-item">
+                  <label for="start_date">Start Date </label>
+                  <input id="start_date" formControlName="start_date" />
+              </li>
+              <li class="list-group-item">
+                  <label for="end_date">End Date </label>
+                  <input id="end_date" formControlName="end_date" />
+              </li>
+              <li class="list-group-item">
+                  <label for="scrap">Scrap</label>
+                  <input id="scrap" formControlName="scrap" />
+              </li>
+              <li class="list-group-item">
+                <label for="production_yield">Production Yield </label>
+                <input id="production_yield" formControlName="production_yield" />
+              </li>
+              <li class="list-group-item">
+                <label for="hmi1_good">HMI1 Good </label>
+                <input id="hmi1_good" formControlName="hmi1_good" />
+              </li>
+              <li class="list-group-item">
+                <label for="hmi1_bad">HMI1 Bad </label>
+                <input id="hmi1_bad" formControlName="hmi1_bad" />
+              </li>
+              <li class="list-group-item">
+                <label for="hmi2_good">HMI2 Good </label>
+                <input id="hmi2_good" formControlName="hmi2_good" />
+              </li>
+              <li class="list-group-item">
+                <label for="hmi2_bad">HMI2 bad </label>
+                <input id="hmi2_bad" formControlName="hmi2_bad" />
+              </li>
+              <li class="list-group-item">
+                <label for="rework_date">Rework Date </label>
+                <input id="rework_date" formControlName="rework_date" />
+              </li>
+              <li class="list-group-item">
+                <label for="applied_labels">Applied Labels </label>
+                <input id="applied_labels" formControlName="applied_labels" />
+              </li>
+              <li class="list-group-item">
+                <label for="label_print_time">Label Print Time Bad </label>
+                <input id="label_print_time" formControlName="label_print_time" />
+              </li>
+              <li class="list-group-item">
+                <label for="rework_time">Rework Time </label>
+                <input id="rework_time" formControlName="rework_time" />
+              </li>
+              <li class="list-group-item">
+                <label for="order_number">Order Number </label>
+                <input id="order_number" formControlName="order_number" />
+              </li>
+            </ul>
+          <button class="btn btn-primary" >Save Changes</button>                                           
+        </form>  
+    </div>
+  </div>
+</div>
+
+
+
+
+  <!-- If user is loaded show the form, else show the loading template -->
+  <ng-template #loading>
+      Loading User...
+    </ng-template>
+     
+    
+      
+    
+     
+
+      
+    
+     
+    
+
+     
+
+      
+
+      
+
+      
+
+  
