@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
 
 // Application imports
 import { CommentService } from '../../shared/application-services/comment.service';
+import { QueryResponse } from '../../shared/interfaces/query-response'
 
 
 
@@ -43,7 +44,7 @@ export class CommentComponent implements OnInit {
   getComment() {
     // Subscribe to service and save the data in comments list as json obj
     this.commentService.getComment().subscribe(data =>{
-      this.comments = data as JSON []
+      this.comments = (data as QueryResponse).results as JSON []
     });
   }
 

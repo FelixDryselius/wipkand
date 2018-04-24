@@ -64,10 +64,11 @@ export class BatchHistoryDetailComponent implements OnInit {
     //   tap(batch =>this.batchDetailForm.patchValue(batch)
     //   //console.log("this is batch-hist-detail: "+ batch)
     //   ))
-    this.batchObservable = this.operationsService.getBatchDetail(this.batchDetailID )
-    this.batchSubscribe = this.batchObservable.subscribe(batch =>{
-      this.batchDetailForm.patchValue(batch)
-      console.log("this is batch-hist-detail: "+ batch) 
+    this.batchObservable = this.operationsService.getBatchDetail(this.batchDetailID)
+    this.batchSubscribe = this.batchObservable.subscribe(data =>{
+      console.log("this is batch-hist-detail: "+ data) 
+      this.batchDetailForm.patchValue(data)
+      
     })
 
     // this.getBatchDetailSub = this.operationsService.getBatchDetail(this.batchDetailID + '/').subscribe(data => this.batchDetail = {
