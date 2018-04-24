@@ -1,4 +1,4 @@
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RequestOptions } from '@angular/http';
 
@@ -8,22 +8,23 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class CommentService {
-  
-  readonly ROUTE_URL_GET = 'http://localhost:8000/api/operations/comment/'; // hard coded URL for api to get all comments
-  readonly ROUTE_URL_POST = 'http://localhost:8000/api/operations/comment/create/';
 
-  constructor(private http:HttpClient) { }
+  readonly URL_ROOT = 'http://localhost:8000/'; // hard coded URL for api to get all comments
+  readonly URL_COMMENT = 'api/operations/comment/';
+
+  constructor(private http: HttpClient) { }
 
   // the method other apps subscribe to in order to get the api
-  getComment() {
-    return this.http.get(this.ROUTE_URL_GET) //should add a catch error func here, like: import "rxjs/add/operator/catch";
+  getComment(query?: string) {
+    if (query) {
+      return this.http.get(this.URL_ROOT + this.URL_COMMENT + query + '/')
+    } else {
+      return this.http.get(this.URL_ROOT + this.URL_COMMENT)
+    }
+     //should add a catch error func here, like: import "rxjs/add/operator/catch";
   }
 
   addComment(data) {
-    const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'my-auth-token'})
-    }
-    return this.http.post(this.ROUTE_URL_POST, data, httpOptions)
+    return this.http.post(this.URL_ROOT + this.URL_COMMENT, data)
   }
-
 }
