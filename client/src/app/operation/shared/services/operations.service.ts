@@ -116,7 +116,6 @@ export class OperationsService {
 
   createProdStats(newCell: {}) {
     return this.http.post(this.URL_ROOT + this.scoreboardListURL, JSON.stringify(newCell), this.httpOptions).map(data => {
-      console.log(data)
     })
   }
 

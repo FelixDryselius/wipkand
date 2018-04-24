@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit {
   ]
 
   // Array with subscribed production data
-  private shiftProdStats: JSON[];
+  shiftProdStats:any[] = [];
 
   // Arrays containing names of ngModels for every input element
   ngModelStaffDay:any[] = [];
@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
   // A list storing comments fetched from api
   comments: JSON [];
 
-  // A list storing producttion statistics fetched from api
+  // A list storing production statistics fetched from api
   prodStats: JSON [];
   first_hour: JSON [];
   
@@ -118,9 +118,14 @@ export class HomeComponent implements OnInit {
         mm='0'+mm;
     } 
     this.todaysDate = yyyy+'-'+mm+'-'+dd;
-    console.log(this.todaysDate)
+
+    
+
+
+
     }
 
+    
       
 
   getComment() {
@@ -133,21 +138,33 @@ export class HomeComponent implements OnInit {
   // Changes current shift
   onChange(chosenShift) {
 
-    this.operationsService.getProdStats().subscribe((data:any) =>{
+    this.shiftProdStats = []
+
+    this.operationsService.getProdStats().subscribe(data =>{
       this.prodStats = data as JSON []
       });
 
-      if (chosenShift.shift == 'day') {
-        this.shiftProdStats = this.prodStats.slice(8, 16)
+      for(let obj=0; obj<this.prodStats.length; obj++){ 
+        if (this.prodStats[obj]["time_stamp"].slice(0,10) == this.todaysDate) {
+          this.shiftProdStats.push(this.prodStats[obj])
+        }
+      }
+      while (this.shiftProdStats.length<8) {
+        this.shiftProdStats.push('')
       }
 
-      if (chosenShift.shift == 'evening') {
-        this.shiftProdStats = this.prodStats.slice(16, 24)
-      }
+      console.log(this.shiftProdStats)
+      // if (chosenShift.shift == 'day') {
+      //   this.shiftProdStats = this.prodStats.slice(7, 15)
+      // }
 
-      if (chosenShift.shift == 'night') {
-        this.shiftProdStats = this.prodStats.slice(0, 8)
-      }
+      // if (chosenShift.shift == 'evening') {
+      //   this.shiftProdStats = this.prodStats.slice(15, 23)
+      // }
+
+      // if (chosenShift.shift == 'night') {
+      //   this.shiftProdStats = this.prodStats.slice(0, 7)
+      // }
     
     this.selectedShift = chosenShift.shift;
   }
@@ -201,9 +218,10 @@ export class HomeComponent implements OnInit {
       // Go through objects in production statistics from api
       
        for(let obj=0; obj<this.prodStats.length; obj++){
-
+        
         // Checks if time stamp exists. Determines wheter data should be created or updated
         if (this.prodStats[obj]["time_stamp"] == key.slice(0, -3)) {
+
             if (key.substr(key.length-2)=='sq') {
               change = {
                 time_stamp: key.slice(0, -3),
@@ -224,19 +242,22 @@ export class HomeComponent implements OnInit {
         }
         else {
           counter += 1
-          console.log(counter)
-          if (counter == this.prodStats.length) {
-            console.log("a")
+          if (counter == this.prodStats.length-1) {
             let time = this.todaysDate+key.slice(10,-3)
-            String(time)
+            let stringifiedTime = String(time)
             newData = {
               time_stamp: time,
-              production_quantity: results[time+'_pq'],
-              staff_quantity: results[time+'_sq'],
+              production_quantity: results[stringifiedTime+'_pq'],
+              staff_quantity: results[stringifiedTime+'_sq'],
               batch_number: this.prodInfo.batch_number,
             }  
-            this.operationsService.createProdStats(newData).subscribe();     
+            this.operationsService.createProdStats(newData).subscribe();   
+
+            this.operationsService.getProdStats().subscribe(data =>{
+            this.prodStats = data as JSON []
+            });  
           }
+          
         }
    }
 
