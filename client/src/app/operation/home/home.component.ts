@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   private req_comment: any;
 
   // Variables for submitting data in scoreboard
+  private todaysDate: any;
 
   // Object used for selecting shift
   private shifts:any[]=[
@@ -101,11 +102,26 @@ export class HomeComponent implements OnInit {
     this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
     
-    //get production statistics from api
+    // Get production statistics from api
     this.operationsService.getProdStats().subscribe(data =>{
     this.prodStats = data as JSON []
     });
-  }
+    this.todaysDate = new Date();
+    let dd = this.todaysDate.getDate();
+    let mm = this.todaysDate.getMonth()+1; 
+    let yyyy = this.todaysDate.getFullYear();
+
+    if(dd<10){
+        dd='0'+dd;
+    } 
+    if(mm<10){
+        mm='0'+mm;
+    } 
+    this.todaysDate = yyyy+'-'+mm+'-'+dd;
+    console.log(this.todaysDate)
+    }
+
+      
 
   getComment() {
     // Subscribe to service and save the data in comments list as json obj
@@ -164,7 +180,6 @@ export class HomeComponent implements OnInit {
   }
 
   updateProduction(event, formData) {
-    //TODO: Do we really need to store these values in the class? 
 
     let results = {};
 
@@ -174,32 +189,59 @@ export class HomeComponent implements OnInit {
         results[key] = formData.value[key];
      }
    }
+   console.log(results)
 
    // Sends updated data to service for patch request
    for(let key in results) {
      let change = {}
-     if (key.substr(key.length-2)=='sq') {
-        change = {
-          time_stamp: key.slice(0, -3),
-          staff_quantity: results[key],
-          batch_number: this.prodInfo.batch_number,
-        }
-      this.operationsService.updateProdStats(change).subscribe();
-    } 
+     let newData = {}
+     let counter = 0
 
-    else if (key.substr(key.length-2)=='pq') {
+      // Must be possible to do this simpler
+      // Go through objects in production statistics from api
       
-      change = {
-        time_stamp: key.slice(0, -3),
-        production_quantity: results[key],
-        batch_number: this.prodInfo.batch_number,
-      }
-    this.operationsService.updateProdStats(change).subscribe();
-  }
+       for(let obj=0; obj<this.prodStats.length; obj++){
+
+        // Checks if time stamp exists. Determines wheter data should be created or updated
+        if (this.prodStats[obj]["time_stamp"] == key.slice(0, -3)) {
+            if (key.substr(key.length-2)=='sq') {
+              change = {
+                time_stamp: key.slice(0, -3),
+                staff_quantity: results[key],
+                batch_number: this.prodInfo.batch_number,
+              }
+              this.operationsService.updateProdStats(change).subscribe();
+            } 
+
+            else if (key.substr(key.length-2)=='pq') {
+              change = {
+                time_stamp: key.slice(0, -3),
+                production_quantity: results[key],
+                batch_number: this.prodInfo.batch_number,
+              }
+              this.operationsService.updateProdStats(change).subscribe();
+            }
+        }
+        else {
+          counter += 1
+          console.log(counter)
+          if (counter == this.prodStats.length) {
+            console.log("a")
+            let time = this.todaysDate+key.slice(10,-3)
+            String(time)
+            newData = {
+              time_stamp: time,
+              production_quantity: results[time+'_pq'],
+              staff_quantity: results[time+'_sq'],
+              batch_number: this.prodInfo.batch_number,
+            }  
+            this.operationsService.createProdStats(newData).subscribe();     
+          }
+        }
    }
 
   }  
 
 }
 
-
+}

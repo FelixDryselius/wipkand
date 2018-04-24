@@ -114,6 +114,12 @@ export class OperationsService {
     return this.http.get(this. scoreboardListURL)
   }
 
+  createProdStats(newCell: {}) {
+    return this.http.post(this.URL_ROOT + this.scoreboardListURL, JSON.stringify(newCell), this.httpOptions).map(data => {
+      console.log(data)
+    })
+  }
+
   updateProdStats(updatedCell: any) {
     let UPDATE_SCOREBOARD_URL = this.URL_ROOT+this.scoreboardListURL+ updatedCell.time_stamp+'/' // The URL to correct API
     return this.http.patch(UPDATE_SCOREBOARD_URL, JSON.stringify(updatedCell), this.httpOptions)

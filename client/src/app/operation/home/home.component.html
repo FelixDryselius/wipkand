@@ -5,9 +5,9 @@
               Home
             </h2>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-8"> 
           </div>
-          <div class="col-md-2 row">
+          <div class="col-md-2 row"> 
             <h3>
               Shift:
             </h3>
@@ -43,6 +43,7 @@
                     </div>
               </div>
             </div>
+            
             <div class="col-md-10">
               <form class="productionForm" #productionForm='ngForm' (ngSubmit)='updateProduction($event,productionForm)'>
               
@@ -59,13 +60,13 @@
 
                     <tr>
                       <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                        <input  type="number" class="form-control input-number" placeholder="{{ stat.staff_quantity }}" name='{{ stat.time_stamp }}_sq' [(ngModel)]="ngModelStaffDay[stat.time_stamp]" required>
+                        <input type="number" class="form-control input-number" [placeholder]="stat.time_stamp.slice(0,10) == todaysDate ? stat.staff_quantity : ''" name='{{ stat.time_stamp }}_sq' [(ngModel)]="ngModelStaffDay[stat.time_stamp]" required>
                       </td>
                     </tr>
 
                     <tr>
                       <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                        <input type="number" class="form-control input-number" placeholder="{{ stat.production_quantity }}" name='{{ stat.time_stamp }}_pq' [(ngModel)]="ngModelProdDay[stat.time_stamp]" required>
+                        <input type="number" class="form-control input-number" [placeholder]="stat.time_stamp.slice(0,10) == todaysDate ? stat.production_quantity : ''" name='{{ stat.time_stamp }}_pq' [(ngModel)]="ngModelProdDay[stat.time_stamp]" required>
                       </td>
                     </tr>
 
