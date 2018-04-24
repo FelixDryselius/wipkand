@@ -30,21 +30,11 @@ export class ScoreboardComponent implements OnInit {
   constructor(private commentService:CommentService, private operationsService: OperationsService) { }
 
   ngOnInit() {
-    this.numberOfBatchesBack = '0';
-    // this.getProdStatLatestBatches
-    // this.latestBatchNumbers = this.getBatchNumbers("?limit=5")
-    // this.getProductionStatistics('?search=')
-    
-
-    // this.productionStatisticsSubscribe = this.statisticsService.getStatistics(batchNumber).subscribe(data => {
-    //   this.productionStatistics = data  })
-
-      let query = '?limit=1&offset=' + this.numberOfBatchesBack
-      this.getProdStatLatestBatches(query).subscribe(data =>{
-        this.productionStatistics = (data as QueryResponse).results as JSON []
-      });
-
-  // this.getBatchComments();
+    this.numberOfBatchesBack = '1';
+    let query = '?limit=1&offset=' + this.numberOfBatchesBack
+    this.getProdStatLatestBatches(query).subscribe(data =>{
+      this.productionStatistics = (data as QueryResponse).results as JSON []
+    });
 
   }
   
