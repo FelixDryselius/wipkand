@@ -79,7 +79,7 @@ export class BatchHistoryDetailComponent implements OnInit {
       this.comments = (data as QueryResponse).results
     })
 
-    let queryStatistics = '?search=' + this.batchDetailID
+    let queryStatistics = '?search=' + this.batchDetailID + '&limit=40'
     this.statisticsObservable = this.operationsService.getProductionStatistics(queryStatistics)
     this.statisticsSub = this.statisticsObservable.subscribe(data => {
       this.statistics = (data as QueryResponse).results
