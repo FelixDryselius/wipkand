@@ -105,18 +105,34 @@
         <hr>
       </div>
     </div>
-   <div class="col-lg-6 text-center">
+    <div class="col-lg-6 text-center">
       <h5>Batch Stats</h5>
       <div class="row">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, laborum expedita. Cupiditate assumenda veritatis possimus. Odio, aliquam. Sequi, dolores similique sed animi perspiciatis quidem corrupti, fugit delectus atque blanditiis rem.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, laborum expedita. Cupiditate assumenda veritatis
+          possimus. Odio, aliquam. Sequi, dolores similique sed animi perspiciatis quidem corrupti, fugit delectus atque
+          blanditiis rem.</p>
       </div>
       <hr>
-      <div class="row">
-        <div class="col-lg-12">
-            <h5>Scoreboard</h5>
-            <br>
-        </div>
+
+      <div class="col-lg-12">
+        <h5>Scoreboard</h5>
+        <br>
+        <table *ngIf="statisticsObservable | async; else loading" id="table" class="table-striped table-bordered" style="width:100%">
+          <thead>
+            <tr>
+              <th data-field="id">Time Stamp</th>
+              <th data-field="name" data-editable="true">Quantity</th>
+              <th data-field="price" data-editable="true">Operators</th>
+            </tr>
+          </thead>
+          <tr *ngFor="let statistic of statistics">
+            <th class="font-weight-normal">{{ statistic.time_stamp | date:"yy/MM/dd HH:mm"}}</th>
+            <th class="font-weight-normal">{{ statistic.production_quantity }}</th>
+            <th class="font-weight-normal">{{ statistic.staff_quantity }}</th>
+          </tr>
+        </table>
       </div>
+
     </div>
   </div>
 </div>
