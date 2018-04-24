@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 // 3rd party and application imports:
 import { OperationsService } from '../shared/services/operations.service';
 import { Batch } from '../../shared/interfaces/batch';
+import { QueryResponse } from '../../shared/interfaces/query-response'
 
 @Component({
   selector: 'app-finish-batch',

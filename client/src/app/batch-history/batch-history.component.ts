@@ -3,6 +3,7 @@ import { OperationsService } from '../operation/shared/services/operations.servi
 import { Batch } from '../shared/interfaces/batch';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
+import { QueryResponse } from '../shared/interfaces/query-response';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class BatchHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.getBatchesSub = this.operationsService.getBatchList().subscribe(data => {
-      this.batches = data as [Batch]
+      this.batches = (data as QueryResponse).results as [Batch]
       console.log(this.batches)
     })
     }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { OperationsService } from '../shared/services/operations.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { QueryResponse } from '../../shared/interfaces/query-response';
 
 
 @Component({
@@ -47,12 +48,10 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
-    this.http.get(this.ROOT_URL).subscribe(
-      data => {
-        this.prodData = data as any[];		// FILL THE ARRAY WITH DATA.
+    this.http.get(this.ROOT_URL).subscribe(data => {
+      this.prodData = (data as QueryResponse).results as any[];		// FILL THE ARRAY WITH DATA.
       },
     );
-
     if (this.passedQuery) {
       this.newBatch = this.passedQuery
 
