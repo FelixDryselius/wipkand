@@ -1,204 +1,127 @@
 <button (click)='goBack()'>Back</button>
 
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <div class="row">
-        <h5>Batch Details - #{{ batchDetailID}}</h5>
-        <hr>
-
-
-        <form #batchEditForm='ngForm' (ngSubmit)='submitEndBatch($event,batchFinishForm.value)'>
-        </form>
-        <div class="form-group">
-          
-          <label for="order"></label>
-          <input id="order" name="order" type="text" [(ngModel)]="order" class="form-control">
-        </div>
-
-        <form>
-          <div class="row">
-            <div class="col">
-              <h5>{{ groninger1 }}</h5>
-            </div>
-            <div class="col">
-              <h5>{{ groninger2 }}</h5>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label for="hmi1_good">Approved/Good </label>
-                <input id="hmi1_good" name="hmi1_good" type="text" [(ngModel)]="hmi1_good" class="form-control">
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label for="hmi2_good">Approved/Good </label>
-                <input id="hmi2_good" name="hmi2_good" type="text" [(ngModel)]="hmi2_good" class="form-control">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label for="hmi1_bad">Rejected/Bad </label>
-                <input id="hmi1_bad" name="hmi1_bad" type="text" [(ngModel)]="hmi1_bad" class="form-control">
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label for="hmi2_bad">Rejected/Bad </label>
-                <input id="hmi2_bad" name="hmi2_bad" type="text" [(ngModel)]="hmi2_bad" class="form-control">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <div class="col-lg-6">
-              <label for="inputTotal">Re-labeling: </label>
-              <div class="form-control">
-                <div class="row">
-                  <div class="col-lg-6">
-                    <label class="radio-inline">
-                      Yes:
-                      <input type="radio" value="true" name="reLabeling" [(ngModel)]="reLabeling">
-                    </label>
-                  </div>
-                  <div class="col-lg-6">
-                    <label class="radio-inline">
-                      No:
-                      <input type="radio" value="false" name="reLabeling" [(ngModel)]="reLabeling">
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label for="yield">Yield 1 </label>
-                <input id="yield_1" name="yield_1" type="text" [(ngModel)]="yield_1" class="form-control">
-              </div>
-            </div>
-          </div>
-          <div class="panel-footer">
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
-        </form>
-
-
-
-      </div>
-      <div class="row">
-        <h5>Comments</h5>
-      </div>
-    </div>
-    <div class="col">
-      <div class="row">
-        <h5>Batch Stats</h5>
-      </div>
-      <div class="row">
-        <h5>Scoreboard</h5>
-      </div>
-    </div>
-  </div>
-</div>
-  
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-6">
-      <form *ngIf="batchObservable | async; else loading" [formGroup]="batchDetailForm" (ngSubmit)="submitBatchDetails()">
-          <ul class="list-group">
-              <li class="list-group-item">
-                  <label for="batch_number">Batch Number</label>
-                  <input id="batch_number" formControlName="batch_number" />
+  <div class="row" style="font-size: 14px;">
+    <div class="col-lg-6 text-center">
+      <h5>Batch Details - #{{ batchDetailID}}</h5>
+      <br>
+      <form *ngIf="batchObservable | async; else loading" [formGroup]="batchDetailForm" (ngSubmit)="submitBatchDetails($event, batchDetailForm.value)">
+        <div class="row font-weight-bold">
+          <div class="col-lg-6">
+            <ul class="list-group">
+              <li class="list-group-item text-left">
+                <label for="order_number">Order Number:</label>
+                <input id="order_number" class="input-sm float-right" formControlName="order_number" />
               </li>
-              <li class="list-group-item">
-                  <label for="start_date">Start Date </label>
-                  <input id="start_date" formControlName="start_date" />
+              <li class="list-group-item text-left">
+                <label for="order_number">Article Number:</label>
+                <input id="order_number" class="input-sm float-right" formControlName="article_number" />
               </li>
-              <li class="list-group-item">
-                  <label for="end_date">End Date </label>
-                  <input id="end_date" formControlName="end_date" />
+              <li class="list-group-item text-left">
+                <label for="start_date">Start Date:</label>
+                <input id="start_date" class="input-sm float-right" formControlName="start_date" />
               </li>
-              <li class="list-group-item">
-                  <label for="scrap">Scrap</label>
-                  <input id="scrap" formControlName="scrap" />
+              <li class="list-group-item text-left">
+                <label for="end_date">End Date:</label>
+                <input id="end_date" class="input-sm float-right" formControlName="end_date" />
               </li>
-              <li class="list-group-item">
-                <label for="production_yield">Production Yield </label>
-                <input id="production_yield" formControlName="production_yield" />
+              <li class="list-group-item text-left">
+                <label for="rework_date">Rework Date:</label>
+                <input id="rework_date" class="input-sm float-right" formControlName="rework_date" />
               </li>
-              <li class="list-group-item">
-                <label for="hmi1_good">HMI1 Good </label>
-                <input id="hmi1_good" formControlName="hmi1_good" />
+              <li class="list-group-item text-left">
+                <label for="label_print_time">Label Print Time: </label>
+                <input id="label_print_time" class="input-sm float-right" formControlName="label_print_time" />
               </li>
-              <li class="list-group-item">
-                <label for="hmi1_bad">HMI1 Bad </label>
-                <input id="hmi1_bad" formControlName="hmi1_bad" />
-              </li>
-              <li class="list-group-item">
-                <label for="hmi2_good">HMI2 Good </label>
-                <input id="hmi2_good" formControlName="hmi2_good" />
-              </li>
-              <li class="list-group-item">
-                <label for="hmi2_bad">HMI2 bad </label>
-                <input id="hmi2_bad" formControlName="hmi2_bad" />
-              </li>
-              <li class="list-group-item">
-                <label for="rework_date">Rework Date </label>
-                <input id="rework_date" formControlName="rework_date" />
-              </li>
-              <li class="list-group-item">
-                <label for="applied_labels">Applied Labels </label>
-                <input id="applied_labels" formControlName="applied_labels" />
-              </li>
-              <li class="list-group-item">
-                <label for="label_print_time">Label Print Time Bad </label>
-                <input id="label_print_time" formControlName="label_print_time" />
-              </li>
-              <li class="list-group-item">
-                <label for="rework_time">Rework Time </label>
-                <input id="rework_time" formControlName="rework_time" />
-              </li>
-              <li class="list-group-item">
-                <label for="order_number">Order Number </label>
-                <input id="order_number" formControlName="order_number" />
+              <li class="list-group-item text-left">
+                <label for="rework_time">Rework Time:</label>
+                <input id="rework_time" class="input-sm float-right" formControlName="rework_time" />
               </li>
             </ul>
-          <button class="btn btn-primary" >Save Changes</button>                                           
-        </form>  
+          </div>
+          <div class="col-lg-6">
+            <ul class="list-group">
+              <li class="list-group-item text-left">
+                <label for="scrap">Scrap:</label>
+                <input id="scrap" class="input-sm float-right" formControlName="scrap" />
+              </li>
+              <li class="list-group-item text-left">
+                <label for="production_yield">Yield:</label>
+                <input id="production_yield" class="input-sm float-right" formControlName="production_yield" />
+              </li>
+              <li class="list-group-item text-left">
+                <label for="hmi1_good">HMI1 Good:</label>
+                <input id="hmi1_good" class="input-sm float-right" formControlName="hmi1_good" />
+              </li>
+              <li class="list-group-item text-left">
+                <label for="hmi1_bad">HMI1 Bad:</label>
+                <input id="hmi1_bad" class="input-sm float-right" formControlName="hmi1_bad" />
+              </li>
+              <li class="list-group-item text-left">
+                <label for="hmi2_good">HMI2 Good:</label>
+                <input id="hmi2_good" class="input-sm float-right" formControlName="hmi2_good" />
+              </li>
+              <li class="list-group-item text-left">
+                <label for="hmi2_bad">HMI2 Bad:</label>
+                <input id="hmi2_bad" class="input-sm float-right" formControlName="hmi2_bad" />
+              </li>
+              <li class="list-group-item text-left">
+                <label for="applied_labels">Applied Labels:</label>
+                <input id="applied_labels" class="input-sm float-right" formControlName="applied_labels" />
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <button class="btn btn-primary" type="submit">Update</button>
+          </div>
+        </div>
+      </form>
+      <hr>
+
+
+
+      <div class="row text-center">
+        <div class="col-lg-12">
+          <h5>Batch Comments</h5>
+          <br>
+          <div *ngIf="commentObservable | async; else loading">
+            <div class="card-group text-left" *ngFor="let comment of comments; let i = index" id="comment{{i}}">
+              <div class="card col-3">
+                <label>
+                  <b>Date:</b> {{ comment.post_date | date:"yy/MM/dd HH:mm" }}</label>
+              </div>
+              <div class="card col-3">
+                <label>
+                  <b>User:</b> {{ comment.user_name }}</label>
+              </div>
+              <div class="card col-6">
+                <p class="card-text">{{ comment.text_comment }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+   <div class="col-lg-6 text-center">
+      <h5>Batch Stats</h5>
+      <div class="row">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, laborum expedita. Cupiditate assumenda veritatis possimus. Odio, aliquam. Sequi, dolores similique sed animi perspiciatis quidem corrupti, fugit delectus atque blanditiis rem.</p>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-lg-12">
+            <h5>Scoreboard</h5>
+            <br>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-
-
-
-  <!-- If user is loaded show the form, else show the loading template -->
-  <ng-template #loading>
-      Loading User...
-    </ng-template>
-     
-    
-      
-    
-     
-
-      
-    
-     
-    
-
-     
-
-      
-
-      
-
-      
-
-  
+<!-- If user is loaded show the form, else show the loading template -->
+<ng-template #loading>
+  Loading content...
+</ng-template>
