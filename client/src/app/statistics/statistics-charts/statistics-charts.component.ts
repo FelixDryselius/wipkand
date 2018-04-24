@@ -55,6 +55,7 @@ export class StatisticsChartsComponent implements OnInit {
       }
     });
     
+    
    }) 
   }
 }
