@@ -1,16 +1,16 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Pipe } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
 import { Location } from '@angular/common'
-
-//3rd part and application imports
-import { Batch } from '../shared/interfaces/batch';
-import { OperationsService } from '../operation/shared/services/operations.service'
+import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators';
+
+import { Batch } from '../shared/interfaces/batch';
 import { CommentService } from '../shared/application-services/comment.service';
+import { OperationsService } from '../operation/shared/services/operations.service';
 import { QueryResponse } from '../shared/interfaces/query-response';
 
+//3rd part and application imports
 
 @Component({
   selector: 'app-batch-history-detail',
