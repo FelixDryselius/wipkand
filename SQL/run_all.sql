@@ -253,6 +253,9 @@ INSERT INTO production_statistic (batch_number, time_stamp, production_quantity,
 VALUES ('1000000001', '2018-03-01 11:00:00', 500, 3);
 
 INSERT INTO production_statistic (batch_number, time_stamp, production_quantity, staff_quantity)
+VALUES ('1000000001', '2018-03-01 12:00:00', 1200, 3);
+
+INSERT INTO production_statistic (batch_number, time_stamp, production_quantity, staff_quantity)
 VALUES ('1000000001', '2018-03-01 13:00:00', 2000, 3);
 
 INSERT INTO production_statistic (batch_number, time_stamp, production_quantity, staff_quantity)
