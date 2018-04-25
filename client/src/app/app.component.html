@@ -1,34 +1,27 @@
 <!--Start navBar.-->
 
-<div class="container-fluid" style="margin-top: 2%" >  
+<div class="container-fluid" style="margin-top: 2%">
   <div class="row">
     <div class="col-lg-2">
       <div class="mycontent-left">
         <div class="jumbotron jumbotron-fluid">
-          <div class="container" >
-              <h3>Batch information: </h3>
-          </div>    
+          <div class="container">
+            <h3>Batch information: </h3>
+          </div>
           <div class="container">
             <current-batch-info></current-batch-info>
-
-               <!--<div class="">
-                  
-                <div class="nav">
-                    <a class="nav-link" routerLink="./start-batch" routerLinkActive="active">Start new batch</a>
-                </div> 
-              </div> -->
           </div>
         </div>
-<!--may need a closing div here... github change-->
-        <div class="card-fluid" >
+        <div class="card-fluid">
           <ul class="nav flex-column nav-pills nav-stacked">
             <div class="border border-dark">
               <li class="nav-item">
-                <a class="nav-link" routerLink="./home" routerLinkActive="active">Home</a>           
+                <a class="nav-link" routerLink="./home" routerLinkActive="active">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" routerLink="./comment" routerLinkActive="active">Comments</a>           
+                <a class="nav-link" routerLink="./comment" routerLinkActive="active">Comments</a>
               </li>
+<<<<<<< HEAD
              <!--  <li class="nav-item">
                 <a class="nav-link" routerLink="./scoreboard" routerLinkActive="active">Scoreboard</a>
               </li>
@@ -49,16 +42,22 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="./statistics/scoreboard" routerLinkActive="active">Scoreboard</a>
           </li>                              
+=======
+            </div>
+            <br>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="./batch-history" routerLinkActive="active">History</a>
+            </li>
+>>>>>>> 50ea28456e5ccac8648b33eb94e4ed87a351c8ae
           </ul>
         </div>
       </div>
     </div>
-       
-<!--End navBar.-->     
+    <!--End navBar.-->
 
-    <div class="col-lg-10" >
+    <div class="col-lg-10">
       <div class="main">
-<!--Router imput here-->
+        <!--Router imput here-->
         <router-outlet></router-outlet>
       </div>
     </div>

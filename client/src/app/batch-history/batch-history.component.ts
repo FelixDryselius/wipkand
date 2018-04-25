@@ -26,10 +26,21 @@ export class BatchHistoryComponent implements OnInit {
       this.batches = (data as QueryResponse).results as [Batch]
       console.log(this.batches)
     })
-    }
+  }
+
+  ngOnDestroy(): void {
+    this.getBatchesSub.unsubscribe()
+  }
 
   toBatchDetail(id) {
     this.router.navigate(['batch-history/' + id + '/'])
+  }
+
+  searchHistory(event, query) {
+    this.getBatchesSub = this.operationsService.getBatchDetail('?search=' + query).subscribe(data => {
+      this.batches = (data as QueryResponse).results as [Batch]
+      console.log(this.batches)
+    })
   }
 
 }

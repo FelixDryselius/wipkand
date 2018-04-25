@@ -25,7 +25,7 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
     this.req_batch = this.operationsService.getBatchDetail(activeBatchquery).subscribe(data => {
       let runningBatch = (data as QueryResponse).results[0] as Batch
       if (runningBatch) {
-        this.operationsService.setCurrentBatchInfo(runningBatch)
+        this.operationsService.setCurrentBatchInfo(true, runningBatch)
       }
     })
     //TODO: Make this one observable

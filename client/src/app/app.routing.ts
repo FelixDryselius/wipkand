@@ -7,11 +7,6 @@ import { AuthLogoutComponent } from './auth-logout/auth-logout.component'
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
 import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component'; 
 
-import { FloorstockComponent } from './floorstock/floorstock.component';
-
-import { ShiftChangeComponent } from './shift-change/shift-change.component';
-
-
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 
 import { StatisticsModule } from './statistics/statistics.module';
@@ -40,19 +35,9 @@ const appRoutes: Routes = [
         component: BatchHistoryDetailComponent,
     },
     {
-        path:"floorstock",
-        component: FloorstockComponent,
-    },
-    {
-        path:"shift-change",
-        component: ShiftChangeComponent,
-    },
-    
-    {
         path: 'statistics',
         loadChildren: () => StatisticsModule,
     },
-
     {
         path:"batch-rework",
         component: BatchReworkComponent,

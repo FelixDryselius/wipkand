@@ -70,6 +70,7 @@ class BatchAPIView(
 
     serializer_class = BatchCreateSerializer
     permission_classes = [AllowAny]
+    search_fields = ('batch_number', 'order_number__order_number', 'start_date', 'end_date')
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)

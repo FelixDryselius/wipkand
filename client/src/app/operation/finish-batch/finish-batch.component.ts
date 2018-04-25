@@ -20,33 +20,33 @@ export class FinishBatchComponent implements OnInit {
 
   reLabeling = "false" //making the radio button "no" checked default 
 
- //the following items are copied from start-batch.component
+  //the following items are copied from start-batch.component
   private prodActive: boolean;
   private prodInfo: any;
   private service_prodStatus: any;
   private service_prodInfo: any;
 
-  
+
   constructor(private router: Router, private operationsService: OperationsService) { }
 
-  ngOnInit() {  
+  ngOnInit() {
     //the following items are copied from start-batch.component
     this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
   }
-  
+
   // TODO: get a correct unsubscribe working
   ngOnDestroy() {
     // this.service_prodStatus.unsubscribe()
     // this.service_prodInfo.unsubscribe()
   }
 
-  submitEndBatch($theEvent,batchForm){  
+  submitEndBatch($theEvent, batchForm) {
     // TODO:  add these attributes so the whole batch kan close:
     // scrap, rework_date, applied_labels, label_print_time, rework_time, yield_2
     let batchInfo = {}
     console.log("submit end runned");
-    if(this.prodActive){ 
+    if (this.prodActive) {
       batchInfo = {
         batch_number: this.prodInfo.batch_number,
         end_date: new Date(),
@@ -55,13 +55,11 @@ export class FinishBatchComponent implements OnInit {
         hmi2_bad: batchForm.hmi2_bad,
         hmi1_good: batchForm.hmi1_good,
         hmi2_good: batchForm.hmi2_good,
-      } 
-      this.operationsService.updateBatch(batchInfo as Batch).subscribe() 
+      }
+      this.operationsService.updateBatch(batchInfo as Batch).subscribe(data => {
+        this.operationsService.setCurrentBatchInfo(false, null);
+      })
     }
-    
-    this.operationsService.changeProdStatus(false) 
-    this.operationsService.changeProdInfo(null)
-
     this.router.navigate(['/home'])
   }
 }
