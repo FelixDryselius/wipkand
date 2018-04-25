@@ -1,4 +1,6 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 // 3rd party and application imports
 import { Batch } from '../../shared/interfaces/batch';
@@ -9,6 +11,8 @@ import { debug } from 'util';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
+import { Logs } from 'selenium-webdriver';
+
 
 
 @Component({
@@ -25,23 +29,40 @@ export class ScoreboardComponent implements OnInit {
   numberOfBatchesBack;
   
 
+  constructor(
+    private commentService:CommentService, 
+    private operationsService: OperationsService,
+    private route: ActivatedRoute,
+    private router: Router) { 
+      this.route.params.subscribe(val=>{
+        this.numberOfBatchesBack = val.batchesBack;
+        this.ngOnInit()     
+      })
+    }
 
-
-  constructor(private commentService:CommentService, private operationsService: OperationsService) { }
-
-  ngOnInit() {
-    this.numberOfBatchesBack = '1';
-    let query = '?limit=1&offset=' + this.numberOfBatchesBack
-    this.getProdStatLatestBatches(query).subscribe(data =>{
-      this.productionStatistics = (data as QueryResponse).results as JSON []
-    });
-
-  }
+    
+  ngOnInit() { 
+    
+    if (isNaN(parseInt(this.numberOfBatchesBack))){
+      this.router.navigate(['0'], {relativeTo: this.route});
+    } 
+    else {
+      let query = '?limit=1&offset=' + String(this.numberOfBatchesBack)
+      this.getProdStatLatestBatches(query).subscribe(data =>{
+        this.productionStatistics = (data as QueryResponse).results as JSON []
+      });
+      }
+    }
+    
+   
+  
+  
   
   nextBatch() {
+    this.router.navigate(['../', Number(this.numberOfBatchesBack)+1], {relativeTo: this.route});
   }
   beforeBatch() {
-
+    this.router.navigate(['../', Number(this.numberOfBatchesBack)-1], {relativeTo: this.route});
   }
           
   getBatchComments(query?:string) {
@@ -52,15 +73,11 @@ export class ScoreboardComponent implements OnInit {
     })
   }
 
-  public getProdStatLatestBatches(query?:String){ 
+  public getProdStatLatestBatches(query?:string){ 
     let tempData
-    console.log('getProdStatLatestBatches started');
     return this.operationsService.getBatchDetail(query).switchMap(data =>{
       tempData =  (data as QueryResponse).results as JSON []
       let superTemp = tempData.pop() as Batch
-
-      console.log('this is tempData: ' + superTemp.batch_number);
-//      this.comments = this.getComment(superTemp.batch_number);
       this.getBatchComments(superTemp.batch_number)
       return this.operationsService.getProductionStatistics('?search='+superTemp.batch_number) 
     })

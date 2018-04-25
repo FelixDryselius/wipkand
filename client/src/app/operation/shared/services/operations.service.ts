@@ -92,11 +92,11 @@ export class OperationsService {
 
   
 
-  getBatchList(query?:String):Observable<any> {
+  getBatchList(query?:string):Observable<any> {
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
   //TODO: These can be the same function
-  getBatchDetail(query?:String):Observable<any> {
+  getBatchDetail(query?:string):Observable<any> {
     return this.http.get(this.URL_ROOT+this.URL_BATCH_API  + query)
   }
 

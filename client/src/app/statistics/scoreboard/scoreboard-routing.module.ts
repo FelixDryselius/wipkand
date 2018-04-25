@@ -7,8 +7,13 @@ import { ScoreboardComponent } from './scoreboard.component';
 const routes: Routes = [
   {
     path: '',
-    component: ScoreboardComponent 
-  }
+    redirectTo: ":batchesBack",
+    pathMatch: 'full'    
+  },
+  {
+    path: ":batchesBack",
+    component: ScoreboardComponent,
+  },
 ];
 
 @NgModule({
