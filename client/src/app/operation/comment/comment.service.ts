@@ -20,7 +20,7 @@ export class CommentService {
 
   addComment(data) {
     const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'my-auth-token'})
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'})
     }
     return this.http.post(this.ROUTE_URL, JSON.stringify(data), httpOptions)
   }
