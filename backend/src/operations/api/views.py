@@ -100,12 +100,10 @@ class BatchDetailAPIView(
 
     def get_serializer_class(self):
         serializer_class = self.serializer_class
-
         if self.request.method == 'PATCH':
-            serializer_class = BatchPatchSerializer
+            serializer_class = BatchDetailSerializer
         else:
             serializer_class = BatchDetailSerializer
-
         return serializer_class
 
     def put(self, request, *args, **kwargs):

@@ -8,6 +8,7 @@ from operations.models import (
     BatchComment
 )
 
+
 class ProductSerializer(ModelSerializer):
     class Meta:
         model = Product
@@ -37,8 +38,49 @@ class BatchDetailSerializer(ModelSerializer):
     class Meta:
         model = Batch
         fields = '__all__'
-        read_only_fields = ['order_number']
+        #read_only_fields = ['order_number']
 
+    def update(self, instance, validated_data):
+        entered_order = validated_data.pop('order_number')
+        previous_order = instance.order_number
+        new_order_nr = entered_order['order_number']
+        old_order_nr = previous_order.order_number
+        new_product = entered_order['article_number']
+        old_pruduct_frontend = previous_order.article_number
+        if new_order_nr != old_order_nr:
+            try:
+                order_to_use = ProductOrder.objects.get(
+                    pk=new_order_nr)
+                print("FETCH OLD ORDER!")
+                # Now have old order with a old product association
+                old_product = order_to_use.article_number
+
+                if not validate_order(old_product.article_number, new_product.article_number):
+                    #print("WRONG NEW PRODUCT NUMBER")
+                    # NEW PRODUCT NUMBER WITH OLD ORDER NUMBER
+                    order_to_use.update(article_number=new_product)
+
+            except ProductOrder.DoesNotExist:
+                order_to_use = ProductOrder.objects.create(
+                    order_number=new_order_nr, article_number=new_product)
+                print("CREATED ORDER!")
+            instance.order_number = order_to_use
+            instance.save()
+
+        if old_pruduct_frontend is not new_product and new_order_nr == old_order_nr:
+
+            order_to_use = ProductOrder.objects.get(
+                    pk=new_order_nr)
+
+            order_to_use.article_number = new_product
+            instance.order_number = order_to_use
+            #previous_order.update(article_number=new_product)
+            #previous_order.article_number = new_product
+
+            #instance.order_number = previous_order
+            instance.save()
+        
+        return instance
 
 class BatchPatchSerializer(ModelSerializer):
     class Meta:

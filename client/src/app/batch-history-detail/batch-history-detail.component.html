@@ -6,7 +6,7 @@
       <h5>Batch Details - #{{ batchDetailID}}</h5>
       <br>
 
-      <form *ngIf="orderObservable | async; else loading" [formGroup]="orderDetailForm" (ngSubmit)="submitOrderDetails($event, orderDetailForm.value)">
+      <form *ngIf="orderObservable | async; else loading" [formGroup]="orderDetailForm" (ngSubmit)="submitFormDetails($event, orderDetailForm.value)">
         <div class="row">
           <div class="col-lg-6 font-weight-bold">
             <ul class="list-group">
@@ -31,7 +31,7 @@
         </div>
       </form>
       <hr>
-      <form *ngIf="batchObservable | async; else loading" [formGroup]="batchDetailForm" (ngSubmit)="submitBatchDetails($event, batchDetailForm.value)">
+      <form *ngIf="batchObservable | async; else loading" [formGroup]="batchDetailForm" (ngSubmit)="submitFormDetails($event, batchDetailForm.value)">
         <div class="row font-weight-bold">
           <div class="col-lg-6">
             <ul class="list-group">
