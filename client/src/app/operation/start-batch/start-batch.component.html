@@ -3,45 +3,44 @@
     {{ title }}
   </h3>
   <br>
-  
+
   <!-- A form that sends input data to a function submitBatch with parameters ordernr, prodnr and batchnr -->
   <!-- TODO: Make this a reactive form instead. Validate so correct batch/order numbers are entered. ngNativeValidate = quick fix that removes ANgulars validation -->
-  <form #batchForm='ngForm' (ngSubmit)='submitBatch($event,batchForm)' >
-  
+  <form #batchForm='ngForm' (ngSubmit)='submitBatch($event,batchForm)'>
+
     <!-- User input for order number -->
     <div class="form-group row">
-        <label for="inputOrderNr" class="col-lg-4 col-form-label text-right">Add order</label>
-        <div class="col-lg-4">
-        <input type="text" class="form-control" id="inputOrderNr" placeholder="Order number" name='ordernr' [(ngModel)]="newOrder" required>
+      <label for="inputOrderNr" class="col-lg-4 col-form-label text-right">Add order</label>
+      <div class="col-lg-4">
+        <input type="text" class="form-control" id="inputOrderNr" placeholder="Order number" name='ordernr' [(ngModel)]="newOrder"
+          required>
       </div>
     </div>
-  
+
     <!-- Dropdown for products. ngValue is sent.  -->
     <div class="form-group row">
-        <label for="inputProductNr" class="col-lg-4 col-form-label text-right">Add product</label>
-        <div *ngIf="prodData" class="col-lg-4 dropdown">
-            <select [(ngModel)]="selected" name="prodnr" class="selectProd" required>
-            <option *ngFor="let data of prodData" class="optionProd"[(ngValue)]="data.article_number">{{ data.article_number }}, {{ data.product_name }}</option>
+      <label for="inputProductNr" class="col-lg-4 col-form-label text-right">Add product</label>
+      <div *ngIf="prodData" class="col-lg-4 dropdown">
+        <select [(ngModel)]="selected" name="prodnr" class="selectProd" required>
+          <option *ngFor="let data of prodData" class="optionProd" [(ngValue)]="data.article_number">{{ data.article_number }}, {{ data.product_name }}</option>
         </select>
-    </div>
-  </div>
-  
-  <!-- User input for batch number -->
-    <div class="form-group row">
-        <label for="inputBatchNr" class="col-lg-4 col-form-label text-right">Add batch</label>
-        <div class="col-lg-4">
-        <input type="batch" class="form-control" id="inputBatchNr" placeholder="Batch number" name='batchnr' [(ngModel)]="newBatch" required>
       </div>
-    </div>  
-    
-      <button type="submit" class="btn btn-default btn-startBatch">
+    </div>
+
+    <!-- User input for batch number -->
+    <div class="form-group row">
+      <label for="inputBatchNr" class="col-lg-4 col-form-label text-right">Add batch</label>
+      <div class="col-lg-4">
+        <input type="batch" class="form-control" id="inputBatchNr" placeholder="Batch number" name='batchnr' [(ngModel)]="newBatch"
+          required>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-default btn-startBatch">
       Start batch
     </button>
-  
+
   </form>
-  </div>
-  
-  <hr>
-  
-  
-  
+</div>
+
+<hr>

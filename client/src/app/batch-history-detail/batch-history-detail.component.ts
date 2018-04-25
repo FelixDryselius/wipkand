@@ -10,8 +10,6 @@ import { CommentService } from '../shared/application-services/comment.service';
 import { OperationsService } from '../operation/shared/services/operations.service';
 import { QueryResponse } from '../shared/interfaces/query-response';
 
-//3rd part and application imports
-
 @Component({
   selector: 'app-batch-history-detail',
   templateUrl: './batch-history-detail.component.html',
@@ -23,13 +21,22 @@ export class BatchHistoryDetailComponent implements OnInit {
   private batchDetailID: string;
   private batchObservable: Observable<any>;
   private batchSub: any;
+
   private commentObservable: Observable<any>;
   private commentSub: any;
   private statisticsObservable
   private statisticsSub
 
+  private orderObservable: Observable<any>;
+  private orderSub: any;
+  private orderDetailForm: FormGroup;
+
+  private productObservable: Observable<any>;
+  private productSub: any;
+
   comments: {};
   statistics: {};
+  products: {};
 
   constructor(
     private route: ActivatedRoute,
@@ -46,6 +53,11 @@ export class BatchHistoryDetailComponent implements OnInit {
 
     //TODO: MAKE THIS PAGE GREAT AND REMOVE COMMENTS ETC. MORE INFO ON:
     // https://coryrylan.com/blog/using-angular-forms-with-async-data
+
+    this.orderDetailForm = this.formBuilder.group({
+      order_number: [],
+      article_number: this.products,
+    })
 
     this.batchDetailForm = this.formBuilder.group({
       order_number: [],
@@ -72,6 +84,17 @@ export class BatchHistoryDetailComponent implements OnInit {
       data['order_number'] = order['order_number']
       data['article_number'] = order['article_number']
       this.batchDetailForm.patchValue(data)
+      this.orderObservable = this.operationsService.getOrder(order['order_number'])
+      this.orderSub = this.orderObservable.subscribe(data => {
+        console.log("Fetched order is: ")
+        console.log(data)
+        this.orderDetailForm.patchValue(data)
+      })
+    })
+
+    this.productObservable = this.operationsService.getProduct()
+    this.productSub = this.productObservable.subscribe(data => {
+      this.products = (data as QueryResponse).results
     })
 
     this.commentObservable = this.commentService.getComment(this.batchDetailID)
@@ -85,9 +108,6 @@ export class BatchHistoryDetailComponent implements OnInit {
       this.statistics = (data as QueryResponse).results
       console.log(this.statistics)
     })
-
-
-
   }
 
   submitBatchDetails($theEvent, batchForm) {
@@ -98,6 +118,12 @@ export class BatchHistoryDetailComponent implements OnInit {
     console.log(batchForm)
     this.operationsService.updateBatch(batchForm as Batch).subscribe()
   }
+
+  submitOrderDetails($theEvent, orderForm) {
+    console.log(orderForm)
+    this.operationsService.updateOrder(orderForm).subscribe()
+  }
+
   goBack() {
     this.location.back()
   }

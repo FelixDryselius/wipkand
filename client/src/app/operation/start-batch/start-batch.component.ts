@@ -5,6 +5,7 @@ import { OperationsService } from '../shared/services/operations.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { QueryResponse } from '../../shared/interfaces/query-response';
+import { Batch } from '../../shared/interfaces/batch';
 
 
 @Component({
@@ -50,11 +51,10 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
     this.http.get(this.ROOT_URL).subscribe(data => {
       this.prodData = (data as QueryResponse).results as any[];		// FILL THE ARRAY WITH DATA.
-      },
+    },
     );
     if (this.passedQuery) {
       this.newBatch = this.passedQuery
-
     }
   }
 

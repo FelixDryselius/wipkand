@@ -56,7 +56,9 @@ export class FinishBatchComponent implements OnInit {
         hmi1_good: batchForm.hmi1_good,
         hmi2_good: batchForm.hmi2_good,
       }
-      this.operationsService.updateBatch(batchInfo as Batch).subscribe()
+      this.operationsService.updateBatch(batchInfo as Batch).subscribe(data => {
+        this.operationsService.setCurrentBatchInfo(false, null);
+      })
     }
     this.router.navigate(['/home'])
   }

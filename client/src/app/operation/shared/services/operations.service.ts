@@ -29,6 +29,7 @@ export class OperationsService {
   readonly URL_ROOT: string = "http://localhost:8000";
   readonly URL_ORDER_API: string = "/api/operations/order/";
   readonly URL_BATCH_API: string = "/api/operations/batch/";
+  readonly URL_PRODUCT_API: string = "/api/operations/product/";
 
   // Scoreboard URLs
   private scoreboardListURL: string = "/api/statistics/";
@@ -69,14 +70,35 @@ export class OperationsService {
     this.prodInfo.next(info);
   }
 
+  getProduct(query?: string) {
+    if (query) {
+      return this.http.get(this.URL_ROOT + this.URL_PRODUCT_API + query + '/')
+    }
+    return this.http.get(this.URL_ROOT + this.URL_PRODUCT_API)
+  }
+
+  getOrderByBatch(batch) {
+    return this.http.get(this.URL_ROOT + this.URL_BATCH_API + batch + '/').switchMap(data => {
+      let returnedBatch = data as Batch
+      let order_number = returnedBatch.order_number.order_number
+      return this.http.get(this.URL_ROOT + this.URL_ORDER_API)
+    })
+  }
+
+  getOrder(query?: string) {
+    if (query) {
+      return this.http.get(this.URL_ROOT + this.URL_ORDER_API + query + '/')
+    }
+    return this.http.get(this.URL_ROOT + this.URL_ORDER_API)
+  }
+
   createBatch(newBatch: {}) {
     console.log("POST - Create new batch")
     console.log("Data is: " + JSON.stringify(newBatch))
     console.log("Url is: " + this.URL_ROOT + this.URL_BATCH_API)
     return this.http.post(this.URL_ROOT + this.URL_BATCH_API, JSON.stringify(newBatch), this.httpOptions).map(data => {
       console.log(data)
-      let runningBatch = data as Batch
-      this.setCurrentBatchInfo(true, runningBatch);
+      this.setCurrentBatchInfo(true, data as Batch);
     })
   }
 
@@ -111,9 +133,13 @@ export class OperationsService {
     console.log("updating batch! url is: " + UPDATE_BATCH_URL)
     console.log("Data is: ")
     console.log(updatedBatch)
-    return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions).map(data => {
-      this.setCurrentBatchInfo(false, null)
-    })
+    return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions)
+  }
+
+  updateOrder(order) {
+    console.log("Sending data: ")
+    console.log( JSON.stringify(order))
+    return this.http.put(this.URL_ROOT + this.URL_ORDER_API + order['order_number'] + '/', JSON.stringify(order), this.httpOptions)
   }
 
   getProductionStatistics(query?: String) {
