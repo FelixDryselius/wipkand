@@ -72,6 +72,7 @@ export class HomeComponent implements OnInit {
 
   // Array with subscribed production data
   shiftProdStats:any[] = [];
+  private id: number;
 
   // Arrays containing names of ngModels for every input element
   ngModelStaffDay:any[] = [];
@@ -137,8 +138,9 @@ export class HomeComponent implements OnInit {
 
   // Changes current shift
   onChange(chosenShift) {
-
+    
     this.shiftProdStats = []
+
 
     this.operationsService.getProdStats().subscribe(data =>{
       this.prodStats = data as JSON []
@@ -146,11 +148,26 @@ export class HomeComponent implements OnInit {
 
       for(let obj=0; obj<this.prodStats.length; obj++){ 
         if (this.prodStats[obj]["time_stamp"].slice(0,10) == this.todaysDate) {
-          this.shiftProdStats.push(this.prodStats[obj])
+          this.shiftProdStats.push(this.prodStats[obj])  
+          console.log("obj "+this.shiftProdStats[obj]["time_stamp"])
+          for(let attr=0; obj<this.shiftProdStats.length; attr++){ 
+            console.log("attr "+attr)
+          }
         }
-      }
+
+      }        
+
+      let i = this.shiftProdStats[this.shiftProdStats.length-1]["id"]   
+      i = parseInt(i)
       while (this.shiftProdStats.length<8) {
-        this.shiftProdStats.push('')
+        i += 1
+        let filler =
+        { 
+          id: i,
+          production_quantity:'',
+          staff_quantity:''
+        }
+        this.shiftProdStats.push(filler)
       }
 
       console.log(this.shiftProdStats)
@@ -199,6 +216,7 @@ export class HomeComponent implements OnInit {
   updateProduction(event, formData) {
 
     let results = {};
+    console.log(formData.value)
 
     // Collects all changes and stores as dictionary in object results
     for(let key in formData.value) {

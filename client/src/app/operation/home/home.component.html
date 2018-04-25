@@ -59,14 +59,14 @@
                 <tbody>
 
                     <tr>
-                      <td *ngFor="let stat of shiftProdStats" class="align-middle">{{ stat.time_stamp }}
-                        <input type="number" class="form-control input-number" [placeholder]="16>stat.time_stamp.slice(11,13) ? stat.staff_quantity : ''" name='{{ todaysDate }}T{{ stat.time_stamp | date:"HH:mm:ss" }}Z_sq' [(ngModel)]="ngModelStaffDay[stat.time_stamp]" required>
+                      <td *ngFor="let stat of shiftProdStats" class="align-middle">
+                        <input type="number" class="form-control input-number" [placeholder]="7<stat.time_stamp<16 ? stat.staff_quantity : ' '" name='{{ todaysDate }}T{{ stat.time_stamp | date:"HH:mm:ss" }}Z_sq' [(ngModel)]="ngModelStaffDay[stat.time_stamp]" required>
                       </td>
                     </tr>
 
                     <tr>
-                      <td *ngFor="let stat of shiftProdStats" class="align-middle">{{ stat.production_quantity }}
-                        <input type="number" class="form-control input-number" [placeholder]="16>stat.time_stamp.slice(11,13) ? stat.production_quantity : ''" name='{{ todaysDate }}T{{ stat.time_stamp | date:"HH:mm:ss" }}Z_pq' [(ngModel)]="ngModelProdDay[stat.time_stamp]" required>
+                      <td *ngFor="let stat of shiftProdStats" class="align-middle">
+                        <input type="number" class="form-control input-number" [placeholder]="7<stat.time_stamp<16 ? stat.production_quantity : ' '" name='{{ todaysDate }}T{{ stat.time_stamp | date:"HH:mm:ss" }}Z_pq' [(ngModel)]="ngModelProdDay[stat.time_stamp]" required>
                       </td>
                     </tr>
 
