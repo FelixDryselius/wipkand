@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
 
   // Variable used for determining which html code to render (day, evening or night)
   private selectedShift: String;
+  private scoreboardActive = false;
 
   // Arrays containg times of shifts
   private dayShiftTimes:any[]=[
@@ -140,7 +141,8 @@ export class HomeComponent implements OnInit {
 
   // Changes current shift
   onChange(chosenShift) {
-  
+    
+    this.scoreboardActive = true;
     this.shiftProdStats = []
 
     this.selectedShift = chosenShift;
