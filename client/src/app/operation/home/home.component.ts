@@ -129,7 +129,6 @@ export class HomeComponent implements OnInit {
         mm='0'+mm;
     } 
     this.todaysDate = yyyy+'-'+mm+'-'+dd;
-
     }
 
   getComment() {
@@ -254,13 +253,13 @@ export class HomeComponent implements OnInit {
 
   submitComment(event, formData) {
     //TODO: Do we really need to store these values in the class? 
-    console.log(formData.value)
+
     this.commentName = formData.value['commentName'];
     this.commentText = formData.value['commentText'];
     this.commentDate = new Date();
     
     let newComment = {
-      comment_id: this.comments.length, 
+      comment_id: this.comments["results"].length, 
       user_name: this.commentName,
       post_date: this.commentDate,
       text_comment: this.commentText,
