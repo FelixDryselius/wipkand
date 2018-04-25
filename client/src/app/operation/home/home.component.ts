@@ -154,29 +154,28 @@ export class HomeComponent implements OnInit {
         }
 
        if (this.selectedShift == 'day') {
-      
-         for(let obj=0; obj<this.prodStats.length; obj++){
-           
-            if (this.prodStats[obj]["time_stamp"].slice(0,10) == this.todaysDate && 7<this.prodStats[obj]["time_stamp"].slice(11,13) && this.prodStats[obj]["time_stamp"].slice(11,13)<16) {
-             this.shiftProdStats.push(this.prodStats[obj])  
+         
+         for(let obj=0; obj<this.prodStats["results"].length; obj++){
+            if (this.prodStats["results"][obj]["time_stamp"].slice(0,10) == this.todaysDate && 7<this.prodStats["results"][obj]["time_stamp"].slice(11,13) && this.prodStats["results"][obj]["time_stamp"].slice(11,13)<16) {
+             this.shiftProdStats.unshift(this.prodStats["results"][obj])  
            }
          }  
         }     
         if (this.selectedShift == 'evening') {
       
-          for(let obj=0; obj<this.prodStats.length; obj++){
+          for(let obj=0; obj<this.prodStats["results"].length; obj++){
             
-             if (this.prodStats[obj]["time_stamp"].slice(0,10) == this.todaysDate && 15<this.prodStats[obj]["time_stamp"].slice(11,13) && this.prodStats[obj]["time_stamp"].slice(11,13)<24) {
-              this.shiftProdStats.push(this.prodStats[obj])  
+             if (this.prodStats["results"][obj]["time_stamp"].slice(0,10) == this.todaysDate && 15<this.prodStats["results"][obj]["time_stamp"].slice(11,13) && this.prodStats["results"][obj]["time_stamp"].slice(11,13)<24) {
+              this.shiftProdStats.unshift(this.prodStats["results"][obj])  
             }
           }  
          } 
          if (this.selectedShift == 'night') {
       
-          for(let obj=0; obj<this.prodStats.length; obj++){
+          for(let obj=0; obj<this.prodStats["results"].length; obj++){
             
-             if (this.prodStats[obj]["time_stamp"].slice(0,10) == this.todaysDate && this.prodStats[obj]["time_stamp"].slice(11,13)<8) {
-              this.shiftProdStats.push(this.prodStats[obj])  
+             if (this.prodStats["results"][obj]["time_stamp"].slice(0,10) == this.todaysDate && this.prodStats["results"][obj]["time_stamp"].slice(11,13)<8) {
+              this.shiftProdStats.unshift(this.prodStats["results"][obj])  
             }
           }  
          }  
@@ -219,10 +218,7 @@ export class HomeComponent implements OnInit {
             
             else {
 
-              
-
               let last_time_stamp = this.shiftProdStats.slice(-1)[0]["time_stamp"]
-              
 
               let last_hour = last_time_stamp.slice(11,13)
            
@@ -302,11 +298,11 @@ export class HomeComponent implements OnInit {
       // Must be possible to do this simpler
       // Go through objects in production statistics from api
  
-       for(let obj=0; obj<this.prodStats.length; obj++){
+       for(let obj=0; obj<this.prodStats["results"].length; obj++){
         //console.log("time_stamp api "+this.prodStats[obj]["time_stamp"])
         //console.log("key "+key.slice(0, -3))
         // Checks if time stamp exists. Determines wheter data should be created or updated
-        if (this.prodStats[obj]["time_stamp"] == key.slice(0, -3)) {
+        if (this.prodStats["results"][obj]["time_stamp"] == key.slice(0, -3)) {
             if (key.substr(key.length-2)=='sq') {
               change = {
                 time_stamp: key.slice(0, -3),
@@ -328,7 +324,7 @@ export class HomeComponent implements OnInit {
         }
         else {
           counter += 1
-          if (counter == this.prodStats.length-1) {
+          if (counter == this.prodStats["results"].length-1) {
             let time = this.todaysDate+key.slice(10,-3)
             let stringifiedTime = String(time)
             newData = {
