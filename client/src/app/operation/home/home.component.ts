@@ -149,22 +149,54 @@ export class HomeComponent implements OnInit {
 
     this.selectedShift = chosenShift;
     
-       
+    function replaceAt(input, search, replace, start, end) {
+      let replacer = input.slice(start, end).replace(search, replace)
+      replacer = ('0' + replacer).slice(-2)
+        return  input.slice(0, start) 
+              + replacer
+              + input.slice(end);
+        }
+
        if (this.selectedShift == 'day') {
       
          for(let obj=0; obj<this.prodStats.length; obj++){
-           console.log(this.prodStats[obj]["time_stamp"].slice(0,10))
-            if (this.prodStats[obj]["time_stamp"].slice(0,10) == this.todaysDate) {
+           
+            if (this.prodStats[obj]["time_stamp"].slice(0,10) == this.todaysDate && 7<this.prodStats[obj]["time_stamp"].slice(11,13) && this.prodStats[obj]["time_stamp"].slice(11,13)<16) {
              this.shiftProdStats.push(this.prodStats[obj])  
            }
-
          }  
-        }      
+        }     
+        if (this.selectedShift == 'evening') {
+      
+          for(let obj=0; obj<this.prodStats.length; obj++){
+            
+             if (this.prodStats[obj]["time_stamp"].slice(0,10) == this.todaysDate && 15<this.prodStats[obj]["time_stamp"].slice(11,13) && this.prodStats[obj]["time_stamp"].slice(11,13)<24) {
+              this.shiftProdStats.push(this.prodStats[obj])  
+            }
+          }  
+         } 
+         if (this.selectedShift == 'night') {
+      
+          for(let obj=0; obj<this.prodStats.length; obj++){
+            
+             if (this.prodStats[obj]["time_stamp"].slice(0,10) == this.todaysDate && this.prodStats[obj]["time_stamp"].slice(11,13)<8) {
+              this.shiftProdStats.push(this.prodStats[obj])  
+            }
+          }  
+         }  
         
         while (this.shiftProdStats.length<8) {
-
+          let first:any
             if (this.shiftProdStats.length == 0) {
-              let first:any = this.todaysDate+"T08:00:00Z"
+              if (this.selectedShift == 'day') {
+                first = this.todaysDate+"T08:00:00Z"
+              }
+              else if (this.selectedShift == 'evening') {
+                first = this.todaysDate+"T16:00:00Z"
+              }
+              else if (this.selectedShift == 'night') {
+                first = this.todaysDate+"T00:00:00Z"
+              }
               let firstObj =
               { 
                     time_stamp: first,
@@ -190,35 +222,38 @@ export class HomeComponent implements OnInit {
                   }
             
             else {
-              let i = this.shiftProdStats.slice(-1)[0]["time_stamp"]
-              let last_time = i.slice(11,13)
-              last_time = parseInt(last_time)
-              last_time += 1
-              last_time = ('0' + last_time).slice(-2)
-              last_time = String(last_time)
-              let mod = i.replace(i.slice(11,13),last_time)
+
+              
+
+              let last_time_stamp = this.shiftProdStats.slice(-1)[0]["time_stamp"]
+              
+
+              let last_hour = last_time_stamp.slice(11,13)
+           
+              last_hour = parseInt(last_hour)
+            
+              let new_hour = last_hour+1
+           
+              new_hour = new_hour.toString()
+          
+              new_hour = ('0' + new_hour).slice(-2)
+        
+              new_hour = new_hour.toString()
+
+              let new_time_stamp = replaceAt(last_time_stamp, last_hour, new_hour, 11, 13)
+
+
               let filler =
               { 
-                    time_stamp: mod,
+                    time_stamp: new_time_stamp,
                     production_quantity:'',
                     staff_quantity:''
               }
                   this.shiftProdStats.push(filler)
                   }
 
- 
           }
-
          console.log(this.shiftProdStats)
-     
-
-      // if (chosenShift.shift == 'evening') {
-      //   this.shiftProdStats = this.prodStats.slice(15, 23)
-      // }
-
-      // if (chosenShift.shift == 'night') {
-      //   this.shiftProdStats = this.prodStats.slice(0, 7)
-      // }
   }
 
 
