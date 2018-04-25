@@ -115,16 +115,6 @@ export class OperationsService {
     this.changeProdInfo(currentBatch)
   }
 
-<<<<<<< HEAD
-  
-
-  getBatchList(query?:string):Observable<any> {
-    return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
-  }
-  //TODO: These can be the same function
-  getBatchDetail(query?:string):Observable<any> {
-    return this.http.get(this.URL_ROOT+this.URL_BATCH_API  + query)
-=======
   getBatchList(query?: String): Observable<any> {
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
@@ -134,7 +124,6 @@ export class OperationsService {
       return this.http.get(this.URL_ROOT + this.URL_BATCH_API + query)
     }
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
->>>>>>> 50ea28456e5ccac8648b33eb94e4ed87a351c8ae
   }
 
   /* PATCH: update the batch on the server.  */

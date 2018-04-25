@@ -6,14 +6,17 @@ import { ScoreboardModule } from './scoreboard/scoreboard.module';
 import { StatisticsRoutingModule } from './statistics-routing.module';
 import { StatisticsChartsModule } from './statistics-charts/statistics-charts.module';
 
+import { OrderListComponent } from './order-list.component';
+
+
 @NgModule({
   imports: [
     CommonModule,
     StatisticsChartsModule,
-    ScoreboardModule,
+   // ScoreboardModule,
     StatisticsRoutingModule
   ],
-  declarations: [ ],
+  declarations: [ OrderListComponent],
   providers: [],
   exports: []
 })

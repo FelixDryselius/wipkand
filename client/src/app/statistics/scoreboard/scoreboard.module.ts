@@ -14,6 +14,7 @@ import { ScoreboardRoutingModule } from './scoreboard-routing.module';
   ],
   declarations: [ScoreboardComponent],
   providers: [],
-  exports: []
+  exports: [],
+  bootstrap: [ScoreboardComponent]
 })
 export class ScoreboardModule { }

@@ -10,7 +10,7 @@ import { BrowserModule } from '@angular/platform-browser';
 //import { TokenInterceptor } from './auth/token.interceptor';
 import { OperationModule } from './operation/operation.module';
 import { OperationsService } from './operation/shared/services/operations.service';
-import { StatisticsModule } from './statistics/statistics.module';
+//import { StatisticsModule } from './statistics/statistics.module';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -38,7 +38,7 @@ import { CookieService } from 'ngx-cookie-service';
     HttpModule,
     HttpClientModule,
     OperationModule,
-    StatisticsModule
+   // StatisticsModule
   ],
   providers: [AuthAPIService,
     OperationsService,

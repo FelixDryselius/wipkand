@@ -9,7 +9,7 @@ import { BatchHistoryDetailComponent } from './batch-history-detail/batch-histor
 
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 
-import { StatisticsModule } from './statistics/statistics.module';
+//import { StatisticsModule } from './statistics/statistics.module';
 
 
 const appRoutes: Routes = [   
@@ -36,7 +36,8 @@ const appRoutes: Routes = [
     },
     {
         path: 'statistics',
-        loadChildren: () => StatisticsModule,
+        loadChildren: "./statistics/statistics.module#StatisticsModule",
+      //  loadChildren: () => StatisticsModule,
     },
     {
         path:"batch-rework",
