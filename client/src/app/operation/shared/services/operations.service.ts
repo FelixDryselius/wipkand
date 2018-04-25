@@ -102,6 +102,19 @@ export class OperationsService {
     })
   }
 
+  getBatchList(query?: String): Observable<any> {
+    return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
+  }
+  //TODO: These can be the same function
+  getBatchDetail(query?: String): Observable<any> {
+    if (query) {
+      return this.http.get(this.URL_ROOT + this.URL_BATCH_API + query)
+    }
+    return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
+  }
+
+
+
   setCurrentBatchInfo(status: boolean, data: Batch) {
     let currentBatch;
     if (data) {
@@ -115,27 +128,6 @@ export class OperationsService {
     this.changeProdInfo(currentBatch)
   }
 
-<<<<<<< HEAD
-  
-
-  getBatchList(query?:string):Observable<any> {
-    return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
-  }
-  //TODO: These can be the same function
-  getBatchDetail(query?:string):Observable<any> {
-    return this.http.get(this.URL_ROOT+this.URL_BATCH_API  + query)
-=======
-  getBatchList(query?: String): Observable<any> {
-    return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
-  }
-  //TODO: These can be the same function
-  getBatchDetail(query?: String): Observable<any> {
-    if (query) {
-      return this.http.get(this.URL_ROOT + this.URL_BATCH_API + query)
-    }
-    return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
->>>>>>> 50ea28456e5ccac8648b33eb94e4ed87a351c8ae
-  }
 
   /* PATCH: update the batch on the server.  */
   /* TODO: Create pipe or similar to catch errors */
@@ -146,7 +138,6 @@ export class OperationsService {
     console.log(updatedBatch)
     return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions)
   }
-
   updateOrder(order) {
     console.log("Sending data: ")
     console.log( JSON.stringify(order))
