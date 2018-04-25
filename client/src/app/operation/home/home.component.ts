@@ -29,11 +29,8 @@ export class HomeComponent implements OnInit {
   private todaysDate: any;
 
   // Object used for selecting shift
-  private shifts:any[]=[
-    {shift:'day'}, 
-    {shift:'evening'}, 
-    {shift:'night'} 
-]
+  private shifts=['day', 'evening', 'night']
+  
 
   // Variable used for determining which html code to render (day, evening or night)
   private selectedShift: String;
@@ -49,6 +46,17 @@ export class HomeComponent implements OnInit {
     {time:'14-15'},
     {time:'15-16'}, 
   ]
+  private dayShiftNames:any[]=[
+    {time:'T08:00:00Z'}, 
+    {time:'T09:00:00Z'},
+    {time:'T10:00:00Z'},
+    {time:'T11:00:00Z'},
+    {time:'T12:00:00Z'},
+    {time:'T13:00:00Z'},
+    {time:'T14:00:00Z'},
+    {time:'T15:00:00Z'},
+  ]
+
   private eveningShiftTimes:any[]=[
     {time:'16-17'}, 
     {time:'17-18'}, 
@@ -105,8 +113,9 @@ export class HomeComponent implements OnInit {
     
     // Get production statistics from api
     this.operationsService.getProdStats().subscribe(data =>{
-    this.prodStats = data as JSON []
-    });
+      this.prodStats = data as JSON []
+      });
+
     this.todaysDate = new Date();
     let dd = this.todaysDate.getDate();
     let mm = this.todaysDate.getMonth()+1; 
@@ -126,9 +135,6 @@ export class HomeComponent implements OnInit {
 
     }
 
-    
-      
-
   getComment() {
     // Subscribe to service and save the data in comments list as json obj
     this.commentService.getComment().subscribe(data =>{
@@ -138,42 +144,73 @@ export class HomeComponent implements OnInit {
 
   // Changes current shift
   onChange(chosenShift) {
-    
+  
     this.shiftProdStats = []
 
+    this.selectedShift = chosenShift;
+    
+       
+       if (this.selectedShift == 'day') {
+      
+         for(let obj=0; obj<this.prodStats.length; obj++){
+           console.log(this.prodStats[obj]["time_stamp"].slice(0,10))
+            if (this.prodStats[obj]["time_stamp"].slice(0,10) == this.todaysDate) {
+             this.shiftProdStats.push(this.prodStats[obj])  
+           }
 
-    this.operationsService.getProdStats().subscribe(data =>{
-      this.prodStats = data as JSON []
-      });
+         }  
+        }      
+        
+        while (this.shiftProdStats.length<8) {
 
-      for(let obj=0; obj<this.prodStats.length; obj++){ 
-        if (this.prodStats[obj]["time_stamp"].slice(0,10) == this.todaysDate) {
-          this.shiftProdStats.push(this.prodStats[obj])  
-          console.log("obj "+this.shiftProdStats[obj]["time_stamp"])
-          for(let attr=0; obj<this.shiftProdStats.length; attr++){ 
-            console.log("attr "+attr)
+            if (this.shiftProdStats.length == 0) {
+              let first:any = this.todaysDate+"T08:00:00Z"
+              let firstObj =
+              { 
+                    time_stamp: first,
+                    production_quantity:'',
+                    staff_quantity:''
+              }
+              this.shiftProdStats.push(firstObj)
+
+              let i = first
+              let last_time = i.slice(11,13)
+              last_time = parseInt(last_time)
+              last_time += 1
+              last_time = ('0' + last_time).slice(-2)
+              last_time = String(last_time)
+              let mod = i.replace(i.slice(11,13),last_time)
+              let filler =
+              { 
+                    time_stamp: mod,
+                    production_quantity:'',
+                    staff_quantity:''
+              }
+                  this.shiftProdStats.push(filler)
+                  }
+            
+            else {
+              let i = this.shiftProdStats.slice(-1)[0]["time_stamp"]
+              let last_time = i.slice(11,13)
+              last_time = parseInt(last_time)
+              last_time += 1
+              last_time = ('0' + last_time).slice(-2)
+              last_time = String(last_time)
+              let mod = i.replace(i.slice(11,13),last_time)
+              let filler =
+              { 
+                    time_stamp: mod,
+                    production_quantity:'',
+                    staff_quantity:''
+              }
+                  this.shiftProdStats.push(filler)
+                  }
+
+ 
           }
-        }
 
-      }        
-
-      let i = this.shiftProdStats[this.shiftProdStats.length-1]["id"]   
-      i = parseInt(i)
-      while (this.shiftProdStats.length<8) {
-        i += 1
-        let filler =
-        { 
-          id: i,
-          production_quantity:'',
-          staff_quantity:''
-        }
-        this.shiftProdStats.push(filler)
-      }
-
-      console.log(this.shiftProdStats)
-      // if (chosenShift.shift == 'day') {
-      //   this.shiftProdStats = this.prodStats.slice(7, 15)
-      // }
+         console.log(this.shiftProdStats)
+     
 
       // if (chosenShift.shift == 'evening') {
       //   this.shiftProdStats = this.prodStats.slice(15, 23)
@@ -182,8 +219,6 @@ export class HomeComponent implements OnInit {
       // if (chosenShift.shift == 'night') {
       //   this.shiftProdStats = this.prodStats.slice(0, 7)
       // }
-    
-    this.selectedShift = chosenShift.shift;
   }
 
 
@@ -216,30 +251,31 @@ export class HomeComponent implements OnInit {
   updateProduction(event, formData) {
 
     let results = {};
-    console.log(formData.value)
 
     // Collects all changes and stores as dictionary in object results
     for(let key in formData.value) {
       if(typeof formData.value[key] == 'number') {
+        console.log(key)
         results[key] = formData.value[key];
+ 
      }
    }
-   console.log(results)
+
 
    // Sends updated data to service for patch request
    for(let key in results) {
      let change = {}
      let newData = {}
      let counter = 0
-
+     
       // Must be possible to do this simpler
       // Go through objects in production statistics from api
-      
+ 
        for(let obj=0; obj<this.prodStats.length; obj++){
-        
+        //console.log("time_stamp api "+this.prodStats[obj]["time_stamp"])
+        //console.log("key "+key.slice(0, -3))
         // Checks if time stamp exists. Determines wheter data should be created or updated
         if (this.prodStats[obj]["time_stamp"] == key.slice(0, -3)) {
-
             if (key.substr(key.length-2)=='sq') {
               change = {
                 time_stamp: key.slice(0, -3),
@@ -256,6 +292,7 @@ export class HomeComponent implements OnInit {
                 batch_number: this.prodInfo.batch_number,
               }
               this.operationsService.updateProdStats(change).subscribe();
+              
             }
         }
         else {
@@ -282,5 +319,6 @@ export class HomeComponent implements OnInit {
   }  
 
 }
+
 
 }

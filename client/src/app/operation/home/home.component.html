@@ -11,9 +11,9 @@
             <h3>
               Shift:
             </h3>
-             <select class="chooseShift" [(ngModel)]="selectedShift" (ngModelChange)="onChange($event)" >
-              <option *ngFor="let chosenShift of shifts" [selected]="chosenShift.shift == 'day'" [ngValue]="chosenShift"> {{chosenShift.shift}} </option>
-            </select>
+            <select class="chooseShift" [(ngModel)]="shift" (ngModelChange)="onChange($event)" name="differentShifts">
+              <option [value]="chosenShift" *ngFor="let chosenShift of shifts" > {{chosenShift}} </option>
+            </select>  
       </div>
     </div>
   </div>
@@ -60,13 +60,13 @@
 
                     <tr>
                       <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                        <input type="number" class="form-control input-number" [placeholder]="7<stat.time_stamp<16 ? stat.staff_quantity : ' '" name='{{ todaysDate }}T{{ stat.time_stamp | date:"HH:mm:ss" }}Z_sq' [(ngModel)]="ngModelStaffDay[stat.time_stamp]" required>
+                        <input  type="number" class="form-control input-number" [placeholder]="7<stat.time_stamp<16 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq' [(ngModel)]="ngModelStaffDay[stat.time_stamp]">
                       </td>
                     </tr>
 
                     <tr>
                       <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                        <input type="number" class="form-control input-number" [placeholder]="7<stat.time_stamp<16 ? stat.production_quantity : ' '" name='{{ todaysDate }}T{{ stat.time_stamp | date:"HH:mm:ss" }}Z_pq' [(ngModel)]="ngModelProdDay[stat.time_stamp]" required>
+                        <input type="number" class="form-control input-number" [placeholder]="7<stat.time_stamp<16 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq' [(ngModel)]="ngModelProdDay[stat.time_stamp]">
                       </td>
                     </tr>
 

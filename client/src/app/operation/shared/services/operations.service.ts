@@ -111,7 +111,7 @@ export class OperationsService {
   }
 
   getProdStats() {
-    return this.http.get(this. scoreboardListURL)
+    return this.http.get(this.URL_ROOT + this.scoreboardListURL)
   }
 
   createProdStats(newCell: {}) {
