@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OperationsService } from '../shared/services/operations.service';
 import { Batch } from '../../shared/interfaces/batch'
-
+import { QueryResponse } from '../../shared/interfaces/query-response'
 
 @Component({
   selector: 'current-batch-info',
@@ -23,9 +23,9 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     let activeBatchquery = "?q=activeBatch"
     this.req_batch = this.operationsService.getBatchDetail(activeBatchquery).subscribe(data => {
-      let runningBatch = data[0] as Batch
+      let runningBatch = (data as QueryResponse).results[0] as Batch
       if (runningBatch) {
-        this.operationsService.setCurrentBatchInfo(runningBatch)
+        this.operationsService.setCurrentBatchInfo(true, runningBatch)
       }
     })
     //TODO: Make this one observable

@@ -23,3 +23,4 @@ class FloorstockStatistic(models.Model):
         managed = False
         db_table = 'floorstock_statistic'
         unique_together = (('time_stamp', 'floorstock_item'),)
+        ordering = ['-time_stamp']

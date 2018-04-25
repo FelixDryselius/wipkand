@@ -40,6 +40,12 @@ class BatchDetailSerializer(ModelSerializer):
         read_only_fields = ['order_number']
 
 
+class BatchPatchSerializer(ModelSerializer):
+    class Meta:
+        model = Batch
+        exclude = ('order_number',)
+
+
 class BatchCreateSerializer(ModelSerializer):
     order_number = OrderNoValidateSerializer()
 

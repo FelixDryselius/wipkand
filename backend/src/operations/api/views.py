@@ -18,6 +18,7 @@ from operations.api.serializers import (
     OrderNoValidateSerializer,
     BatchCreateSerializer,
     BatchDetailSerializer,
+    BatchPatchSerializer,
     CommentSerializer
 )
 
@@ -69,6 +70,7 @@ class BatchAPIView(
 
     serializer_class = BatchCreateSerializer
     permission_classes = [AllowAny]
+    search_fields = ('batch_number', 'order_number__order_number', 'start_date', 'end_date')
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -95,6 +97,16 @@ class BatchDetailAPIView(
     permission_classes = [AllowAny]
     serializer_class = BatchDetailSerializer
     queryset = Batch.objects.all()
+
+    def get_serializer_class(self):
+        serializer_class = self.serializer_class
+
+        if self.request.method == 'PATCH':
+            serializer_class = BatchPatchSerializer
+        else:
+            serializer_class = BatchDetailSerializer
+
+        return serializer_class
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)

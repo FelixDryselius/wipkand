@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 // Application imports
 import { OperationsService } from '../shared/services/operations.service';
-import { CommentService } from '../comment/comment.service';
+import { CommentService } from '../../shared/application-services/comment.service';
 
 @Component({
   selector: 'app-home',
@@ -128,10 +128,6 @@ export class HomeComponent implements OnInit {
         mm='0'+mm;
     } 
     this.todaysDate = yyyy+'-'+mm+'-'+dd;
-
-    
-
-
 
     }
 

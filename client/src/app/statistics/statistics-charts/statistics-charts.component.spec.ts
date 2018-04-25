@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShiftChangeComponent } from './shift-change.component';
+import { StatisticsChartsComponent } from './statistics-charts.component';
 
-describe('ShiftChangeComponent', () => {
-  let component: ShiftChangeComponent;
-  let fixture: ComponentFixture<ShiftChangeComponent>;
+describe('StatisticsChartsComponent', () => {
+  let component: StatisticsChartsComponent;
+  let fixture: ComponentFixture<StatisticsChartsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShiftChangeComponent ]
+      declarations: [ StatisticsChartsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShiftChangeComponent);
+    fixture = TestBed.createComponent(StatisticsChartsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
