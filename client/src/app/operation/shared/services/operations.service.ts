@@ -32,7 +32,7 @@ export class OperationsService {
 
   // Scoreboard URLs
   private scoreboardListURL: string = "/api/statistics/";
-  
+
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -76,31 +76,32 @@ export class OperationsService {
     return this.http.post(this.URL_ROOT + this.URL_BATCH_API, JSON.stringify(newBatch), this.httpOptions).map(data => {
       console.log(data)
       let runningBatch = data as Batch
-      this.setCurrentBatchInfo(runningBatch);
+      this.setCurrentBatchInfo(true, runningBatch);
     })
   }
 
-  setCurrentBatchInfo(data: Batch) {
-    let currentBatch = {
-      batch_number: data.batch_number,
-      order_number: data.order_number.order_number,
-      article_number: data.order_number.article_number,
+  setCurrentBatchInfo(status: boolean, data: Batch) {
+    let currentBatch;
+    if (data) {
+      currentBatch = {
+        batch_number: data.batch_number,
+        order_number: data.order_number.order_number,
+        article_number: data.order_number.article_number,
+      }
     }
-    this.changeProdStatus(true);
+    this.changeProdStatus(status);
     this.changeProdInfo(currentBatch)
   }
 
-  
-
-  getBatchList(query?:String):Observable<any> {
+  getBatchList(query?: String): Observable<any> {
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
   //TODO: These can be the same function
-  getBatchDetail(query?:String):Observable<any> {
+  getBatchDetail(query?: String): Observable<any> {
     if (query) {
-      return this.http.get(this.URL_ROOT+this.URL_BATCH_API  + query)
+      return this.http.get(this.URL_ROOT + this.URL_BATCH_API + query)
     }
-    return this.http.get(this.URL_ROOT+this.URL_BATCH_API)
+    return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
 
   /* PATCH: update the batch on the server.  */
@@ -110,15 +111,17 @@ export class OperationsService {
     console.log("updating batch! url is: " + UPDATE_BATCH_URL)
     console.log("Data is: ")
     console.log(updatedBatch)
-    return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions)
+    return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions).map(data => {
+      this.setCurrentBatchInfo(false, null)
+    })
   }
 
-  getProductionStatistics(query?:String) {
-    return this.http.get(this.scoreboardListURL+query)
+  getProductionStatistics(query?: String) {
+    return this.http.get(this.scoreboardListURL + query)
   }
 
   updateProdStats(updatedCell: any) {
-    let UPDATE_SCOREBOARD_URL = this.URL_ROOT+this.scoreboardListURL+ updatedCell.time_stamp+'/' // The URL to correct API
+    let UPDATE_SCOREBOARD_URL = this.URL_ROOT + this.scoreboardListURL + updatedCell.time_stamp + '/' // The URL to correct API
     return this.http.patch(UPDATE_SCOREBOARD_URL, JSON.stringify(updatedCell), this.httpOptions)
   }
 

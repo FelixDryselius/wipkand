@@ -2,7 +2,7 @@
     <form (ngSubmit)="searchHistory($event, searchQuery.value)">
         <input type="search" #searchQuery>
         <input type="submit" value="Search">
-      </form>
+    </form>
     <div class="card-group" *ngFor="let batch of batches">
         <div class="card">
             <div class="card-body align-items-center d-flex justify-content-center">
@@ -30,7 +30,6 @@
                 </div>
             </div>
         </div>
-
         <div class="card text-center">
             <div class="card-body card-body align-items-center d-flex justify-content-center">
 
