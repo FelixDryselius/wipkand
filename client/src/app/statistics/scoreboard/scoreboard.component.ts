@@ -41,7 +41,7 @@ export class ScoreboardComponent implements OnInit {
 
     
   ngOnInit() { 
-    
+   
     if (isNaN(parseInt(this.numberOfBatchesBack))){
       this.router.navigate(['0'], {relativeTo: this.route});
     } 
@@ -50,10 +50,8 @@ export class ScoreboardComponent implements OnInit {
       this.getProdStatLatestBatches(query).subscribe(data =>{
         this.productionStatistics = (data as QueryResponse).results as JSON []
       });
-      }
     }
-    
-   
+  }
   
   
   
