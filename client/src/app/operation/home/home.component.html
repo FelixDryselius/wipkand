@@ -117,13 +117,13 @@
             </tr>
           </thead>
           <tbody>
-             <tr>
+            <tr>
               <td class="align-middle scoreboardLabels"># Shift</td>
               <td *ngFor="let stat of shiftProdStats" class="align-middle">
                 <input type="number" class="form-control" [placeholder]="0<=stat.time_stamp<8 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
                   [(ngModel)]="ngModelStaffNight[stat.time_stamp]">
               </td>
-            </tr> 
+            </tr>
             <tr>
               <td class="align-middle scoreboardLabels"># Produced</td>
               <td *ngFor="let stat of shiftProdStats" class="align-middle">
@@ -157,7 +157,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
       <div class="floorstockSection">
         <form class="floorstockForm" #floorstockForm='ngForm' (ngSubmit)='updateFloorstock($event,floorstockForm)'>
           <div class="row">
@@ -167,10 +167,24 @@
           </div>
           <table class="table table-bordered">
             <tbody>
-                <tr *ngFor="let item of floorstock">
-                    <td>Button</td>
-                    <td *ngIf="floorstockObservable | async">{{ item.item_name }}</td>
-                </tr>
+              <tr *ngFor="let item of floorstockItems">
+
+                  <!-- <input type="number" class="form-control" [placeholder]="0<=stat.time_stamp<8 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
+                  [(ngModel)]="ngModelProdNight[stat.time_stamp]"> -->
+
+                <td>
+                  <div class="input-group input-number-group">
+                    <div class="input-group-button">
+                      <span class="input-number-decrement">-</span>
+                    </div>
+                    <input type="number" class="input-number" >
+                    <div class="input-group-button">
+                      <span class="input-number-increment">+</span>
+                    </div>
+                  </div>
+                </td>
+                <td *ngIf="floorstockItemsObservable | async">{{ item.item_name }}</td>
+              </tr>
               <!-- <tr>
                 <td>
                   <div class="input-group input-number-group">
@@ -284,7 +298,7 @@
       </div>
     </div>
 
-    <div class="col-md-9">
+    <div class="col-md-8">
       <div class="commentSection">
         <div class="row">
           <div class="col-md-12">

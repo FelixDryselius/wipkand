@@ -16,9 +16,13 @@ import { QueryResponse } from '../../shared/interfaces/query-response';
 })
 export class HomeComponent implements OnInit {
 
-  private floorstockObservable: Observable<any>;
-  private floorstockSub: any;
-  floorstock: {};
+  private floorstockItemsObservable: Observable<any>;
+  private floorstockItemsSub: any;
+  floorstockItems: {};
+
+  private floorstockChangesObservable: Observable<any>;
+  private floorstockChangesSub: any;
+  floorstockChanges: {};
 
   private prodStats: JSON[];
   private comments: JSON[];
@@ -78,9 +82,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    // Calls function that subscribes to data from api
+    // Calls function that subscribes to data from api    
+    this.getFloorstockItems()
+    this.getFloorstockChanges()
     this.getComment()
-    this.getFloorstock()
     this.getScoreboard()
 
     //the following items are copied from start-batch.component. Subscribes to be able to connect comment to running batch
@@ -100,22 +105,33 @@ export class HomeComponent implements OnInit {
       mm = '0' + mm;
     }
     this.todaysDate = yyyy + '-' + mm + '-' + dd;
+
   }
-  // this.commentObservable = this.commentService.getComment(this.batchDetailID)
-  // this.commentSub = this.commentObservable.subscribe(data => {
-  //   this.comments = (data as QueryResponse).results
-  // })
+
   getScoreboard() {
     this.operationsService.getProdStats().subscribe(data => {
       this.prodStats = data as JSON[]
     });
   }
 
-  getFloorstock() {
-    this.floorstockObservable = this.operationsService.getFloorstock()
-    this.floorstockSub = this.floorstockObservable.subscribe(data => {
-      this.floorstock = (data as QueryResponse).results
+  getFloorstockItems() {
+    this.floorstockItemsObservable = this.operationsService.getFloorstockItems()
+    this.floorstockItemsSub = this.floorstockItemsObservable.subscribe(data => {
+      this.floorstockItems = (data as QueryResponse).results
     });
+  }
+
+  getFloorstockChanges() {
+    this.floorstockChangesObservable = this.operationsService.getFloorstockChanges()
+    this.floorstockChangesSub = this.floorstockChangesObservable.subscribe(data => {
+      this.floorstockChanges = (data as QueryResponse).results
+      console.log(this.floorstockChanges)
+      for(let obj in this.floorstockChanges) {
+      console.log(obj)
+      }
+    });    
+    
+    
   }
 
   getComment() {
@@ -127,7 +143,6 @@ export class HomeComponent implements OnInit {
 
   // Function that is being called when option in dropdown menu has been selected
   onChange(chosenShift) {
-
     let new_hour: any;
     let firstHour: any;
     let firstHourShift: any[] = ["T08:00:00Z", "T16:00:00Z", "T00:00:00Z"];
