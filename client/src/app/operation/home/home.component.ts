@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 // Application imports
 import { OperationsService } from '../shared/services/operations.service';
 import { CommentService } from '../../shared/application-services/comment.service';
+import { QueryResponse } from '../../shared/interfaces/query-response';
 
 @Component({
   selector: 'app-home',
@@ -15,26 +16,15 @@ import { CommentService } from '../../shared/application-services/comment.servic
 })
 export class HomeComponent implements OnInit {
 
-  // COMMENT SECTION
-  // A list storing comments fetched from api
-  comments: JSON[];
+  private floorstockObservable: Observable<any>;
+  private floorstockSub: any;
+  floorstock: {};
 
-  // Variables for add comment used html
-  commentAdded = false;
-  commentAddedNotification = 'Your comment was added!';
-
-  // Variables for creating a new comment. 
-  private commentDate: Date;
-  private commentId: Number;
-  private commentName: any;
-  private commentText: any;
-  private req_comment: any;
-
-  // END COMMENT SECTION
+  private prodStats: JSON[];
+  private comments: JSON[];
 
   // SCOREBOARD SECTION
-  // Arrays storing production statistics fetched from api
-  prodStats: JSON[];
+  
   shiftProdStats: any[] = [];
 
   // Variables for getting todays date
@@ -55,7 +45,28 @@ export class HomeComponent implements OnInit {
   ngModelProdEve: any[] = [];
   ngModelProdNight: any[] = [];
 
-  // END SCOREBOARD SECTION
+  // END SCOREBOARD SECTION  
+
+
+  // FLOORSTOCK SECTION
+ 
+
+  // END FLOORSTOCK SECTION
+  
+
+  // COMMENT SECTION
+  // Variables for add comment used html
+  commentAdded = false;
+  commentAddedNotification = 'Your comment was added!';
+
+  // Variables for creating a new comment. 
+  private commentDate: Date;
+  private commentId: Number;
+  private commentName: any;
+  private commentText: any;
+  private req_comment: any;
+
+  // END COMMENT SECTION
 
   //the following items are copied from start-batch.component
   private prodActive: boolean;
@@ -67,17 +78,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    // Calls function that subscribes to comment data from api
+    // Calls function that subscribes to data from api
     this.getComment()
+    this.getFloorstock()
+    this.getScoreboard()
 
     //the following items are copied from start-batch.component. Subscribes to be able to connect comment to running batch
     this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
-
-    // Get production statistics from api
-    this.operationsService.getProdStats().subscribe(data => {
-      this.prodStats = data as JSON[]
-    });
 
     // Get todays date and format to yyy-mm-dd
     this.todaysDate = new Date();
@@ -92,6 +100,22 @@ export class HomeComponent implements OnInit {
       mm = '0' + mm;
     }
     this.todaysDate = yyyy + '-' + mm + '-' + dd;
+  }
+  // this.commentObservable = this.commentService.getComment(this.batchDetailID)
+  // this.commentSub = this.commentObservable.subscribe(data => {
+  //   this.comments = (data as QueryResponse).results
+  // })
+  getScoreboard() {
+    this.operationsService.getProdStats().subscribe(data => {
+      this.prodStats = data as JSON[]
+    });
+  }
+
+  getFloorstock() {
+    this.floorstockObservable = this.operationsService.getFloorstock()
+    this.floorstockSub = this.floorstockObservable.subscribe(data => {
+      this.floorstock = (data as QueryResponse).results
+    });
   }
 
   getComment() {
@@ -194,29 +218,6 @@ export class HomeComponent implements OnInit {
     console.log(this.shiftProdStats)
   }
 
-  submitComment(event, formData) { 
-
-    this.commentName = formData.value['commentName'];
-    this.commentText = formData.value['commentText'];
-    this.commentDate = new Date();
-
-    let newComment = {
-      comment_id: this.comments["results"].length,
-      user_name: this.commentName,
-      post_date: this.commentDate,
-      text_comment: this.commentText,
-      batch_number: this.prodInfo.batch_number,
-    }
-    // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
-    this.req_comment = this.commentService.addComment(newComment).subscribe(data => { this.getComment() });
-
-    // Triggers notification
-    this.commentAdded = true;
-
-    // Resets form
-    formData.resetForm()
-  }
-
   updateProduction(event, formData) {
 
     let results: any = {};
@@ -270,12 +271,33 @@ export class HomeComponent implements OnInit {
             }
             this.operationsService.createProdStats(newData).subscribe();
 
-            this.operationsService.getProdStats().subscribe(data => {
-              this.prodStats = data as JSON[]
-            });
+            this.getScoreboard()
           }
         }
       }
     }
+  }
+
+  submitComment(event, formData) { 
+
+    this.commentName = formData.value['commentName'];
+    this.commentText = formData.value['commentText'];
+    this.commentDate = new Date();
+
+    let newComment = {
+      comment_id: this.comments["results"].length,
+      user_name: this.commentName,
+      post_date: this.commentDate,
+      text_comment: this.commentText,
+      batch_number: this.prodInfo.batch_number,
+    }
+    // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
+    this.req_comment = this.commentService.addComment(newComment).subscribe(data => { this.getComment() });
+
+    // Triggers notification
+    this.commentAdded = true;
+
+    // Resets form
+    formData.resetForm()
   }
 }

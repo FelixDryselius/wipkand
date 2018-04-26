@@ -31,9 +31,11 @@ export class OperationsService {
   readonly URL_BATCH_API: string = "/api/operations/batch/";
   readonly URL_PRODUCT_API: string = "/api/operations/product/";
 
-  // Scoreboard URLs
+  // Scoreboard URL
   private scoreboardListURL: string = "/api/statistics/";
 
+  // Floorstock URL
+  private floorstockItemsURL: string = "/api/floorstock/item";
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -113,8 +115,6 @@ export class OperationsService {
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
 
-
-
   setCurrentBatchInfo(status: boolean, data: Batch) {
     let currentBatch;
     if (data) {
@@ -142,6 +142,10 @@ export class OperationsService {
     console.log("Sending data: ")
     console.log( JSON.stringify(order))
     return this.http.put(this.URL_ROOT + this.URL_ORDER_API + order['order_number'] + '/', JSON.stringify(order), this.httpOptions)
+  }
+
+  getFloorstock() {
+    return this.http.get(this.URL_ROOT + this.floorstockItemsURL)
   }
 
   getProdStats() {
