@@ -5,16 +5,17 @@ import { Routes, RouterModule } from '@angular/router';
 import { ScoreboardModule } from './scoreboard/scoreboard.module';
 import { StatisticsChartsModule } from './statistics-charts/statistics-charts.module';
 
+
 const routes: Routes = [
   {
     path: 'scoreboard',
-    loadChildren: () => ScoreboardModule
+    loadChildren: './scoreboard/scoreboard.module#ScoreboardModule',
+    
   },
   {
     path: 'charts',
-    loadChildren: () => StatisticsChartsModule
-  },
- 
+    loadChildren: './statistics-charts/statistics-charts.module#StatisticsChartsModule',
+  } 
 ];
 
 @NgModule({
