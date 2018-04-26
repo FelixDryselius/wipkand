@@ -113,7 +113,10 @@ class BatchDetailAPIView(
         return self.update(request, *args, **kwargs)
 
 
-class CommentAPIView(ListAPIView):
+class CommentAPIView(
+    generics.ListAPIView,
+        mixins.CreateModelMixin):
+
     '''Gets list of comments for a batch, or all comments if no batch is specified'''
     permission_classes = [AllowAny]
     serializer_class = CommentSerializer
@@ -133,7 +136,11 @@ class CommentAPIView(ListAPIView):
         return queryset_list
 
 
-class CommentDetailAPIView(RetrieveAPIView):
+class CommentDetailAPIView(
+    generics.RetrieveAPIView,
+        mixins.UpdateModelMixin,
+        mixins.DestroyModelMixin):
+        
     '''Gets detail of batch and comment id'''
     serializer_class = CommentSerializer
     permission_classes = [AllowAny]

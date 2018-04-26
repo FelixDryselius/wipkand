@@ -26,16 +26,15 @@ export class HomeComponent implements OnInit {
   private req_comment: any;
 
   // Variables for submitting data in scoreboard
+  private todaysDate: any;
 
   // Object used for selecting shift
-  private shifts:any[]=[
-    {shift:'day'}, 
-    {shift:'evening'}, 
-    {shift:'night'} 
-]
+  private shifts=['day', 'evening', 'night']
+  
 
   // Variable used for determining which html code to render (day, evening or night)
   private selectedShift: String;
+  private scoreboardActive = false;
 
   // Arrays containg times of shifts
   private dayShiftTimes:any[]=[
@@ -48,6 +47,17 @@ export class HomeComponent implements OnInit {
     {time:'14-15'},
     {time:'15-16'}, 
   ]
+  private dayShiftNames:any[]=[
+    {time:'T08:00:00Z'}, 
+    {time:'T09:00:00Z'},
+    {time:'T10:00:00Z'},
+    {time:'T11:00:00Z'},
+    {time:'T12:00:00Z'},
+    {time:'T13:00:00Z'},
+    {time:'T14:00:00Z'},
+    {time:'T15:00:00Z'},
+  ]
+
   private eveningShiftTimes:any[]=[
     {time:'16-17'}, 
     {time:'17-18'}, 
@@ -70,7 +80,8 @@ export class HomeComponent implements OnInit {
   ]
 
   // Array with subscribed production data
-  private shiftProdStats: JSON[];
+  shiftProdStats:any[] = [];
+  private id: number;
 
   // Arrays containing names of ngModels for every input element
   ngModelStaffDay:any[] = [];
@@ -83,7 +94,7 @@ export class HomeComponent implements OnInit {
   // A list storing comments fetched from api
   comments: JSON [];
 
-  // A list storing producttion statistics fetched from api
+  // A list storing production statistics fetched from api
   prodStats: JSON [];
   first_hour: JSON [];
   
@@ -101,11 +112,25 @@ export class HomeComponent implements OnInit {
     this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
     
-    //get production statistics from api
-    this.operationsService.getProductionStatistics().subscribe(data =>{
-    this.prodStats = data as JSON []
-    });
-  }
+    // Get production statistics from api
+    this.operationsService.getProdStats().subscribe(data =>{
+      this.prodStats = data as JSON []
+      });
+
+    this.todaysDate = new Date();
+    let dd = this.todaysDate.getDate();
+    let mm = this.todaysDate.getMonth()+1; 
+    let yyyy = this.todaysDate.getFullYear();
+
+    if(dd<10){
+        dd='0'+dd;
+    } 
+    if(mm<10){
+        mm='0'+mm;
+    } 
+    this.todaysDate = yyyy+'-'+mm+'-'+dd;
+
+    }
 
   getComment() {
     // Subscribe to service and save the data in comments list as json obj
@@ -116,24 +141,113 @@ export class HomeComponent implements OnInit {
 
   // Changes current shift
   onChange(chosenShift) {
-
-    this.operationsService.getProductionStatistics().subscribe((data:any) =>{
-      this.prodStats = data as JSON []
-      });
-
-      if (chosenShift.shift == 'day') {
-        this.shiftProdStats = this.prodStats.slice(8, 16)
-      }
-
-      if (chosenShift.shift == 'evening') {
-        this.shiftProdStats = this.prodStats.slice(16, 24)
-      }
-
-      if (chosenShift.shift == 'night') {
-        this.shiftProdStats = this.prodStats.slice(0, 8)
-      }
     
-    this.selectedShift = chosenShift.shift;
+    this.scoreboardActive = true;
+    this.shiftProdStats = []
+
+    this.selectedShift = chosenShift;
+    
+    function replaceAt(input, search, replace, start, end) {
+      let replacer = input.slice(start, end).replace(search, replace)
+      replacer = ('0' + replacer).slice(-2)
+        return  input.slice(0, start) 
+              + replacer
+              + input.slice(end);
+        }
+
+       if (this.selectedShift == 'day') {
+         
+         for(let obj=0; obj<this.prodStats["results"].length; obj++){
+            if (this.prodStats["results"][obj]["time_stamp"].slice(0,10) == this.todaysDate && 7<this.prodStats["results"][obj]["time_stamp"].slice(11,13) && this.prodStats["results"][obj]["time_stamp"].slice(11,13)<16) {
+             this.shiftProdStats.unshift(this.prodStats["results"][obj])  
+           }
+         }  
+        }     
+        if (this.selectedShift == 'evening') {
+      
+          for(let obj=0; obj<this.prodStats["results"].length; obj++){
+            
+             if (this.prodStats["results"][obj]["time_stamp"].slice(0,10) == this.todaysDate && 15<this.prodStats["results"][obj]["time_stamp"].slice(11,13) && this.prodStats["results"][obj]["time_stamp"].slice(11,13)<24) {
+              this.shiftProdStats.unshift(this.prodStats["results"][obj])  
+            }
+          }  
+         } 
+         if (this.selectedShift == 'night') {
+      
+          for(let obj=0; obj<this.prodStats["results"].length; obj++){
+            
+             if (this.prodStats["results"][obj]["time_stamp"].slice(0,10) == this.todaysDate && this.prodStats["results"][obj]["time_stamp"].slice(11,13)<8) {
+              this.shiftProdStats.unshift(this.prodStats["results"][obj])  
+            }
+          }  
+         }  
+        
+        while (this.shiftProdStats.length<8) {
+          let first:any
+            if (this.shiftProdStats.length == 0) {
+              if (this.selectedShift == 'day') {
+                first = this.todaysDate+"T08:00:00Z"
+              }
+              else if (this.selectedShift == 'evening') {
+                first = this.todaysDate+"T16:00:00Z"
+              }
+              else if (this.selectedShift == 'night') {
+                first = this.todaysDate+"T00:00:00Z"
+              }
+              let firstObj =
+              { 
+                    time_stamp: first,
+                    production_quantity:'',
+                    staff_quantity:''
+              }
+              this.shiftProdStats.push(firstObj)
+
+              let i = first
+              let last_time = i.slice(11,13)
+              last_time = parseInt(last_time)
+              last_time += 1
+              last_time = ('0' + last_time).slice(-2)
+              last_time = String(last_time)
+              let mod = i.replace(i.slice(11,13),last_time)
+              let filler =
+              { 
+                    time_stamp: mod,
+                    production_quantity:'',
+                    staff_quantity:''
+              }
+                  this.shiftProdStats.push(filler)
+                  }
+            
+            else {
+
+              let last_time_stamp = this.shiftProdStats.slice(-1)[0]["time_stamp"]
+
+              let last_hour = last_time_stamp.slice(11,13)
+           
+              last_hour = parseInt(last_hour)
+            
+              let new_hour = last_hour+1
+           
+              new_hour = new_hour.toString()
+          
+              new_hour = ('0' + new_hour).slice(-2)
+        
+              new_hour = new_hour.toString()
+
+              let new_time_stamp = replaceAt(last_time_stamp, last_hour, new_hour, 11, 13)
+
+
+              let filler =
+              { 
+                    time_stamp: new_time_stamp,
+                    production_quantity:'',
+                    staff_quantity:''
+              }
+                  this.shiftProdStats.push(filler)
+                  }
+
+          }
+         console.log(this.shiftProdStats)
   }
 
 
@@ -146,7 +260,7 @@ export class HomeComponent implements OnInit {
     this.commentDate = new Date();
     
     let newComment = {
-      comment_id: this.comments.length, 
+      comment_id: this.comments["results"].length, 
       user_name: this.commentName,
       post_date: this.commentDate,
       text_comment: this.commentText,
@@ -164,38 +278,71 @@ export class HomeComponent implements OnInit {
   }
 
   updateProduction(event, formData) {
-    //TODO: Do we really need to store these values in the class? 
 
     let results = {};
 
     // Collects all changes and stores as dictionary in object results
     for(let key in formData.value) {
-      console.log(typeof formData.value[key])
       if(typeof formData.value[key] == 'number') {
+        console.log(key)
         results[key] = formData.value[key];
+ 
      }
    }
+
 
    // Sends updated data to service for patch request
    for(let key in results) {
      let change = {}
-     if (key.substr(key.length-2)=='sq') {
-        change = {
-          time_stamp: key.slice(0, -3),
-          staff_quantity: results[key],
-          batch_number: this.prodInfo.batch_number,
-        }
-      this.operationsService.updateProdStats(change).subscribe();
-    } 
+     let newData = {}
+     let counter = 0
+     
+      // Must be possible to do this simpler
+      // Go through objects in production statistics from api
+ 
+       for(let obj=0; obj<this.prodStats["results"].length; obj++){
+        //console.log("time_stamp api "+this.prodStats[obj]["time_stamp"])
+        //console.log("key "+key.slice(0, -3))
+        // Checks if time stamp exists. Determines wheter data should be created or updated
+        if (this.prodStats["results"][obj]["time_stamp"] == key.slice(0, -3)) {
+            if (key.substr(key.length-2)=='sq') {
+              change = {
+                time_stamp: key.slice(0, -3),
+                staff_quantity: results[key],
+                batch_number: this.prodInfo.batch_number,
+              }
+              this.operationsService.updateProdStats(change).subscribe();
+            } 
 
-    else if (key.substr(key.length-2)=='pq') {
-      change = {
-        time_stamp: key.slice(0, -3),
-        production_quantity: results[key],
-        batch_number: this.prodInfo.batch_number,
-      }
-    this.operationsService.updateProdStats(change).subscribe();
-  } 
+            else if (key.substr(key.length-2)=='pq') {
+              change = {
+                time_stamp: key.slice(0, -3),
+                production_quantity: results[key],
+                batch_number: this.prodInfo.batch_number,
+              }
+              this.operationsService.updateProdStats(change).subscribe();
+              
+            }
+        }
+        else {
+          counter += 1
+          if (counter == this.prodStats["results"].length-1) {
+            let time = this.todaysDate+key.slice(10,-3)
+            let stringifiedTime = String(time)
+            newData = {
+              time_stamp: time,
+              production_quantity: results[stringifiedTime+'_pq'],
+              staff_quantity: results[stringifiedTime+'_sq'],
+              batch_number: this.prodInfo.batch_number,
+            }  
+            this.operationsService.createProdStats(newData).subscribe();   
+
+            this.operationsService.getProdStats().subscribe(data =>{
+            this.prodStats = data as JSON []
+            });  
+          }
+          
+        }
    }
 
   }  
@@ -203,3 +350,4 @@ export class HomeComponent implements OnInit {
 }
 
 
+}

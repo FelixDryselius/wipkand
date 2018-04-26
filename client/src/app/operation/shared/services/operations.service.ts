@@ -144,6 +144,15 @@ export class OperationsService {
     return this.http.put(this.URL_ROOT + this.URL_ORDER_API + order['order_number'] + '/', JSON.stringify(order), this.httpOptions)
   }
 
+  getProdStats() {
+    return this.http.get(this.URL_ROOT + this.scoreboardListURL)
+  }
+
+  createProdStats(newCell: {}) {
+    return this.http.post(this.URL_ROOT + this.scoreboardListURL, JSON.stringify(newCell), this.httpOptions).map(data => {
+    })
+  }
+
   getProductionStatistics(query?: String) {
     return this.http.get(this.scoreboardListURL + query)
   }
