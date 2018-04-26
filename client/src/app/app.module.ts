@@ -10,7 +10,6 @@ import { BrowserModule } from '@angular/platform-browser';
 //import { TokenInterceptor } from './auth/token.interceptor';
 import { OperationModule } from './operation/operation.module';
 import { OperationsService } from './operation/shared/services/operations.service';
-//import { StatisticsModule } from './statistics/statistics.module';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -31,14 +30,14 @@ import { CookieService } from 'ngx-cookie-service';
     BatchHistoryComponent,
   ],
   imports: [
-    AppRoutingModule,
+    
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
     OperationModule,
-   // StatisticsModule
+   AppRoutingModule
   ],
   providers: [AuthAPIService,
     OperationsService,
