@@ -36,6 +36,10 @@
           <div class="col-lg-6">
             <ul class="list-group">
               <li class="list-group-item text-left">
+                <label for="batch_number">Batch Number:</label>
+                <input id="batch_number" class="input-sm float-right" formControlName="batch_number" />
+              </li>
+              <li class="list-group-item text-left">
                 <label for="start_date">Start Date:</label>
                 <input id="start_date" class="input-sm float-right" formControlName="start_date" />
               </li>
@@ -88,10 +92,6 @@
                 <input id="scrap" class="input-sm float-right" formControlName="scrap" />
               </li>
             </ul>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
             <button class="btn btn-primary" type="submit">Update Batch</button>
           </div>
         </div>
