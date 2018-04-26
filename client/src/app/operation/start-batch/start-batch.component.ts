@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { OperationsService } from '../shared/services/operations.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { QueryResponse } from '../../shared/interfaces/query-response';
+import { Batch } from '../../shared/interfaces/batch';
 
 
 @Component({
@@ -47,15 +49,12 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
-    this.http.get(this.ROOT_URL).subscribe(
-      data => {
-        this.prodData = data as any[];		// FILL THE ARRAY WITH DATA.
-      },
+    this.http.get(this.ROOT_URL).subscribe(data => {
+      this.prodData = (data as QueryResponse).results as any[];		// FILL THE ARRAY WITH DATA.
+    },
     );
-
     if (this.passedQuery) {
       this.newBatch = this.passedQuery
-
     }
   }
 
@@ -76,11 +75,6 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     this.article = formData.value['prodnr'];
     this.batchStartDate = new Date();
 
-    let newOrder = {
-      order_number: this.order,
-      article_number: this.article,
-    }
-
     let newBatch = {
       batch_number: this.batch,
       order_number: {
@@ -91,15 +85,6 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     }
 
     this.req_batch = this.operationsService.createBatch(newBatch).subscribe();
-    this.prodInfo = {
-      batch_number: this.batch,
-      order_number: this.order,
-      article_number: this.article,
-    }
-    this.operationsService.changeProdStatus(true);
-    this.operationsService.changeProdInfo(this.prodInfo)
-    console.log("Production status: " + this.prodActive)
-
     this.router.navigate(['/home'])
   }
 }

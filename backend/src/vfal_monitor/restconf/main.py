@@ -6,6 +6,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'vfal_monitor.restconf.pagination.VFALPagination',
+
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ),
+    'SEARCH_PARAM': 'search',
+    'ORDERING_PARAM': 'ordering',
 }
 
 from datetime import timedelta

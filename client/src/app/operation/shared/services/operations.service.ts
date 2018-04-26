@@ -3,9 +3,10 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { catchError, retry } from 'rxjs/operators';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams} from '@angular/common/http';
-import { Observable } from 'rxjs/Observable'; 
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import { timeout } from 'rxjs/operators/timeout';
+import { Batch } from '../../../shared/interfaces/batch';
 
 
 
@@ -24,15 +25,20 @@ export class OperationsService {
   prodInfoObservable = this.prodInfo.asObservable();
 
   //TODO: Should URLs really be placed here? Should we collect them in a file somewhere? 
-  public ROOT_URL: string = "http://localhost:8000";
-  private orderCREATE_URL: string = "/api/operations/order/create/";
-  private batchCREATE_URL: string = "/api/operations/batch/create/";
-  readonly batchGET_URL: string = "/api/operations/batch/";
+
+  readonly URL_ROOT: string = "http://localhost:8000";
+  readonly URL_ORDER_API: string = "/api/operations/order/";
+  readonly URL_BATCH_API: string = "/api/operations/batch/";
+  readonly URL_PRODUCT_API: string = "/api/operations/product/";
+
+  // Scoreboard URLs
+  private scoreboardListURL: string = "/api/statistics/";
+
 
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-     // 'Authorization': ''
+      // 'Authorization': ''
     })
   }
 
@@ -64,34 +70,96 @@ export class OperationsService {
     this.prodInfo.next(info);
   }
 
-  //TODO: Can we make a general method of these two? Pass URL and data to post as arguments and use same function.
-  createOrder(newOrder: {}) {
-    console.log("POST - Create new order")
-    console.log("Data is: " + JSON.stringify(newOrder))
-    console.log("Url is: " + this.ROOT_URL + this.orderCREATE_URL)
-    return this.http.post(this.ROOT_URL + this.orderCREATE_URL, JSON.stringify(newOrder), this.httpOptions)
+  getProduct(query?: string) {
+    if (query) {
+      return this.http.get(this.URL_ROOT + this.URL_PRODUCT_API + query + '/')
+    }
+    return this.http.get(this.URL_ROOT + this.URL_PRODUCT_API)
+  }
+
+  getOrderByBatch(batch) {
+    return this.http.get(this.URL_ROOT + this.URL_BATCH_API + batch + '/').switchMap(data => {
+      let returnedBatch = data as Batch
+      let order_number = returnedBatch.order_number.order_number
+      return this.http.get(this.URL_ROOT + this.URL_ORDER_API)
+    })
+  }
+
+  getOrder(query?: string) {
+    if (query) {
+      return this.http.get(this.URL_ROOT + this.URL_ORDER_API + query + '/')
+    }
+    return this.http.get(this.URL_ROOT + this.URL_ORDER_API)
   }
 
   createBatch(newBatch: {}) {
     console.log("POST - Create new batch")
     console.log("Data is: " + JSON.stringify(newBatch))
-    console.log("Url is: " + this.ROOT_URL + this.batchCREATE_URL)
-    console.log("NEW CHANGES!!")
-    return this.http.post(this.ROOT_URL + this.batchCREATE_URL, JSON.stringify(newBatch), this.httpOptions)
+    console.log("Url is: " + this.URL_ROOT + this.URL_BATCH_API)
+    return this.http.post(this.URL_ROOT + this.URL_BATCH_API, JSON.stringify(newBatch), this.httpOptions).map(data => {
+      console.log(data)
+      this.setCurrentBatchInfo(true, data as Batch);
+    })
   }
 
-  getActiveBatch() {
-    let activeBatchquery = "?q=activeBatch"
-    return this.http.get(this.ROOT_URL + this.batchGET_URL + activeBatchquery)
+  getBatchList(query?: String): Observable<any> {
+    return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
+  //TODO: These can be the same function
+  getBatchDetail(query?: String): Observable<any> {
+    if (query) {
+      return this.http.get(this.URL_ROOT + this.URL_BATCH_API + query)
+    }
+    return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
+  }
+
+
+
+  setCurrentBatchInfo(status: boolean, data: Batch) {
+    let currentBatch;
+    if (data) {
+      currentBatch = {
+        batch_number: data.batch_number,
+        order_number: data.order_number.order_number,
+        article_number: data.order_number.article_number,
+      }
+    }
+    this.changeProdStatus(status);
+    this.changeProdInfo(currentBatch)
+  }
+
 
   /* PATCH: update the batch on the server.  */
   /* TODO: Create pipe or similar to catch errors */
-  updateBatch (updatedBatch: any) {
-    let UPDATE_BATCH_URL = this.ROOT_URL+this.batchGET_URL+ updatedBatch.batch_number+"/edit/" // The URL to correct API
+  updateBatch(updatedBatch: Batch) {
+    let UPDATE_BATCH_URL = this.URL_ROOT + this.URL_BATCH_API + updatedBatch.batch_number + "/" // The URL to correct API
+    console.log("updating batch! url is: " + UPDATE_BATCH_URL)
+    console.log("Data is: ")
+    console.log(updatedBatch)
     return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions)
   }
+  updateOrder(order) {
+    console.log("Sending data: ")
+    console.log( JSON.stringify(order))
+    return this.http.put(this.URL_ROOT + this.URL_ORDER_API + order['order_number'] + '/', JSON.stringify(order), this.httpOptions)
+  }
 
+  getProdStats() {
+    return this.http.get(this.URL_ROOT + this.scoreboardListURL)
+  }
 
+  createProdStats(newCell: {}) {
+    return this.http.post(this.URL_ROOT + this.scoreboardListURL, JSON.stringify(newCell), this.httpOptions).map(data => {
+    })
+  }
+
+  getProductionStatistics(query?: String) {
+    return this.http.get(this.scoreboardListURL + query)
+  }
+
+  updateProdStats(updatedCell: any) {
+    let UPDATE_SCOREBOARD_URL = this.URL_ROOT + this.scoreboardListURL + updatedCell.time_stamp + '/' // The URL to correct API
+    return this.http.patch(UPDATE_SCOREBOARD_URL, JSON.stringify(updatedCell), this.httpOptions)
+  }
 
 }

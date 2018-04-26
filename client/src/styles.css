@@ -20,16 +20,25 @@
     vertical-align: middle;
 }
 
+.filler {
+    height: 30vh;
+}
+
+.scoreboardLabels {
+    width: 12%;
+    font-weight: bold;
+}
+
 .verticalShift {
-    margin-top: 29%;
+    margin-top: 29%; 
 }
 
 .verticalProduced {
-    margin-top: 12%;
+    margin-top: 12%; 
 }
 
 .verticalVials {
-    margin-top: 11%;
+    margin-top: 11%; 
 }
 
 .floorstockSection {
@@ -56,7 +65,7 @@
   }
 
   .input-number-group .input-number {
-    width: 50%;
+    width: 40%;
     text-align: center;
     outline: none;
     display: block;
@@ -135,8 +144,7 @@
 /* Start comments style */
 
 .commentSection {
-    margin-top: 5%;
-    margin-left: 5%;
+    margin-top: 4.3%;
 }
 
 .commentForm {
@@ -144,12 +152,13 @@
 }
 
 .btn-addComment {
-    margin-top: 13%;
+    margin-top: 30%; 
+    margin-left: 35%;
 }
 
 .commentTextarea {
     height: 300%;
-    width: 38%;
+    width: 60%;
 }
 
 /* End comments style */

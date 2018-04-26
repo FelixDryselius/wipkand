@@ -1,0 +1,90 @@
+<div class="container-fluid">
+  <div class="row justify-content-between">
+    <div class="col-sm-7 col-lg-9 ">
+      <h3>Batch number: 1000000001 </h3> <br>
+      <div class="row">
+          <div class="col-3 ">
+              <h5>Start Date: </h5>
+              <h6>2018-04-19 15:36:32</h6>
+            </div>
+            <div class="col-3 ">
+              <h5>End Date: </h5>
+              <h6>2018-04-22 15:36:33</h6>
+            </div>
+            <div class="col-3 ">
+              <h5>Total yield: </h5>
+              <h6>38000</h6>
+            </div>
+            <div class="col-3 ">
+              <h5>Product number:</h5>
+              <h6>777-5558</h6>
+            </div>
+      </div>
+    </div>
+    <div class="col-sm-5 col-lg-3 ">
+      <div class="row">
+        <div class="col-6">
+          <a class="btn btn-danger float-right" (click)="beforeBatch()" >Previous batch</a>
+        </div>
+        <div class="col-6 ">
+          <a class="btn btn-primary float-right" (click)="nextBatch()" >Next batch</a>
+        </div>
+      </div>
+    </div>
+  </div>
+ <!-- <div class="row">
+    <div class="col-3 ">
+      <h5>Start Date: 2018-04-19 15:36:32 </h5>
+    </div>
+    <div class="col-3 ">
+      <h5>End Date: 2018-04-22 15:36:33 </h5>
+    </div>
+    <div class="col-3 ">
+      <h5>Total yield: 38000 </h5>
+    </div>
+    <div class="col-3 ">
+      <h5>product number: 777-5558 </h5>
+    </div>
+  </div> -->
+</div>
+
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Time Stamp</th>
+      <th scope="col">Batch</th>
+      <th scope="col">Production Quantity</th>
+      <th scope="col">Staff Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of productionStatistics">
+      <td>{{item.time_stamp  }}</td> <!--<td>{{item.time_stamp | sortBy:post_date }}</td> -->
+      <td>{{ item.batch_number }}</td>
+      <td>{{ item.production_quantity }}</td>
+      <td>{{ item.staff_quantity }}</td>
+    </tr>
+  </tbody> 
+</table>
+
+
+<div class="container-fluid">
+  <h3>Batch comments: </h3>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">User Name</th>
+      <th scope="col">Comment post time</th>
+      <th scope="col">Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+     <tr  *ngFor="let comment of comments"> <!-- <tr  *ngFor="let comment of (comments|sortBy:date_stamp) "></tr>-->
+      <td> {{ comment.user_name }}</td>
+      <td>{{ comment.post_date}} </td>  <!-- <td>{{ comment.post_date | date:"yy/MM/dd HH:mm" }} </td> -->
+      <td colspan="3">{{ comment.text_comment }}</td> 
+    </tr>
+  </tbody>
+</table>

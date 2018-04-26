@@ -10,3 +10,4 @@ class ProductionStatistic(models.Model):
     class Meta:
         managed = False
         db_table = 'production_statistic'
+        ordering = ['-time_stamp']

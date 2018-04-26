@@ -1,110 +1,41 @@
-
-    <div class="card-group">
-            <div class="card">
-                <div class="card-body align-items-center d-flex justify-content-center">
-                    <h5 class="card-title"># Batch</h5>
-                </div>
+<div class="container-fluid">
+    <form (ngSubmit)="searchHistory($event, searchQuery.value)">
+        <input type="search" #searchQuery>
+        <input type="submit" value="Search">
+    </form>
+    <div class="card-group" *ngFor="let batch of batches">
+        <div class="card">
+            <div class="card-body align-items-center d-flex justify-content-center">
+                <h5 class="card-title"># {{ batch.batch_number }}</h5>
             </div>
-
-            <div class="card card card-block d-flex">                
-              <div class="card-body align-items-center">
-                <h5 class="card-title d-flex justify-content-center ">Information</h5>  
-                   <div class="d-flex justify-content-center">
+        </div>
+        <div class="card card card-block d-flex">
+            <div class="card-body align-items-center">
+                <h5 class="card-title d-flex justify-content-center ">Information</h5>
+                <div class="d-flex justify-content-center">
                     <ul>
                         <li>
-                            Start/stop Time         
-                        </li>
-                        <li >
-                            Units produced      
+                            <b>Product:</b> {{ batch.order_number.article_number }}
                         </li>
                         <li>
-                            Product number      
+                            <b>Start:</b> {{ batch.start_date }}
+                        </li>
+                        <li>
+                            <b>Ended:</b> {{ batch.end_date}}
+                        </li>
+                        <li>
+                            <b>Yield:</b> {{ batch.production_yield * 10}}
                         </li>
                     </ul>
                 </div>
-              </div>
             </div>
-            
-            <div class="card text-center">
-              <div class="card-body card-body align-items-center d-flex justify-content-center">
-               
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
+        </div>
+        <div class="card text-center">
+            <div class="card-body card-body align-items-center d-flex justify-content-center">
+
+                <a (click)="toBatchDetail(batch.batch_number)" class="btn btn-primary">Details</a>
             </div>
-          </div>
-
-          <div class="card-group">
-                <div class="card">
-                    <div class="card-body align-items-center d-flex justify-content-center">
-                        <h5 class="card-title"># Batch</h5>
-                    </div>
-                </div>
-    
-                <div class="card card card-block d-flex">                
-                  <div class="card-body align-items-center">
-                    <h5 class="card-title d-flex justify-content-center ">Information</h5>  
-                       <div class="d-flex justify-content-center">
-                        <ul>
-                            <li>
-                                Start/stop Time         
-                            </li>
-                            <li >
-                                Units produced      
-                            </li>
-                            <li>
-                                Product number      
-                            </li>
-                        </ul>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="card text-center">
-                  <div class="card-body card-body align-items-center d-flex justify-content-center">
-                   
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                  </div>
-                </div>
-              </div>
-    
-              <div class="card-group">
-                    <div class="card">
-                        <div class="card-body align-items-center d-flex justify-content-center">
-                            <h5 class="card-title"># Batch</h5>
-                        </div>
-                    </div>
-        
-                    <div class="card card card-block d-flex">                
-                      <div class="card-body align-items-center">
-                        <h5 class="card-title d-flex justify-content-center ">Information</h5>  
-                           <div class="d-flex justify-content-center">
-                            <ul>
-                                <li>
-                                    Start/stop Time         
-                                </li>
-                                <li >
-                                    Units produced      
-                                </li>
-                                <li>
-                                    Product number      
-                                </li>
-                            </ul>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="card text-center">
-                      <div class="card-body card-body align-items-center d-flex justify-content-center">
-                       
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <hr>
-
-                 
-
-
-        
-            
+        </div>
+    </div>
+    <hr>
+</div>

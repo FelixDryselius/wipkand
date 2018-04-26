@@ -5,13 +5,7 @@ import { NgModule } from '@angular/core';
 import { AuthComponent } from './auth/auth.component';
 import { AuthLogoutComponent } from './auth-logout/auth-logout.component'
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
-
-
-import { FloorstockComponent } from './floorstock/floorstock.component';
-import { HomeComponent } from './home/home.component';
-import { ScoreboardComponent } from './scoreboard/scoreboard.component';
-import { ShiftChangeComponent } from './shift-change/shift-change.component';
-
+import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component'; 
 
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 
@@ -35,28 +29,14 @@ const appRoutes: Routes = [
         path:"batch-history",
         component: BatchHistoryComponent,
     },
-
-
-
     {
-        path:"floorstock",
-        component: FloorstockComponent,
+        path:"batch-history/:id",
+        component: BatchHistoryDetailComponent,
     },
     {
-        path:"home",
-        component: HomeComponent,
+        path: 'statistics',
+        loadChildren: "./statistics/statistics.module#StatisticsModule",
     },
-    {
-        path:"scoreboard",
-        component: ScoreboardComponent,
-    },
-    {
-        path:"shift-change",
-        component: ShiftChangeComponent,
-    },
-    
-
-
     {
         path:"batch-rework",
         component: BatchReworkComponent,
@@ -70,7 +50,7 @@ const appRoutes: Routes = [
         )
     ],
     exports: [
-        RouterModule
+        RouterModule      
     ]
 })
 export class AppRoutingModule {}

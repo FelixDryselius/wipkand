@@ -22,7 +22,7 @@ CREATE TABLE batch
   start_date datetime,
   end_date datetime,
   scrap INT,
-  yield_1 INT,
+  production_yield INT,
   HMI1_good INT,
   HMI1_bad INT,
   HMI2_good INT,
@@ -31,7 +31,6 @@ CREATE TABLE batch
   applied_labels INT,
   label_print_time datetime, 
   rework_time time,
-  yield_2 INT,
   order_number char(7) NOT NULL,
   PRIMARY KEY (batch_number),
   FOREIGN KEY (order_number) REFERENCES product_order(order_number)
@@ -67,9 +66,11 @@ CREATE TABLE production_statistic
 
 CREATE TABLE floorstock_statistic
 (
-  floorstock_item_id char(255) NOT NULL,
   time_stamp datetime NOT NULL,
+  floorstock_item_id char(255) NOT NULL,
   quantity INT,
-  PRIMARY KEY (floorstock_item_id, time_stamp),
+  batch_number char(10) NOT NULL,
+  PRIMARY KEY (time_stamp, floorstock_item_id),
+  FOREIGN KEY (batch_number) REFERENCES batch(batch_number),
   FOREIGN KEY (floorstock_item_id) REFERENCES floorstock_item(item_id)
 );

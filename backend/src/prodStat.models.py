@@ -79,7 +79,7 @@ class Batch(models.Model):
     start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
     scrap = models.IntegerField(blank=True, null=True)
-    yield_1 = models.IntegerField(blank=True, null=True)
+    production_yield = models.IntegerField(blank=True, null=True)
     hmi1_good = models.IntegerField(db_column='HMI1_good', blank=True, null=True)  # Field name made lowercase.
     hmi1_bad = models.IntegerField(db_column='HMI1_bad', blank=True, null=True)  # Field name made lowercase.
     hmi2_good = models.IntegerField(db_column='HMI2_good', blank=True, null=True)  # Field name made lowercase.
@@ -88,7 +88,6 @@ class Batch(models.Model):
     applied_labels = models.IntegerField(blank=True, null=True)
     label_print_time = models.DateTimeField(blank=True, null=True)
     rework_time = models.TimeField(blank=True, null=True)
-    yield_2 = models.IntegerField(blank=True, null=True)
     order_number = models.ForeignKey('ProductOrder', models.DO_NOTHING, db_column='order_number')
 
     class Meta:
@@ -163,14 +162,15 @@ class FloorstockItem(models.Model):
 
 
 class FloorstockStatistic(models.Model):
-    floorstock_item = models.ForeignKey(FloorstockItem, models.DO_NOTHING, primary_key=True)
-    time_stamp = models.DateTimeField()
+    time_stamp = models.DateTimeField(primary_key=True)
+    floorstock_item = models.ForeignKey(FloorstockItem, models.DO_NOTHING)
     quantity = models.IntegerField(blank=True, null=True)
+    batch_number = models.ForeignKey(Batch, models.DO_NOTHING, db_column='batch_number')
 
     class Meta:
         managed = False
         db_table = 'floorstock_statistic'
-        unique_together = (('floorstock_item', 'time_stamp'),)
+        unique_together = (('time_stamp', 'floorstock_item'),)
 
 
 class Product(models.Model):
