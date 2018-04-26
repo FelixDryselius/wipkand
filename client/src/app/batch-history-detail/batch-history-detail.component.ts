@@ -62,6 +62,7 @@ export class BatchHistoryDetailComponent implements OnInit {
     })
 
     this.batchDetailForm = this.formBuilder.group({
+      batch_number: [],
       start_date: [],
       end_date: [],
       scrap: [],

@@ -58,7 +58,8 @@ class BatchDetailSerializer(ModelSerializer):
                 if not validate_order(old_product.article_number, new_product.article_number):
                     #print("WRONG NEW PRODUCT NUMBER")
                     # NEW PRODUCT NUMBER WITH OLD ORDER NUMBER
-                    order_to_use.update(article_number=new_product)
+                    order_to_use.article_number = new_product
+                    order_to_use.save()
 
             except ProductOrder.DoesNotExist:
                 order_to_use = ProductOrder.objects.create(
@@ -67,20 +68,40 @@ class BatchDetailSerializer(ModelSerializer):
             instance.order_number = order_to_use
             instance.save()
 
-        if old_pruduct_frontend is not new_product and new_order_nr == old_order_nr:
-
+        elif old_pruduct_frontend != new_product:
             order_to_use = ProductOrder.objects.get(
-                    pk=new_order_nr)
-
+                pk=old_order_nr)
             order_to_use.article_number = new_product
             instance.order_number = order_to_use
-            #previous_order.update(article_number=new_product)
-            #previous_order.article_number = new_product
-
-            #instance.order_number = previous_order
             instance.save()
-        
+            order_to_use.save()
+        else:
+            instance.start_date = validated_data.get(
+                'start_date', instance.start_date)
+            instance.end_date = validated_data.get(
+                'end_date', instance.end_date)
+            instance.rework_date = validated_data.get(
+                'rework_date', instance.rework_date)
+            instance.label_print_time = validated_data.get(
+                'label_print_time', instance.label_print_time)
+            instance.applied_labels = validated_data.get(
+                'applied_labels', instance.applied_labels)
+            instance.rework_time = validated_data.get(
+                'rework_time', instance.rework_time)
+            instance.production_yield = validated_data.get(
+                'production_yield', instance.production_yield)
+            instance.hmi1_good = validated_data.get(
+                'hmi1_good', instance.hmi1_good)
+            instance.hmi1_bad = validated_data.get(
+                'hmi1_bad', instance.hmi1_bad)
+            instance.hmi2_good = validated_data.get(
+                'hmi2_good', instance.hmi2_good)
+            instance.hmi2_bad = validated_data.get(
+                'hmi2_bad', instance.hmi2_bad)
+            instance.scrap = validated_data.get('scrap', instance.scrap)
+            instance.save()
         return instance
+
 
 class BatchPatchSerializer(ModelSerializer):
     class Meta:
