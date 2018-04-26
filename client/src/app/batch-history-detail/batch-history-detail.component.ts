@@ -121,13 +121,20 @@ export class BatchHistoryDetailComponent implements OnInit {
         batch_number: this.batchDetailID
       }
     } else {
-      form['batch_number'] = this.batchDetailID
       form['order_number'] = this.order
       batch = form
     }
     console.log(form)
     this.operationsService.updateBatch(batch as Batch).subscribe(data => {
-      this.order = (data as Batch).order_number
+      let updatedBatch = data as Batch
+      this.order = updatedBatch.order_number
+      // if (this.batchDetailID != updatedBatch.batch_number) {
+      //   this.operationsService.deleteBatch(this.batchDetailID, updatedBatch.batch_number).subscribe(data => {
+      //     console.log("Batch deleted! Returned data is: ")
+      //     console.log(data)
+      //   })
+      // }
+      this.batchDetailID = (data as Batch).batch_number
       console.log("Order is now: ")
       console.log(this.order)
     })

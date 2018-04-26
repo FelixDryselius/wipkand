@@ -76,6 +76,13 @@ class BatchDetailSerializer(ModelSerializer):
             instance.save()
             order_to_use.save()
         else:
+            if instance.batch_number != validated_data.get('batch_number', instance.batch_number):
+                # migrate_comments()
+                # migrate_productionStatistics()
+                # migrate_floorstockStatistics()
+                # delete the old batch
+                instance.batch_number = validated_data.get(
+                    'batch_number', instance.batch_number)
             instance.start_date = validated_data.get(
                 'start_date', instance.start_date)
             instance.end_date = validated_data.get(
@@ -134,17 +141,14 @@ class BatchCreateSerializer(ModelSerializer):
                 pk=entered_order['order_number'])
             print("FETCH OLD ORDER!")
             associated_product = order_to_use.article_number
-
             if not validate_order(associated_product.article_number, selected_product.article_number):
                 print("WRONG NEW PRODUCT NUMBER")
                 raise ValidationError(
                     "An order with a different article number already exists!")
-
         except ProductOrder.DoesNotExist:
             order_to_use = ProductOrder.objects.create(
                 order_number=entered_order['order_number'], article_number=selected_product)
             print("CREATED ORDER!")
-
         batch_to_create = validated_data
         batch_to_create['order_number'] = order_to_use
 
