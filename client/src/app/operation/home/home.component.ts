@@ -14,6 +14,7 @@ import { QueryResponse } from '../../shared/interfaces/query-response';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent implements OnInit {
 
   private floorstockItemsObservable: Observable<any>;
@@ -24,11 +25,13 @@ export class HomeComponent implements OnInit {
   private floorstockChangesSub: any;
   floorstockChanges: {};
 
+  private floorstockObservable: Observable<any>;
+
   private prodStats: JSON[];
   private comments: JSON[];
 
   // SCOREBOARD SECTION
-  
+
   shiftProdStats: any[] = [];
 
   // Variables for getting todays date
@@ -49,14 +52,46 @@ export class HomeComponent implements OnInit {
   ngModelProdEve: any[] = [];
   ngModelProdNight: any[] = [];
 
+  private dayShiftTimes: any[] = [
+    { time: '08-09' },
+    { time: '09-10' },
+    { time: '10-11' },
+    { time: '11-12' },
+    { time: '12-13' },
+    { time: '13-14' },
+    { time: '14-15' },
+    { time: '15-16' },
+  ]
+
+  private eveningShiftTimes: any[] = [
+    { time: '16-17' },
+    { time: '17-18' },
+    { time: '18-19' },
+    { time: '19-20' },
+    { time: '20-21' },
+    { time: '21-22' },
+    { time: '22-23' },
+    { time: '23-00' },
+  ]
+  private nightShiftTimes: any[] = [
+    { time: '00-01' },
+    { time: '01-02' },
+    { time: '02-03' },
+    { time: '03-04' },
+    { time: '04-05' },
+    { time: '05-06' },
+    { time: '06-07' },
+    { time: '07-08' },
+  ]
+
   // END SCOREBOARD SECTION  
 
 
   // FLOORSTOCK SECTION
- 
-
+  currentFloorstock = [];
+  test = ['hej','på','dig']
   // END FLOORSTOCK SECTION
-  
+
 
   // COMMENT SECTION
   // Variables for add comment used html
@@ -80,11 +115,12 @@ export class HomeComponent implements OnInit {
 
   constructor(private operationsService: OperationsService, private commentService: CommentService, private http: HttpClient) { }
 
+
+
   ngOnInit() {
 
     // Calls function that subscribes to data from api    
-    this.getFloorstockItems()
-    this.getFloorstockChanges()
+    this.getFloorstock()
     this.getComment()
     this.getScoreboard()
 
@@ -106,6 +142,8 @@ export class HomeComponent implements OnInit {
     }
     this.todaysDate = yyyy + '-' + mm + '-' + dd;
 
+    
+
   }
 
   getScoreboard() {
@@ -114,24 +152,44 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  getFloorstockItems() {
+  getFloorstock() {
+
     this.floorstockItemsObservable = this.operationsService.getFloorstockItems()
     this.floorstockItemsSub = this.floorstockItemsObservable.subscribe(data => {
       this.floorstockItems = (data as QueryResponse).results
     });
-  }
 
-  getFloorstockChanges() {
     this.floorstockChangesObservable = this.operationsService.getFloorstockChanges()
     this.floorstockChangesSub = this.floorstockChangesObservable.subscribe(data => {
       this.floorstockChanges = (data as QueryResponse).results
+       
+      console.log("floorstockChanges: ")
       console.log(this.floorstockChanges)
-      for(let obj in this.floorstockChanges) {
-      console.log(obj)
+      for (let key in this.floorstockItems) {
+        let item = { item_name: this.floorstockItems[key]["item_name"] }
+        item["item_id"] = this.floorstockItems[key]["item_id"]
+        this.currentFloorstock.push(item)
       }
-    });    
+      for (let k in this.floorstockChanges) {
+        if (this.floorstockChanges[k]["batch_number"] == this.prodInfo.batch_number) {
+          for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+            if (this.currentFloorstock[obj]["item_id"] == this.floorstockChanges[k]["floorstock_item"]) {
+              this.currentFloorstock[obj]["quantity"] = this.floorstockChanges[k]["quantity"]
+            }
+          }            
+        } 
+      }
+      for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+        if (typeof this.currentFloorstock[obj]["quantity"] == 'undefined') {
+          this.currentFloorstock[obj]["quantity"] = 0
+        }
+      }
+      console.log("currentFloorstock: ")
+      console.log(this.currentFloorstock)
+    });
+
     
-    
+
   }
 
   getComment() {
@@ -165,7 +223,7 @@ export class HomeComponent implements OnInit {
           production_quantity: '',
           staff_quantity: '',
         }
-        return fillerObj;
+      return fillerObj;
     }
 
     // A function that correctly replaces previos time stamp with next hour 
@@ -182,25 +240,25 @@ export class HomeComponent implements OnInit {
     // A function that compares previous data from the api with todays date and selected shift
     function getOldData(todaysDate, prodStats, shiftProdstats, startShift, endShift) {
       for (let obj = 0; obj < prodStats["results"].length; obj++) {
-        if (prodStats["results"][obj]["time_stamp"].slice(0, 10) == todaysDate && (startShift-1) < prodStats["results"][obj]["time_stamp"].slice(11, 13) && prodStats["results"][obj]["time_stamp"].slice(11, 13) < (endShift-1)) {
+        if (prodStats["results"][obj]["time_stamp"].slice(0, 10) == todaysDate && (startShift - 1) < prodStats["results"][obj]["time_stamp"].slice(11, 13) && prodStats["results"][obj]["time_stamp"].slice(11, 13) < (endShift - 1)) {
           shiftProdstats.unshift(prodStats["results"][obj])
         }
       }
     }
 
     if (this.selectedShift == 'day') {
-      getOldData(this.todaysDate, this.prodStats,this.shiftProdStats,8,16)
+      getOldData(this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
     }
     if (this.selectedShift == 'evening') {
-      getOldData(this.todaysDate, this.prodStats,this.shiftProdStats,16,24)
+      getOldData(this.todaysDate, this.prodStats, this.shiftProdStats, 16, 24)
     }
     if (this.selectedShift == 'night') {
-      getOldData(this.todaysDate, this.prodStats,this.shiftProdStats,0,8)
+      getOldData(this.todaysDate, this.prodStats, this.shiftProdStats, 0, 8)
     }
-    
+
     // A while-loop that fills shiftProdStats with empty data and correct time stamps. This so the code will know what cell has new data when a user adds data to an empty cell
     while (this.shiftProdStats.length < 8) {
-      
+
       if (this.shiftProdStats.length == 0) {
         if (this.selectedShift == 'day') {
           firstHour = this.todaysDate + firstHourShift[0]
@@ -229,7 +287,7 @@ export class HomeComponent implements OnInit {
       }
 
     }
-    console.log("Initial data for "+this.selectedShift+":")
+    console.log("Initial data for " + this.selectedShift + ":")
     console.log(this.shiftProdStats)
   }
 
@@ -293,7 +351,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  submitComment(event, formData) { 
+  submitComment(event, formData) {
 
     this.commentName = formData.value['commentName'];
     this.commentText = formData.value['commentText'];
