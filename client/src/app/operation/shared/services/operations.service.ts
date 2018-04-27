@@ -37,6 +37,7 @@ export class OperationsService {
   // Floorstock URLs
   private floorstockItemsURL: string = "/api/floorstock/item";
   private floorstockChangesURL: string = "/api/floorstock/changelog";
+  private floorstockUpdateURL: string = "/api/floorstock/changelog/floorstock_item";
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -151,6 +152,16 @@ export class OperationsService {
 
   getFloorstockChanges() {
     return this.http.get(this.URL_ROOT + this.floorstockChangesURL)
+  }
+
+  createFloorstock(newItem: {}) {
+    return this.http.post(this.URL_ROOT + this.floorstockChangesURL + '/', JSON.stringify(newItem), this.httpOptions).map(data => {
+    })
+  }
+
+  updateFloorstock(updatedItem: any) {
+    let UPDATE_SCOREBOARD_URL = this.URL_ROOT + this.floorstockUpdateURL + updatedItem.time_stamp + '/' // The URL to correct API
+    return this.http.patch(UPDATE_SCOREBOARD_URL, JSON.stringify(updatedItem), this.httpOptions)
   }
 
   getProdStats() {

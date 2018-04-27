@@ -17,6 +17,8 @@ import { QueryResponse } from '../../shared/interfaces/query-response';
 
 export class HomeComponent implements OnInit {
 
+  private masterObservable: Observable<any>;
+
   private floorstockItemsObservable: Observable<any>;
   private floorstockItemsSub: any;
   floorstockItems: {};
@@ -36,6 +38,7 @@ export class HomeComponent implements OnInit {
 
   // Variables for getting todays date
   private todaysDate: any;
+  private currentTime: any;
 
   // Array of shifts you can select in dropdown
   private shifts: String[] = ['day', 'evening', 'night']
@@ -88,8 +91,10 @@ export class HomeComponent implements OnInit {
 
 
   // FLOORSTOCK SECTION
-  currentFloorstock = [];
-  test = ['hej','på','dig']
+
+  currentFloorstock: any[] = [];
+
+  ngModelFloorstock: any[] = [];
   // END FLOORSTOCK SECTION
 
 
@@ -130,19 +135,27 @@ export class HomeComponent implements OnInit {
 
     // Get todays date and format to yyy-mm-dd
     this.todaysDate = new Date();
+    let sec = this.todaysDate.getSeconds();
+    let min = this.todaysDate.getMinutes();
+    let hh = this.todaysDate.getHours();
     let dd = this.todaysDate.getDate();
     let mm = this.todaysDate.getMonth() + 1;
     let yyyy = this.todaysDate.getFullYear();
 
-    if (dd < 10) {
-      dd = '0' + dd;
+    function formatUnit(timeUnit) {
+      if (timeUnit < 10) {
+        timeUnit = '0' + timeUnit;
+      }
+      return timeUnit
     }
-    if (mm < 10) {
-      mm = '0' + mm;
-    }
-    this.todaysDate = yyyy + '-' + mm + '-' + dd;
 
-    
+    mm = formatUnit(mm)
+    hh = formatUnit(hh)
+    min = formatUnit(min)
+    sec = formatUnit(sec)
+
+    this.currentTime = hh + ':' + min + ':' + sec;
+    this.todaysDate = yyyy + '-' + mm + '-' + dd;
 
   }
 
@@ -162,7 +175,9 @@ export class HomeComponent implements OnInit {
     this.floorstockChangesObservable = this.operationsService.getFloorstockChanges()
     this.floorstockChangesSub = this.floorstockChangesObservable.subscribe(data => {
       this.floorstockChanges = (data as QueryResponse).results
-       
+
+      this.currentFloorstock = [];
+
       console.log("floorstockChanges: ")
       console.log(this.floorstockChanges)
       for (let key in this.floorstockItems) {
@@ -175,26 +190,32 @@ export class HomeComponent implements OnInit {
           for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
             if (this.currentFloorstock[obj]["item_id"] == this.floorstockChanges[k]["floorstock_item"]) {
               this.currentFloorstock[obj]["quantity"] = this.floorstockChanges[k]["quantity"]
+              this.currentFloorstock[obj]["last_update"] = this.floorstockChanges[k]["time_stamp"]
+              this.currentFloorstock[obj]["batch_number"] = this.floorstockChanges[k]["batch_number"]
             }
-          }            
-        } 
+          }
+        }
       }
       for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
         if (typeof this.currentFloorstock[obj]["quantity"] == 'undefined') {
           this.currentFloorstock[obj]["quantity"] = 0
+          this.currentFloorstock[obj]["last_update"] = ''
+          this.currentFloorstock[obj]["batch_number"] = ''
         }
       }
       console.log("currentFloorstock: ")
       console.log(this.currentFloorstock)
     });
-
-    
-
   }
 
   getComment() {
     // Subscribe to service and save the data in comments list
     this.commentService.getComment().subscribe(data => {
+      this.comments = data as JSON[]
+    });
+
+    this.masterObservable = this.commentService.getComment()
+    this.masterObservable.subscribe(data => {
       this.comments = data as JSON[]
     });
   }
@@ -293,6 +314,8 @@ export class HomeComponent implements OnInit {
 
   updateProduction(event, formData) {
 
+    console.log(formData.value)
+
     let results: any = {};
 
     // Collects all changes and stores as dictionary in the object results
@@ -349,6 +372,46 @@ export class HomeComponent implements OnInit {
         }
       }
     }
+  }
+
+  updateFloorstock(event, inputData) {
+    let results: any = {};
+    let primaryKeys = {};
+    for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+      primaryKeys[this.currentFloorstock[obj]["item_id"]] = this.currentFloorstock[obj]["last_update"]
+    }
+
+    console.log(primaryKeys)
+
+    // Collects all changes and stores as dictionary in the object results
+    for (let key in inputData.value) {
+      if (typeof inputData.value[key] == 'number') {
+        results[key] = inputData.value[key];
+      }
+    }
+    for (let key in results) {
+      for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+        // Checks if time stamp exists. Determines wheter data should be created or updated
+        if (this.currentFloorstock[obj]["item_id"] == key && this.currentFloorstock[obj]["batch_number"] == this.prodInfo.batch_number) {
+          for (let k in primaryKeys) {
+            if (k == key) {
+              let lastUpdate = primaryKeys[k]
+
+              console.log("last update "+lastUpdate)
+              let updateItem = {
+                time_stamp: lastUpdate,
+                quantity: results[key],
+              }
+              this.operationsService.updateFloorstock(updateItem).subscribe();
+              this.getFloorstock()
+            }
+          }
+        }
+
+      }
+
+    }
+
   }
 
   submitComment(event, formData) {

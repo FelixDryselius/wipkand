@@ -165,19 +165,15 @@
               <h3 class="text-center">Label roll</h3>
             </div>
           </div>
-          <table *ngIf="floorstockChangesObservable | async; else loading" class="table table-bordered">
+          <table *ngIf="masterObservable | async; else loading" class="table table-bordered">
             <tbody>
               <tr *ngFor="let item of currentFloorstock">
-
-                  <!-- <input type="number" class="form-control" [placeholder]="0<=stat.time_stamp<8 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
-                  [(ngModel)]="ngModelProdNight[stat.time_stamp]"> -->
-
                 <td>
                   <div class="input-group input-number-group">
                     <div class="input-group-button">
                       <span class="input-number-decrement">-</span>
                     </div>
-                    <input type="number" class="input-number" [placeholder]="item.quantity">
+                    <input type="number" class="input-number" [placeholder]="item.quantity" name="{{item.item_id}}" [(ngModel)]="ngModelFloorstock[item.item_id]">
                     <div class="input-group-button">
                       <span class="input-number-increment">+</span>
                     </div>
@@ -190,7 +186,7 @@
           </table>
           <div class="row">
             <div class="col-md-12 text-right">
-              <button type="button" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary">
                 Update
               </button>
             </div>
