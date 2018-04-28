@@ -113,8 +113,6 @@ export class OperationsService {
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
 
-
-
   setCurrentBatchInfo(status: boolean, data: Batch) {
     let currentBatch;
     if (data) {

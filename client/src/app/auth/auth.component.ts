@@ -11,6 +11,7 @@ import { User } from './user'
 
 import { CookieService } from 'ngx-cookie-service';
 
+
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -22,6 +23,8 @@ export class AuthComponent implements OnInit {
   loginForm: FormGroup;
   usernameField: FormControl;
   passwordField: FormControl;
+
+
   constructor(
     private authAPI: AuthAPIService,
     private cookieService: CookieService,
@@ -68,7 +71,6 @@ export class AuthComponent implements OnInit {
       console.log(authLoginData)
       this.doLogin(authLoginData);
       ourLoginDir.resetForm({})
-
     }
   }
 }

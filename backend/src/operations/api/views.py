@@ -69,7 +69,7 @@ class BatchAPIView(
         mixins.CreateModelMixin):
 
     serializer_class = BatchCreateSerializer
-    permission_classes = [AllowAny]
+    #permission_classes = [AllowAny]
     search_fields = ('batch_number', 'order_number__order_number', 'start_date', 'end_date')
 
     def post(self, request, *args, **kwargs):
@@ -94,7 +94,7 @@ class BatchDetailAPIView(
         mixins.UpdateModelMixin,
         mixins.DestroyModelMixin):
 
-    permission_classes = [AllowAny]
+    #permission_classes = [AllowAny]
     serializer_class = BatchDetailSerializer
     queryset = Batch.objects.all()
 
@@ -118,7 +118,7 @@ class CommentAPIView(
         mixins.CreateModelMixin):
 
     '''Gets list of comments for a batch, or all comments if no batch is specified'''
-    permission_classes = [AllowAny]
+    #permission_classes = [AllowAny]
     serializer_class = CommentSerializer
     queryset = BatchComment.objects.all()
     lookup_url_kwarg = 'batch_number'
@@ -143,7 +143,7 @@ class CommentDetailAPIView(
         
     '''Gets detail of batch and comment id'''
     serializer_class = CommentSerializer
-    permission_classes = [AllowAny]
+    #permission_classes = [AllowAny]
 
     def get_object(self):
         return get_object_or_404(BatchComment, **self.kwargs)
