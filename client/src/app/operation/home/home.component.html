@@ -170,7 +170,7 @@
               <tr class="d-flex" *ngFor="let item of currentFloorstock">
                 <td class="col-3">
                   <div class="input-group col-12">
-                    <input type="number" min="0" class="form-control input-number" [placeholder]="item.quantity ? item.quantity : ''" name="{{item.item_id}}"
+                    <input type="number" min="0" class="form-control input-number" [placeholder]="item.quantity ? item.quantity : 0" name="{{item.item_id}}"
                       [(ngModel)]="ngModelFloorstock[item.item_id]">
                   </div>
                 </td>

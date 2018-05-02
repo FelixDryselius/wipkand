@@ -93,8 +93,8 @@ export class HomeComponent implements OnInit {
   // FLOORSTOCK SECTION
 
   currentFloorstock: any[] = [];
-
   ngModelFloorstock: any[] = [];
+  
   // END FLOORSTOCK SECTION
 
 
@@ -119,8 +119,6 @@ export class HomeComponent implements OnInit {
   private service_prodInfo: any;
 
   constructor(private operationsService: OperationsService, private commentService: CommentService, private http: HttpClient) { }
-
-
 
   ngOnInit() {
 
@@ -277,94 +275,6 @@ export class HomeComponent implements OnInit {
           this.shiftProdStats[obj]["batch_number"] = ''
         }
       }
-
-
-
-
-      /* let new_hour: any;
-       let firstHour: any;
-       let firstHourShift: any[] = ["T08:00:00Z", "T16:00:00Z", "T00:00:00Z"];
-   
-       // Sets scoreboardActive to true show correct html
-       //this.scoreboardActive = true;
-       this.shiftProdStats = [];
-       this.selectedShift = chosenShift;
-   
-       // A function that creates a filler object to be put in shiftProdStats for hours without data
-       function createFiller(shiftProdStats) {
-         let last_time_stamp = shiftProdStats.slice(-1)[0]["time_stamp"]
-         let last_hour = last_time_stamp.slice(11, 13)
-         let new_hour = parseInt(last_hour) + 1
-         let new_time_stamp = replaceAt(last_time_stamp, last_hour, new_hour, 11, 13)
-   
-         let fillerObj =
-           {
-             time_stamp: new_time_stamp,
-             production_quantity: '',
-             staff_quantity: '',
-           }
-         return fillerObj;
-       }
-   
-       // A function that correctly replaces previos time stamp with next hour 
-       function replaceAt(input, search, replace, start, end) {
-         replace = replace.toString()
-         replace = ('0' + replace).slice(-2)
-         replace = input.slice(start, end).replace(search, replace)
-         replace = ('0' + replace).slice(-2)
-         return input.slice(0, start)
-           + replace
-           + input.slice(end);
-       }
-   
-       // A function that compares previous data from the api with todays date and selected shift
-       function getOldData(prodInfo, todaysDate, prodStats, shiftProdstats, startShift, endShift) {
-         for (let obj = 0; obj < prodStats.length; obj++) {
-           if (prodInfo && prodInfo.batch_number == prodStats[obj]["batch_number"] && prodStats[obj]["time_stamp"].slice(0, 10) == todaysDate && (startShift - 1) < prodStats[obj]["time_stamp"].slice(11, 13) && prodStats[obj]["time_stamp"].slice(11, 13) < (endShift - 1)) {
-             shiftProdstats.unshift(prodStats[obj])
-           }
-         }
-       }
-       if (this.selectedShift == 'day') {
-         getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
-       }
-       if (this.selectedShift == 'evening') {
-         getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 16, 24)
-       }
-       if (this.selectedShift == 'night') {
-         getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 0, 8)
-       }
-       // A while-loop that fills shiftProdStats with empty data and correct time stamps. This so the code will know what cell has new data when a user adds data to an empty cell
-       while (this.shiftProdStats.length < 8) {
-   
-         if (this.shiftProdStats.length == 0) {
-           if (this.selectedShift == 'day') {
-             firstHour = this.todaysDate + firstHourShift[0]
-           }
-           else if (this.selectedShift == 'evening') {
-             firstHour = this.todaysDate + firstHourShift[1]
-           }
-           else if (this.selectedShift == 'night') {
-             firstHour = this.todaysDate + firstHourShift[2]
-           }
-           let firstObj =
-             {
-               time_stamp: firstHour,
-               production_quantity: '',
-               staff_quantity: '',
-             }
-           this.shiftProdStats.push(firstObj)
-   
-           let filler = createFiller(this.shiftProdStats)
-           this.shiftProdStats.push(filler)
-         }
-   
-         else {
-           let filler = createFiller(this.shiftProdStats)
-           this.shiftProdStats.push(filler)
-         }
-   
-       }*/
       console.log("Initial data for " + chosenShift + ":")
       console.log(this.shiftProdStats)
     });
