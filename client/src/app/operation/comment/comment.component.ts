@@ -30,6 +30,7 @@ export class CommentComponent implements OnInit {
   commentSub: any;
 
   private tokenRefreshRecallSub: any;
+  private httpRecalls: any[] = [];
 
   //Variables
   dateNow: Date = new Date(); // to display current date
@@ -45,7 +46,16 @@ export class CommentComponent implements OnInit {
     this.getContent();
     this.tokenRefreshRecallSub = this.authAPI.tokenRefreshRecall.subscribe(refresh => {
       if (refresh) {
-        this.getContent();
+        //this.getContent();
+        if (this.httpRecalls.length > 0) {
+          for (let i = 0; i < this.httpRecalls.length; i++) {
+            console.log("CAlling function")
+            let func = this.httpRecalls[i]
+            debugger;
+            func()
+          }
+        }
+
         this.authAPI.tokenRefreshRecall.next(false)
       }
     })
@@ -62,13 +72,20 @@ export class CommentComponent implements OnInit {
     this.getComment()
   }
 
+  //getComment = () => {
   getComment() {
     // Subscribe to service and save the data in comments list as json obj
+    //debugger;
+    let x = 5;
     this.commentSub = this.commentService.getComment().subscribe(data => {
       this.comments = (data as QueryResponse).results
     },
       error => {
+        console.log("Pushing function! Error is: ");
         console.log(error)
+        debugger;
+        this.httpRecalls.push(this.getComment.bind(this))
+        //console.log(error)
         // //this.comments = this.authAPI.setRecalledResponse()
         // console.log("JWT access token expired. Refreshing token...")
         // this.tokenRefreshHttpRecallSub = this.authAPI.tokenRefreshRecall.subscribe(data => {

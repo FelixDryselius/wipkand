@@ -54,11 +54,13 @@ export class TokenInterceptor {  //implements HttpInterceptor
     //   });
     // }
     request = this.setToken(request)
+    debugger;
     return next.handle(request).do((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
       }
     }, (error: any) => {
       if (error instanceof HttpErrorResponse) {
+        debugger;
         switch ((<HttpErrorResponse>error).status) {
           case 400:
             return this.handle400Error(error);
