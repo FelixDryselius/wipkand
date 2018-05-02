@@ -191,7 +191,7 @@ export class HomeComponent implements OnInit {
         this.currentFloorstock.push(item)
       }
       for (let k in this.floorstockChanges) {
-        if (this.floorstockChanges[k]["batch_number"] == this.prodInfo.batch_number) {
+        if (this.prodInfo && this.floorstockChanges[k]["batch_number"] == this.prodInfo.batch_number) {
           for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
             if (this.currentFloorstock[obj]["item_id"] == this.floorstockChanges[k]["floorstock_item"]) {
               this.currentFloorstock[obj]["quantity"] = this.floorstockChanges[k]["quantity"]
@@ -264,24 +264,22 @@ export class HomeComponent implements OnInit {
     }
 
     // A function that compares previous data from the api with todays date and selected shift
-    function getOldData(todaysDate, prodStats, shiftProdstats, startShift, endShift) {
+    function getOldData(prodInfo, todaysDate, prodStats, shiftProdstats, startShift, endShift) {
       for (let obj = 0; obj < prodStats["results"].length; obj++) {
-        if (prodStats["results"][obj]["time_stamp"].slice(0, 10) == todaysDate && (startShift - 1) < prodStats["results"][obj]["time_stamp"].slice(11, 13) && prodStats["results"][obj]["time_stamp"].slice(11, 13) < (endShift - 1)) {
+        if (prodInfo && prodInfo.batch_number == prodStats["results"][obj]["batch_number"] && prodStats["results"][obj]["time_stamp"].slice(0, 10) == todaysDate && (startShift - 1) < prodStats["results"][obj]["time_stamp"].slice(11, 13) && prodStats["results"][obj]["time_stamp"].slice(11, 13) < (endShift - 1)) {
           shiftProdstats.unshift(prodStats["results"][obj])
         }
       }
     }
-
     if (this.selectedShift == 'day') {
-      getOldData(this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
+      getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
     }
     if (this.selectedShift == 'evening') {
-      getOldData(this.todaysDate, this.prodStats, this.shiftProdStats, 16, 24)
+      getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 16, 24)
     }
     if (this.selectedShift == 'night') {
-      getOldData(this.todaysDate, this.prodStats, this.shiftProdStats, 0, 8)
+      getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 0, 8)
     }
-
     // A while-loop that fills shiftProdStats with empty data and correct time stamps. This so the code will know what cell has new data when a user adds data to an empty cell
     while (this.shiftProdStats.length < 8) {
 
