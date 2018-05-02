@@ -48,63 +48,8 @@
 
 /* Start plus minus button --------------------------------------------- */
 
-    .input-group {
-        width: auto;
-    }
 
-  /* Digit center align */
-  .input-number-group input[type=number]::-webkit-inner-spin-button,
-  .input-number-group input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-            appearance: none;
-  }
-
-  /* Plus and minus sign center align */
-  .input-number-group .input-group-button {
-    line-height: 70%;
-  }
-
-  .input-number-group .input-number {
-    width: 40%;
-    text-align: center;
-    outline: none;
-    display: block;
-    margin: 0;
-  }
-
-  .input-number-group .input-number,
-  .input-number-group .input-number-decrement,
-  .input-number-group .input-number-increment {
-    border: 1px solid #cacaca;
-    height: 5%;
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
-    border-radius: 0;
-  }
-
-  .input-number-group .input-number-decrement,
-  .input-number-group .input-number-increment {
-    display: inline-block;
-    width: 4%;
-    background: #e6e6e6;
-    color: #0a0a0a;
-    text-align: center;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 2rem;
-    font-weight: 400;
-  }
-
-  .input-number-decrement {
-    margin-right: 0.3rem;
-  }
-
-  .input-number-increment {
-    margin-left: 0.3rem;
-  }
-
+  
   /* End plus minus button --------------------------------------------- */
 
 

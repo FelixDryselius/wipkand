@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
 
   // SCOREBOARD SECTION
 
- shiftProdStats: any[] = [];
+  shiftProdStats: any[] = [];
 
   // Variables for getting todays date
   private todaysDate: any;
@@ -56,35 +56,35 @@ export class HomeComponent implements OnInit {
   ngModelProdNight: any[] = [];
 
   private dayShiftTimes: any[] = [
-    { time: '08-09' },
-    { time: '09-10' },
-    { time: '10-11' },
-    { time: '11-12' },
-    { time: '12-13' },
-    { time: '13-14' },
-    { time: '14-15' },
-    { time: '15-16' },
+    { time: '08-09', shift: '08' },
+    { time: '09-10', shift: '09' },
+    { time: '10-11', shift: '10' },
+    { time: '11-12', shift: '11' },
+    { time: '12-13', shift: '12' },
+    { time: '13-14', shift: '13' },
+    { time: '14-15', shift: '14' },
+    { time: '15-16', shift: '15' },
   ]
 
   private eveningShiftTimes: any[] = [
-    { time: '16-17' },
-    { time: '17-18' },
-    { time: '18-19' },
-    { time: '19-20' },
-    { time: '20-21' },
-    { time: '21-22' },
-    { time: '22-23' },
-    { time: '23-00' },
+    { time: '16-17', shift: '16' },
+    { time: '17-18', shift: '17' },
+    { time: '18-19', shift: '18' },
+    { time: '19-20', shift: '19' },
+    { time: '20-21', shift: '20' },
+    { time: '21-22', shift: '21' },
+    { time: '22-23', shift: '22' },
+    { time: '23-00', shift: '23' },
   ]
   private nightShiftTimes: any[] = [
-    { time: '00-01' },
-    { time: '01-02' },
-    { time: '02-03' },
-    { time: '03-04' },
-    { time: '04-05' },
-    { time: '05-06' },
-    { time: '06-07' },
-    { time: '07-08' },
+    { time: '00-01', shift: '00' },
+    { time: '01-02', shift: '01' },
+    { time: '02-03', shift: '02' },
+    { time: '03-04', shift: '03' },
+    { time: '04-05', shift: '04' },
+    { time: '05-06', shift: '05' },
+    { time: '06-07', shift: '06' },
+    { time: '07-08', shift: '07' },
   ]
 
   // END SCOREBOARD SECTION  
@@ -227,99 +227,153 @@ export class HomeComponent implements OnInit {
     this.productionObservable = this.operationsService.getProdStats()
     this.productionSub = this.productionObservable.subscribe(data => {
       this.prodStats = (data as QueryResponse).results
-    
-    let new_hour: any;
-    let firstHour: any;
-    let firstHourShift: any[] = ["T08:00:00Z", "T16:00:00Z", "T00:00:00Z"];
 
-    // Sets scoreboardActive to true show correct html
-    //this.scoreboardActive = true;
-    this.shiftProdStats = [];
-    this.selectedShift = chosenShift;
+      this.shiftProdStats = [];
+      let shiftTimes;
+      this.selectedShift = chosenShift
 
-    // A function that creates a filler object to be put in shiftProdStats for hours without data
-    function createFiller(shiftProdStats) {
-      let last_time_stamp = shiftProdStats.slice(-1)[0]["time_stamp"]
-      let last_hour = last_time_stamp.slice(11, 13)
-      let new_hour = parseInt(last_hour) + 1
-      let new_time_stamp = replaceAt(last_time_stamp, last_hour, new_hour, 11, 13)
-
-      let fillerObj =
-        {
-          time_stamp: new_time_stamp,
-          production_quantity: '',
-          staff_quantity: '',
-        }
-      return fillerObj;
-    }
-
-    // A function that correctly replaces previos time stamp with next hour 
-    function replaceAt(input, search, replace, start, end) {
-      replace = replace.toString()
-      replace = ('0' + replace).slice(-2)
-      replace = input.slice(start, end).replace(search, replace)
-      replace = ('0' + replace).slice(-2)
-      return input.slice(0, start)
-        + replace
-        + input.slice(end);
-    }
-
-    // A function that compares previous data from the api with todays date and selected shift
-    function getOldData(prodInfo, todaysDate, prodStats, shiftProdstats, startShift, endShift) {
-      for (let obj = 0; obj < prodStats.length; obj++) {
-        if (prodInfo && prodInfo.batch_number == prodStats[obj]["batch_number"] && prodStats[obj]["time_stamp"].slice(0, 10) == todaysDate && (startShift - 1) < prodStats[obj]["time_stamp"].slice(11, 13) && prodStats[obj]["time_stamp"].slice(11, 13) < (endShift - 1)) {
-          shiftProdstats.unshift(prodStats[obj])
-        }
+      if (this.selectedShift == 'day') {
+        shiftTimes = this.dayShiftTimes
       }
-    }
-    if (this.selectedShift == 'day') {
-      getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
-    }
-    if (this.selectedShift == 'evening') {
-      getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 16, 24)
-    }
-    if (this.selectedShift == 'night') {
-      getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 0, 8)
-    }
-    // A while-loop that fills shiftProdStats with empty data and correct time stamps. This so the code will know what cell has new data when a user adds data to an empty cell
-    while (this.shiftProdStats.length < 8) {
-
-      if (this.shiftProdStats.length == 0) {
-        if (this.selectedShift == 'day') {
-          firstHour = this.todaysDate + firstHourShift[0]
-        }
-        else if (this.selectedShift == 'evening') {
-          firstHour = this.todaysDate + firstHourShift[1]
-        }
-        else if (this.selectedShift == 'night') {
-          firstHour = this.todaysDate + firstHourShift[2]
-        }
-        let firstObj =
-          {
-            time_stamp: firstHour,
-            production_quantity: '',
-            staff_quantity: '',
-          }
-        this.shiftProdStats.push(firstObj)
-
-        let filler = createFiller(this.shiftProdStats)
-        this.shiftProdStats.push(filler)
+      else if (this.selectedShift == 'evening') {
+        shiftTimes = this.eveningShiftTimes
       }
-
       else {
-        let filler = createFiller(this.shiftProdStats)
-        this.shiftProdStats.push(filler)
+        shiftTimes = this.nightShiftTimes
+      }
+      
+      for (let key in shiftTimes) {
+        let prodData = { time_stamp: this.todaysDate + 'T' + shiftTimes[key]["shift"] + ':00:00Z' }
+        this.shiftProdStats.push(prodData)
       }
 
-    }
-    console.log("Initial data for " + this.selectedShift + ":")
-    console.log(this.shiftProdStats)
-  });
+      if (this.selectedShift == 'day') {
+        getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
+      }
+      if (this.selectedShift == 'evening') {
+        getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 16, 24)
+      }
+      if (this.selectedShift == 'night') {
+        getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 0, 8)
+      }
+
+      function getOldData(prodInfo, todaysDate, prodStats, shiftProdStats, startShift, endShift) {
+        for (let inp = 0; inp < prodStats.length; inp++) {
+          if (prodInfo && prodInfo.batch_number == prodStats[inp]["batch_number"] && prodStats[inp]["time_stamp"].slice(0, 10) == todaysDate && (startShift - 1) < prodStats[inp]["time_stamp"].slice(11, 13) && prodStats[inp]["time_stamp"].slice(11, 13) < (endShift - 1)) {
+            for (let obj = 0; obj < shiftProdStats.length; obj++) {
+              if (shiftProdStats[obj]["time_stamp"] == prodStats[inp]["time_stamp"]) {
+                shiftProdStats[obj]["production_quantity"] = prodStats[inp]["production_quantity"]
+                shiftProdStats[obj]["staff_quantity"] = prodStats[inp]["staff_quantity"]
+                shiftProdStats[obj]["batch_number"] = prodStats[inp]["batch_number"]
+              }
+            }
+          }
+        }
+      }
+      for (let obj = 0; obj < this.shiftProdStats.length; obj++) {
+        if (typeof this.shiftProdStats[obj]["production_quantity"] == 'undefined' && typeof this.shiftProdStats[obj]["staff_quantity"] == 'undefined') {
+          this.shiftProdStats[obj]["production_quantity"] = ''
+          this.shiftProdStats[obj]["staff_quantity"] = ''
+          this.shiftProdStats[obj]["batch_number"] = ''
+        }
+      }
+
+
+
+
+      /* let new_hour: any;
+       let firstHour: any;
+       let firstHourShift: any[] = ["T08:00:00Z", "T16:00:00Z", "T00:00:00Z"];
+   
+       // Sets scoreboardActive to true show correct html
+       //this.scoreboardActive = true;
+       this.shiftProdStats = [];
+       this.selectedShift = chosenShift;
+   
+       // A function that creates a filler object to be put in shiftProdStats for hours without data
+       function createFiller(shiftProdStats) {
+         let last_time_stamp = shiftProdStats.slice(-1)[0]["time_stamp"]
+         let last_hour = last_time_stamp.slice(11, 13)
+         let new_hour = parseInt(last_hour) + 1
+         let new_time_stamp = replaceAt(last_time_stamp, last_hour, new_hour, 11, 13)
+   
+         let fillerObj =
+           {
+             time_stamp: new_time_stamp,
+             production_quantity: '',
+             staff_quantity: '',
+           }
+         return fillerObj;
+       }
+   
+       // A function that correctly replaces previos time stamp with next hour 
+       function replaceAt(input, search, replace, start, end) {
+         replace = replace.toString()
+         replace = ('0' + replace).slice(-2)
+         replace = input.slice(start, end).replace(search, replace)
+         replace = ('0' + replace).slice(-2)
+         return input.slice(0, start)
+           + replace
+           + input.slice(end);
+       }
+   
+       // A function that compares previous data from the api with todays date and selected shift
+       function getOldData(prodInfo, todaysDate, prodStats, shiftProdstats, startShift, endShift) {
+         for (let obj = 0; obj < prodStats.length; obj++) {
+           if (prodInfo && prodInfo.batch_number == prodStats[obj]["batch_number"] && prodStats[obj]["time_stamp"].slice(0, 10) == todaysDate && (startShift - 1) < prodStats[obj]["time_stamp"].slice(11, 13) && prodStats[obj]["time_stamp"].slice(11, 13) < (endShift - 1)) {
+             shiftProdstats.unshift(prodStats[obj])
+           }
+         }
+       }
+       if (this.selectedShift == 'day') {
+         getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
+       }
+       if (this.selectedShift == 'evening') {
+         getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 16, 24)
+       }
+       if (this.selectedShift == 'night') {
+         getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 0, 8)
+       }
+       // A while-loop that fills shiftProdStats with empty data and correct time stamps. This so the code will know what cell has new data when a user adds data to an empty cell
+       while (this.shiftProdStats.length < 8) {
+   
+         if (this.shiftProdStats.length == 0) {
+           if (this.selectedShift == 'day') {
+             firstHour = this.todaysDate + firstHourShift[0]
+           }
+           else if (this.selectedShift == 'evening') {
+             firstHour = this.todaysDate + firstHourShift[1]
+           }
+           else if (this.selectedShift == 'night') {
+             firstHour = this.todaysDate + firstHourShift[2]
+           }
+           let firstObj =
+             {
+               time_stamp: firstHour,
+               production_quantity: '',
+               staff_quantity: '',
+             }
+           this.shiftProdStats.push(firstObj)
+   
+           let filler = createFiller(this.shiftProdStats)
+           this.shiftProdStats.push(filler)
+         }
+   
+         else {
+           let filler = createFiller(this.shiftProdStats)
+           this.shiftProdStats.push(filler)
+         }
+   
+       }*/
+      console.log("Initial data for " + chosenShift + ":")
+      console.log(this.shiftProdStats)
+    });
   }
 
   updateProduction(event, formData) {
 
     let results: any = {};
+    let primaryKeys = {};
 
     // Collects all changes and stores as dictionary in the object results
     for (let key in formData.value) {
@@ -327,7 +381,6 @@ export class HomeComponent implements OnInit {
         results[key] = formData.value[key];
       }
     }
-
     // A for-loop that for each new data compares it with existing data from the database
     for (let key in results) {
       let changeData = {}
