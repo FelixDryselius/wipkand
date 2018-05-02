@@ -133,6 +133,11 @@ export class HomeComponent implements OnInit {
     this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
+    this.getTime()
+
+  }
+
+  getTime() {
     // Get todays date and format to yyy-mm-dd
     this.todaysDate = new Date();
     let sec = this.todaysDate.getSeconds();
@@ -150,13 +155,13 @@ export class HomeComponent implements OnInit {
     }
 
     mm = formatUnit(mm)
+    dd = formatUnit(dd)
     hh = formatUnit(hh)
     min = formatUnit(min)
     sec = formatUnit(sec)
 
     this.currentTime = hh + ':' + min + ':' + sec;
     this.todaysDate = yyyy + '-' + mm + '-' + dd;
-
   }
 
   getScoreboard() {
@@ -377,11 +382,10 @@ export class HomeComponent implements OnInit {
   updateFloorstock(event, inputData) {
     let results: any = {};
     let primaryKeys = {};
+    let counter = 0;
     for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
       primaryKeys[this.currentFloorstock[obj]["item_id"]] = this.currentFloorstock[obj]["last_update"]
     }
-
-    console.log(primaryKeys)
 
     // Collects all changes and stores as dictionary in the object results
     for (let key in inputData.value) {
@@ -389,6 +393,7 @@ export class HomeComponent implements OnInit {
         results[key] = inputData.value[key];
       }
     }
+
     for (let key in results) {
       for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
@@ -397,21 +402,33 @@ export class HomeComponent implements OnInit {
             if (k == key) {
               let lastUpdate = primaryKeys[k]
 
-              console.log("last update "+lastUpdate)
               let updateItem = {
                 time_stamp: lastUpdate,
                 quantity: results[key],
+                floorstock_item: key,
+                batch_number: this.prodInfo.batch_number,
               }
               this.operationsService.updateFloorstock(updateItem).subscribe();
               this.getFloorstock()
             }
           }
         }
-
+        else {
+          counter += 1
+          // If no time stamp in api was found this means it is new data
+          if (counter == this.currentFloorstock.length - 1) {
+            let createItem = {
+              time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
+              quantity: results[key],
+              floorstock_item: key,
+              batch_number: this.prodInfo.batch_number,
+            }
+            this.operationsService.createFloorstock(createItem).subscribe();
+            this.getFloorstock()
+          }
+        }
       }
-
     }
-
   }
 
   submitComment(event, formData) {
