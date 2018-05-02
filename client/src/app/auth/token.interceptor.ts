@@ -102,22 +102,22 @@ export class TokenInterceptor {  //implements HttpInterceptor
 
       // Making a new HTTP request to get a new JWT access token, using the refresh token/endpoint.
       if (request.method == "GET") { 
-        let tokenRefreshSub = this.authAPI.refreshToken().subscribe(success => {
+        return this.authAPI.refreshToken().subscribe(success => {
           console.log("http method: GET");
           this.isRefreshingToken = false;
           this.authAPI.tokenRefreshRecall.next(true)
-          tokenRefreshSub.unsubscribe()
+          // tokenRefreshSub.unsubscribe()
           return
         })
       } else {
-        let tokenRefreshSub = this.authAPI.refreshToken().subscribe(success => {
+        return this.authAPI.refreshToken().switchMap(success => {
           console.log("http method: OTHER");
           console.log("Request is: ");
           console.log(request);
           request = this.setToken(request)
-          this.isRefreshingToken = false;
+          this.isRefreshingToken = false;   
           return next.handle(request)
-        })
+        }).subscribe()
       }
     }
   }
