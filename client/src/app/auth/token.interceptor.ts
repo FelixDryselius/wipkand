@@ -42,17 +42,18 @@ export class TokenInterceptor {  //implements HttpInterceptor
     private router: Router,
   ) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let jwttoken = this.cookieService.get('jwt-accesstoken')
-    if (jwttoken) {
-      request = request.clone({
-        setHeaders: {
-          // This is where you can use your various tokens
-          Authorization: `Bearer ${jwttoken}`,
-          'Content-type': 'application/json',
-          // 'X-CSRFToken': `${csrftoken}`
-        }
-      });
-    }
+    // let jwttoken = this.cookieService.get('jwt-accesstoken')
+    // if (jwttoken) {
+    //   request = request.clone({
+    //     setHeaders: {
+    //       // This is where you can use your various tokens
+    //       Authorization: `Bearer ${jwttoken}`,
+    //       'Content-type': 'application/json',
+    //       // 'X-CSRFToken': `${csrftoken}`
+    //     }
+    //   });
+    // }
+    request = this.setToken(request)
     return next.handle(request).do((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
       }
@@ -72,6 +73,21 @@ export class TokenInterceptor {  //implements HttpInterceptor
     });
   }
 
+  setToken(request) {
+    let jwttoken = this.cookieService.get('jwt-accesstoken')
+    if (jwttoken) {
+      request = request.clone({
+        setHeaders: {
+          // This is where you can use your various tokens
+          Authorization: `Bearer ${jwttoken}`,
+          'Content-type': 'application/json',
+          // 'X-CSRFToken': `${csrftoken}`
+        }
+      });
+    }
+    return request
+  }
+
   handle400Error(error) {
     if (error && error.status === 400 && error.error && error.error.error === 'token_not_valid') {
       // If we get a 400 and the error message is 'invalid_grant', the token is no longer valid so logout.
@@ -81,16 +97,28 @@ export class TokenInterceptor {  //implements HttpInterceptor
   }
 
   handle401Error(error, request: HttpRequest<any>, next: HttpHandler) {
-    if (!this.isRefreshingToken) {
+    if (error.error.code == "token_not_valid" && !this.isRefreshingToken) {
       this.isRefreshingToken = true;
 
-      // Making a new HTTP request to get a new JWT access token, using the refresh token/endpoint. 
-      let tokenRefreshSub = this.authAPI.refreshToken().subscribe(succes => {
-        this.isRefreshingToken = false;
-        this.authAPI.tokenRefreshRecall.next(true)
-        tokenRefreshSub.unsubscribe()
-      })
-      //Flag for recall
+      // Making a new HTTP request to get a new JWT access token, using the refresh token/endpoint.
+      if (request.method == "GET") { 
+        let tokenRefreshSub = this.authAPI.refreshToken().subscribe(success => {
+          console.log("http method: GET");
+          this.isRefreshingToken = false;
+          this.authAPI.tokenRefreshRecall.next(true)
+          tokenRefreshSub.unsubscribe()
+          return
+        })
+      } else {
+        let tokenRefreshSub = this.authAPI.refreshToken().subscribe(success => {
+          console.log("http method: OTHER");
+          console.log("Request is: ");
+          console.log(request);
+          request = this.setToken(request)
+          this.isRefreshingToken = false;
+          return next.handle(request)
+        })
+      }
     }
   }
 }
