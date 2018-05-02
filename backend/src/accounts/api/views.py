@@ -14,7 +14,7 @@ from rest_framework.permissions import (
 from rest_framework_simplejwt.authentication import AUTH_HEADER_TYPES
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
-from accounts.api.serializers import JWTTokenSerializer, UserCreateSerializer
+from accounts.api.serializers import JWTTokenSerializer, JWTTokenRefreshSerializer, UserCreateSerializer
 
 User = get_user_model()
 
@@ -45,3 +45,11 @@ class AuthView(generics.GenericAPIView):
         except TokenError as e:
             raise InvalidToken(e.args[0])
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
+
+
+class JWTTokenRefreshView(AuthView):
+    """
+    Takes a refresh type JSON web token and returns an access type JSON web
+    token if the refresh token is valid.
+    """
+    serializer_class = JWTTokenRefreshSerializer

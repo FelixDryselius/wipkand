@@ -33,7 +33,9 @@ import 'rxjs/add/operator/finally';
 @Injectable()
 export class TokenInterceptor {  //implements HttpInterceptor 
 
+  requestQueue: any[] = []
   isRefreshingToken: boolean = false;
+
   constructor(
     private authAPI: AuthAPIService,
     private cookieService: CookieService,
@@ -81,37 +83,106 @@ export class TokenInterceptor {  //implements HttpInterceptor
   handle401Error(error, request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshingToken) {
       this.isRefreshingToken = true;
+      this.requestQueue.push(request)
       // Making a new HTTP request to get a new JWT access token, using the refresh token/endpoint. 
       return this.authAPI.refreshToken().switchMap((newToken: string) => {
+        // request = request.clone({
+        //   setHeaders: {
+        //     Authorization: `Bearer ${newToken}`,
+        //   }
+        // })
+
+        // Using the returned new access token to recall the original HTTP request that failed.
+        // for (let _request in this.requestQueue as [HttpRequest<any>]) {
+        //   _request = _request.clone({
+        //     setHeaders: {
+        //       Authorization: `Bearer ${newToken}`,
+        //     }
+        //   })
+
+        // }
+        console.log("Iterating request to be made. length:" + this.requestQueue.length);
+        for (let i = 0; i < this.requestQueue.length; i++) {
+          console.log("In the request queue! Current request: ")
+          console.log(this.requestQueue[i]);
+
+          let _req = this.requestQueue[i].clone({
+            setHeaders: {
+              Authorization: `Bearer ${newToken}`,
+            }
+          })
+          //this.requestQueue[i] 
+          debugger;
+          next.handle(_req).map((response) => {
+            // Fetching the response of the cloned original HTTP request and pushing it into a shared observable.
+            // The component that made the original HTTP request subscribes to this observable and receives the new HTTP response.
+            console.log("In the response queue! Current response: ")
+            console.log(response);
+            if (response instanceof HttpResponse) {
+              // console.log("In the response queue! Current response: ")
+              // console.log(response);
+              this.authAPI.tokenRefreshRecall.next(response)
+            }
+          })
+        }
         request = request.clone({
           setHeaders: {
             Authorization: `Bearer ${newToken}`,
           }
         })
-        // Using the returned new access token to recall the original HTTP request that failed. 
-        return next.handle(request).map((response: HttpEvent<any>) => {
-          // Fetching the response of the cloned original HTTP request and pushing it into a shared observable.
-          // The component that made the original HTTP request subscribes to this observable and receives the new HTTP response.
-          if (response instanceof HttpResponse) {
-            this.authAPI.tokenRefreshRecall.next(response)
-          }
-        })
+        return next.handle(request)
+        // return next.handle(request).map((response: HttpEvent<any>) => {
+        //   // Fetching the response of the cloned original HTTP request and pushing it into a shared observable.
+        //   // The component that made the original HTTP request subscribes to this observable and receives the new HTTP response.
+        //   if (response instanceof HttpResponse) {
+        //     this.authAPI.tokenRefreshRecall.next(response)
+        //   }
+        // })
       })
         .catch(error => {
           //Exception occured when trying to fetch new token.
           console.log("Exception occured when trying to fetch new token. Status: " + error.status)
+          this.isRefreshingToken = false;
           this.authAPI.performLogout()
           return next.handle(request)
         })
         .finally(() => {
+          console.log("Finally trigger");
           this.isRefreshingToken = false;
+          //return next.handle(request)
+          // for (let i = 0; i < this.requestQueue.length; i++) {
+          //   console.log("In the request queue! Current request: ")
+          //   console.log(this.requestQueue[i]);
+
+          //   next.handle(this.requestQueue[i]).map((response) => {
+          //       // Fetching the response of the cloned original HTTP request and pushing it into a shared observable.
+          //       // The component that made the original HTTP request subscribes to this observable and receives the new HTTP response.
+          //       console.log("In the response queue! Current response: ")
+          //         console.log(response);
+          //       if (response instanceof HttpResponse) {
+          //         // console.log("In the response queue! Current response: ")
+          //         // console.log(response);
+          //         this.authAPI.tokenRefreshRecall.next(response)
+          //       }
+          //     })
+          // }
         }).subscribe();
     }
     else {
-      //We should never end up here
-      console.log("Unknown error. If this occured, investigate!")
-      this.authAPI.performLogout()
-      return next.handle(request)
+      console.log("If this happened, several HTTP calls have been made and failed! Req is now: ")
+      console.log(request);
+      console.log("Pushing it into request Queue.");
+      this.requestQueue.push(request)
+      console.log("length:" + this.requestQueue.length);
+      //this.isRefreshingToken = false;
+      //this.authAPI.performLogout()
+      // return next.handle(request).map((response: HttpEvent<any>) => {
+      //   // Fetching the response of the cloned original HTTP request and pushing it into a shared observable.
+      //   // The component that made the original HTTP request subscribes to this observable and receives the new HTTP response.
+      //   if (response instanceof HttpResponse) {
+      //     this.authAPI.tokenRefreshRecall.next(response)
+      //   }
+      // })
     }
   }
 }

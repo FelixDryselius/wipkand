@@ -63,8 +63,8 @@ export class AuthAPIService {
     }
 
     performLogin(token) {
-        this.cookieService.set('jwt-accesstoken', token['accessToken'], null, "/")
-        this.cookieService.set('jwt-refreshtoken', token['refreshToken'], token['expiry'], "/")
+        this.cookieService.set('jwt-accesstoken', token['access'], null, "/")
+        this.cookieService.set('jwt-refreshtoken', token['refresh'], token['expiry'], "/")
         this.router.navigate(["/"])
     }
 
@@ -77,12 +77,12 @@ export class AuthAPIService {
     refreshToken(): Observable<string> {
         let refreshEndpoint = `${this.baseUrl}users/token/refresh/`;
         let refreshToken = this.cookieService.get("jwt-refreshtoken");
-        return this.http.post(refreshEndpoint, { "refresh": `${refreshToken}` }).map(response => {
-            console.log("In refreshToken(). response is: " + response)
-            let token = response as User
-            let accessToken = token.access;
-            this.cookieService.set('jwt-accesstoken', accessToken, null, "/")
-            return accessToken
+        return this.http.post(`${this.baseUrl}users/token/refresh/`, { "refresh": `${refreshToken}` }).map(token => {
+            console.log("In refreshToken(). response is: ")
+            console.log(token);
+            this.cookieService.set('jwt-accesstoken', token['access'], null, "/")
+            this.cookieService.set('jwt-refreshtoken', token['refresh'], new Date(token['expires']), "/")
+            return token['access']
         })
     }
 }

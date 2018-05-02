@@ -1,6 +1,6 @@
 export class User {
     user?: string;
-    access?: string;
-    refresh?: string;
-    expires?: string;
+    accessToken?: string;
+    refreshToken?: string;
+    refreshTokenExpires?: string;
 }

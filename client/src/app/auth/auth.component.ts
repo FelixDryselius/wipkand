@@ -49,11 +49,12 @@ export class AuthComponent implements OnInit {
 
   doLogin(data) {
     this.authAPI.login(data).subscribe(data => {
-      this.userData = data as User
+      //TODO: Store this in AuthService?
+      //this.userData = data as User
       let token = {
-        accessToken: this.userData.access || null,
-        refreshToken: this.userData.refresh || null,
-        expiry: new Date(this.userData.expires) || null
+        access: data['access'] || null,
+        refresh: data['refresh'] || null,
+        expiry: new Date(data['expires']) || null
       } 
       this.authAPI.performLogin(token)
       console.log("Login Success!")
