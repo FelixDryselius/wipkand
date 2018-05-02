@@ -11,19 +11,19 @@
       <h3>
         Shift:
       </h3>
-      <select class="chooseShift" [(ngModel)]="shift" (ngModelChange)="onChange($event)" name="differentShifts">
-        <option *ngFor="let chosenShift of shifts" [value]="chosenShift"> {{chosenShift}} </option>
+      <select class="chooseShift" [(ngModel)]="selectShift" (ngModelChange)="onChange($event)" name="differentShifts">
+        <option *ngFor="let chosenShift of shifts" [ngValue]="chosenShift" [selected]='chosenShift === selectShift'> {{chosenShift}} </option>
       </select>
     </div>
   </div>
-  <div *ngIf="scoreboardActive == false">
+  <!-- <div *ngIf="scoreboardActive == false">
     <hr>
-  </div>
+  </div> -->
 </div>
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-12 border" *ngIf="scoreboardActive == true">
+    <div class="col-md-12 border" *ngIf="productionObservable | async; else loading" >
       <form class="productionForm" #productionForm='ngForm' (ngSubmit)='updateProduction($event,productionForm)'>
 
         <!-- DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY -->
@@ -165,7 +165,7 @@
               <h3 class="text-center">Label roll</h3>
             </div>
           </div>
-          <table *ngIf="masterObservable | async; else loading" class="table table-bordered">
+          <table *ngIf="floorstockChangesObservable | async; else loading" class="table table-bordered">
             <tbody>
               <tr *ngFor="let item of currentFloorstock">
                 <td>

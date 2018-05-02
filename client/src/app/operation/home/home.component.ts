@@ -17,7 +17,9 @@ import { QueryResponse } from '../../shared/interfaces/query-response';
 
 export class HomeComponent implements OnInit {
 
-  private masterObservable: Observable<any>;
+  private productionObservable: Observable<any>;
+  private productionSub: any;
+  prodStats: {};
 
   private floorstockItemsObservable: Observable<any>;
   private floorstockItemsSub: any;
@@ -27,14 +29,12 @@ export class HomeComponent implements OnInit {
   private floorstockChangesSub: any;
   floorstockChanges: {};
 
-  private floorstockObservable: Observable<any>;
-
-  private prodStats: JSON[];
+  //private prodStats: JSON[];
   private comments: JSON[];
 
   // SCOREBOARD SECTION
 
-  shiftProdStats: any[] = [];
+ shiftProdStats: any[] = [];
 
   // Variables for getting todays date
   private todaysDate: any;
@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
 
   // Variable used for determining which html code to render (day, evening or night)
   private selectedShift: String;
-  private scoreboardActive: boolean = false;
+  //private scoreboardActive: boolean = false;
 
   // Arrays containing names of ngModels for every input element
   ngModelStaffDay: any[] = [];
@@ -135,6 +135,8 @@ export class HomeComponent implements OnInit {
 
     this.getTime()
 
+    this.onChange('day')
+
   }
 
   getTime() {
@@ -218,21 +220,20 @@ export class HomeComponent implements OnInit {
     this.commentService.getComment().subscribe(data => {
       this.comments = data as JSON[]
     });
-
-    this.masterObservable = this.commentService.getComment()
-    this.masterObservable.subscribe(data => {
-      this.comments = data as JSON[]
-    });
   }
 
   // Function that is being called when option in dropdown menu has been selected
   onChange(chosenShift) {
+    this.productionObservable = this.operationsService.getProdStats()
+    this.productionSub = this.productionObservable.subscribe(data => {
+      this.prodStats = (data as QueryResponse).results
+    
     let new_hour: any;
     let firstHour: any;
     let firstHourShift: any[] = ["T08:00:00Z", "T16:00:00Z", "T00:00:00Z"];
 
     // Sets scoreboardActive to true show correct html
-    this.scoreboardActive = true;
+    //this.scoreboardActive = true;
     this.shiftProdStats = [];
     this.selectedShift = chosenShift;
 
@@ -265,9 +266,9 @@ export class HomeComponent implements OnInit {
 
     // A function that compares previous data from the api with todays date and selected shift
     function getOldData(prodInfo, todaysDate, prodStats, shiftProdstats, startShift, endShift) {
-      for (let obj = 0; obj < prodStats["results"].length; obj++) {
-        if (prodInfo && prodInfo.batch_number == prodStats["results"][obj]["batch_number"] && prodStats["results"][obj]["time_stamp"].slice(0, 10) == todaysDate && (startShift - 1) < prodStats["results"][obj]["time_stamp"].slice(11, 13) && prodStats["results"][obj]["time_stamp"].slice(11, 13) < (endShift - 1)) {
-          shiftProdstats.unshift(prodStats["results"][obj])
+      for (let obj = 0; obj < prodStats.length; obj++) {
+        if (prodInfo && prodInfo.batch_number == prodStats[obj]["batch_number"] && prodStats[obj]["time_stamp"].slice(0, 10) == todaysDate && (startShift - 1) < prodStats[obj]["time_stamp"].slice(11, 13) && prodStats[obj]["time_stamp"].slice(11, 13) < (endShift - 1)) {
+          shiftProdstats.unshift(prodStats[obj])
         }
       }
     }
@@ -313,11 +314,10 @@ export class HomeComponent implements OnInit {
     }
     console.log("Initial data for " + this.selectedShift + ":")
     console.log(this.shiftProdStats)
+  });
   }
 
   updateProduction(event, formData) {
-
-    console.log(formData.value)
 
     let results: any = {};
 
@@ -335,9 +335,9 @@ export class HomeComponent implements OnInit {
       let counter = 0
 
       // Go through objects in production statistics from api
-      for (let obj = 0; obj < this.prodStats["results"].length; obj++) {
+      for (let obj in this.prodStats) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
-        if (this.prodStats["results"][obj]["time_stamp"] == key.slice(0, -3)) {
+        if (this.prodStats[obj]["time_stamp"] == key.slice(0, -3)) {
           if (key.substr(key.length - 2) == 'sq') {
             changeData = {
               time_stamp: key.slice(0, -3),
@@ -358,7 +358,7 @@ export class HomeComponent implements OnInit {
         else {
           counter += 1
           // If no time stamp in api was found this means it is new data
-          if (counter == this.prodStats["results"].length - 1) {
+          if (counter == Object.keys(this.prodStats).length) {
             let time = this.todaysDate + key.slice(10, -3)
             let stringifiedTime = String(time)
 
@@ -378,6 +378,7 @@ export class HomeComponent implements OnInit {
   }
 
   updateFloorstock(event, inputData) {
+    this.getTime()
     let results: any = {};
     let primaryKeys = {};
     for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
@@ -414,7 +415,6 @@ export class HomeComponent implements OnInit {
           counter += 1
           // If no time stamp in api was found this means it is new data
           if (counter == this.currentFloorstock.length - 1) {
-
             let createItem = {
               time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
               quantity: results[key],
