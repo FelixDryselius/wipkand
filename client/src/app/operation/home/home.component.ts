@@ -380,7 +380,6 @@ export class HomeComponent implements OnInit {
   updateFloorstock(event, inputData) {
     let results: any = {};
     let primaryKeys = {};
-    let counter = 0;
     for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
       primaryKeys[this.currentFloorstock[obj]["item_id"]] = this.currentFloorstock[obj]["last_update"]
     }
@@ -393,6 +392,7 @@ export class HomeComponent implements OnInit {
     }
 
     for (let key in results) {
+      let counter = 0;
       for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
         if (this.currentFloorstock[obj]["item_id"] == key && this.currentFloorstock[obj]["batch_number"] == this.prodInfo.batch_number) {
@@ -407,7 +407,6 @@ export class HomeComponent implements OnInit {
                 batch_number: this.prodInfo.batch_number,
               }
               this.operationsService.updateFloorstock(updateItem).subscribe();
-              this.getFloorstock()
             }
           }
         }
@@ -415,6 +414,7 @@ export class HomeComponent implements OnInit {
           counter += 1
           // If no time stamp in api was found this means it is new data
           if (counter == this.currentFloorstock.length - 1) {
+
             let createItem = {
               time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
               quantity: results[key],
