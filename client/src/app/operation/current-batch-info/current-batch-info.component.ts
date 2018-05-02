@@ -1,3 +1,4 @@
+import { AuthAPIService } from '../../auth/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OperationsService } from '../shared/services/operations.service';
@@ -18,9 +19,28 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   private service_prodInfo: any;
   private service_prodStatus: any;
 
-  constructor(private route: ActivatedRoute, private operationsService: OperationsService, private router: Router) { }
+  private tokenRefreshRecallSub: any;
+
+  constructor(
+    private route: ActivatedRoute,
+    private operationsService: OperationsService,
+    private router: Router,
+    private authAPI: AuthAPIService) { }
 
   ngOnInit() {
+    this.getContent()
+    this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
+    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
+
+    this.tokenRefreshRecallSub = this.authAPI.tokenRefreshRecall.subscribe(refresh => {
+      if (refresh) {
+        this.getContent();
+        this.authAPI.tokenRefreshRecall.next(false)
+      }
+    })
+  }
+
+  getContent() {
     let activeBatchquery = "?q=activeBatch"
     this.req_batch = this.operationsService.getBatchDetail(activeBatchquery).subscribe(data => {
       let runningBatch = (data as QueryResponse).results[0] as Batch
@@ -28,15 +48,15 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
         this.operationsService.setCurrentBatchInfo(true, runningBatch)
       }
     })
-    //TODO: Make this one observable
-    this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
-    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
-
   }
+
   ngOnDestroy() {
     //Test these carefully
     //this.service_prodStatus.unsubscribe();
     //this.service_prodInfo.unsubscribe();
+    if (this.tokenRefreshRecallSub) {
+      this.tokenRefreshRecallSub.unsubscribe()
+    }
   }
 
   start_batch() {

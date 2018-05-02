@@ -18,11 +18,11 @@ export class AuthAPIService {
     private baseUrl = 'http://127.0.0.1:8000/api/'
 
     //Observable to receive response of cloned HTTP requests when token is refreshing.
-    tokenRefreshHttpRecallSub: any;
-    tokenRefreshRecall: BehaviorSubject<any> = new BehaviorSubject(null);
-    tokenRefreshRecall$(): Observable<any> {
-        return this.tokenRefreshRecall.asObservable();
-    }
+    // tokenRefreshHttpRecallSub: any;
+    tokenRefreshRecall: BehaviorSubject<Boolean> = new BehaviorSubject(false);
+    // tokenRefreshRecall$(): Observable<Boolean> {
+    //     return this.tokenRefreshRecall.asObservable();
+    // }
 
     constructor(
         private http: HttpClient,
@@ -74,7 +74,7 @@ export class AuthAPIService {
         this.router.navigate(['login/'])
     }
 
-    refreshToken(): Observable<string> {
+    refreshToken(): Observable<any> {
         let refreshEndpoint = `${this.baseUrl}users/token/refresh/`;
         let refreshToken = this.cookieService.get("jwt-refreshtoken");
         return this.http.post(`${this.baseUrl}users/token/refresh/`, { "refresh": `${refreshToken}` }).map(token => {
@@ -82,7 +82,7 @@ export class AuthAPIService {
             console.log(token);
             this.cookieService.set('jwt-accesstoken', token['access'], null, "/")
             this.cookieService.set('jwt-refreshtoken', token['refresh'], new Date(token['expires']), "/")
-            return token['access']
+           // return token['access']
         })
     }
 }
