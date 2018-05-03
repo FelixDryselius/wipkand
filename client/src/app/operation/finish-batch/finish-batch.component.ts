@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-// 3rd party and application imports:
+import { AuthAPIService } from '../../auth/auth.service';
 import { OperationsService } from '../shared/services/operations.service';
 import { Batch } from '../../shared/interfaces/batch';
 import { QueryResponse } from '../../shared/interfaces/query-response'
+
+// 3rd party imports
 
 @Component({
   selector: 'app-finish-batch',
@@ -26,8 +28,11 @@ export class FinishBatchComponent implements OnInit {
   private service_prodStatus: any;
   private service_prodInfo: any;
 
-
-  constructor(private router: Router, private operationsService: OperationsService) { }
+  constructor(
+    private router: Router,
+    private operationsService: OperationsService,
+    private authAPI: AuthAPIService,
+  ) { }
 
   ngOnInit() {
     //the following items are copied from start-batch.component
@@ -61,9 +66,11 @@ export class FinishBatchComponent implements OnInit {
         hmi2_good: batchForm.hmi2_good,
       }
       console.log(batchInfo)
-      this.operationsService.updateBatch(batchInfo as Batch).subscribe(data => {
-        this.operationsService.setCurrentBatchInfo(false, null);
-      })
+      this.operationsService.updateBatch(batchInfo as Batch)
+        .retryWhen(error => this.authAPI.checkHttpRetry(error))
+        .subscribe(data => {
+          this.operationsService.setCurrentBatchInfo(false, null);
+        })
     }
     this.router.navigate(['/home'])
   }

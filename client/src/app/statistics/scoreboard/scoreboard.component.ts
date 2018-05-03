@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 // 3rd party and application imports
+import { AuthAPIService } from '../../auth/auth.service';
 import { Batch } from '../../shared/interfaces/batch';
 import { CommentService } from '../../shared/application-services/comment.service';
 import { map } from 'rxjs/operators';
@@ -29,6 +30,7 @@ export class ScoreboardComponent implements OnInit {
   
 
   constructor(
+    private authAPI: AuthAPIService,
     private commentService:CommentService, 
     private operationsService: OperationsService,
     private route: ActivatedRoute,
@@ -47,7 +49,9 @@ export class ScoreboardComponent implements OnInit {
     } 
     else {
       let query = '?limit=1&offset=' + String(this.numberOfBatchesBack)
-      this.getProdStatLatestBatches(query).subscribe(data =>{
+      this.getProdStatLatestBatches(query)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data =>{
         this.productionStatistics = (data as QueryResponse).results as JSON []
       });
     }
@@ -63,7 +67,9 @@ export class ScoreboardComponent implements OnInit {
   }
           
   getBatchComments(query?:string) {
-   this.commentService.getComment(query).subscribe(data =>{
+   this.commentService.getComment(query)
+   .retryWhen(error => this.authAPI.checkHttpRetry(error))
+   .subscribe(data =>{
       console.log((data as QueryResponse).results as JSON []  );
       this.comments = (data as QueryResponse).results as JSON []   
       

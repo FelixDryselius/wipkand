@@ -115,7 +115,9 @@ export class HomeComponent implements OnInit {
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
     
     // Get production statistics from api
-    this.operationsService.getProdStats().subscribe(data =>{
+    this.operationsService.getProdStats()
+    .retryWhen(error => this.authAPI.checkHttpRetry(error))
+    .subscribe(data =>{
       this.prodStats = data as JSON []
       });
 
@@ -136,7 +138,9 @@ export class HomeComponent implements OnInit {
 
   getComment() {
     // Subscribe to service and save the data in comments list as json obj
-    this.commentService.getComment().subscribe(data =>{
+    this.commentService.getComment()
+    .retryWhen(error => this.authAPI.checkHttpRetry(error))
+    .subscribe(data =>{
       this.comments = data as JSON []
     });
   }
@@ -315,7 +319,9 @@ export class HomeComponent implements OnInit {
                 staff_quantity: results[key],
                 batch_number: this.prodInfo.batch_number,
               }
-              this.operationsService.updateProdStats(change).subscribe();
+              this.operationsService.updateProdStats(change)
+              .retryWhen(error => this.authAPI.checkHttpRetry(error))
+              .subscribe();
             } 
 
             else if (key.substr(key.length-2)=='pq') {
@@ -324,7 +330,9 @@ export class HomeComponent implements OnInit {
                 production_quantity: results[key],
                 batch_number: this.prodInfo.batch_number,
               }
-              this.operationsService.updateProdStats(change).subscribe();
+              this.operationsService.updateProdStats(change)
+              .retryWhen(error => this.authAPI.checkHttpRetry(error))
+              .subscribe();
               
             }
         }
@@ -339,9 +347,13 @@ export class HomeComponent implements OnInit {
               staff_quantity: results[stringifiedTime+'_sq'],
               batch_number: this.prodInfo.batch_number,
             }  
-            this.operationsService.createProdStats(newData).subscribe();   
+            this.operationsService.createProdStats(newData)
+            .retryWhen(error => this.authAPI.checkHttpRetry(error))
+            .subscribe();   
 
-            this.operationsService.getProdStats().subscribe(data =>{
+            this.operationsService.getProdStats()
+            .retryWhen(error => this.authAPI.checkHttpRetry(error))
+            .subscribe(data =>{
             this.prodStats = data as JSON []
             });  
           }
