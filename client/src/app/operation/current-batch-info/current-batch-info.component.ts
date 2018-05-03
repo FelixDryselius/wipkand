@@ -6,14 +6,10 @@ import { Batch } from '../../shared/interfaces/batch'
 import { QueryResponse } from '../../shared/interfaces/query-response'
 
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/retry';
+
 import 'rxjs/add/operator/retryWhen';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/of';
+
+
 
 @Component({
   selector: 'current-batch-info',
@@ -45,20 +41,14 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
 
   getActiveBatch() {
     let activeBatchquery = "?q=activeBatch"
-    this.req_batch = this.operationsService.getBatchDetail(activeBatchquery).retryWhen(error => {
-      return error.mergeMap((error: any) => {
-        if (error.error.code == "token_not_valid") {
-          return Observable.of(error.status).delay(500)
+    this.req_batch = this.operationsService.getBatchDetail(activeBatchquery)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        let runningBatch = (data as QueryResponse).results[0] as Batch
+        if (runningBatch) {
+          this.operationsService.setCurrentBatchInfo(true, runningBatch)
         }
-        return Observable.throw({error: "No retry"})
-      }).take(2)
-    })
-    .subscribe(data => {
-      let runningBatch = (data as QueryResponse).results[0] as Batch
-      if (runningBatch) {
-        this.operationsService.setCurrentBatchInfo(true, runningBatch)
-      }
-    })
+      })
   }
 
   ngOnDestroy() {

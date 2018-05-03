@@ -13,6 +13,13 @@ import { User } from './user';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { QueryResponse } from '../shared/interfaces/query-response'
 
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/delay';
+
 @Injectable()
 export class AuthAPIService {
     private baseUrl = 'http://127.0.0.1:8000/api/'
@@ -21,7 +28,7 @@ export class AuthAPIService {
 
 
     isRefreshingToken: boolean = false;
-    
+
     constructor(
         private http: HttpClient,
         private cookieService: CookieService,
@@ -63,4 +70,18 @@ export class AuthAPIService {
             this.cookieService.set('jwt-refreshtoken', token['refresh'], new Date(token['expires']), "/")
         })
     }
+
+    // Check if any returned error from a http call is caused by an expired token.
+    // If that is the case, retry the request. Otherwise throw a regular error
+    checkHttpRetry(error) {
+        return error.mergeMap((error: any) => {
+            if (error.error.code == "token_not_valid") {
+                return Observable.of(error.status).delay(500)
+            }
+            return Observable.throw({ error: "No retry" })
+        }).take(2)
+    }
+    // .retryWhen(
+    //   error => error.mergeMap((error: any) => error.error.code == "token_not_valid" ? Observable.of(error.status).delay(500) : Observable.throw({ error: "No retry" })).take(2))
+
 }

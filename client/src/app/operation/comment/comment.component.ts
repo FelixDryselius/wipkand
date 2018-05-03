@@ -8,14 +8,8 @@ import { TokenInterceptor } from '../../auth/token.interceptor'
 
 //3rd party imports
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/retryWhen';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/of';
+
 
 
 @Component({
@@ -59,16 +53,10 @@ export class CommentComponent implements OnInit {
 
   getComment() {
     // Subscribe to service and save the data in comments list as json obj
-    this.commentSub = this.commentService.getComment().retryWhen(error => {
-      return error.mergeMap((error: any) => { 
-        if (error.error.code == "token_not_valid") {
-          return Observable.of(error.status).delay(500)
-        }
-        return Observable.throw({error: "No retry"})
-      }).take(2)
-    })
-    .subscribe(data => {
-      this.comments = (data as QueryResponse).results
-    })
+    this.commentSub = this.commentService.getComment()
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.comments = (data as QueryResponse).results
+      })
   }
 }
