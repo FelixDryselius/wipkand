@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, Pipe } from '@angular/core';
+import { Component, OnInit, Pipe, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Location } from '@angular/common'
 import { Observable } from 'rxjs/Observable';
@@ -18,7 +18,7 @@ import { Order } from '../shared/interfaces/order';
   templateUrl: './batch-history-detail.component.html',
   styleUrls: ['./batch-history-detail.component.css']
 })
-export class BatchHistoryDetailComponent implements OnInit {
+export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   private batchDetail: Batch; // might not need
   private batchDetailForm: FormGroup;
   private batchDetailID: string;
@@ -52,10 +52,7 @@ export class BatchHistoryDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-
     this.batchDetailID = this.route.snapshot.paramMap.get('id')
-
     //TODO: MAKE THIS PAGE GREAT AND REMOVE COMMENTS ETC. MORE INFO ON:
     // https://coryrylan.com/blog/using-angular-forms-with-async-data
 
@@ -112,6 +109,12 @@ export class BatchHistoryDetailComponent implements OnInit {
       })
   }
 
+  ngOnDestroy() {
+    this.batchSub.unsubscribe()
+    this.productSub.unsubscribe()
+    this.commentSub.unsubscribe()
+    this.statisticsSub.unsubscribe()
+  }
   submitFormDetails($theEvent, form) {
     let batch;
     debugger;

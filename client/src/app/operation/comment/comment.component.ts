@@ -27,9 +27,6 @@ export class CommentComponent implements OnInit {
   commentObservable: Observable<any>
   commentSub: any;
 
-  private tokenRefreshRecallSub: any;
-  private httpRecalls: any[] = [];
-
   //Variables
   dateNow: Date = new Date(); // to display current date
   comments: {}; // list of comments from API
@@ -46,13 +43,9 @@ export class CommentComponent implements OnInit {
 
   ngOnDestroy() {
     this.commentSub.unsubscribe()
-    if (this.tokenRefreshRecallSub) {
-      this.tokenRefreshRecallSub.unsubscribe()
-    }
   }
 
   getComment() {
-    // Subscribe to service and save the data in comments list as json obj
     this.commentSub = this.commentService.getComment()
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
