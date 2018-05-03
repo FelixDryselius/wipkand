@@ -46,8 +46,16 @@
     margin-top: 11%; 
 }
 
+.separator {
+    border: none;
+    height: 3px;
+    background-color: black; 
+}
+
 .floorstockSection {
-    margin-top: 15%;
+    margin-top: 5%;
+    padding: 2%;
+    background-color: #e9ecef;
 }
 
 
@@ -94,21 +102,18 @@
 /* Start comments style */
 
 .commentSection {
-    margin-top: 4.3%;
+    margin-top: 3%;
+    padding: 2%;
+    background-color: #e9ecef;
 }
 
 .commentForm {
     margin-top: 5%;
-}
-
-.btn-addComment {
-    margin-top: 30%; 
-    margin-left: 35%;
+    
 }
 
 .commentTextarea {
-    height: 300%;
-    width: 60%;
+    height: 125px;
 }
 
 /* End comments style */

@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
 
   currentFloorstock: any[] = [];
   ngModelFloorstock: any[] = [];
-  
+
   // END FLOORSTOCK SECTION
 
 
@@ -393,7 +393,7 @@ export class HomeComponent implements OnInit {
   }
 
   submitComment(event, formData) {
-
+console.log("hej")
     this.commentName = formData.value['commentName'];
     this.commentText = formData.value['commentText'];
     this.commentDate = new Date();
