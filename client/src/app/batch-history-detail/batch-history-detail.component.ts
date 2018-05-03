@@ -79,22 +79,24 @@ export class BatchHistoryDetailComponent implements OnInit {
       label_print_time: [],
       rework_time: [],
     })
-
+    //.retryWhen(error => this.authAPI.checkHttpRetry(error))
     this.batchObservable = this.operationsService.getBatchDetail(this.batchDetailID)
-    this.batchSub = this.batchObservable
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe(data => {
+      .switchMap(data => {
         let batch = data as Batch
         let orderNumber = batch.order_number.order_number
         this.batchDetailForm.patchValue(batch)
-        this.orderObservable = this.operationsService.getOrder(orderNumber)
-        this.orderSub = this.orderObservable.subscribe(data => {
-          console.log("Fetched order is: ")
-          console.log(data)
-          this.order = data
-          this.orderDetailForm.patchValue(data)
-        })
+        return this.operationsService.getOrder(orderNumber)
       })
+
+    this.batchSub = this.batchObservable
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        console.log("Fetched order is: ")
+        console.log(data)
+        this.order = data
+        this.orderDetailForm.patchValue(data)
+      }
+      )
 
     this.productObservable = this.operationsService.getProduct()
     this.productSub = this.productObservable
