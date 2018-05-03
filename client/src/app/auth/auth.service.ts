@@ -25,8 +25,6 @@ export class AuthAPIService {
     private baseUrl = 'http://127.0.0.1:8000/api/'
 
     tokenRefreshHttpRecallSub: any;
-
-
     isRefreshingToken: boolean = false;
 
     constructor(

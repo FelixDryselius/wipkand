@@ -1,3 +1,5 @@
+
+import { AuthAPIService } from '../../auth/auth.service';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -104,7 +106,7 @@ export class HomeComponent implements OnInit {
   private service_prodStatus: any;
   private service_prodInfo: any;
 
-  constructor(private operationsService: OperationsService, private commentService: CommentService, private http: HttpClient) { }
+  constructor(private operationsService: OperationsService, private commentService: CommentService, private http: HttpClient, private authAPI: AuthAPIService,) { }
 
   ngOnInit() {
     this.getComment()
@@ -268,7 +270,9 @@ export class HomeComponent implements OnInit {
     }
 
     // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
-    this.req_comment = this.commentService.addComment(newComment).subscribe(data=>{this.getComment()});
+    this.req_comment = this.commentService.addComment(newComment)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => { this.getComment() });
 
     // Triggers notification
     this.commentAdded = true;

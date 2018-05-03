@@ -19,12 +19,6 @@ export class CommentService {
   // the method other apps subscribe to in order to get the api
   getComment() {
     return this.http.get(this.ROUTE_URL)
-    // .retryWhen((errors) => {
-    //   console.log("RETRYING FeTCH COMMENT!")
-    //   return errors.scan((errorCount, err) => errorCount + 1, 0)
-    //     .takeWhile((errorCount) => errorCount < 2);
-    // });
-    //should add a catch error func here, like: import "rxjs/add/operator/catch";
   }
 
   addComment(data) {
