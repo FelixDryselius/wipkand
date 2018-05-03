@@ -31,10 +31,7 @@ import 'rxjs/add/operator/finally';
 
 
 @Injectable()
-export class TokenInterceptor {  //implements HttpInterceptor 
-
-  requestQueue: any[] = []
-  isRefreshingToken: boolean = false;
+export class TokenInterceptor implements HttpInterceptor {
 
   constructor(
     private authAPI: AuthAPIService,
@@ -42,30 +39,17 @@ export class TokenInterceptor {  //implements HttpInterceptor
     private router: Router,
   ) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // let jwttoken = this.cookieService.get('jwt-accesstoken')
-    // if (jwttoken) {
-    //   request = request.clone({
-    //     setHeaders: {
-    //       // This is where you can use your various tokens
-    //       Authorization: `Bearer ${jwttoken}`,
-    //       'Content-type': 'application/json',
-    //       // 'X-CSRFToken': `${csrftoken}`
-    //     }
-    //   });
-    // }
     request = this.setToken(request)
-    debugger;
     return next.handle(request).do((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
       }
     }, (error: any) => {
       if (error instanceof HttpErrorResponse) {
-        debugger;
         switch ((<HttpErrorResponse>error).status) {
           case 400:
             return this.handle400Error(error);
           case 401:
-            return this.handle401Error(error, request, next);
+            return this.handle401Error(error);
           // case 403:
           //   return this.handle403Error(error);
           default:
@@ -98,32 +82,42 @@ export class TokenInterceptor {  //implements HttpInterceptor
     return Observable.throw(error);
   }
 
-  handle401Error(error, request: HttpRequest<any>, next: HttpHandler) {
-    if (error.error.code == "token_not_valid" && !this.isRefreshingToken) {
-      this.isRefreshingToken = true;
-
-      // Making a new HTTP request to get a new JWT access token, using the refresh token/endpoint.
-      if (request.method == "GET") { 
-        return this.authAPI.refreshToken().subscribe(success => {
-          console.log("http method: GET");
-          this.isRefreshingToken = false;
-          this.authAPI.tokenRefreshRecall.next(true)
-          // tokenRefreshSub.unsubscribe()
+  handle401Error(error) {
+    if (error.error.code == "token_not_valid") {
+      if (!this.authAPI.isRefreshingToken) {
+          this.authAPI.isRefreshingToken = true;
+          this.authAPI.callRefreshToken()
           return
-        })
-      } else {
-        return this.authAPI.refreshToken().switchMap(success => {
-          console.log("http method: OTHER");
-          console.log("Request is: ");
-          console.log(request);
-          request = this.setToken(request)
-          this.isRefreshingToken = false;   
-          return next.handle(request)
-        }).subscribe()
-      }
+        }
+    } else {
+      console.log("Authorization denied. Logging out...");
+      this.authAPI.performLogout()
+      return
     }
   }
 }
+
+      // this.isRefreshingToken = true;
+
+      // // Making a new HTTP request to get a new JWT access token, using the refresh token/endpoint.
+      // if (request.method == "GET") { 
+      //   return this.authAPI.refreshToken().subscribe(success => {
+      //     console.log("http method: GET");
+      //     this.isRefreshingToken = false;
+      //     this.authAPI.tokenRefreshRecall.next(true)
+      //     // tokenRefreshSub.unsubscribe()
+      //     return
+      //   })
+      // } else {
+      //   return this.authAPI.refreshToken().switchMap(success => {
+      //     console.log("http method: OTHER");
+      //     console.log("Request is: ");
+      //     console.log(request);
+      //     request = this.setToken(request)
+      //     this.isRefreshingToken = false;   
+      //     return next.handle(request)
+      //   }).subscribe()
+      // }
 
 //       .switchMap((newToken: string) => {
 //   // request = request.clone({

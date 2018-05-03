@@ -11,6 +11,10 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/retryWhen';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/of';
 
 
@@ -43,22 +47,7 @@ export class CommentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getContent();
-    this.tokenRefreshRecallSub = this.authAPI.tokenRefreshRecall.subscribe(refresh => {
-      if (refresh) {
-        //this.getContent();
-        if (this.httpRecalls.length > 0) {
-          for (let i = 0; i < this.httpRecalls.length; i++) {
-            console.log("CAlling function")
-            let func = this.httpRecalls[i]
-            debugger;
-            func()
-          }
-        }
-
-        this.authAPI.tokenRefreshRecall.next(false)
-      }
-    })
+    this.getComment()
   }
 
   ngOnDestroy() {
@@ -68,32 +57,18 @@ export class CommentComponent implements OnInit {
     }
   }
 
-  getContent() {
-    this.getComment()
-  }
-
-  //getComment = () => {
   getComment() {
     // Subscribe to service and save the data in comments list as json obj
-    //debugger;
-    let x = 5;
-    this.commentSub = this.commentService.getComment().subscribe(data => {
+    this.commentSub = this.commentService.getComment().retryWhen(error => {
+      return error.mergeMap((error: any) => { 
+        if (error.error.code == "token_not_valid") {
+          return Observable.of(error.status).delay(500)
+        }
+        return Observable.throw({error: "No retry"})
+      }).take(2)
+    })
+    .subscribe(data => {
       this.comments = (data as QueryResponse).results
-    },
-      error => {
-        console.log("Pushing function! Error is: ");
-        console.log(error)
-        debugger;
-        this.httpRecalls.push(this.getComment.bind(this))
-        //console.log(error)
-        // //this.comments = this.authAPI.setRecalledResponse()
-        // console.log("JWT access token expired. Refreshing token...")
-        // this.tokenRefreshHttpRecallSub = this.authAPI.tokenRefreshRecall.subscribe(data => {
-        //   if (data != null) {
-        //     this.comments = (data['body'] as QueryResponse).results
-        //   }
-        // })
-      }
-    )
+    })
   }
 }
