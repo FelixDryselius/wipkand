@@ -79,46 +79,36 @@ export class BatchHistoryDetailComponent implements OnInit {
       label_print_time: [],
       rework_time: [],
     })
-    //.retryWhen(error => this.authAPI.checkHttpRetry(error))
-    this.batchObservable = this.operationsService.getBatchDetail(this.batchDetailID)
+
+    this.batchSub = this.operationsService.getBatchDetail(this.batchDetailID)
       .switchMap(data => {
         let batch = data as Batch
         let orderNumber = batch.order_number.order_number
         this.batchDetailForm.patchValue(batch)
         return this.operationsService.getOrder(orderNumber)
       })
-
-    this.batchSub = this.batchObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        console.log("Fetched order is: ")
-        console.log(data)
-        this.order = data
+        this.order = data as Order
         this.orderDetailForm.patchValue(data)
-      }
-      )
+      })
 
-    this.productObservable = this.operationsService.getProduct()
-    this.productSub = this.productObservable
+    this.productSub = this.operationsService.getProduct()
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.products = (data as QueryResponse).results
       })
 
-    this.commentObservable = this.commentService.getComment(this.batchDetailID)
-    this.commentSub = this.commentObservable
+    this.commentSub = this.commentService.getComment(this.batchDetailID)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.comments = (data as QueryResponse).results
       })
 
-    let queryStatistics = '?search=' + this.batchDetailID + '&limit=40'
-    this.statisticsObservable = this.operationsService.getProductionStatistics(queryStatistics)
-    this.statisticsSub = this.statisticsObservable
+    this.statisticsSub = this.operationsService.getProductionStatistics('?search=' + this.batchDetailID + '&limit=40')
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.statistics = (data as QueryResponse).results
-        console.log(this.statistics)
       })
   }
 
@@ -137,20 +127,16 @@ export class BatchHistoryDetailComponent implements OnInit {
       form['order_number'] = this.order
       batch = form
     }
-    console.log(form)
     this.operationsService.updateBatch(batch as Batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         let updatedBatch = data as Batch
         this.order = updatedBatch.order_number
         this.batchDetailID = (data as Batch).batch_number
-        console.log("Order is now: ")
-        console.log(this.order)
       })
   }
 
   submitOrderDetails($theEvent, orderForm) {
-    console.log(orderForm)
     this.operationsService.updateOrder(orderForm)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe()
