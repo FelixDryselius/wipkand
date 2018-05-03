@@ -20,9 +20,14 @@
     vertical-align: middle;
 }
 
-.filler {
-    height: 38.5vh;
+.discarded-vials {
+    padding-left: 0;
+    padding-right: 75px;
 }
+
+/* .filler {
+    height: 38.5vh;
+} */
 
 .scoreboardLabels {
     width: 12%;

@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-2 row">
+    <div class="col-md-2">
       <h2 class="text-left">
         Home
       </h2>
@@ -16,19 +16,17 @@
       </select>
     </div>
   </div>
-  <!-- <div *ngIf="scoreboardActive == false">
-    <hr>
-  </div> -->
 </div>
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-12 border" *ngIf="productionObservable | async; else loading">
+    <div class="col-md-12" *ngIf="productionObservable | async; else loading">
       <form class="productionForm" #productionForm='ngForm' (ngSubmit)='updateProduction($event,productionForm)'>
 
         <!-- DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY -->
-        <table *ngIf="selectedShift == 'day'" class="table">
-          <thead>
+        <div *ngIf="selectedShift == 'day'"> 
+        <table class="table table-bordered">
+          <thead class="thead-light">
             <tr>
               <th></th>
               <th *ngFor="let times of dayShiftTimes" class="text-center">{{ times.time }}</th>
@@ -51,25 +49,23 @@
             </tr>
             <tr>
               <td class="align-middle scoreboardLabels"># Discarded vials</td>
-              <td class="align-middle">
-                <input type="number" class="form-control">
-              </td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="align-middle">
-                <button type="submit" class="btn btn-primary">Update</button>
+              <td class="align-middle" colspan="8">
+                <div class="col-md-2 discarded-vials">
+                  <input type="number" class="form-control">
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
+        <div class="col-md-12" align="right">
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </div>
 
         <!-- EVENIIIIIIIIIIIIIIIIIIIIIIIIIIIIIING -->
-        <table *ngIf="selectedShift == 'evening'" class="table">
-          <thead>
+        <div *ngIf="selectedShift == 'evening'">
+        <table class="table table-bordered">
+          <thead class="thead-light">
             <tr>
               <th></th>
               <th *ngFor="let times of eveningShiftTimes" class="text-center">{{ times.time }}</th>
@@ -92,25 +88,23 @@
             </tr>
             <tr>
               <td class="align-middle scoreboardLabels"># Discarded vials</td>
-              <td class="align-middle">
-                <input type="text" class="form-control">
-              </td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="align-middle">
-                <button type="submit" class="btn btn-primary">Update</button>
+              <td class="align-middle" colspan="8">
+                <div class="col-md-2 discarded-vials">
+                  <input type="number" class="form-control">
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
+        <div class="col-md-12" align="right">
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </div>
 
         <!-- NIIIIIIIIIIIIIIIIIIIIIIIIIIGHT -->
-        <table *ngIf="selectedShift == 'night'" class="table">
-          <thead>
+        <div *ngIf="selectedShift == 'night'">
+        <table class="table table-bordered">
+          <thead class="thead-light">
             <tr>
               <th></th>
               <th *ngFor="let times of nightShiftTimes" class="text-center">{{ times.time }}</th>
@@ -133,21 +127,18 @@
             </tr>
             <tr>
               <td class="align-middle scoreboardLabels"># Discarded vials</td>
-              <td class="align-middle">
-                <input type="text" class="form-control">
-              </td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="align-middle">
-                <button type="submit" class="btn btn-primary">Update</button>
+              <td class="align-middle" colspan="8">
+                <div class="col-md-2 discarded-vials">
+                  <input type="number" class="form-control">
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
+        <div class="col-md-12" align="right">
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </div>
       </form>
     </div>
     <div class="col-md-12 filler" *ngIf="scoreboardActive == false">
