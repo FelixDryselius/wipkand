@@ -1,6 +1,7 @@
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { AuthAPIService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth-guard.service';
 import { AuthComponent } from './auth/auth.component';
 import { AuthLogoutComponent } from './auth-logout/auth-logout.component';
 import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component';
@@ -41,7 +42,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
    AppRoutingModule
   ],
   providers: [
-    // TokenInterceptor,
+    AuthGuard,
     AuthAPIService,
     OperationsService,
     CookieService,

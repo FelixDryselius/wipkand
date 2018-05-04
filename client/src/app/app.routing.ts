@@ -9,6 +9,7 @@ import { BatchHistoryDetailComponent } from './batch-history-detail/batch-histor
 
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AuthGuard } from './auth/auth-guard.service';
 
 
 
@@ -29,18 +30,22 @@ const appRoutes: Routes = [
     {
         path:"batch-history",
         component: BatchHistoryComponent,
+        canActivate: [AuthGuard],
     },
     {
         path:"batch-history/:id",
         component: BatchHistoryDetailComponent,
+        canActivate: [AuthGuard],
     },
     {
         path: 'statistics',
         loadChildren: "./statistics/statistics.module#StatisticsModule",
+        canActivate: [AuthGuard],
     },
     {
         path:"batch-rework",
         component: BatchReworkComponent,
+        canActivate: [AuthGuard],
     },
     {
         path:"**",

@@ -3,12 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Application imports
 import { CommentComponent } from './comment.component';
+import { AuthGuard } from '../../auth/auth-guard.service';
 
 const routes: Routes = [
   {
     path: 'comment',
     children: [
-      {path: '', component: CommentComponent }
+      {path: '', component: CommentComponent, canActivate: [AuthGuard], }
     ]
   }
 ];
