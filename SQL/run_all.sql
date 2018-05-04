@@ -46,12 +46,12 @@ CREATE TABLE batch
 
 CREATE TABLE batch_comment
 (
-  comment_ID int NOT NULL,
+  comment_ID int NOT NULL AUTO_INCREMENT,
   user_name varchar(255),
   post_date datetime,
   text_comment text ,
   batch_number char(10),
-  PRIMARY KEY (comment_ID, batch_number),
+  PRIMARY KEY (comment_ID),
   FOREIGN KEY (batch_number) REFERENCES batch(batch_number)
 );
 
@@ -74,11 +74,12 @@ CREATE TABLE production_statistic
 
 CREATE TABLE floorstock_statistic
 (
+  ID int NOT NULL AUTO_INCREMENT,
   time_stamp datetime NOT NULL,
   floorstock_item_id char(255) NOT NULL,
   quantity INT,
   batch_number char(10) NOT NULL,
-  PRIMARY KEY (time_stamp, floorstock_item_id),
+  PRIMARY KEY (ID),
   FOREIGN KEY (batch_number) REFERENCES batch(batch_number),
   FOREIGN KEY (floorstock_item_id) REFERENCES floorstock_item(item_id)
 );
@@ -151,51 +152,50 @@ rework_date, applied_labels, label_print_time, rework_time, order_number)
 			(SELECT order_number FROM product_order WHERE order_number = '4444444'));
             
             
+INSERT INTO batch_comment (user_name, post_date, text_comment, batch_number)
+VALUES ('Helga', '2018-03-02 11:31:20', 'Batch Started', '1000000001');
 
-            
-            
-INSERT INTO batch_comment (comment_ID, user_name, post_date, text_comment, batch_number)
-VALUES (1, 'Helga', '2018-03-02 11:31:20', 'Batch Started', '1000000001');
+INSERT INTO batch_comment (user_name, post_date, text_comment, batch_number)
+VALUES ('Johan', '2018-03-02 12:31:20', 'Something happened', '1000000001');
 
-INSERT INTO batch_comment (comment_ID, user_name, post_date, text_comment, batch_number)
-VALUES (2, 'Johan', '2018-03-02 12:31:20', 'Something happened', '1000000001');
+INSERT INTO batch_comment (user_name, post_date, text_comment, batch_number)
+VALUES ('Felix', '2018-03-03 12:33:20', 'Batch Started', '1000000002');
 
-INSERT INTO batch_comment (comment_ID, user_name, post_date, text_comment, batch_number)
-VALUES (1, 'Felix', '2018-03-03 12:33:20', 'Batch Started', '1000000002');
+INSERT INTO batch_comment (user_name, post_date, text_comment, batch_number)
+VALUES ('Simon', '2018-03-05 09:22:46', 'Batch Started', '1000000003');
 
-INSERT INTO batch_comment (comment_ID, user_name, post_date, text_comment, batch_number)
-VALUES (1, 'Simon', '2018-03-05 09:22:46', 'Batch Started', '1000000003');
+INSERT INTO batch_comment (user_name, post_date, text_comment, batch_number)
+VALUES ('Tesla', '2018-03-11 10:43:46', 'Batch Started', '1000000004');
 
-INSERT INTO batch_comment (comment_ID, user_name, post_date, text_comment, batch_number)
-VALUES (1, 'Tesla', '2018-03-11 10:43:46', 'Batch Started', '1000000004');
+INSERT INTO batch_comment (user_name, post_date, text_comment, batch_number)
+VALUES ('John Oliver', '2018-03-12 23:18:46', 'Batch Started', '1000000005');
 
-INSERT INTO batch_comment (comment_ID, user_name, post_date, text_comment, batch_number)
-VALUES (1, 'John Oliver', '2018-03-12 23:18:46', 'Batch Started', '1000000005');
+INSERT INTO batch_comment (user_name, post_date, text_comment, batch_number)
+VALUES ('Melinda', '2018-03-12 23:44:46', 'Machine exploded', '1000000005');
 
-INSERT INTO batch_comment (comment_ID, user_name, post_date, text_comment, batch_number)
-VALUES (2, 'Melinda', '2018-03-12 23:44:46', 'Machine exploded', '1000000005');
+INSERT INTO batch_comment (user_name, post_date, text_comment, batch_number)
+VALUES ('Bill Gates','2018-03-13 00:11:33', 'We had a party', '1000000005');
 
-INSERT INTO batch_comment (comment_ID, user_name, post_date, text_comment, batch_number)
-VALUES (3, 'Bill Gates','2018-03-13 00:11:33', 'We had a party', '1000000005');
-
-INSERT INTO batch_comment (comment_ID, user_name, post_date, text_comment, batch_number)
-VALUES (4, 'Zuckerberg','2018-03-13 02:31:31', 'Manager joined us!', '1000000005');
+INSERT INTO batch_comment (user_name, post_date, text_comment, batch_number)
+VALUES ('Zuckerberg','2018-03-13 02:31:31', 'Manager joined us!', '1000000005');
 
 
-INSERT INTO floorstock_item (item_id, item_name)
-VALUES ('301-6914', 'Groninger Lable 301-6914');
+
 
 INSERT INTO floorstock_item (item_id, item_name)
-VALUES ('301-6915', 'Groninger Lable 301-6915');
+VALUES ('301-6914', 'Groninger Label 301-6914');
 
 INSERT INTO floorstock_item (item_id, item_name)
-VALUES ('301-7905', 'Groninger Lable 301-7905');
+VALUES ('301-6915', 'Groninger Label 301-6915');
 
 INSERT INTO floorstock_item (item_id, item_name)
-VALUES ('301-8023', 'Groninger Lable 301-8023');
+VALUES ('301-7905', 'Groninger Label 301-7905');
 
 INSERT INTO floorstock_item (item_id, item_name)
-VALUES ('301-8025', 'Groninger Lable 301-8025');
+VALUES ('301-8023', 'Groninger Label 301-8023');
+
+INSERT INTO floorstock_item (item_id, item_name)
+VALUES ('301-8025', 'Groninger Label 301-8025');
 
 INSERT INTO floorstock_item (item_id, item_name)
 VALUES ('001-1995', 'Groninger Carbon 001-1995');

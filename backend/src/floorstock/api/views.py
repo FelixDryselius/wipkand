@@ -54,16 +54,17 @@ class FloorstockStatisticAPIView(
     permission_classes = [permissions.AllowAny]
     serializer_class = FloorstockStatisticSerializer
     queryset = FloorstockStatistic.objects.all()
-    lookup_url_kwarg = 'floorstock_item'
+    search_fields = ('batch_number__batch_number', 'floorstock_item__item_id', 'time_stamp')
+    # lookup_url_kwarg = 'floorstock_item'
 
-    def get_queryset(self):
-        floorstock_item = self.kwargs.get(self.lookup_url_kwarg)
-        if floorstock_item is not None:
-            queryset_list = FloorstockStatistic.objects.filter(
-                floorstock_item=floorstock_item)
-        else:
-            queryset_list = FloorstockStatistic.objects.all()
-        return queryset_list
+    # def get_queryset(self):
+    #     floorstock_item = self.kwargs.get(self.lookup_url_kwarg)
+    #     if floorstock_item is not None:
+    #         queryset_list = FloorstockStatistic.objects.filter(
+    #             floorstock_item=floorstock_item)
+    #     else:
+    #         queryset_list = FloorstockStatistic.objects.all()
+    #     return queryset_list
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)

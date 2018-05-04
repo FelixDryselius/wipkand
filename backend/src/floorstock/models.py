@@ -14,7 +14,8 @@ class FloorstockItem(models.Model):
 
 
 class FloorstockStatistic(models.Model):
-    time_stamp = models.DateTimeField(primary_key=True)
+    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    time_stamp = models.DateTimeField()
     floorstock_item = models.ForeignKey(FloorstockItem, models.DO_NOTHING)
     quantity = models.IntegerField(blank=True, null=True)
     batch_number = models.ForeignKey(Batch, models.DO_NOTHING, db_column='batch_number')
