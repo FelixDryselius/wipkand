@@ -48,9 +48,9 @@ export class AuthComponent implements OnInit {
   }
 
   doLogin(data) {
-    this.authAPI.login(data).subscribe(data => {
+    this.authAPI.login(data)
+    .subscribe(data => {
       //TODO: Store this in AuthService?
-      //this.userData = data as User
       let token = {
         access: data['access'] || null,
         refresh: data['refresh'] || null,
@@ -58,6 +58,11 @@ export class AuthComponent implements OnInit {
       } 
       this.authAPI.performLogin(token)
       console.log("Login Success!")
+    }, error => {
+      if (error.status == 400) {
+        console.error(error.error.non_field_errors[0]);
+        alert("Bad Credentials! No user with these credentails found")
+      }
     })
   }
 
