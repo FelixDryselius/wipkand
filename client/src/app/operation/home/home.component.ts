@@ -482,9 +482,7 @@ export class HomeComponent implements OnInit {
   }
 
   feedbackScoreboard() {
-    console.log("hej")
     this.scoreboardAdded = true
-    console.log(this.scoreboardAdded)
     setTimeout(() => { this.scoreboardAdded = false }, 4000);
   }
 
