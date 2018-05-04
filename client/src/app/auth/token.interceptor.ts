@@ -53,6 +53,7 @@ export class TokenInterceptor {//implements HttpInterceptor {
           case 403:
             return this.handle403Error(error);
           default:
+            this.authAPI.notifyError(error)
             console.log("An error with status " + error.status + " occurred. Message: " + error.error['detail'])
             return Observable.throw(error)
         }
