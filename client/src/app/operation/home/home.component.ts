@@ -92,6 +92,15 @@ export class HomeComponent implements OnInit {
 
   // FLOORSTOCK SECTION
 
+  private productLabelPairs: any[] = [
+    {'700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-6914']},
+    {'700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-6915']},
+    {'700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-7905']},
+    {'700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-8023']},
+    {'700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-8025']},
+    {'700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-8025']},
+  ]
+
   currentFloorstock: any[] = [];
   ngModelFloorstock: any[] = [];
 
@@ -118,7 +127,9 @@ export class HomeComponent implements OnInit {
   private service_prodStatus: any;
   private service_prodInfo: any;
 
-  constructor(private operationsService: OperationsService, private commentService: CommentService, private http: HttpClient) { }
+  constructor(private operationsService: OperationsService, private commentService: CommentService, private http: HttpClient) {
+
+   }
 
   ngOnInit() {
 
@@ -181,6 +192,7 @@ export class HomeComponent implements OnInit {
     this.floorstockChangesSub = this.floorstockChangesObservable.subscribe(data => {
       this.floorstockChanges = (data as QueryResponse).results
 
+      console.log(this.productLabelPairs)
       this.currentFloorstock = [];
 
       console.log("floorstockChanges: ")
@@ -393,7 +405,6 @@ export class HomeComponent implements OnInit {
   }
 
   submitComment(event, formData) {
-console.log("hej")
     this.commentName = formData.value['commentName'];
     this.commentText = formData.value['commentText'];
     this.commentDate = new Date();
@@ -414,4 +425,7 @@ console.log("hej")
     // Resets form
     formData.resetForm()
   }
+
+
+
 }
