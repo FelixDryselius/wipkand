@@ -103,7 +103,7 @@ export class AuthAPIService {
             if (error.error.code == "token_not_valid") {
                 return Observable.of(error.status).delay(500)
             }
-            return Observable.throw({ error: "No retry" })
+            return Observable.throw(error)
         }).take(2)
     }
     // .retryWhen(

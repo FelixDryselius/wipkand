@@ -50,10 +50,11 @@ export class TokenInterceptor {//implements HttpInterceptor {
             return this.handle400Error(error);
           case 401:
             return this.handle401Error(error);
-          // case 403:
-          //   return this.handle403Error(error);
+          case 403:
+            return this.handle403Error(error);
           default:
             console.log("An error with status " + error.status + " occurred. Message: " + error.error['detail'])
+            return Observable.throw(error)
         }
       }
     });
@@ -74,8 +75,12 @@ export class TokenInterceptor {//implements HttpInterceptor {
     return request
   }
 
+  handle403Error(error) {
+    return Observable.throw(error);
+  }
+
   handle400Error(error) {
-    if (error && error.status === 400 && error.error && error.error.error === 'token_not_valid') {
+    if (error && error.status === 400 && error.error && error.error.code === 'token_not_valid') {
       // If we get a 400 and the error message is 'invalid_grant', the token is no longer valid so logout.
       return this.authAPI.performLogout();
     }
@@ -85,10 +90,10 @@ export class TokenInterceptor {//implements HttpInterceptor {
   handle401Error(error) {
     if (error.error.code == "token_not_valid") {
       if (!this.authAPI.isRefreshingToken) {
-          this.authAPI.isRefreshingToken = true;
-          this.authAPI.callRefreshToken()
-          return
-        }
+        this.authAPI.isRefreshingToken = true;
+        this.authAPI.callRefreshToken()
+        return
+      }
     } else {
       console.log("Authorization denied. Logging out...");
       this.authAPI.performLogout()
