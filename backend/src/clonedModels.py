@@ -96,16 +96,15 @@ class Batch(models.Model):
 
 
 class BatchComment(models.Model):
-    comment_id = models.IntegerField(db_column='comment_ID', primary_key=True)  # Field name made lowercase.
+    comment_id = models.AutoField(db_column='comment_ID', primary_key=True)  # Field name made lowercase.
     user_name = models.CharField(max_length=255, blank=True, null=True)
     post_date = models.DateTimeField(blank=True, null=True)
     text_comment = models.TextField(blank=True, null=True)
-    batch_number = models.ForeignKey(Batch, models.DO_NOTHING, db_column='batch_number')
+    batch_number = models.ForeignKey(Batch, models.DO_NOTHING, db_column='batch_number', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'batch_comment'
-        unique_together = (('comment_id', 'batch_number'),)
 
 
 class DjangoAdminLog(models.Model):
@@ -162,7 +161,8 @@ class FloorstockItem(models.Model):
 
 
 class FloorstockStatistic(models.Model):
-    time_stamp = models.DateTimeField(primary_key=True)
+    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    time_stamp = models.DateTimeField()
     floorstock_item = models.ForeignKey(FloorstockItem, models.DO_NOTHING)
     quantity = models.IntegerField(blank=True, null=True)
     batch_number = models.ForeignKey(Batch, models.DO_NOTHING, db_column='batch_number')
@@ -170,7 +170,6 @@ class FloorstockStatistic(models.Model):
     class Meta:
         managed = False
         db_table = 'floorstock_statistic'
-        unique_together = (('time_stamp', 'floorstock_item'),)
 
 
 class Product(models.Model):

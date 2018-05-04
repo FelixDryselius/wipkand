@@ -47,7 +47,7 @@ class Batch(models.Model):
 
 
 class BatchComment(models.Model):
-    comment_id = models.IntegerField(db_column='comment_ID', primary_key=True)  # Field name made lowercase.
+    comment_id = models.AutoField(db_column='comment_ID', primary_key=True)  # Field name made lowercase.
     user_name = models.CharField(max_length=255, blank=True, null=True)
     post_date = models.DateTimeField(blank=True, null=True)
     text_comment = models.TextField(blank=True, null=True)

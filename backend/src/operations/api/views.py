@@ -156,5 +156,3 @@ class CommentDetailAPIView(
     def patch(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
-# TODO: Not able to create comments with same comment_id as another comment,
-# even though the batch is different
