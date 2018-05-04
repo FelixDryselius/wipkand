@@ -41,7 +41,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
    AppRoutingModule
   ],
   providers: [
-    TokenInterceptor,
+    // TokenInterceptor,
     AuthAPIService,
     OperationsService,
     CookieService,

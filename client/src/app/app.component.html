@@ -2,7 +2,7 @@
 
 <div class="container-fluid" style="margin-top: 2%">
   <div class="row">
-    <div class="col-lg-2">
+    <div *ngIf="loggedIn" class="col-lg-2">
       <div class="mycontent-left">
         <div class="jumbotron jumbotron-fluid">
           <div class="container">
@@ -28,8 +28,10 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="/statistics/scoreboard" routerLinkActive="active">Scoreboard</a>
-            </li>                              
+            </li>                          
           </ul>
+          <hr>
+          <button type='button' class='btn btn-default' (click)="logout()">Logout</button>
         </div>
       </div>
     </div>

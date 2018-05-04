@@ -27,11 +27,34 @@ export class AuthAPIService {
     tokenRefreshHttpRecallSub: any;
     isRefreshingToken: boolean = false;
 
+    loggedIn: boolean;
+    loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn)
+
     constructor(
         private http: HttpClient,
         private cookieService: CookieService,
         private router: Router,
-    ) { }
+    ) {
+        if (this.tokenValid) {
+            console.log("Token is valid!")
+            // TODO: Get user profile somehow..
+            this.setLoggedIn(true)
+        } else {
+            console.log("Token is not valid!")
+            this.setLoggedIn(false)
+            this.performLogout()
+        }
+    }
+
+    get tokenValid(): boolean {
+        const expiresAt = new Date(this.cookieService.get('jwt-refresh-expires')) 
+        return new Date() < expiresAt;
+    }
+
+    setLoggedIn(value: boolean) {
+        this.loggedIn$.next(value);
+        this.loggedIn = value;
+      }
 
     login(data: AuthLoginData): Observable<any> {
         let apiLoginEndpoint = `${this.baseUrl}users/token/`;
@@ -41,12 +64,16 @@ export class AuthAPIService {
     performLogin(token) {
         this.cookieService.set('jwt-accesstoken', token['access'], null, "/")
         this.cookieService.set('jwt-refreshtoken', token['refresh'], token['expiry'], "/")
+        this.cookieService.set('jwt-refresh-expires', token['expiry'], null, "/")
+        this.setLoggedIn(true)
         this.router.navigate(["/"])
     }
 
     performLogout() {
         this.cookieService.delete('jwt-accesstoken', '/')
         this.cookieService.delete('jwt-refreshtoken', '/')
+        this.cookieService.delete('jwt-refresh-expires', '/')
+        this.setLoggedIn(false)
         this.router.navigate(['login/'])
     }
 

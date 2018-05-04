@@ -4,7 +4,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthAPIService } from '../../auth/auth.service';
 import { CommentService } from '../../shared/application-services/comment.service';
 import { QueryResponse } from '../../shared/interfaces/query-response'
-import { TokenInterceptor } from '../../auth/token.interceptor'
 
 //3rd party imports
 import { Observable } from 'rxjs/Observable';
