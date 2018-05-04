@@ -18,8 +18,6 @@ export class FinishBatchComponent implements OnInit {
   title = "Finish batch";
   groninger1 = "Final HMI Data Groninger 1";
   groninger2 = "Final HMI Data Groninger 2";
-
-
   reLabeling = "false" //making the radio button "no" checked default 
 
   //the following items are copied from start-batch.component

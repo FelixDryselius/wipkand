@@ -19,6 +19,7 @@ import { NgModule } from '@angular/core';
 
 //Third party imports:
 import { CookieService } from 'ngx-cookie-service';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { CookieService } from 'ngx-cookie-service';
     AuthLogoutComponent,
     BatchHistoryDetailComponent,
     BatchHistoryComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

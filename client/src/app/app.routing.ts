@@ -8,6 +8,7 @@ import { BatchHistoryComponent } from './batch-history/batch-history.component';
 import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component'; 
 
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 
@@ -40,6 +41,10 @@ const appRoutes: Routes = [
     {
         path:"batch-rework",
         component: BatchReworkComponent,
+    },
+    {
+        path:"**",
+        component: NotFoundComponent,
     },
 ]
 
