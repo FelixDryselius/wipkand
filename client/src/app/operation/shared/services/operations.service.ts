@@ -16,12 +16,17 @@ export class OperationsService {
 
   //This variable is determining if a batch is currently running. It is shared between start-batch, finish-batch and current-batch-info.
   //It is modified as an observable make it shareable between the components. 
-  private prodActive = new BehaviorSubject<boolean>(false);
-  prodActiveObservable = this.prodActive.asObservable();
+  // private prodActive = new BehaviorSubject<boolean>(false);
+  // prodActiveObservable = this.prodActive.asObservable();
 
   //This variable is holding the data values for the current running batch. It is shared between start-batch, finish-batch and current-batch-info.
   //It is modified as an observable make it shareable between the components. 
-  private prodInfo = new BehaviorSubject<{}>(null);
+  private prodInfo = new BehaviorSubject<{}>({
+    active: false,
+    batch_number: null,
+    order_number: null, 
+    article_number: null,
+  });
   prodInfoObservable = this.prodInfo.asObservable();
 
   //TODO: Should URLs really be placed here? Should we collect them in a file somewhere? 
@@ -35,9 +40,8 @@ export class OperationsService {
   private scoreboardListURL: string = "/api/statistics/";
 
   // Floorstock URLs
-  private floorstockItemsURL: string = "/api/floorstock/item";
-  private floorstockChangesURL: string = "/api/floorstock/changelog";
-  private floorstockUpdateURL: string = "/api/floorstock/changelog/floorstock_item/";
+  private floorstockItemsURL: string = "/api/floorstock/item/";
+  private floorstockChangesURL: string = "/api/floorstock/changelog/";
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -65,9 +69,9 @@ export class OperationsService {
   constructor(private http: HttpClient) { }
 
   //This method changes the status of a batch running or a batch not running.
-  changeProdStatus(startBatch: boolean) {
-    this.prodActive.next(startBatch);
-  }
+   changeProdStatus(startBatch: boolean) {
+     this.prodInfo.next(startBatch);
+   }
 
   //This method sets the data values for the current running batch.
   changeProdInfo(info: {}) {
@@ -121,6 +125,7 @@ export class OperationsService {
     let currentBatch;
     if (data) {
       currentBatch = {
+        active: true,
         batch_number: data.batch_number,
         order_number: data.order_number.order_number,
         article_number: data.order_number.article_number,
@@ -150,22 +155,22 @@ export class OperationsService {
     return this.http.get(this.URL_ROOT + this.floorstockItemsURL)
   }
 
-  getFloorstockChanges() {
-    return this.http.get(this.URL_ROOT + this.floorstockChangesURL)
+  getFloorstockChanges(currentBatch) {
+    return this.http.get(this.URL_ROOT + this.floorstockChangesURL + '?search=' + currentBatch)
   }
 
   createFloorstock(newItem: {}) {
-    return this.http.post(this.URL_ROOT + this.floorstockChangesURL + '/', JSON.stringify(newItem), this.httpOptions).map(data => {
+    return this.http.post(this.URL_ROOT + this.floorstockChangesURL, JSON.stringify(newItem), this.httpOptions).map(data => {
     })
   }
 
   updateFloorstock(updatedItem: any) {
-    let UPDATE_FLOORSTOCK_URL = this.URL_ROOT + this.floorstockUpdateURL + updatedItem.time_stamp + '/' // The URL to correct API
+    let UPDATE_FLOORSTOCK_URL = this.URL_ROOT + this.floorstockChangesURL + updatedItem.id // The URL to correct API
     return this.http.patch(UPDATE_FLOORSTOCK_URL, JSON.stringify(updatedItem), this.httpOptions)
   }
 
-  getProdStats() {
-    return this.http.get(this.URL_ROOT + this.scoreboardListURL)
+  getProdStats(currentBatch) {
+    return this.http.get(this.URL_ROOT + this.scoreboardListURL + '?search=' + currentBatch)
   }
 
   createProdStats(newCell: {}) {

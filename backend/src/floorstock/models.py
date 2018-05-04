@@ -23,5 +23,5 @@ class FloorstockStatistic(models.Model):
     class Meta:
         managed = False
         db_table = 'floorstock_statistic'
-        unique_together = (('time_stamp', 'floorstock_item'),)
+        #unique_together = (('time_stamp', 'floorstock_item'),)
         ordering = ['-time_stamp']

@@ -17,7 +17,7 @@ import 'rxjs/add/operator/retryWhen';
   styleUrls: ['./current-batch-info.component.css']
 })
 export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
-  private prodActive: boolean;
+ // private prodActive: boolean;
   private prodInfo: {};
 
   //observables
@@ -35,7 +35,6 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getActiveBatch()
-    this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
   }
 

@@ -34,7 +34,7 @@ export class FinishBatchComponent implements OnInit {
 
   ngOnInit() {
     //the following items are copied from start-batch.component
-    this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
+   // this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
   }
 
@@ -49,7 +49,7 @@ export class FinishBatchComponent implements OnInit {
     // scrap, rework_date, applied_labels, label_print_time, rework_time, yield_2
     let batchInfo = {}
     console.log("submit end runned");
-    if (this.prodActive) {
+    if (this.prodInfo.active) {
       batchInfo = {
         batch_number: this.prodInfo.batch_number,
         order_number: {
