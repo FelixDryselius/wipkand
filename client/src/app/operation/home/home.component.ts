@@ -36,6 +36,9 @@ export class HomeComponent implements OnInit {
 
   // SCOREBOARD SECTION
 
+  scoreboardAdded = false;
+  scoreboardAddedNotification = 'Scoreboard successfully updated!';
+
   shiftProdStats: any[] = [];
 
   // Variables for getting todays date
@@ -94,13 +97,16 @@ export class HomeComponent implements OnInit {
 
   // FLOORSTOCK SECTION
 
+  floorstockAdded = false;
+  floorstockAddedNotification = 'Floorstock successfully updated!';
+
   private productLabelPairs: any[] = [
-    { '700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-6914'] },
-    { '700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-6915'] },
-    { '700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-7905'] },
-    { '700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-8023'] },
-    { '700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-8025'] },
-    { '700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-8025'] },
+    { article_number: '700-5208', label: 'Groninger Label 301-6914' },
+    { article_number: '700-5194', label: 'Groninger Label 301-6915' },
+    { article_number: '700-5196', label: 'Groninger Label 301-7905' },
+    { article_number: '700-5197', label: 'Groninger Label 301-8023' },
+    { article_number: '700-5280', label: 'Groninger Label 301-8025' },
+    { article_number: '700-5288', label: 'Groninger Label 301-8025' },
   ]
 
   currentFloorstock: any[] = [];
@@ -197,14 +203,30 @@ export class HomeComponent implements OnInit {
       .subscribe(data => {
         this.floorstockChanges = (data as QueryResponse).results
 
-        console.log(this.productLabelPairs)
+        let correctLabel;
+
+        for (let key in this.productLabelPairs) {
+          if (this.productLabelPairs[key].article_number == this.prodInfo.article_number) {
+            correctLabel = this.productLabelPairs[key].label
+          }
+        }
+
         this.currentFloorstock = [];
 
-
         for (let key in this.floorstockItems) {
-          let item = { item_name: this.floorstockItems[key]["item_name"] }
-          item["item_id"] = this.floorstockItems[key]["item_id"]
-          this.currentFloorstock.push(item)
+          if (
+            this.floorstockItems[key]["item_name"] == correctLabel ||
+            this.floorstockItems[key]["item_name"] == "Zebra Label" ||
+            this.floorstockItems[key]["item_name"] == "Scale Roll" ||
+            this.floorstockItems[key]["item_name"] == "Pester 301-6908" ||
+            this.floorstockItems[key]["item_name"] == "Pester 301-6907" ||
+            this.floorstockItems[key]["item_name"] == "Sleever 301-6906" ||
+            this.floorstockItems[key]["item_name"] == "Groninger Carbon 001-1995"
+          ) {
+            let item = { item_name: this.floorstockItems[key]["item_name"] }
+            item["item_id"] = this.floorstockItems[key]["item_id"]
+            this.currentFloorstock.push(item)
+          }
         }
         for (let k in this.floorstockChanges) {
           for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
@@ -327,7 +349,6 @@ export class HomeComponent implements OnInit {
       for (let obj in this.shiftProdStats) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
         if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && this.shiftProdStats[obj]["staff_quantity"] > 0 && key.substr(key.length - 2) == 'sq') {
-          console.log("ajdå sq")
           changeData = {
             time_stamp: key.slice(0, -3),
             staff_quantity: results[key],
@@ -336,9 +357,9 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateProdStats(changeData)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
+            this.feedbackScoreboard()
         }
         else if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && this.shiftProdStats[obj]["production_quantity"] > 0 && key.substr(key.length - 2) == 'pq') {
-          console.log("ajdå pq")
           changeData = {
             time_stamp: key.slice(0, -3),
             production_quantity: results[key],
@@ -347,6 +368,7 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateProdStats(changeData)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
+            this.feedbackScoreboard()
         }
 
         else {
@@ -368,6 +390,7 @@ export class HomeComponent implements OnInit {
               .subscribe();
 
             this.getScoreboard()
+            this.feedbackScoreboard()
           }
         }
       }
@@ -377,10 +400,6 @@ export class HomeComponent implements OnInit {
   updateFloorstock(event, inputData) {
     this.getTime()
     let results: any = {};
-    /*let primaryKeys = {};
-    for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
-      primaryKeys[this.currentFloorstock[obj]["item_id"]] = this.currentFloorstock[obj]["last_update"]
-    }*/
 
     // Collects all changes and stores as dictionary in the object results
     for (let key in inputData.value) {
@@ -404,6 +423,8 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateFloorstock(updateItem)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
+            this.feedbackFloorstock()
+
         }
         else {
           counter += 1
@@ -421,36 +442,55 @@ export class HomeComponent implements OnInit {
               .retryWhen(error => this.authAPI.checkHttpRetry(error))
               .subscribe();
             this.getFloorstock()
+            if (results.length > 0) {
+              this.feedbackFloorstock()
+            }
           }
         }
       }
     }
-
   }
 
-  
+  submitComment(event, formData) {
+    this.commentName = formData.value['commentName'];
+    this.commentText = formData.value['commentText'];
+    this.commentDate = new Date();
 
-submitComment(event, formData) {
-  this.commentName = formData.value['commentName'];
-  this.commentText = formData.value['commentText'];
-  this.commentDate = new Date();
+    let newComment = {
+      comment_id: this.comments["results"].length,
+      user_name: this.commentName,
+      post_date: this.commentDate,
+      text_comment: this.commentText,
+      batch_number: this.prodInfo.batch_number,
+    }
+    // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
+    if (typeof this.commentName != 'undefined' && typeof this.commentText != 'undefined') {
+      this.req_comment = this.commentService.addComment(newComment)
+        .retryWhen(error => this.authAPI.checkHttpRetry(error))
+        .subscribe(data => { this.getComment() });
 
-  let newComment = {
-    comment_id: this.comments["results"].length,
-    user_name: this.commentName,
-    post_date: this.commentDate,
-    text_comment: this.commentText,
-    batch_number: this.prodInfo.batch_number,
+      // Triggers notification
+      this.commentAdded = true
+      setTimeout(() => { this.commentAdded = false }, 4000);
+    }
+    else {
+      alert("Please fill in both name and comment")
+    }
+
+    // Resets form
+    formData.resetForm()
   }
-  // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
-  this.req_comment = this.commentService.addComment(newComment)
-    .retryWhen(error => this.authAPI.checkHttpRetry(error))
-    .subscribe(data => { this.getComment() });
 
-  // Triggers notification
-  this.commentAdded = true;
+  feedbackScoreboard() {
+    console.log("hej")
+    this.scoreboardAdded = true
+    console.log(this.scoreboardAdded)
+    setTimeout(() => { this.scoreboardAdded = false }, 4000);
+  }
 
-  // Resets form
-  formData.resetForm()
-}
+  feedbackFloorstock() {
+    this.floorstockAdded = true
+    setTimeout(() => { this.floorstockAdded = false }, 4000);
+  }
+
 }
