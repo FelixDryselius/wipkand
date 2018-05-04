@@ -11,6 +11,7 @@ import { User } from './user'
 
 import { CookieService } from 'ngx-cookie-service';
 
+
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -22,6 +23,8 @@ export class AuthComponent implements OnInit {
   loginForm: FormGroup;
   usernameField: FormControl;
   passwordField: FormControl;
+
+
   constructor(
     private authAPI: AuthAPIService,
     private cookieService: CookieService,
@@ -45,12 +48,21 @@ export class AuthComponent implements OnInit {
   }
 
   doLogin(data) {
-    this.authAPI.login(data).subscribe(data => {
-      this.userData = data as User
-      let accessToken = this.userData.access || null;
-      console.log("before cookie set. Access token is: " + accessToken)
-      this.cookieService.set('jwttoken', accessToken);
+    this.authAPI.login(data)
+    .subscribe(data => {
+      //TODO: Store this in AuthService?
+      let token = {
+        access: data['access'] || null,
+        refresh: data['refresh'] || null,
+        expiry: new Date(data['expires']) || null
+      } 
+      this.authAPI.performLogin(token)
       console.log("Login Success!")
+    }, error => {
+      if (error.status == 400) {
+        console.error(error.error.non_field_errors[0]);
+        alert("Bad Credentials! No user with these credentails found")
+      }
     })
   }
 
@@ -65,7 +77,6 @@ export class AuthComponent implements OnInit {
       console.log(authLoginData)
       this.doLogin(authLoginData);
       ourLoginDir.resetForm({})
-
     }
   }
 }

@@ -1,13 +1,14 @@
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { AuthAPIService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth-guard.service';
 import { AuthComponent } from './auth/auth.component';
 import { AuthLogoutComponent } from './auth-logout/auth-logout.component';
 import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component';
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { BrowserModule } from '@angular/platform-browser';
-//import { TokenInterceptor } from './auth/token.interceptor';
+import { TokenInterceptor } from './auth/token.interceptor';
 import { OperationModule } from './operation/operation.module';
 import { OperationsService } from './operation/shared/services/operations.service';
 
@@ -19,6 +20,7 @@ import { NgModule } from '@angular/core';
 
 //Third party imports:
 import { CookieService } from 'ngx-cookie-service';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -28,9 +30,9 @@ import { CookieService } from 'ngx-cookie-service';
     AuthLogoutComponent,
     BatchHistoryDetailComponent,
     BatchHistoryComponent,
+    NotFoundComponent,
   ],
   imports: [
-    
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
@@ -39,14 +41,16 @@ import { CookieService } from 'ngx-cookie-service';
     OperationModule,
    AppRoutingModule
   ],
-  providers: [AuthAPIService,
+  providers: [
+    AuthGuard,
+    AuthAPIService,
     OperationsService,
-    // CookieService,
-    // {
-    //     provide: HTTP_INTERCEPTORS,
-    //     useClass: TokenInterceptor,
-    //     multi: true
-    // }
+    CookieService,
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: TokenInterceptor,
+        multi: true
+    },
   ],
 
   bootstrap: [AppComponent]

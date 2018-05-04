@@ -1,8 +1,15 @@
+import { AuthAPIService } from '../../auth/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OperationsService } from '../shared/services/operations.service';
 import { Batch } from '../../shared/interfaces/batch'
 import { QueryResponse } from '../../shared/interfaces/query-response'
+
+import { Observable } from 'rxjs/Observable';
+
+import 'rxjs/add/operator/retryWhen';
+
+
 
 @Component({
   selector: 'current-batch-info',
@@ -18,25 +25,38 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   private service_prodInfo: any;
   private service_prodStatus: any;
 
-  constructor(private route: ActivatedRoute, private operationsService: OperationsService, private router: Router) { }
+  private tokenRefreshRecallSub: any;
+
+  constructor(
+    private route: ActivatedRoute,
+    private operationsService: OperationsService,
+    private router: Router,
+    private authAPI: AuthAPIService) { }
 
   ngOnInit() {
-
-    let activeBatchquery = "?q=activeBatch"
-    this.req_batch = this.operationsService.getBatchDetail(activeBatchquery).subscribe(data => {
-      let runningBatch = (data as QueryResponse).results[0] as Batch
-      if (runningBatch) {
-        this.operationsService.setCurrentBatchInfo(true, runningBatch)
-      }
-    })
-    //this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
+    this.getActiveBatch()
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
-
   }
+
+  getActiveBatch() {
+    let activeBatchquery = "?q=activeBatch"
+    this.req_batch = this.operationsService.getBatchDetail(activeBatchquery)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        let runningBatch = (data as QueryResponse).results[0] as Batch
+        if (runningBatch) {
+          this.operationsService.setCurrentBatchInfo(true, runningBatch)
+        }
+      })
+  }
+
   ngOnDestroy() {
     //Test these carefully
     //this.service_prodStatus.unsubscribe();
     //this.service_prodInfo.unsubscribe();
+    if (this.tokenRefreshRecallSub) {
+      this.tokenRefreshRecallSub.unsubscribe()
+    }
   }
 
   start_batch() {

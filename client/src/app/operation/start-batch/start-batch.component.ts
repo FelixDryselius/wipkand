@@ -1,12 +1,13 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { OperationsService } from '../shared/services/operations.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+
+// Application imports
+import { AuthAPIService } from '../../auth/auth.service';
+import { OperationsService } from '../shared/services/operations.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 import { Batch } from '../../shared/interfaces/batch';
-
 
 @Component({
   selector: 'app-start-batch',
@@ -31,17 +32,18 @@ export class StartBatchComponent implements OnInit, OnDestroy {
   newBatch: number;
 
   title = "Start new batch";
-
-
   prodData: any[];
 
   readonly ROOT_URL = 'http://localhost:8000/api/operations/product/'
 
-
   @Input()
   passedQuery: number;
-  constructor(private router: Router, private operationsService: OperationsService, private http: HttpClient) {
-  }
+  constructor(
+    private router: Router,
+    private operationsService: OperationsService,
+    private http: HttpClient,
+    private authAPI: AuthAPIService
+  ) { }
 
   ngOnInit() {
     //Use operationsService to share information between start-batch, finish-batch and current-batch-info
@@ -49,6 +51,7 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     //this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
+    //TODO: There should be no HTTP calls in components. Move to service
     this.http.get(this.ROOT_URL).subscribe(data => {
       this.prodData = (data as QueryResponse).results as any[];		// FILL THE ARRAY WITH DATA.
     },
@@ -84,7 +87,9 @@ export class StartBatchComponent implements OnInit, OnDestroy {
       start_date: this.batchStartDate
     }
 
-    this.req_batch = this.operationsService.createBatch(newBatch).subscribe();
+    this.req_batch = this.operationsService.createBatch(newBatch)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe();
     this.router.navigate(['/home'])
   }
 }

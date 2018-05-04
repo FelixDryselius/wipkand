@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { OperationsService } from '../operation/shared/services/operations.service'
-import { Batch } from '../shared/interfaces/batch';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
-import { QueryResponse } from '../shared/interfaces/query-response';
 
+// Application imports
+import { AuthAPIService } from '../auth/auth.service';
+import { Batch } from '../shared/interfaces/batch';
+import { OperationsService } from '../operation/shared/services/operations.service'
+import { QueryResponse } from '../shared/interfaces/query-response';
 
 @Component({
   selector: 'app-batch-history',
@@ -17,15 +19,18 @@ export class BatchHistoryComponent implements OnInit {
   getBatchesSub: any;
 
   constructor(
+    private authAPI: AuthAPIService,
     private operationsService: OperationsService,
     private router: Router
   ) { }
 
   ngOnInit() {
-    this.getBatchesSub = this.operationsService.getBatchList().subscribe(data => {
-      this.batches = (data as QueryResponse).results as [Batch]
-      console.log(this.batches)
-    })
+    this.getBatchesSub = this.operationsService.getBatchList()
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.batches = (data as QueryResponse).results as [Batch]
+        console.log(this.batches)
+      })
   }
 
   ngOnDestroy(): void {
@@ -37,10 +42,12 @@ export class BatchHistoryComponent implements OnInit {
   }
 
   searchHistory(event, query) {
-    this.getBatchesSub = this.operationsService.getBatchDetail('?search=' + query).subscribe(data => {
-      this.batches = (data as QueryResponse).results as [Batch]
-      console.log(this.batches)
-    })
+    this.getBatchesSub = this.operationsService.getBatchDetail('?search=' + query)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.batches = (data as QueryResponse).results as [Batch]
+        console.log(this.batches)
+      })
   }
 
 }

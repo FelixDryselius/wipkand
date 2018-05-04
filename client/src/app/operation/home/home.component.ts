@@ -1,3 +1,5 @@
+
+import { AuthAPIService } from '../../auth/auth.service';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -127,9 +129,7 @@ export class HomeComponent implements OnInit {
   private service_prodStatus: any;
   private service_prodInfo: any;
 
-  constructor(private operationsService: OperationsService, private commentService: CommentService, private http: HttpClient) {
-
-  }
+  constructor(private operationsService: OperationsService, private commentService: CommentService, private http: HttpClient, private authAPI: AuthAPIService, ) { }
 
   ngOnInit() {
 
@@ -175,125 +175,135 @@ export class HomeComponent implements OnInit {
   }
 
   getScoreboard() {
-    this.operationsService.getProdStats(this.prodInfo.batch_number).subscribe(data => {
-      this.prodStats = data as JSON[]
-    });
+    this.operationsService.getProdStats(this.prodInfo.batch_number)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.prodStats = data as JSON[]
+      });
   }
 
   getFloorstock() {
-    
+
     this.floorstockItemsObservable = this.operationsService.getFloorstockItems()
-    this.floorstockItemsSub = this.floorstockItemsObservable.subscribe(data => {
-      this.floorstockItems = (data as QueryResponse).results
-    });
+    this.floorstockItemsSub = this.floorstockItemsObservable
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.floorstockItems = (data as QueryResponse).results
+      });
 
     this.floorstockChangesObservable = this.operationsService.getFloorstockChanges(this.prodInfo.batch_number)
-    this.floorstockChangesSub = this.floorstockChangesObservable.subscribe(data => {
-      this.floorstockChanges = (data as QueryResponse).results
+    this.floorstockChangesSub = this.floorstockChangesObservable
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.floorstockChanges = (data as QueryResponse).results
 
-      console.log(this.productLabelPairs)
-      this.currentFloorstock = [];
+        console.log(this.productLabelPairs)
+        this.currentFloorstock = [];
 
 
-      for (let key in this.floorstockItems) {
-        let item = { item_name: this.floorstockItems[key]["item_name"] }
-        item["item_id"] = this.floorstockItems[key]["item_id"]
-        this.currentFloorstock.push(item)
-      }
-      for (let k in this.floorstockChanges) {
-        for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
-          if (this.currentFloorstock[obj]["item_id"] == this.floorstockChanges[k]["floorstock_item"]) {
-            this.currentFloorstock[obj]["id"] = this.floorstockChanges[k]["id"]
-            this.currentFloorstock[obj]["quantity"] = this.floorstockChanges[k]["quantity"]
-            this.currentFloorstock[obj]["last_update"] = this.floorstockChanges[k]["time_stamp"]
-            this.currentFloorstock[obj]["batch_number"] = this.floorstockChanges[k]["batch_number"]
-            
+        for (let key in this.floorstockItems) {
+          let item = { item_name: this.floorstockItems[key]["item_name"] }
+          item["item_id"] = this.floorstockItems[key]["item_id"]
+          this.currentFloorstock.push(item)
+        }
+        for (let k in this.floorstockChanges) {
+          for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+            if (this.currentFloorstock[obj]["item_id"] == this.floorstockChanges[k]["floorstock_item"]) {
+              this.currentFloorstock[obj]["id"] = this.floorstockChanges[k]["id"]
+              this.currentFloorstock[obj]["quantity"] = this.floorstockChanges[k]["quantity"]
+              this.currentFloorstock[obj]["last_update"] = this.floorstockChanges[k]["time_stamp"]
+              this.currentFloorstock[obj]["batch_number"] = this.floorstockChanges[k]["batch_number"]
+
+            }
           }
         }
-      }
-      for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
-        if (typeof this.currentFloorstock[obj]["quantity"] == 'undefined') {
-          this.currentFloorstock[obj]["id"] = null
-          this.currentFloorstock[obj]["quantity"] = 0
-          this.currentFloorstock[obj]["last_update"] = ''
-          this.currentFloorstock[obj]["batch_number"] = ''     
+        for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+          if (typeof this.currentFloorstock[obj]["quantity"] == 'undefined') {
+            this.currentFloorstock[obj]["id"] = null
+            this.currentFloorstock[obj]["quantity"] = 0
+            this.currentFloorstock[obj]["last_update"] = ''
+            this.currentFloorstock[obj]["batch_number"] = ''
+          }
         }
-      }    
-    console.log("currentFloorstock: ")
-    console.log(this.currentFloorstock)
+        console.log("currentFloorstock: ")
+        console.log(this.currentFloorstock)
 
-    console.log("floorstockChanges: ")
-    console.log(this.floorstockChanges)
-    });
+        console.log("floorstockChanges: ")
+        console.log(this.floorstockChanges)
+      });
 
   }
 
   getComment() {
-    // Subscribe to service and save the data in comments list
-    this.commentService.getComment().subscribe(data => {
-      this.comments = data as JSON[]
-    });
+    // Subscribe to service and save the data in comments list as json obj
+    this.commentService.getComment()
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.comments = data as JSON[]
+      });
   }
 
   // Function that is being called when option in dropdown menu has been selected
   onChange(chosenShift) {
     this.productionObservable = this.operationsService.getProdStats(this.prodInfo.batch_number)
-    this.productionSub = this.productionObservable.subscribe(data => {
-      this.prodStats = (data as QueryResponse).results
+    this.productionSub = this.productionObservable
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.prodStats = (data as QueryResponse).results
 
-      this.shiftProdStats = [];
-      let shiftTimes;
-      this.selectedShift = chosenShift
+        this.shiftProdStats = [];
+        let shiftTimes;
+        this.selectedShift = chosenShift
 
-      if (this.selectedShift == 'day') {
-        shiftTimes = this.dayShiftTimes
-      }
-      else if (this.selectedShift == 'evening') {
-        shiftTimes = this.eveningShiftTimes
-      }
-      else {
-        shiftTimes = this.nightShiftTimes
-      }
+        if (this.selectedShift == 'day') {
+          shiftTimes = this.dayShiftTimes
+        }
+        else if (this.selectedShift == 'evening') {
+          shiftTimes = this.eveningShiftTimes
+        }
+        else {
+          shiftTimes = this.nightShiftTimes
+        }
 
-      for (let key in shiftTimes) {
-        let prodData = { time_stamp: this.todaysDate + 'T' + shiftTimes[key]["shift"] + ':00:00Z' }
-        this.shiftProdStats.push(prodData)
-      }
+        for (let key in shiftTimes) {
+          let prodData = { time_stamp: this.todaysDate + 'T' + shiftTimes[key]["shift"] + ':00:00Z' }
+          this.shiftProdStats.push(prodData)
+        }
 
-      if (this.selectedShift == 'day') {
-        getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
-      }
-      if (this.selectedShift == 'evening') {
-        getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 16, 24)
-      }
-      if (this.selectedShift == 'night') {
-        getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 0, 8)
-      }
+        if (this.selectedShift == 'day') {
+          getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
+        }
+        if (this.selectedShift == 'evening') {
+          getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 16, 24)
+        }
+        if (this.selectedShift == 'night') {
+          getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 0, 8)
+        }
 
-      function getOldData(prodInfo, todaysDate, prodStats, shiftProdStats, startShift, endShift) {
-      for (let inp = 0; inp < prodStats.length; inp++) {
-          if ((startShift - 1) < prodStats[inp]["time_stamp"].slice(11, 13) && prodStats[inp]["time_stamp"].slice(11, 13) < (endShift - 1)) {
-            for (let obj = 0; obj < shiftProdStats.length; obj++) {
-              if (shiftProdStats[obj]["time_stamp"] == prodStats[inp]["time_stamp"]) {
-                shiftProdStats[obj]["production_quantity"] = prodStats[inp]["production_quantity"]
-                shiftProdStats[obj]["staff_quantity"] = prodStats[inp]["staff_quantity"]
-                shiftProdStats[obj]["batch_number"] = prodStats[inp]["batch_number"]
+        function getOldData(prodInfo, todaysDate, prodStats, shiftProdStats, startShift, endShift) {
+          for (let inp = 0; inp < prodStats.length; inp++) {
+            if ((startShift - 1) < prodStats[inp]["time_stamp"].slice(11, 13) && prodStats[inp]["time_stamp"].slice(11, 13) < (endShift - 1)) {
+              for (let obj = 0; obj < shiftProdStats.length; obj++) {
+                if (shiftProdStats[obj]["time_stamp"] == prodStats[inp]["time_stamp"]) {
+                  shiftProdStats[obj]["production_quantity"] = prodStats[inp]["production_quantity"]
+                  shiftProdStats[obj]["staff_quantity"] = prodStats[inp]["staff_quantity"]
+                  shiftProdStats[obj]["batch_number"] = prodStats[inp]["batch_number"]
+                }
               }
             }
           }
         }
-      }
 
-      for (let obj = 0; obj < this.shiftProdStats.length; obj++) {
-        if (typeof this.shiftProdStats[obj]["production_quantity"] == 'undefined' && typeof this.shiftProdStats[obj]["staff_quantity"] == 'undefined') {
-          this.shiftProdStats[obj]["production_quantity"] = ''
-          this.shiftProdStats[obj]["staff_quantity"] = ''
-          this.shiftProdStats[obj]["batch_number"] = ''
+        for (let obj = 0; obj < this.shiftProdStats.length; obj++) {
+          if (typeof this.shiftProdStats[obj]["production_quantity"] == 'undefined' && typeof this.shiftProdStats[obj]["staff_quantity"] == 'undefined') {
+            this.shiftProdStats[obj]["production_quantity"] = ''
+            this.shiftProdStats[obj]["staff_quantity"] = ''
+            this.shiftProdStats[obj]["batch_number"] = ''
+          }
         }
-      }
-      console.log("Initial data for " + chosenShift + ":")
-      console.log(this.shiftProdStats)
-    });
+        console.log("Initial data for " + chosenShift + ":")
+        console.log(this.shiftProdStats)
+      });
   }
 
   updateProduction(event, formData) {
@@ -316,30 +326,34 @@ export class HomeComponent implements OnInit {
       // Go through objects in production statistics from api
       for (let obj in this.shiftProdStats) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
-          if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0,-3) && this.shiftProdStats[obj]["staff_quantity"] > 0 && key.substr(key.length - 2) == 'sq') {
-            console.log("ajdå sq")
-            changeData = {
-              time_stamp: key.slice(0, -3),
-              staff_quantity: results[key],
-              batch_number: this.prodInfo.batch_number,
-            }
-            this.operationsService.updateProdStats(changeData).subscribe();
+        if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && this.shiftProdStats[obj]["staff_quantity"] > 0 && key.substr(key.length - 2) == 'sq') {
+          console.log("ajdå sq")
+          changeData = {
+            time_stamp: key.slice(0, -3),
+            staff_quantity: results[key],
+            batch_number: this.prodInfo.batch_number,
           }
-          else if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0,-3) && this.shiftProdStats[obj]["production_quantity"] > 0 && key.substr(key.length - 2) == 'pq') {
-            console.log("ajdå pq")
-            changeData = {
-              time_stamp: key.slice(0, -3),
-              production_quantity: results[key],
-              batch_number: this.prodInfo.batch_number,
-            }
-            this.operationsService.updateProdStats(changeData).subscribe();
+          this.operationsService.updateProdStats(changeData)
+            .retryWhen(error => this.authAPI.checkHttpRetry(error))
+            .subscribe();
+        }
+        else if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && this.shiftProdStats[obj]["production_quantity"] > 0 && key.substr(key.length - 2) == 'pq') {
+          console.log("ajdå pq")
+          changeData = {
+            time_stamp: key.slice(0, -3),
+            production_quantity: results[key],
+            batch_number: this.prodInfo.batch_number,
           }
-        
+          this.operationsService.updateProdStats(changeData)
+            .retryWhen(error => this.authAPI.checkHttpRetry(error))
+            .subscribe();
+        }
+
         else {
           counter += 1
           // If no time stamp in api was found this means it is new data
           if (counter == this.shiftProdStats.length) {
-            
+
             let time = this.todaysDate + key.slice(10, -3)
             let stringifiedTime = String(time)
 
@@ -349,7 +363,9 @@ export class HomeComponent implements OnInit {
               staff_quantity: results[stringifiedTime + '_sq'],
               batch_number: this.prodInfo.batch_number,
             }
-            this.operationsService.createProdStats(newData).subscribe();
+            this.operationsService.createProdStats(newData)
+              .retryWhen(error => this.authAPI.checkHttpRetry(error))
+              .subscribe();
 
             this.getScoreboard()
           }
@@ -378,19 +394,20 @@ export class HomeComponent implements OnInit {
       for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
         if (this.currentFloorstock[obj]["item_id"] == key && this.currentFloorstock[obj].id != null) {
-              let updateItem = {
-                id: this.currentFloorstock[obj].id,
-                time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
-                quantity: results[key],
-                floorstock_item: key,
-                batch_number: this.prodInfo.batch_number,
-              }
-              this.operationsService.updateFloorstock(updateItem).subscribe();
-              this.getFloorstock()
+          let updateItem = {
+            id: this.currentFloorstock[obj].id,
+            time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
+            quantity: results[key],
+            floorstock_item: key,
+            batch_number: this.prodInfo.batch_number,
+          }
+          this.operationsService.updateFloorstock(updateItem)
+            .retryWhen(error => this.authAPI.checkHttpRetry(error))
+            .subscribe();
         }
         else {
           counter += 1
-          
+
           // If no time stamp in api was found this means it is new data
           if (counter == this.currentFloorstock.length) {
             console.log("entered else")
@@ -400,36 +417,40 @@ export class HomeComponent implements OnInit {
               floorstock_item: key,
               batch_number: this.prodInfo.batch_number,
             }
-            this.operationsService.createFloorstock(createItem).subscribe();
+            this.operationsService.createFloorstock(createItem)
+              .retryWhen(error => this.authAPI.checkHttpRetry(error))
+              .subscribe();
             this.getFloorstock()
           }
         }
       }
     }
+
   }
 
-  submitComment(event, formData) {
-    this.commentName = formData.value['commentName'];
-    this.commentText = formData.value['commentText'];
-    this.commentDate = new Date();
+  
 
-    let newComment = {
-      comment_id: this.comments["results"].length,
-      user_name: this.commentName,
-      post_date: this.commentDate,
-      text_comment: this.commentText,
-      batch_number: this.prodInfo.batch_number,
-    }
-    // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
-    this.req_comment = this.commentService.addComment(newComment).subscribe(data => { this.getComment() });
+submitComment(event, formData) {
+  this.commentName = formData.value['commentName'];
+  this.commentText = formData.value['commentText'];
+  this.commentDate = new Date();
 
-    // Triggers notification
-    this.commentAdded = true;
-
-    // Resets form
-    formData.resetForm()
+  let newComment = {
+    comment_id: this.comments["results"].length,
+    user_name: this.commentName,
+    post_date: this.commentDate,
+    text_comment: this.commentText,
+    batch_number: this.prodInfo.batch_number,
   }
+  // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
+  this.req_comment = this.commentService.addComment(newComment)
+    .retryWhen(error => this.authAPI.checkHttpRetry(error))
+    .subscribe(data => { this.getComment() });
 
+  // Triggers notification
+  this.commentAdded = true;
 
-
+  // Resets form
+  formData.resetForm()
+}
 }

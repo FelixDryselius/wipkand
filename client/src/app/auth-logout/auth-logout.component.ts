@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthAPIService } from '../auth/auth.service';
 
 import { CookieService } from 'ngx-cookie-service';
 
@@ -9,10 +10,13 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class AuthLogoutComponent implements OnInit {
 
-  constructor(private cookieService: CookieService) { }
+  constructor(
+    private cookieService: CookieService,
+    private authAPI: AuthAPIService
+  ) { }
 
   ngOnInit() {
-    this.cookieService.delete('jwttoken')
+    this.authAPI.performLogout()
   }
 
 }

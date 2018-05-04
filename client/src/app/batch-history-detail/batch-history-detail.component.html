@@ -6,7 +6,7 @@
       <h5>Batch Details - #{{ batchDetailID}}</h5>
       <br>
 
-      <form *ngIf="orderObservable | async; else loading" [formGroup]="orderDetailForm" (ngSubmit)="submitFormDetails($event, orderDetailForm.value)">
+      <form *ngIf="order; else loading" [formGroup]="orderDetailForm" (ngSubmit)="submitFormDetails($event, orderDetailForm.value)">
         <div class="row">
           <div class="col-lg-6 font-weight-bold">
             <ul class="list-group">
@@ -14,7 +14,7 @@
                 <label for="order_number">Order Number:</label>
                 <input id="order_number" class="input-sm float-right" formControlName="order_number" />
               </li>
-              <li class="list-group-item text-left dropdown" *ngIf="productObservable | async; else loading">
+              <li class="list-group-item text-left dropdown" *ngIf="products; else loading">
                 <label for="scrap">Article Number:</label>
                 <select name="prodnr" class="selectProd" formControlName="article_number">
                   <option *ngFor="let product of products" class="optionProd" [(ngValue)]="product.article_number">
@@ -31,7 +31,7 @@
         </div>
       </form>
       <hr>
-      <form *ngIf="batchObservable | async; else loading" [formGroup]="batchDetailForm" (ngSubmit)="submitFormDetails($event, batchDetailForm.value)">
+      <form *ngIf="order; else loading" [formGroup]="batchDetailForm" (ngSubmit)="submitFormDetails($event, batchDetailForm.value)">
         <div class="row font-weight-bold">
           <div class="col-lg-6">
             <ul class="list-group">
@@ -98,13 +98,11 @@
       </form>
       <hr>
 
-
-
       <div class="row text-center">
         <div class="col-lg-12">
           <h5>Batch Comments</h5>
           <br>
-          <div *ngIf="commentObservable | async; else loading">
+          <div *ngIf="comments; else loading">
             <div class="card-group text-left" *ngFor="let comment of comments; let i = index" id="comment{{i}}">
               <div class="card col-3">
                 <label>
@@ -135,7 +133,7 @@
       <div class="col-lg-12">
         <h5>Scoreboard</h5>
         <br>
-        <table *ngIf="statisticsObservable | async; else loading" id="table" class="table-striped table-bordered" style="width:100%">
+        <table *ngIf="statistics; else loading" id="table" class="table-striped table-bordered" style="width:100%">
           <thead>
             <tr>
               <th data-field="id">Time Stamp</th>
