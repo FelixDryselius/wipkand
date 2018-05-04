@@ -6,12 +6,11 @@ import { ScoreboardComponent } from './scoreboard.component';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: ":batchesBack",
-    pathMatch: 'full'    
+    path: ":batchesBack",
+    component: ScoreboardComponent,
   },
   {
-    path: ":batchesBack",
+    path: '',
     component: ScoreboardComponent,
   },
 ];

@@ -6,7 +6,7 @@ import { StatisticsChartsComponent } from './statistics-charts.component';
 const routes: Routes = [
   {
     path: '',
-    component: StatisticsChartsComponent 
+    component: StatisticsChartsComponent ,
   }
 ];
 
