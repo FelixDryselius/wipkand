@@ -10,7 +10,7 @@ import { QueryResponse } from '../../shared/interfaces/query-response'
   styleUrls: ['./current-batch-info.component.css']
 })
 export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
-  private prodActive: boolean;
+ // private prodActive: boolean;
   private prodInfo: {};
 
   //observables
@@ -21,6 +21,7 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private operationsService: OperationsService, private router: Router) { }
 
   ngOnInit() {
+
     let activeBatchquery = "?q=activeBatch"
     this.req_batch = this.operationsService.getBatchDetail(activeBatchquery).subscribe(data => {
       let runningBatch = (data as QueryResponse).results[0] as Batch
@@ -28,8 +29,7 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
         this.operationsService.setCurrentBatchInfo(true, runningBatch)
       }
     })
-    //TODO: Make this one observable
-    this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
+    //this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
   }

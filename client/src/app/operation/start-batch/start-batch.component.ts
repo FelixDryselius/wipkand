@@ -46,7 +46,7 @@ export class StartBatchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     //Use operationsService to share information between start-batch, finish-batch and current-batch-info
     //TODO: Change to one observable. Cant be good to have many observables...
-    this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
+    //this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
     this.http.get(this.ROOT_URL).subscribe(data => {
@@ -63,7 +63,7 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     //These are causing bugs with posts. How to unsubscribe from HTTP posts?
     //this.req_order.unsubscribe()
     //this.req_batch.unsubscribe()
-    this.service_prodStatus.unsubscribe()
+    //this.service_prodStatus.unsubscribe()
     this.service_prodInfo.unsubscribe()
   }
 

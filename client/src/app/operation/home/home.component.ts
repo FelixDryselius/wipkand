@@ -93,12 +93,12 @@ export class HomeComponent implements OnInit {
   // FLOORSTOCK SECTION
 
   private productLabelPairs: any[] = [
-    {'700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-6914']},
-    {'700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-6915']},
-    {'700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-7905']},
-    {'700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-8023']},
-    {'700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-8025']},
-    {'700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-8025']},
+    { '700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-6914'] },
+    { '700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-6915'] },
+    { '700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-7905'] },
+    { '700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-8023'] },
+    { '700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-8025'] },
+    { '700-5208': ['ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 'Groninger Label 301-8025'] },
   ]
 
   currentFloorstock: any[] = [];
@@ -129,23 +129,22 @@ export class HomeComponent implements OnInit {
 
   constructor(private operationsService: OperationsService, private commentService: CommentService, private http: HttpClient) {
 
-   }
+  }
 
   ngOnInit() {
 
-    // Calls function that subscribes to data from api    
-    this.getFloorstock()
-    this.getComment()
-    this.getScoreboard()
-
     //the following items are copied from start-batch.component. Subscribes to be able to connect comment to running batch
-    this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
-    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
-    this.getTime()
-
-    this.onChange('day')
-
+    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => {
+      this.prodInfo = info
+      if (this.prodInfo.active) {
+        this.getFloorstock()
+        this.getComment()
+        this.getScoreboard()
+        this.getTime()
+        this.onChange('day')
+      }
+    })
   }
 
   getTime() {
@@ -176,53 +175,57 @@ export class HomeComponent implements OnInit {
   }
 
   getScoreboard() {
-    this.operationsService.getProdStats().subscribe(data => {
+    this.operationsService.getProdStats(this.prodInfo.batch_number).subscribe(data => {
       this.prodStats = data as JSON[]
     });
   }
 
   getFloorstock() {
-
+    
     this.floorstockItemsObservable = this.operationsService.getFloorstockItems()
     this.floorstockItemsSub = this.floorstockItemsObservable.subscribe(data => {
       this.floorstockItems = (data as QueryResponse).results
     });
 
-    this.floorstockChangesObservable = this.operationsService.getFloorstockChanges()
+    this.floorstockChangesObservable = this.operationsService.getFloorstockChanges(this.prodInfo.batch_number)
     this.floorstockChangesSub = this.floorstockChangesObservable.subscribe(data => {
       this.floorstockChanges = (data as QueryResponse).results
 
       console.log(this.productLabelPairs)
       this.currentFloorstock = [];
 
-      console.log("floorstockChanges: ")
-      console.log(this.floorstockChanges)
+
       for (let key in this.floorstockItems) {
         let item = { item_name: this.floorstockItems[key]["item_name"] }
         item["item_id"] = this.floorstockItems[key]["item_id"]
         this.currentFloorstock.push(item)
       }
       for (let k in this.floorstockChanges) {
-        if (this.prodInfo && this.floorstockChanges[k]["batch_number"] == this.prodInfo.batch_number) {
-          for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
-            if (this.currentFloorstock[obj]["item_id"] == this.floorstockChanges[k]["floorstock_item"]) {
-              this.currentFloorstock[obj]["quantity"] = this.floorstockChanges[k]["quantity"]
-              this.currentFloorstock[obj]["last_update"] = this.floorstockChanges[k]["time_stamp"]
-              this.currentFloorstock[obj]["batch_number"] = this.floorstockChanges[k]["batch_number"]
-            }
+        for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+          if (this.currentFloorstock[obj]["item_id"] == this.floorstockChanges[k]["floorstock_item"]) {
+            this.currentFloorstock[obj]["id"] = this.floorstockChanges[k]["id"]
+            this.currentFloorstock[obj]["quantity"] = this.floorstockChanges[k]["quantity"]
+            this.currentFloorstock[obj]["last_update"] = this.floorstockChanges[k]["time_stamp"]
+            this.currentFloorstock[obj]["batch_number"] = this.floorstockChanges[k]["batch_number"]
+            
           }
         }
       }
       for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
         if (typeof this.currentFloorstock[obj]["quantity"] == 'undefined') {
+          this.currentFloorstock[obj]["id"] = null
           this.currentFloorstock[obj]["quantity"] = 0
           this.currentFloorstock[obj]["last_update"] = ''
-          this.currentFloorstock[obj]["batch_number"] = ''
+          this.currentFloorstock[obj]["batch_number"] = ''     
         }
-      }
-      console.log("currentFloorstock: ")
-      console.log(this.currentFloorstock)
+      }    
+    console.log("currentFloorstock: ")
+    console.log(this.currentFloorstock)
+
+    console.log("floorstockChanges: ")
+    console.log(this.floorstockChanges)
     });
+
   }
 
   getComment() {
@@ -234,7 +237,7 @@ export class HomeComponent implements OnInit {
 
   // Function that is being called when option in dropdown menu has been selected
   onChange(chosenShift) {
-    this.productionObservable = this.operationsService.getProdStats()
+    this.productionObservable = this.operationsService.getProdStats(this.prodInfo.batch_number)
     this.productionSub = this.productionObservable.subscribe(data => {
       this.prodStats = (data as QueryResponse).results
 
@@ -251,7 +254,7 @@ export class HomeComponent implements OnInit {
       else {
         shiftTimes = this.nightShiftTimes
       }
-      
+
       for (let key in shiftTimes) {
         let prodData = { time_stamp: this.todaysDate + 'T' + shiftTimes[key]["shift"] + ':00:00Z' }
         this.shiftProdStats.push(prodData)
@@ -268,8 +271,8 @@ export class HomeComponent implements OnInit {
       }
 
       function getOldData(prodInfo, todaysDate, prodStats, shiftProdStats, startShift, endShift) {
-        for (let inp = 0; inp < prodStats.length; inp++) {
-          if (prodInfo && prodInfo.batch_number == prodStats[inp]["batch_number"] && prodStats[inp]["time_stamp"].slice(0, 10) == todaysDate && (startShift - 1) < prodStats[inp]["time_stamp"].slice(11, 13) && prodStats[inp]["time_stamp"].slice(11, 13) < (endShift - 1)) {
+      for (let inp = 0; inp < prodStats.length; inp++) {
+          if ((startShift - 1) < prodStats[inp]["time_stamp"].slice(11, 13) && prodStats[inp]["time_stamp"].slice(11, 13) < (endShift - 1)) {
             for (let obj = 0; obj < shiftProdStats.length; obj++) {
               if (shiftProdStats[obj]["time_stamp"] == prodStats[inp]["time_stamp"]) {
                 shiftProdStats[obj]["production_quantity"] = prodStats[inp]["production_quantity"]
@@ -280,6 +283,7 @@ export class HomeComponent implements OnInit {
           }
         }
       }
+
       for (let obj = 0; obj < this.shiftProdStats.length; obj++) {
         if (typeof this.shiftProdStats[obj]["production_quantity"] == 'undefined' && typeof this.shiftProdStats[obj]["staff_quantity"] == 'undefined') {
           this.shiftProdStats[obj]["production_quantity"] = ''
@@ -295,7 +299,6 @@ export class HomeComponent implements OnInit {
   updateProduction(event, formData) {
 
     let results: any = {};
-    let primaryKeys = {};
 
     // Collects all changes and stores as dictionary in the object results
     for (let key in formData.value) {
@@ -303,6 +306,7 @@ export class HomeComponent implements OnInit {
         results[key] = formData.value[key];
       }
     }
+
     // A for-loop that for each new data compares it with existing data from the database
     for (let key in results) {
       let changeData = {}
@@ -310,10 +314,10 @@ export class HomeComponent implements OnInit {
       let counter = 0
 
       // Go through objects in production statistics from api
-      for (let obj in this.prodStats) {
+      for (let obj in this.shiftProdStats) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
-        if (this.prodStats[obj]["time_stamp"] == key.slice(0, -3)) {
-          if (key.substr(key.length - 2) == 'sq') {
+          if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0,-3) && this.shiftProdStats[obj]["staff_quantity"] > 0 && key.substr(key.length - 2) == 'sq') {
+            console.log("ajdå sq")
             changeData = {
               time_stamp: key.slice(0, -3),
               staff_quantity: results[key],
@@ -321,7 +325,8 @@ export class HomeComponent implements OnInit {
             }
             this.operationsService.updateProdStats(changeData).subscribe();
           }
-          else if (key.substr(key.length - 2) == 'pq') {
+          else if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0,-3) && this.shiftProdStats[obj]["production_quantity"] > 0 && key.substr(key.length - 2) == 'pq') {
+            console.log("ajdå pq")
             changeData = {
               time_stamp: key.slice(0, -3),
               production_quantity: results[key],
@@ -329,11 +334,12 @@ export class HomeComponent implements OnInit {
             }
             this.operationsService.updateProdStats(changeData).subscribe();
           }
-        }
+        
         else {
           counter += 1
           // If no time stamp in api was found this means it is new data
-          if (counter == Object.keys(this.prodStats).length) {
+          if (counter == this.shiftProdStats.length) {
+            
             let time = this.todaysDate + key.slice(10, -3)
             let stringifiedTime = String(time)
 
@@ -355,10 +361,10 @@ export class HomeComponent implements OnInit {
   updateFloorstock(event, inputData) {
     this.getTime()
     let results: any = {};
-    let primaryKeys = {};
+    /*let primaryKeys = {};
     for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
       primaryKeys[this.currentFloorstock[obj]["item_id"]] = this.currentFloorstock[obj]["last_update"]
-    }
+    }*/
 
     // Collects all changes and stores as dictionary in the object results
     for (let key in inputData.value) {
@@ -371,25 +377,23 @@ export class HomeComponent implements OnInit {
       let counter = 0;
       for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
-        if (this.currentFloorstock[obj]["item_id"] == key && this.currentFloorstock[obj]["batch_number"] == this.prodInfo.batch_number) {
-          for (let k in primaryKeys) {
-            if (k == key) {
-              let lastUpdate = primaryKeys[k]
-
+        if (this.currentFloorstock[obj]["item_id"] == key && this.currentFloorstock[obj].id != null) {
               let updateItem = {
-                time_stamp: lastUpdate,
+                id: this.currentFloorstock[obj].id,
+                time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
                 quantity: results[key],
                 floorstock_item: key,
                 batch_number: this.prodInfo.batch_number,
               }
               this.operationsService.updateFloorstock(updateItem).subscribe();
-            }
-          }
+              this.getFloorstock()
         }
         else {
           counter += 1
+          
           // If no time stamp in api was found this means it is new data
-          if (counter == this.currentFloorstock.length - 1) {
+          if (counter == this.currentFloorstock.length) {
+            console.log("entered else")
             let createItem = {
               time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
               quantity: results[key],
@@ -410,7 +414,7 @@ export class HomeComponent implements OnInit {
     this.commentDate = new Date();
 
     let newComment = {
-      comment_id: this.comments["results"].length, 
+      comment_id: this.comments["results"].length,
       user_name: this.commentName,
       post_date: this.commentDate,
       text_comment: this.commentText,

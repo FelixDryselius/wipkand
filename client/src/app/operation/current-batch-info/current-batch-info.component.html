@@ -1,4 +1,4 @@
-<div *ngIf="prodActive; then pActive else pStop"></div>
+<div *ngIf="prodInfo.active; then pActive else pStop"></div>
 
 <ng-template #pActive>
     <p>Order ID: {{ prodInfo.order_number }}</p>
