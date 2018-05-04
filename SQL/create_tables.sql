@@ -38,12 +38,12 @@ CREATE TABLE batch
 
 CREATE TABLE batch_comment
 (
-  comment_ID int NOT NULL,
+  comment_ID int NOT NULL AUTO_INCREMENT,
   user_name varchar(255),
   post_date datetime,
   text_comment text ,
   batch_number char(10),
-  PRIMARY KEY (comment_ID, batch_number),
+  PRIMARY KEY (comment_ID),
   FOREIGN KEY (batch_number) REFERENCES batch(batch_number)
 );
 
@@ -66,11 +66,12 @@ CREATE TABLE production_statistic
 
 CREATE TABLE floorstock_statistic
 (
+  ID int NOT NULL AUTO_INCREMENT,
   time_stamp datetime NOT NULL,
   floorstock_item_id char(255) NOT NULL,
   quantity INT,
   batch_number char(10) NOT NULL,
-  PRIMARY KEY (time_stamp, floorstock_item_id),
+  PRIMARY KEY (ID),
   FOREIGN KEY (batch_number) REFERENCES batch(batch_number),
   FOREIGN KEY (floorstock_item_id) REFERENCES floorstock_item(item_id)
 );

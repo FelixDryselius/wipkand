@@ -49,6 +49,10 @@ export class FinishBatchComponent implements OnInit {
     if (this.prodActive) {
       batchInfo = {
         batch_number: this.prodInfo.batch_number,
+        order_number: {
+          order_number: this.prodInfo.order_number,
+          article_number: this.prodInfo.article_number,
+        },
         end_date: new Date(),
         production_yield: batchForm.yield_1,
         hmi1_bad: batchForm.hmi1_bad,
@@ -56,6 +60,7 @@ export class FinishBatchComponent implements OnInit {
         hmi1_good: batchForm.hmi1_good,
         hmi2_good: batchForm.hmi2_good,
       }
+      console.log(batchInfo)
       this.operationsService.updateBatch(batchInfo as Batch).subscribe(data => {
         this.operationsService.setCurrentBatchInfo(false, null);
       })

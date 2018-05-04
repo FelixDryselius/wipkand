@@ -9,7 +9,6 @@ import { BatchHistoryDetailComponent } from './batch-history-detail/batch-histor
 
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 
-import { StatisticsModule } from './statistics/statistics.module';
 
 
 const appRoutes: Routes = [   
@@ -36,7 +35,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'statistics',
-        loadChildren: () => StatisticsModule,
+        loadChildren: "./statistics/statistics.module#StatisticsModule",
     },
     {
         path:"batch-rework",
@@ -51,7 +50,7 @@ const appRoutes: Routes = [
         )
     ],
     exports: [
-        RouterModule
+        RouterModule      
     ]
 })
 export class AppRoutingModule {}

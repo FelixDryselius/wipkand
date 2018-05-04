@@ -410,7 +410,7 @@ export class HomeComponent implements OnInit {
     this.commentDate = new Date();
 
     let newComment = {
-      comment_id: this.comments["results"].length,
+      comment_id: this.comments["results"].length, 
       user_name: this.commentName,
       post_date: this.commentDate,
       text_comment: this.commentText,

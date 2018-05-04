@@ -100,12 +100,10 @@ class BatchDetailAPIView(
 
     def get_serializer_class(self):
         serializer_class = self.serializer_class
-
         if self.request.method == 'PATCH':
-            serializer_class = BatchPatchSerializer
+            serializer_class = BatchDetailSerializer
         else:
             serializer_class = BatchDetailSerializer
-
         return serializer_class
 
     def put(self, request, *args, **kwargs):
@@ -156,5 +154,3 @@ class CommentDetailAPIView(
     def patch(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
-# TODO: Not able to create comments with same comment_id as another comment,
-# even though the batch is different

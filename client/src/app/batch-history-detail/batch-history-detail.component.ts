@@ -9,6 +9,7 @@ import { Batch } from '../shared/interfaces/batch';
 import { CommentService } from '../shared/application-services/comment.service';
 import { OperationsService } from '../operation/shared/services/operations.service';
 import { QueryResponse } from '../shared/interfaces/query-response';
+import { Order } from '../shared/interfaces/order';
 
 @Component({
   selector: 'app-batch-history-detail',
@@ -37,6 +38,7 @@ export class BatchHistoryDetailComponent implements OnInit {
   comments: {};
   statistics: {};
   products: {};
+  order: Order;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,8 +62,7 @@ export class BatchHistoryDetailComponent implements OnInit {
     })
 
     this.batchDetailForm = this.formBuilder.group({
-      order_number: [],
-      article_number: [],
+      batch_number: [],
       start_date: [],
       end_date: [],
       scrap: [],
@@ -79,15 +80,13 @@ export class BatchHistoryDetailComponent implements OnInit {
     this.batchObservable = this.operationsService.getBatchDetail(this.batchDetailID)
     this.batchSub = this.batchObservable.subscribe(data => {
       let batch = data as Batch
-      let order = data['order_number']
-      delete data['order_number']
-      data['order_number'] = order['order_number']
-      data['article_number'] = order['article_number']
-      this.batchDetailForm.patchValue(data)
-      this.orderObservable = this.operationsService.getOrder(order['order_number'])
+      let orderNumber = batch.order_number.order_number
+      this.batchDetailForm.patchValue(batch)
+      this.orderObservable = this.operationsService.getOrder(orderNumber)
       this.orderSub = this.orderObservable.subscribe(data => {
         console.log("Fetched order is: ")
         console.log(data)
+        this.order = data
         this.orderDetailForm.patchValue(data)
       })
     })
@@ -110,20 +109,41 @@ export class BatchHistoryDetailComponent implements OnInit {
     })
   }
 
-  submitBatchDetails($theEvent, batchForm) {
-    console.log(batchForm)
-    delete batchForm['article_number']
-    delete batchForm['order_number']
-    batchForm['batch_number'] = this.batchDetailID
-    console.log(batchForm)
-    this.operationsService.updateBatch(batchForm as Batch).subscribe()
+  submitFormDetails($theEvent, form) {
+    let batch;
+    debugger;
+    if (form['order_number']) {
+      batch = {
+        order_number: {
+          order_number: form['order_number'],
+          article_number: form['article_number'],
+        },
+        batch_number: this.batchDetailID
+      }
+    } else {
+      form['order_number'] = this.order
+      batch = form
+    }
+    console.log(form)
+    this.operationsService.updateBatch(batch as Batch).subscribe(data => {
+      let updatedBatch = data as Batch
+      this.order = updatedBatch.order_number
+      // if (this.batchDetailID != updatedBatch.batch_number) {
+      //   this.operationsService.deleteBatch(this.batchDetailID, updatedBatch.batch_number).subscribe(data => {
+      //     console.log("Batch deleted! Returned data is: ")
+      //     console.log(data)
+      //   })
+      // }
+      this.batchDetailID = (data as Batch).batch_number
+      console.log("Order is now: ")
+      console.log(this.order)
+    })
   }
 
   submitOrderDetails($theEvent, orderForm) {
     console.log(orderForm)
     this.operationsService.updateOrder(orderForm).subscribe()
   }
-
   goBack() {
     this.location.back()
   }
