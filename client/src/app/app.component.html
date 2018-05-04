@@ -2,7 +2,7 @@
 
 <div class="container-fluid" style="margin-top: 2%">
   <div class="row">
-    <div *ngIf="loggedIn" class="col-lg-2">
+    <div *ngIf="authAPI.loggedIn" class="col-lg-2">
       <div class="mycontent-left">
         <div class="jumbotron jumbotron-fluid">
           <div class="container">
@@ -31,7 +31,7 @@
             </li>                          
           </ul>
           <hr>
-          <button type='button' class='btn btn-default' (click)="logout()">Logout</button>
+          <button type='button' class='btn btn-default' (click)="authAPI.performLogout()">Logout</button>
         </div>
       </div>
     </div>
