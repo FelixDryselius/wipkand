@@ -19,7 +19,7 @@ import { Order } from '../shared/interfaces/order';
   styleUrls: ['./batch-history-detail.component.css']
 })
 export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
-  private batchDetail: Batch; // might not need
+  private currentBatch: string;
   private batchDetailForm: FormGroup;
   private batchDetailID: string;
   private batchObservable: Observable<any>;
@@ -80,6 +80,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     this.batchSub = this.operationsService.getBatchDetail(this.batchDetailID)
       .switchMap(data => {
         let batch = data as Batch
+        this.currentBatch = data.batch_number
         let orderNumber = batch.order_number.order_number
         this.batchDetailForm.patchValue(batch)
         return this.operationsService.getOrder(orderNumber)
@@ -117,7 +118,6 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   }
   submitFormDetails($theEvent, form) {
     let batch;
-    debugger;
     if (form['order_number']) {
       batch = {
         order_number: {
@@ -128,6 +128,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       }
     } else {
       form['order_number'] = this.order
+      form['id'] = this.batchDetailID
       batch = form
     }
     this.operationsService.updateBatch(batch as Batch)
@@ -135,7 +136,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         let updatedBatch = data as Batch
         this.order = updatedBatch.order_number
-        this.batchDetailID = (data as Batch).batch_number
+        this.batchDetailID = (data as Batch).id
       })
   }
 

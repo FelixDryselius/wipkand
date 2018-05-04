@@ -3,7 +3,7 @@
 <div class="container-fluid">
   <div class="row" style="font-size: 14px;">
     <div class="col-lg-6 text-center">
-      <h5>Batch Details - #{{ batchDetailID}}</h5>
+      <h5 *ngIf="currentBatch; else loading" >Batch Details - #{{ currentBatch }}</h5>
       <br>
 
       <form *ngIf="order; else loading" [formGroup]="orderDetailForm" (ngSubmit)="submitFormDetails($event, orderDetailForm.value)">

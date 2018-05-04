@@ -97,20 +97,14 @@ class BatchDetailAPIView(
     #permission_classes = [AllowAny]
     serializer_class = BatchDetailSerializer
     queryset = Batch.objects.all()
-    lookup_url_kwarg = 'batch_number'
 
-    def get_serializer_class(self):
-        serializer_class = self.serializer_class
-        if self.request.method == 'PATCH':
-            serializer_class = BatchDetailSerializer
-        else:
-            serializer_class = BatchDetailSerializer
-        return serializer_class
-
-    def get_object(self):
-        obj = get_object_or_404(
-            Batch, batch_number=self.kwargs.get(self.lookup_url_kwarg))
-        return obj
+    # def get_serializer_class(self):
+    #     serializer_class = self.serializer_class
+    #     if self.request.method == 'PATCH':
+    #         serializer_class = BatchDetailSerializer
+    #     else:
+    #         serializer_class = BatchDetailSerializer
+    #     return serializer_class
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)

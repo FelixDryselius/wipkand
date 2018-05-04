@@ -83,6 +83,7 @@ class BatchDetailSerializer(ModelSerializer):
                 # delete the old batch
                 instance.batch_number = validated_data.get(
                     'batch_number', instance.batch_number)
+
             instance.start_date = validated_data.get(
                 'start_date', instance.start_date)
             instance.end_date = validated_data.get(
@@ -116,6 +117,7 @@ class BatchCreateSerializer(ModelSerializer):
     class Meta:
         model = Batch
         fields = [
+            'id',
             'batch_number',
             'start_date',
             'end_date',

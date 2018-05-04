@@ -134,11 +134,11 @@ export class OperationsService {
   /* PATCH: update the batch on the server.  */
   /* TODO: Create pipe or similar to catch errors */
   updateBatch(updatedBatch: Batch) {
-    let UPDATE_BATCH_URL = this.URL_ROOT + this.URL_BATCH_API + updatedBatch.batch_number + "/" // The URL to correct API
+    let UPDATE_BATCH_URL = this.URL_ROOT + this.URL_BATCH_API + updatedBatch.id + "/" // The URL to correct API
     console.log("updating batch! url is: " + UPDATE_BATCH_URL)
     console.log("Data is: ")
     console.log(updatedBatch)
-    return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions)
+    return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch))
   }
   updateOrder(order) {
     console.log("Sending data: ")
