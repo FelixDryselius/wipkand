@@ -18,7 +18,6 @@ from operations.api.serializers import (
     OrderNoValidateSerializer,
     BatchCreateSerializer,
     BatchDetailSerializer,
-    BatchPatchSerializer,
     CommentSerializer
 )
 
@@ -70,7 +69,8 @@ class BatchAPIView(
 
     serializer_class = BatchCreateSerializer
     #permission_classes = [AllowAny]
-    search_fields = ('batch_number', 'order_number__order_number', 'start_date', 'end_date')
+    search_fields = ('batch_number', 'order_number__order_number',
+                     'start_date', 'end_date')
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -97,6 +97,7 @@ class BatchDetailAPIView(
     #permission_classes = [AllowAny]
     serializer_class = BatchDetailSerializer
     queryset = Batch.objects.all()
+    lookup_url_kwarg = 'batch_number'
 
     def get_serializer_class(self):
         serializer_class = self.serializer_class
@@ -105,6 +106,11 @@ class BatchDetailAPIView(
         else:
             serializer_class = BatchDetailSerializer
         return serializer_class
+
+    def get_object(self):
+        obj = get_object_or_404(
+            Batch, batch_number=self.kwargs.get(self.lookup_url_kwarg))
+        return obj
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -140,7 +146,7 @@ class CommentDetailAPIView(
     generics.RetrieveAPIView,
         mixins.UpdateModelMixin,
         mixins.DestroyModelMixin):
-        
+
     '''Gets detail of batch and comment id'''
     serializer_class = CommentSerializer
     #permission_classes = [AllowAny]
@@ -153,4 +159,3 @@ class CommentDetailAPIView(
 
     def patch(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
-

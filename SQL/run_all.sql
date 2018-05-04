@@ -26,7 +26,8 @@ CREATE TABLE product_order
 
 CREATE TABLE batch
 (
-  batch_number char(10) NOT NULL,
+  ID int NOT NULL AUTO_INCREMENT,
+  batch_number char(10) NOT NULL UNIQUE,
   start_date datetime,
   end_date datetime,
   scrap INT,
@@ -40,7 +41,7 @@ CREATE TABLE batch
   label_print_time datetime, 
   rework_time time,
   order_number char(7) NOT NULL,
-  PRIMARY KEY (batch_number),
+  PRIMARY KEY (ID),
   FOREIGN KEY (order_number) REFERENCES product_order(order_number)
 );
 

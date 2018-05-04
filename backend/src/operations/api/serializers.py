@@ -110,12 +110,6 @@ class BatchDetailSerializer(ModelSerializer):
         return instance
 
 
-class BatchPatchSerializer(ModelSerializer):
-    class Meta:
-        model = Batch
-        exclude = ('order_number',)
-
-
 class BatchCreateSerializer(ModelSerializer):
     order_number = OrderNoValidateSerializer()
 
