@@ -21,12 +21,7 @@ export class OperationsService {
 
   //This variable is holding the data values for the current running batch. It is shared between start-batch, finish-batch and current-batch-info.
   //It is modified as an observable make it shareable between the components. 
-  private prodInfo = new BehaviorSubject<{}>({
-    active: false,
-    batch_number: null,
-    order_number: null,
-    article_number: null,
-  });
+  private prodInfo = new BehaviorSubject<{}>(null);
   prodInfoObservable = this.prodInfo.asObservable();
 
   //TODO: Should URLs really be placed here? Should we collect them in a file somewhere? 
@@ -67,11 +62,6 @@ export class OperationsService {
   };
 
   constructor(private http: HttpClient) { }
-
-  //This method changes the status of a batch running or a batch not running.
-  changeProdStatus(startBatch: boolean) {
-    this.prodInfo.next(startBatch);
-  }
 
   //This method sets the data values for the current running batch.
   changeProdInfo(info: {}) {
@@ -115,7 +105,7 @@ export class OperationsService {
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
 
-  setCurrentBatchInfo(status: boolean, data: Batch) {
+  setCurrentBatchInfo(data: Batch) {
     let currentBatch;
     if (data) {
       currentBatch = {
@@ -124,9 +114,10 @@ export class OperationsService {
         order_number: data.order_number.order_number,
         article_number: data.order_number.article_number,
       }
+      this.changeProdInfo(currentBatch)
+    } else {
+      this.changeProdInfo(null)
     }
-    this.changeProdStatus(status);
-    this.changeProdInfo(currentBatch)
   }
 
 

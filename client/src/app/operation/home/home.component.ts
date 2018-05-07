@@ -140,10 +140,10 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     //the following items are copied from start-batch.component. Subscribes to be able to connect comment to running batch
-
+    
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => {
       this.prodInfo = info
-      if (this.prodInfo.active) {
+      if (this.prodInfo) {
         this.getFloorstock()
         this.getComment()
         this.getScoreboard()

@@ -36,12 +36,9 @@ export class StartBatchComponent implements OnInit, OnDestroy {
   batchErrorMsg: string;
   orderErrorMsg: string;
 
-  @Input()
-  passedQuery: number;
   constructor(
     private router: Router,
     private operationsService: OperationsService,
-    private http: HttpClient,
     private authAPI: AuthAPIService,
     private formBuilder: FormBuilder
   ) { }
@@ -103,7 +100,7 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     this.createBatchSub = this.operationsService.createBatch(newBatch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        this.operationsService.setCurrentBatchInfo(true, data as Batch);
+        this.operationsService.setCurrentBatchInfo(data as Batch);
         console.log("Successfully created batch! Navigating home..");
         this.router.navigate(['/home'])
       },

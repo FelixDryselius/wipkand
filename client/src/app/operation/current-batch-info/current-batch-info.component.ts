@@ -45,7 +45,9 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         let runningBatch = (data as QueryResponse).results[0] as Batch
         if (runningBatch) {
-          this.operationsService.setCurrentBatchInfo(true, runningBatch)
+          this.operationsService.setCurrentBatchInfo(runningBatch)
+        } else {
+          this.operationsService.setCurrentBatchInfo(null)
         }
       })
   }
