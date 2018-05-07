@@ -8,6 +8,7 @@ import { BatchHistoryDetailComponent } from './batch-history-detail/batch-histor
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { OperationModule } from './operation/operation.module';
 import { OperationsService } from './operation/shared/services/operations.service';
@@ -33,6 +34,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     NotFoundComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,

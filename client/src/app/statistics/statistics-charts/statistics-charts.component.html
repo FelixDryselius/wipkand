@@ -2,6 +2,58 @@
   statistics-charts works!
 </p>
 
-<div *ngIf="chart">
-  <canvas id="canvas">{{ chart }}</canvas>
-</div>
+
+<!--The content below is only a placeholder and can be replaced. 
+<mat-form-field>
+  <mat-select [(value)]="survey.country">
+    <mat-option value="India">India</mat-option>
+    <mat-option value="USA">USA</mat-option>
+    <mat-option value="Germany">Germany</mat-option>
+    <mat-option value="Brazil">Brazil</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <mat-select [(value)]="survey.gender">
+    <mat-option value="Male">Male</mat-option>
+    <mat-option value="Female">Female</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-radio-group [(ngModel)]="survey.rating" name="rating">
+  <mat-radio-button value="5">5</mat-radio-button>
+  <mat-radio-button value="4">4</mat-radio-button>
+  <mat-radio-button value="3">3</mat-radio-button>
+  <mat-radio-button value="2">2</mat-radio-button>
+  <mat-radio-button value="1">1</mat-radio-button>
+</mat-radio-group>
+<button mat-raised-button color="primary" (click)="saveEntry()">Save Entry</button>
+-->
+
+
+<!--   -->
+<ngx-charts-bar-horizontal *ngIf = "chartdata"
+      [view]=[500,500]
+      [scheme]="colorScheme"
+      [results]="chartdata"
+      [legend]="showLegend"
+      [animations]=true
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxis]='true'
+      [yAxis]=true
+
+     
+      (select)="pressed ($event)">
+    </ngx-charts-bar-horizontal>
+ 
+<ngx-charts-pie-chart *ngIf = "chartdata"
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="chartdata"
+      [legend]="showLegend"
+      [explodeSlices]="explodeSlices"
+      [labels]="showLabels"
+      [doughnut]="doughnut"
+      (select)="pressed($event)">
+    </ngx-charts-pie-chart> 
+
+ 

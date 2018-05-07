@@ -1,9 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+// import { Component, OnInit } from '@angular/core';
 
-import { Chart } from 'chart.js';
-import { OperationsService } from '../../operation/shared/services/operations.service';
-import { QueryResponse } from '../../shared/interfaces/query-response';
-import { Scoreboard } from '../../../assets/interface/scoreboard';
+// import {NgxChartsModule} from '@swimlane/ngx-charts';
+// import { OperationsService } from '../../operation/shared/services/operations.service';
+// import { QueryResponse } from '../../shared/interfaces/query-response';
+// import { Scoreboard } from '../../../assets/interface/scoreboard';
+
+
+import { Component, OnInit } from '@angular/core';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { Observable} from 'rxjs/Rx';
+
 
 @Component({
   selector: 'app-statistics-charts',
@@ -11,51 +17,74 @@ import { Scoreboard } from '../../../assets/interface/scoreboard';
   styleUrls: ['./statistics-charts.component.css']
 })
 export class StatisticsChartsComponent implements OnInit {
-  chart =[];
-  constructor(private operationsService: OperationsService) { }
-
-  ngOnInit() {
   
+  survey = {
+    country: '',
+    gender: '',
+    rating: 0
+  }
 
+  //data
+  chartdata = [
+    {
+      "name": "Germany",
+      "value": 40632
+    },
+    {
+      "name": "United States",
+      "value": 49737
+    },
+    {
+      "name": "France",
+      "value": 36745
+    },
+    {
+      "name": "United Kingdom",
+      "value": 36240
+    },
+    {
+      "name": "Spain",
+      "value": 33000
+    },
+    {
+      "name": "Italy",
+      "value": 35800
+    }
+  ]
 
-   this.operationsService.getProductionStatistics('?limit=72').subscribe(data =>{
-     let productionStatistics
-    productionStatistics = (data as QueryResponse).results as Scoreboard []
+  countryCount = [];
+  countryData = [];
+
+  //Chart
+  view: any[] = [700, 400];
+  showLegend = true;
+
+  colorScheme = {
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  };
+  showLabels = true;
+  explodeSlices = true;
+  doughnut = false;
+
+  constructor() {}
+
+ 
+  ngOnInit() {
+  }
+
+  pressed(event) {
+    console.log('event triggered');
     
-    let productionQuantity = productionStatistics.map(res => res.production_quantity)
-    let productionTimeStamp = productionStatistics.map(res => new Date(res.time_stamp).toLocaleTimeString('sv-SV', { year: 'numeric', month: 'numeric', day: 'numeric', hour:'numeric', minute:'numeric'}) )
-
-    console.log('productionQuantity: ' + productionQuantity);
-    console.log('productionTimeStamp: ' + productionTimeStamp);
-    
-    this.chart = new Chart('canvas', {
-      type: 'line',
-      data: {
-        labels: productionTimeStamp,
-        datasets: [
-          { 
-            data: productionQuantity,
-            borderColor: "#3cba9f",
-            fill: false
-          },
-        ]
+    console.log(event);
+    this.chartdata = [
+      {
+        "name": "Germany",
+        "value": 8940000
       },
-      options: {
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            display: true
-          }],
-          yAxes: [{
-            display: true
-          }],
-        }
+      {
+        "name": "USA",
+        "value": 5000000
       }
-    });
-    
-    
-   }) 
+    ] 
   }
 }
