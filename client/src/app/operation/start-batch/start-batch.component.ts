@@ -27,8 +27,8 @@ export class StartBatchComponent implements OnInit, OnDestroy {
   private article: string;
   private batchStartDate: Date;
 
-  private req_batch: any;
-  private req_order: any;
+  private createBatchSub: any;
+  private getProductSub: any;
   private service_prodStatus: any;
   private service_prodInfo: any;
 
@@ -36,10 +36,10 @@ export class StartBatchComponent implements OnInit, OnDestroy {
   newBatch: number;
   prodData: any[];
 
-  readonly ROOT_URL = 'http://localhost:8000/api/operations/product/'
 
   newBatchForm: FormGroup;
-
+  batchErrorMsg: string;
+  orderErrorMsg: string;
 
   @Input()
   passedQuery: number;
@@ -55,11 +55,10 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     //Use operationsService to share information between start-batch, finish-batch and current-batch-info
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
-    //TODO: There should be no HTTP calls in components. Move to service
-    this.http.get(this.ROOT_URL)
+    this.getProductSub = this.operationsService.getProduct()
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        this.prodData = (data as QueryResponse).results as any[];		// FILL THE ARRAY WITH DATA.
+        this.prodData = (data as QueryResponse).results as any[]
       })
 
     this.newBatchForm = this.formBuilder.group({
@@ -86,6 +85,7 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     //this.req_order.unsubscribe()
     //this.req_batch.unsubscribe()
     //this.service_prodStatus.unsubscribe()
+    this.getProductSub.unsubscribe()
     this.service_prodInfo.unsubscribe()
   }
 
@@ -96,6 +96,7 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     this.order = formData.value['orderNumber'];
     this.article = formData.value['articleNumber'];
     this.batchStartDate = new Date();
+    console.log("submit!");
 
     let newBatch = {
       batch_number: this.batch,
@@ -106,10 +107,28 @@ export class StartBatchComponent implements OnInit, OnDestroy {
       start_date: this.batchStartDate
     }
 
-    this.req_batch = this.operationsService.createBatch(newBatch)
+    this.batchErrorMsg = null;
+    this.orderErrorMsg = null;
+    this.createBatchSub = this.operationsService.createBatch(newBatch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe();
-    this.router.navigate(['/home'])
+      .subscribe(data => {
+        this.operationsService.setCurrentBatchInfo(true, data as Batch);
+        console.log("Successfully created batch! Navigating home..");
+        this.router.navigate(['/home'])
+      },
+        error => {
+          console.log(error)
+          if (error.error.batch_number) {
+            this.batchErrorMsg = error.error.batch_number;
+          }
+          if (error.error.order_number) {
+            console.log("Order eeror");
+            
+            
+            this.orderErrorMsg = error.error.order_number;
+            console.log(this.orderErrorMsg);
+          }
+        });
   }
 }
 

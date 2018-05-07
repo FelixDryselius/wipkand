@@ -101,13 +101,7 @@ export class OperationsService {
   }
 
   createBatch(newBatch: {}) {
-    console.log("POST - Create new batch")
-    console.log("Data is: " + JSON.stringify(newBatch))
-    console.log("Url is: " + this.URL_ROOT + this.URL_BATCH_API)
-    return this.http.post(this.URL_ROOT + this.URL_BATCH_API, JSON.stringify(newBatch), this.httpOptions).map(data => {
-      console.log(data)
-      this.setCurrentBatchInfo(true, data as Batch);
-    })
+    return this.http.post(this.URL_ROOT + this.URL_BATCH_API, JSON.stringify(newBatch))
   }
 
   getBatchList(query?: String): Observable<any> {

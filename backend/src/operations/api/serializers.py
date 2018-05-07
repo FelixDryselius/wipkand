@@ -144,7 +144,8 @@ class BatchCreateSerializer(ModelSerializer):
             if not validate_order(associated_product.article_number, selected_product.article_number):
                 print("WRONG NEW PRODUCT NUMBER")
                 raise ValidationError(
-                    "An order with a different article number already exists!")
+                    {"order_number": "An order with a different article number already exists."}
+                )
         except ProductOrder.DoesNotExist:
             order_to_use = ProductOrder.objects.create(
                 order_number=entered_order['order_number'], article_number=selected_product)
