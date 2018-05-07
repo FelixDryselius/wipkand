@@ -68,8 +68,11 @@ export class FinishBatchComponent implements OnInit {
         .retryWhen(error => this.authAPI.checkHttpRetry(error))
         .subscribe(data => {
           this.operationsService.setCurrentBatchInfo(false, null);
+          this.router.navigate(['/home'])
+        }, error => {
+          console.error(error.message)
         })
     }
-    this.router.navigate(['/home'])
+    
   }
 }
