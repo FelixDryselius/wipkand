@@ -1,12 +1,12 @@
 <div class="container">
   <div class="row text-center bg-light">
     <div class="col-lg-8 offset-lg-2">
-      <h3 class="h3Header">
+      <h3 class="h3Header" style="margin-top: 50px;">
         Start new batch
       </h3>
       <br>
-      <form [formGroup]="newBatchForm" #newBatchDir='ngForm' (ngSubmit)="submitBatch(event$, newBatchForm)">
 
+      <form [formGroup]="newBatchForm" #newBatchDir='ngForm' (ngSubmit)="submitBatch(event$, newBatchForm)">
         <!-- Order Number -->
         <div class="form-group row">
           <label for="orderNumber" class="col-lg-3 col-form-label">Order Number</label>
