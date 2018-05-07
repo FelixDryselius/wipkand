@@ -20,7 +20,6 @@ import { CustomValidation } from '../../shared/validators/customValidation'
 })
 
 export class StartBatchComponent implements OnInit, OnDestroy {
-  private prodActive: boolean;
   private prodInfo: {};
   private batch: string;
   private order: string;
@@ -29,13 +28,9 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
   private createBatchSub: any;
   private getProductSub: any;
-  private service_prodStatus: any;
   private service_prodInfo: any;
 
-  //What is this below?
-  newBatch: number;
   prodData: any[];
-
 
   newBatchForm: FormGroup;
   batchErrorMsg: string;
@@ -75,16 +70,12 @@ export class StartBatchComponent implements OnInit, OnDestroy {
       ]),
     })
   }
-  test() {
-    console.log(this.newBatchForm);
-  }
 
   //BUG? - If we unsubscribe to the service, will the info still be updated?
   ngOnDestroy() {
     //These are causing bugs with posts. How to unsubscribe from HTTP posts?
     //this.req_order.unsubscribe()
     //this.req_batch.unsubscribe()
-    //this.service_prodStatus.unsubscribe()
     this.getProductSub.unsubscribe()
     this.service_prodInfo.unsubscribe()
   }
@@ -117,16 +108,12 @@ export class StartBatchComponent implements OnInit, OnDestroy {
         this.router.navigate(['/home'])
       },
         error => {
-          console.log(error)
+          console.error(error)
           if (error.error.batch_number) {
             this.batchErrorMsg = error.error.batch_number;
           }
           if (error.error.order_number) {
-            console.log("Order eeror");
-            
-            
             this.orderErrorMsg = error.error.order_number;
-            console.log(this.orderErrorMsg);
           }
         });
   }

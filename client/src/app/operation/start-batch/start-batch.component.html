@@ -81,7 +81,6 @@
         </div>
 
         <button type="submit" [disabled]='newBatchForm.invalid' class="btn btn-default btn-startBatch" style="margin-bottom: 50px;">Start Batch</button>
-        <!-- <button (click)="test()">TEST</button> -->
         <br>
       </form>
     </div>
@@ -91,72 +90,3 @@
 <ng-template #loading>
   Loading content...
 </ng-template>
-
-
-<!-- A form that sends input data to a function submitBatch with parameters ordernr, prodnr and batchnr -->
-<!-- TODO: Make this a reactive form instead. Validate so correct batch/order numbers are entered. ngNativeValidate = quick fix that removes ANgulars validation -->
-<!-- <form #formRef="ngForm">
-    <div class="field">
-      <label for="order_number" class="label">Name:</label>
-      <div class="control">
-        <input class="input" [class.is-danger]="nameRef.dirty && nameRef.invalid" [(ngModel)]="order_number" name="order_number"
-          #order_number="ngModel" required>
-      </div>
-      <p class="help is-danger">
-        <span *ngIf="nameRef.dirty && nameRef.errors?.required">This field is required</span>&nbsp;
-      </p>
-    </div>
-
-    <div class="field">
-      <label for="name" class="label">City:</label>
-      <div class="control">
-        <input class="input" [class.is-danger]="cityRef.dirty && cityRef.invalid" [(ngModel)]="city" name="city" #cityRef="ngModel"
-          required>
-      </div>
-      <p class="help is-danger">
-        <span *ngIf="cityRef.dirty && cityRef.errors?.required">This field is required</span>&nbsp;
-      </p>
-    </div>
-
-    <button class="button is-primary is-pulled-right" (tsSubmitIfValid)="save()">Save</button>
-
-    <p class="help is-success">{{success}}</p>
-  </form> -->
-
-<!-- <form #formRef='ngForm'>
-
-
-  <div class="form-group row">
-    <label for="inputOrderNr" class="col-lg-4 col-form-label text-right">Add order</label>
-    <div class="col-lg-4">
-      <input ngModel name="order_number" #order_number="ngModel" class="form-control" placeholder="Order number" required>
-      <div class="alert alert-danger" *ngIf="!order_number.errors?.required && order_number.dirty">Order Number is required</div>
-    </div>
-  </div>
-
-
-  <div class="form-group row">
-    <label for="inputProductNr" class="col-lg-4 col-form-label text-right">Add product</label>
-    <div *ngIf="prodData" class="col-lg-4 dropdown">
-      <select ngModel name="article_number" #article_number="ngModel" class="selectProd" required [(ngModel)]="selected">
-        <option *ngFor="let data of prodData" class="optionProd" [(ngValue)]="data.article_number">{{ data.article_number }}, {{ data.product_name }}</option>
-      </select>
-    </div>
-  </div>
-
-
-  <div class="form-group row">
-    <label for="inputBatchNr" class="col-lg-4 col-form-label text-right">Add batch</label>
-    <div class="col-lg-4">
-      <input type="batch" class="form-control" id="inputBatchNr" placeholder="Batch number" name='batchnr' [(ngModel)]="newBatch"
-        required>
-    </div>
-  </div>
-
-  <button class="btn btn-default btn-startBatch" (SubmitIfValid)="submitBatch(event$, formRef)">
-    Start batch
-  </button>
-
-</form>
-
-<hr> -->
