@@ -56,4 +56,17 @@
       (select)="pressed($event)">
     </ngx-charts-pie-chart> 
 
+     
+<ngx-charts-line-chart *ngIf = "chartdataLine"
+  [view]="view"
+  [scheme]="colorScheme"
+  [results]="chartdataLine"
+  [legend]="showLegend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxis]='true'
+  [yAxis]=true
+  (select)="pressed($event)">
+</ngx-charts-line-chart> 
+
  
