@@ -15,15 +15,10 @@ import { QueryResponse } from '../../shared/interfaces/query-response'
   styleUrls: ['./finish-batch.component.css']
 })
 export class FinishBatchComponent implements OnInit {
-  title = "Finish batch";
-  groninger1 = "Final HMI Data Groninger 1";
-  groninger2 = "Final HMI Data Groninger 2";
-  reLabeling = "false" //making the radio button "no" checked default 
-
-  //the following items are copied from start-batch.component
 
   private prodInfo: any;
-  private service_prodInfo: any;
+  private service_prodInfoSub: any;
+  private createBatchSub: any;
 
   private finishBatchForm: FormGroup;
 
@@ -35,16 +30,13 @@ export class FinishBatchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //the following items are copied from start-batch.component
-
-    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
+    this.service_prodInfoSub = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
     this.createFinishBatchForm()
-
   }
 
   // TODO: get a correct unsubscribe working
   ngOnDestroy() {
-    // this.service_prodInfo.unsubscribe()
+    this.service_prodInfoSub.unsubscribe()
   }
 
   createFinishBatchForm() {
@@ -90,20 +82,20 @@ export class FinishBatchComponent implements OnInit {
         production_yield: batchForm.yield,
         hmi1_good: batchForm.hmi1Good,
         hmi1_bad: batchForm.hmi1Bad,
-
         hmi2_good: batchForm.hmi2Good,
         hmi2_bad: batchForm.hmi2Bad,
       }
       console.log(batchInfo)
-      this.operationsService.updateBatch(batchInfo as Batch)
+      this.createBatchSub = this.operationsService.updateBatch(batchInfo as Batch)
         .retryWhen(error => this.authAPI.checkHttpRetry(error))
         .subscribe(data => {
           this.operationsService.setCurrentBatchInfo(null);
+          this.createBatchSub.unsubscribe()
           this.router.navigate(['/home'])
         }, error => {
           console.error(error.message)
         })
     }
-    
+
   }
 }
