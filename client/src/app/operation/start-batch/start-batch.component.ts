@@ -8,9 +8,13 @@ import { AuthAPIService } from '../../auth/auth.service';
 import { OperationsService } from '../shared/services/operations.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 import { Batch } from '../../shared/interfaces/batch';
+import { SubmitIfValidDirective } from '../../shared/directives/submit-if-valid.directive';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CustomValidation } from '../../shared/validators/customValidation'
 
 @Component({
   selector: 'app-start-batch',
+  //directivesx: [SubmitIfValidDirective],
   templateUrl: './start-batch.component.html',
   styleUrls: ['./start-batch.component.css']
 })
@@ -30,11 +34,12 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
   //What is this below?
   newBatch: number;
-
-  title = "Start new batch";
   prodData: any[];
 
   readonly ROOT_URL = 'http://localhost:8000/api/operations/product/'
+
+  newBatchForm: FormGroup;
+
 
   @Input()
   passedQuery: number;
@@ -42,23 +47,37 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     private router: Router,
     private operationsService: OperationsService,
     private http: HttpClient,
-    private authAPI: AuthAPIService
+    private authAPI: AuthAPIService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
     //Use operationsService to share information between start-batch, finish-batch and current-batch-info
-    //TODO: Change to one observable. Cant be good to have many observables...
-    //this.service_prodStatus = this.operationsService.prodActiveObservable.subscribe(active => this.prodActive = active)
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
     //TODO: There should be no HTTP calls in components. Move to service
-    this.http.get(this.ROOT_URL).subscribe(data => {
-      this.prodData = (data as QueryResponse).results as any[];		// FILL THE ARRAY WITH DATA.
-    },
-    );
-    if (this.passedQuery) {
-      this.newBatch = this.passedQuery
-    }
+    this.http.get(this.ROOT_URL)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.prodData = (data as QueryResponse).results as any[];		// FILL THE ARRAY WITH DATA.
+      })
+
+    this.newBatchForm = this.formBuilder.group({
+      'orderNumber': new FormControl('', [
+        Validators.required,
+        Validators.pattern("^[0-9]*$"),
+        CustomValidation.checkLimit(1000000, 9999999),
+      ]),
+      'articleNumber': new FormControl('', [Validators.required]),
+      'batchNumber': new FormControl('', [
+        Validators.required,
+        Validators.pattern("^[0-9]*$"),
+        CustomValidation.checkLimit(1000000000, 9999999999),
+      ]),
+    })
+  }
+  test() {
+    console.log(this.newBatchForm);
   }
 
   //BUG? - If we unsubscribe to the service, will the info still be updated?
@@ -73,9 +92,9 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
   submitBatch(event, formData) {
     //TODO: Do we really need to store these values in the class? 
-    this.batch = formData.value['batchnr'];
-    this.order = formData.value['ordernr'];
-    this.article = formData.value['prodnr'];
+    this.batch = formData.value['batchNumber'];
+    this.order = formData.value['orderNumber'];
+    this.article = formData.value['articleNumber'];
     this.batchStartDate = new Date();
 
     let newBatch = {
