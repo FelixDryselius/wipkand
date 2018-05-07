@@ -8,18 +8,18 @@
     <div class="col-md-8">
     </div>
     <div class="row">
-    <div class="col-md-5">
-      <h3>
-        Shift:
-      </h3>
-    </div>
-    <div class="col-md-7">
-      <select class="chooseShift" [(ngModel)]="selectShift" (ngModelChange)="onChange($event)" name="differentShifts">
-        <option *ngFor="let chosenShift of shifts" [ngValue]="chosenShift" [selected]='chosenShift === selectShift'> {{chosenShift}} </option>
-      </select>
+      <div class="col-md-5">
+        <h3>
+          Shift:
+        </h3>
+      </div>
+      <div class="col-md-7">
+        <select class="chooseShift" [(ngModel)]="selectShift" (ngModelChange)="onChange($event)" name="differentShifts">
+          <option *ngFor="let chosenShift of shifts" [ngValue]="chosenShift" [selected]='chosenShift === selectShift'> {{chosenShift}} </option>
+        </select>
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 <div class="container-fluid">
@@ -61,8 +61,15 @@
               </tr>
             </tbody>
           </table>
-          <div class="col-md-12" align="right">
-            <button type="submit" class="btn btn-primary">Update</button>
+          <div class="row">
+            <div class="col-md-10">
+              <p *ngIf="scoreboardAdded" class="text-left">
+                {{ scoreboardAddedNotification }}
+              </p>
+            </div>
+            <div class="col-md-2" align="right">
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
           </div>
         </div>
 
@@ -100,8 +107,15 @@
               </tr>
             </tbody>
           </table>
-          <div class="col-md-12" align="right">
-            <button type="submit" class="btn btn-primary">Update</button>
+          <div class="row">
+            <div class="col-md-10">
+              <p *ngIf="scoreboardAdded" class="text-left">
+                {{ scoreboardAddedNotification }}
+              </p>
+            </div>
+            <div class="col-md-2" align="right">
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
           </div>
         </div>
 
@@ -139,8 +153,15 @@
               </tr>
             </tbody>
           </table>
-          <div class="col-md-12" align="right">
-            <button type="submit" class="btn btn-primary">Update</button>
+          <div class="row">
+            <div class="col-md-10">
+              <p *ngIf="scoreboardAdded" class="text-left">
+                {{ scoreboardAddedNotification }}
+              </p>
+            </div>
+            <div class="col-md-2" align="right">
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
           </div>
         </div>
       </form>
@@ -176,7 +197,12 @@
             </tbody>
           </table>
           <div class="row">
-            <div class="col-md-12 text-right">
+            <div class="col-md-8">
+              <p *ngIf="floorstockAdded" class="text-left">
+                {{ floorstockAddedNotification }}
+              </p>
+            </div>
+            <div class="col-md-4 text-right">
               <button type="submit" class="btn btn-primary">
                 Update
               </button>
@@ -222,7 +248,12 @@
               </div>
 
               <div class="row btn-comment">
-                <div class="col-md-12" align="right">
+                <div class="col-md-6">
+                  <p *ngIf="commentAdded" class="text-left">
+                    {{ commentAddedNotification }}
+                  </p>
+                </div>
+                <div class="col-md-6" align="right">
                   <button type="submit" class="btn btn-primary">
                     Add comment
                   </button>
@@ -231,12 +262,7 @@
             </form>
           </div>
         </div>
-        <div class="col-md-12">
-          <p *ngIf="commentAdded" class="text-left">
-            {{ commentAddedNotification }}
-          </p>
-        </div>
       </div>
-    </div>   
+    </div>
 
     <hr>

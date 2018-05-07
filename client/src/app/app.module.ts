@@ -21,6 +21,7 @@ import { NgModule } from '@angular/core';
 //Third party imports:
 import { CookieService } from 'ngx-cookie-service';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SubmitIfValidDirective } from './shared/directives/submit-if-valid.directive';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     BatchHistoryDetailComponent,
     BatchHistoryComponent,
     NotFoundComponent,
+    SubmitIfValidDirective,
   ],
   imports: [
     BrowserModule,

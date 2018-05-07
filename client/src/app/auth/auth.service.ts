@@ -19,6 +19,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/publish';
 
 @Injectable()
 export class AuthAPIService {
@@ -29,6 +30,9 @@ export class AuthAPIService {
 
     loggedIn: boolean;
     loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn)
+    
+    errorNotification: BehaviorSubject<string> = new BehaviorSubject(null);
+    readonly errorNotification$: Observable<string> = this.errorNotification.asObservable().publish().refCount();
 
     constructor(
         private http: HttpClient,
@@ -46,15 +50,20 @@ export class AuthAPIService {
         }
     }
 
+    notifyError(message) {
+      this.errorNotification.next(message);
+      setTimeout(() => this.errorNotification.next(null), 10000);
+    }
+
     get tokenValid(): boolean {
-        const expiresAt = new Date(this.cookieService.get('jwt-refresh-expires')) 
+        const expiresAt = new Date(this.cookieService.get('jwt-refresh-expires'))
         return new Date() < expiresAt;
     }
 
     setLoggedIn(value: boolean) {
         this.loggedIn$.next(value);
         this.loggedIn = value;
-      }
+    }
 
     login(data: AuthLoginData): Observable<any> {
         let apiLoginEndpoint = `${this.baseUrl}users/token/`;
@@ -103,7 +112,7 @@ export class AuthAPIService {
             if (error.error.code == "token_not_valid") {
                 return Observable.of(error.status).delay(500)
             }
-            return Observable.throw({ error: "No retry" })
+            return Observable.throw(error)
         }).take(2)
     }
     // .retryWhen(

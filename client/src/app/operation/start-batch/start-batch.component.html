@@ -1,46 +1,92 @@
-<div class="text-center">
-  <h3 class="h3Header">
-    {{ title }}
-  </h3>
-  <br>
+<div class="container">
+  <div class="row text-center bg-light">
+    <div class="col-lg-8 offset-lg-2">
+      <h3 class="h3Header" style="margin-top: 50px;">
+        Start new batch
+      </h3>
+      <br>
 
-  <!-- A form that sends input data to a function submitBatch with parameters ordernr, prodnr and batchnr -->
-  <!-- TODO: Make this a reactive form instead. Validate so correct batch/order numbers are entered. ngNativeValidate = quick fix that removes ANgulars validation -->
-  <form #batchForm='ngForm' (ngSubmit)='submitBatch($event,batchForm)'>
+      <form [formGroup]="newBatchForm" #newBatchDir='ngForm' (ngSubmit)="submitBatch(event$, newBatchForm)">
+        <!-- Order Number -->
+        <div class="form-group row">
+          <label for="orderNumber" class="col-lg-3 col-form-label">Order Number</label>
+          <input class="col-lg-7 form-control" #orderNumber formControlName="orderNumber" placeholder="Order number">
+        </div>
+        <div class="row">
+          <div class="col-lg-7 offset-lg-3 alert alert-danger" *ngIf="newBatchForm.controls.orderNumber.invalid && 
+          (newBatchForm.controls.orderNumber.dirty || newBatchForm.controls.orderNumber.touched)">
+            <span *ngIf="newBatchForm.controls.orderNumber.errors?.required">
+              * This field is required.
+            </span>
+            <span *ngIf="newBatchForm.controls.orderNumber.errors?.pattern">
+              * An order number can only consist of numbers.
+              <br>
+            </span>
+            <span *ngIf="newBatchForm.controls.orderNumber.errors?.range">
+              * An order number must be 7 digits.
+            </span>
+          </div>
+          <div *ngIf="orderErrorMsg" class="col-lg-7 offset-lg-3 alert alert-danger">
+            <span>
+              * {{ orderErrorMsg }}
+              <br>
+            </span>
+          </div>
+        </div>
 
-    <!-- User input for order number -->
-    <div class="form-group row">
-      <label for="inputOrderNr" class="col-lg-4 col-form-label text-right">Add order</label>
-      <div class="col-lg-4">
-        <input type="text" class="form-control" id="inputOrderNr" placeholder="Order number" name='ordernr' [(ngModel)]="newOrder"
-          required>
-      </div>
+        <!-- Article Number -->
+        <div class="form-group row">
+          <label class="col-lg-3 col-form-label" for="articleNumber">Article Number</label>
+          <select *ngIf="prodData; else loading" class="col-lg-7 form-control selectProd" [(ngModel)]="selected" id="articleNumber"
+            formControlName="articleNumber" #articleNumber>
+            <option placeholder="Article number" *ngFor="let data of prodData" class="optionProd" [(ngValue)]="data.article_number">
+              {{ data.article_number }}, {{ data.product_name }}
+            </option>
+          </select>
+        </div>
+        <div class="row" *ngIf="newBatchForm.controls.articleNumber.invalid && 
+          (newBatchForm.controls.articleNumber.dirty || newBatchForm.controls.articleNumber.touched)">
+          <div class="col-lg-7 offset-lg-3 alert alert-danger">
+            <span *ngIf="newBatchForm.controls.articleNumber.errors?.required">
+              * This field is required.
+            </span>
+          </div>
+        </div>
+
+        <!-- Batch Number -->
+        <div class="form-group row">
+          <label class="col-lg-3 col-form-label" for="batchNumber">Batch Number</label>
+          <input class="col-lg-7 form-control" type="text" id="batchNumber" formControlName="batchNumber" #batchNumber placeholder="Batch number">
+        </div>
+        <div class="row">
+          <div class="col-lg-7 offset-lg-3 alert alert-danger" *ngIf="newBatchForm.controls.batchNumber.invalid && 
+          (newBatchForm.controls.batchNumber.dirty || newBatchForm.controls.batchNumber.touched)">
+            <span *ngIf="newBatchForm.controls.batchNumber.errors?.required">
+              * This field is required.
+            </span>
+            <span *ngIf="newBatchForm.controls.batchNumber.errors?.pattern">
+              * A batch number can only consist of numbers.
+              <br>
+            </span>
+            <span *ngIf="newBatchForm.controls.batchNumber.errors?.range">
+              * A batch number must be 10 digits.
+            </span>
+          </div>
+          <div *ngIf="batchErrorMsg" class="col-lg-7 offset-lg-3 alert alert-danger">
+            <span>
+              * A {{ batchErrorMsg}}
+              <br>
+            </span>
+          </div>
+        </div>
+
+        <button type="submit" [disabled]='newBatchForm.invalid' class="btn btn-default btn-startBatch" style="margin-bottom: 50px;">Start Batch</button>
+        <br>
+      </form>
     </div>
-
-    <!-- Dropdown for products. ngValue is sent.  -->
-    <div class="form-group row">
-      <label for="inputProductNr" class="col-lg-4 col-form-label text-right">Add product</label>
-      <div *ngIf="prodData" class="col-lg-4 dropdown">
-        <select [(ngModel)]="selected" name="prodnr" class="selectProd" required>
-          <option *ngFor="let data of prodData" class="optionProd" [(ngValue)]="data.article_number">{{ data.article_number }}, {{ data.product_name }}</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- User input for batch number -->
-    <div class="form-group row">
-      <label for="inputBatchNr" class="col-lg-4 col-form-label text-right">Add batch</label>
-      <div class="col-lg-4">
-        <input type="batch" class="form-control" id="inputBatchNr" placeholder="Batch number" name='batchnr' [(ngModel)]="newBatch"
-          required>
-      </div>
-    </div>
-
-    <button type="submit" class="btn btn-default btn-startBatch">
-      Start batch
-    </button>
-
-  </form>
+  </div>
 </div>
 
-<hr>
+<ng-template #loading>
+  Loading content...
+</ng-template>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 import { HttpModule } from '@angular/http';
 import { NgModule } from '@angular/core';
@@ -13,6 +13,7 @@ import { FinishBatchRoutingModule } from './finish-batch-routing.module';
     CommonModule,
     FinishBatchRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     HttpClientModule
   ],
