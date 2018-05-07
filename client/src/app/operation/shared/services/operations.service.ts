@@ -24,7 +24,7 @@ export class OperationsService {
   private prodInfo = new BehaviorSubject<{}>({
     active: false,
     batch_number: null,
-    order_number: null, 
+    order_number: null,
     article_number: null,
   });
   prodInfoObservable = this.prodInfo.asObservable();
@@ -69,9 +69,9 @@ export class OperationsService {
   constructor(private http: HttpClient) { }
 
   //This method changes the status of a batch running or a batch not running.
-   changeProdStatus(startBatch: boolean) {
-     this.prodInfo.next(startBatch);
-   }
+  changeProdStatus(startBatch: boolean) {
+    this.prodInfo.next(startBatch);
+  }
 
   //This method sets the data values for the current running batch.
   changeProdInfo(info: {}) {
@@ -147,7 +147,7 @@ export class OperationsService {
   }
   updateOrder(order) {
     console.log("Sending data: ")
-    console.log( JSON.stringify(order))
+    console.log(JSON.stringify(order))
     return this.http.put(this.URL_ROOT + this.URL_ORDER_API + order['order_number'] + '/', JSON.stringify(order), this.httpOptions)
   }
 

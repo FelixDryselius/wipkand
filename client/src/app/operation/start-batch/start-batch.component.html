@@ -16,13 +16,14 @@
           (newBatchForm.controls.orderNumber.dirty || newBatchForm.controls.orderNumber.touched)">
           <div class="col-lg-7 offset-lg-3 alert alert-danger">
             <span *ngIf="newBatchForm.controls.orderNumber.errors?.required">
-              This field is required.
+              * This field is required.
             </span>
             <span *ngIf="newBatchForm.controls.orderNumber.errors?.pattern">
-              An order number can only consist of numbers.
+              * An order number can only consist of numbers.
             </span>
+            <br>
             <span *ngIf="newBatchForm.controls.orderNumber.errors?.range">
-              An order number must be 7 digits.
+              * An order number must be 7 digits.
             </span>
           </div>
         </div>
@@ -41,7 +42,7 @@
           (newBatchForm.controls.articleNumber.dirty || newBatchForm.controls.articleNumber.touched)">
           <div class="col-lg-7 offset-lg-3 alert alert-danger">
             <span *ngIf="newBatchForm.controls.articleNumber.errors?.required">
-              Field is required!
+              * This field is required.
             </span>
           </div>
         </div>
@@ -55,13 +56,14 @@
           (newBatchForm.controls.batchNumber.dirty || newBatchForm.controls.batchNumber.touched)">
           <div class="col-lg-7 offset-lg-3 alert alert-danger">
             <span *ngIf="newBatchForm.controls.batchNumber.errors?.required">
-              Field is required!
+              * This field is required.
             </span>
             <span *ngIf="newBatchForm.controls.batchNumber.errors?.pattern">
-              A batch number can only consist of numbers.
+              * A batch number can only consist of numbers.
             </span>
+            <br>
             <span *ngIf="newBatchForm.controls.batchNumber.errors?.range">
-              A batch number must be 10 digits.
+              * A batch number must be 10 digits.
             </span>
           </div>
         </div>
