@@ -97,13 +97,13 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         this.products = (data as QueryResponse).results
       })
 
-    this.commentSub = this.commentService.getComment(this.batchDetailID)
+    this.commentSub = this.commentService.getComment(this.currentBatch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.comments = (data as QueryResponse).results
       })
 
-    this.statisticsSub = this.operationsService.getProductionStatistics('?search=' + this.batchDetailID + '&limit=40')
+    this.statisticsSub = this.operationsService.getProductionStatistics('?search=' + this.currentBatch + '&limit=40')
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.statistics = (data as QueryResponse).results
