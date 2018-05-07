@@ -31,7 +31,7 @@ import 'rxjs/add/operator/finally';
 
 
 @Injectable()
-export class TokenInterceptor implements HttpInterceptor {
+export class TokenInterceptor {//implements HttpInterceptor {
 
   constructor(
     private authAPI: AuthAPIService,
