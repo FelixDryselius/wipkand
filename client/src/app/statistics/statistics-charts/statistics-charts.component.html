@@ -1,72 +1,45 @@
-<p>
-  statistics-charts works!
-</p>
-
-
-<!--The content below is only a placeholder and can be replaced. 
-<mat-form-field>
-  <mat-select [(value)]="survey.country">
-    <mat-option value="India">India</mat-option>
-    <mat-option value="USA">USA</mat-option>
-    <mat-option value="Germany">Germany</mat-option>
-    <mat-option value="Brazil">Brazil</mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-form-field>
-  <mat-select [(value)]="survey.gender">
-    <mat-option value="Male">Male</mat-option>
-    <mat-option value="Female">Female</mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-radio-group [(ngModel)]="survey.rating" name="rating">
-  <mat-radio-button value="5">5</mat-radio-button>
-  <mat-radio-button value="4">4</mat-radio-button>
-  <mat-radio-button value="3">3</mat-radio-button>
-  <mat-radio-button value="2">2</mat-radio-button>
-  <mat-radio-button value="1">1</mat-radio-button>
-</mat-radio-group>
-<button mat-raised-button color="primary" (click)="saveEntry()">Save Entry</button>
--->
-
-
-<!--   -->
-<ngx-charts-bar-horizontal *ngIf = "chartdata"
-      [view]=[500,500]
-      [scheme]="colorScheme"
-      [results]="chartdata"
-      [legend]="showLegend"
-      [animations]=true
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxis]='true'
-      [yAxis]=true
-
-     
-      (select)="pressed ($event)">
-    </ngx-charts-bar-horizontal>
- 
-<ngx-charts-pie-chart *ngIf = "chartdata"
+<div class="container-fluid">
+  <div class="row" style="height:50vh">
+    <ngx-charts-line-chart *ngIf = "haveData"
       [view]="view"
       [scheme]="colorScheme"
-      [results]="chartdata"
+      [results]="displayData"
       [legend]="showLegend"
-      [explodeSlices]="explodeSlices"
-      [labels]="showLabels"
-      [doughnut]="doughnut"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxisTickFormatting]="xAxisFormatting"
+      [xAxisLabel] = "date"
+      [xAxis]='true'
+      [yAxis]=true
+      [timeline]="true"
       (select)="pressed($event)">
-    </ngx-charts-pie-chart> 
+    </ngx-charts-line-chart> 
 
-     
-<ngx-charts-line-chart *ngIf = "chartdataLine"
-  [view]="view"
-  [scheme]="colorScheme"
-  [results]="chartdataLine"
-  [legend]="showLegend"
-  [showXAxisLabel]="showXAxisLabel"
-  [showYAxisLabel]="showYAxisLabel"
-  [xAxis]='true'
-  [yAxis]=true
-  (select)="pressed($event)">
-</ngx-charts-line-chart> 
-
- 
+    <div class="col-sm-3">
+      <div class="dropdown">
+        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="timeScopeDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Time scope
+        </button>
+        <div class="dropdown-menu" aria-labelledby="timeScopeDropDown">
+          <div class="dropdown-item" (click)="changeTimeSpan('720')">30 Days</div>
+          <div class="dropdown-item" (click)="changeTimeSpan('360')">15 Days</div>
+          <div class="dropdown-item" (click)="changeTimeSpan('168')">7 Days</div>
+          <div class="dropdown-item" (click)="changeTimeSpan('72')">72 Hours</div>
+          <div class="dropdown-item" (click)="changeTimeSpan('24')">24 Hours</div>
+          <div class="dropdown-item" (click)="changeTimeSpan('12')">12 Hours</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="dropdown">
+        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" id="showBatchesDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Show Batches
+        </button>    
+        <div class="dropdown-menu" aria-labelledby="showBatchesDropDown">
+          <div class="dropdown-item" (click)="toggleBatches(true)">Yes</div>
+          <div class="dropdown-item" (click)="toggleBatches(false)">No</div>
+        </div>
+      </div> 
+    </div>
+  </div>
+</div>
