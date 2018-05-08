@@ -197,7 +197,7 @@ export class HomeComponent implements OnInit {
         this.floorstockItems = (data as QueryResponse).results
       });
 
-    this.floorstockChangesObservable = this.operationsService.getFloorstockChanges(this.prodInfo.batch_number)
+    this.floorstockChangesObservable = this.operationsService.getFloorstockChanges('?search='+this.prodInfo.batch_number)
     this.floorstockChangesSub = this.floorstockChangesObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {

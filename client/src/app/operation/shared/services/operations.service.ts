@@ -136,12 +136,13 @@ export class OperationsService {
     return this.http.put(this.URL_ROOT + this.URL_ORDER_API + order['order_number'] + '/', JSON.stringify(order), this.httpOptions)
   }
 
-  getFloorstockItems() {
+  getFloorstockItems(query?:string) {
     return this.http.get(this.URL_ROOT + this.floorstockItemsURL)
+    
   }
 
-  getFloorstockChanges(currentBatch) {
-    return this.http.get(this.URL_ROOT + this.floorstockChangesURL + '?search=' + currentBatch)
+  getFloorstockChanges(query?:string) {
+    return this.http.get(this.URL_ROOT + this.floorstockChangesURL + query + '/')
   }
 
   createFloorstock(newItem: {}) {

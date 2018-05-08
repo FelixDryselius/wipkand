@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 //3rd party and application imports
 import { AuthAPIService } from '../../../auth/auth.service';
-import { element } from 'protractor';
+import { element, logging } from 'protractor';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { OperationsService } from '../../../operation/shared/services/operations.service';
 import { QueryResponse } from '../../../shared/interfaces/query-response';
