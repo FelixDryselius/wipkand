@@ -32,9 +32,9 @@ CREATE TABLE batch
   applied_labels INT,
   label_print_time datetime, 
   rework_time time,
-  _order char(7) NOT NULL,
+  production_order char(7) NOT NULL,
   PRIMARY KEY (ID),
-  FOREIGN KEY (_order) REFERENCES production_order(order_number)
+  FOREIGN KEY (production_order) REFERENCES production_order(order_number)
 );
 
 CREATE TABLE batch_comment

@@ -14,13 +14,13 @@ class Product(models.Model):
         db_table = 'product'
 
 
-class ProductOrder(models.Model):
+class ProductionOrder(models.Model):
     order_number = models.CharField(primary_key=True, max_length=7)
     article_number = models.ForeignKey(Product, models.DO_NOTHING, db_column='article_number')
 
     class Meta:
         managed = False
-        db_table = 'product_order'
+        db_table = 'production_order'
         ordering = ['-order_number']
 
 
@@ -39,7 +39,7 @@ class Batch(models.Model):
     applied_labels = models.IntegerField(blank=True, null=True)
     label_print_time = models.DateTimeField(blank=True, null=True)
     rework_time = models.TimeField(blank=True, null=True)
-    order_number = models.ForeignKey('ProductOrder', models.DO_NOTHING, db_column='order_number')
+    order = models.ForeignKey('ProductionOrder', models.DO_NOTHING, db_column='production_order')
 
     class Meta:
         managed = False
@@ -55,10 +55,9 @@ class BatchComment(models.Model):
     user_name = models.CharField(max_length=255, blank=True, null=True)
     post_date = models.DateTimeField(blank=True, null=True)
     text_comment = models.TextField(blank=True, null=True)
-    batch_number = models.ForeignKey(Batch, models.DO_NOTHING, db_column='batch_number')
+    batch = models.ForeignKey(Batch, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'batch_comment'
-        unique_together = (('comment_id', 'batch_number'),)
         ordering = ['-post_date']

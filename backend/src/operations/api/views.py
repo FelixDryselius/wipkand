@@ -11,7 +11,7 @@ from rest_framework.permissions import (
     AllowAny,
 )
 
-from operations.models import Product, ProductOrder, Batch, BatchComment
+from operations.models import Product, ProductionOrder, Batch, BatchComment
 from operations.api.serializers import (
     ProductSerializer,
     OrderSerializer,
@@ -40,7 +40,7 @@ class OrderAPIView(
         mixins.CreateModelMixin):
 
     serializer_class = OrderNoValidateSerializer
-    queryset = ProductOrder.objects.all()
+    queryset = ProductionOrder.objects.all()
     # permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
@@ -53,7 +53,7 @@ class OrderDetailAPIView(
         mixins.DestroyModelMixin):
 
     serializer_class = OrderSerializer
-    queryset = ProductOrder.objects.all()
+    queryset = ProductionOrder.objects.all()
     # permission_classes = [AllowAny]
 
     def put(self, request, *args, **kwargs):
