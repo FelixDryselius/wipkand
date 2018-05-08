@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 //3rd part and application imports
 import { ScoreboardModule } from './scoreboard/scoreboard.module';
-import { StatisticsChartsModule } from './statistics-charts/statistics-charts.module';
+import { StatisticsChartsComponent } from './statistics-charts/production/production-charts.component';
 import { AuthGuard } from '../auth/auth-guard.service';
 
 
@@ -16,9 +16,22 @@ const routes: Routes = [
   },
   {
     path: 'charts',
-    loadChildren: './statistics-charts/statistics-charts.module#StatisticsChartsModule',
     canActivate: [AuthGuard],
-  } 
+    children: [
+    {
+      path:'',
+      redirectTo: 'production'
+    },
+    {
+      path: 'production',
+      component: StatisticsChartsComponent
+    },
+    {
+      path: 'floorstock',
+   //   component: FloorstockStatisticsComponent
+    },
+   ]
+  }
 ];
 
 @NgModule({

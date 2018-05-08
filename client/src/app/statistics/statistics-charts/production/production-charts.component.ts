@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
 //3rd party and application imports
-import { AuthAPIService } from '../../auth/auth.service';
+import { AuthAPIService } from '../../../auth/auth.service';
 import { element } from 'protractor';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { OperationsService } from '../../operation/shared/services/operations.service';
-import { QueryResponse } from '../../shared/interfaces/query-response';
-import { Scoreboard } from '../../../assets/interface/scoreboard';
+import { OperationsService } from '../../../operation/shared/services/operations.service';
+import { QueryResponse } from '../../../shared/interfaces/query-response';
+import { Scoreboard } from '../../../../assets/interface/scoreboard';
 
 
 @Component({
-  selector: 'app-statistics-charts',
-  templateUrl: './statistics-charts.component.html',
-  styleUrls: ['./statistics-charts.component.css']
+  selector: 'app-production-charts',
+  templateUrl: './production-charts.component.html',
+  styleUrls: ['./production-charts.component.css']
 })
 export class StatisticsChartsComponent implements OnInit {
   

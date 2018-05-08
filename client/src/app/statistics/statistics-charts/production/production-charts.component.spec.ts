@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StatisticsChartsComponent } from './statistics-charts.component';
+import { StatisticsChartsComponent } from './production-charts.component';
 
 describe('StatisticsChartsComponent', () => {
   let component: StatisticsChartsComponent;
