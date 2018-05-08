@@ -120,8 +120,6 @@ class CommentAPIView(
     '''Gets list of comments for a batch, or all comments if no batch is specified'''
     #permission_classes = [AllowAny]
     serializer_class = CommentSerializer
-    queryset = BatchComment.objects.all()
-    lookup_url_kwarg = 'batch'
     search_fields = ('comment_id',
                      'text_comment', 'user_name', 'post_date')
 
@@ -129,14 +127,10 @@ class CommentAPIView(
         return self.create(request, *args, **kwargs)
 
     def get_queryset(self):
-        _batch_kwarg = self.kwargs.get(self.lookup_url_kwarg)
         _batch_number = self.request.query_params.get("batch_number", None)
-        if _batch_kwarg:
-            queryset = BatchComment.objects.filter(
-                batch_number=_batch_kwarg['batch_number'])
-        elif _batch_number:
-            queryset = BatchComment.objects.filter(
-                batch_number=_batch_number)
+        if _batch_number:
+            _batch = get_object_or_404(Batch, batch_number=_batch_number)
+            queryset = BatchComment.objects.filter(batch=_batch)
         else:
             queryset = BatchComment.objects.all()
         return queryset

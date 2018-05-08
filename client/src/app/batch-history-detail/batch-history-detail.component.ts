@@ -91,7 +91,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
               this.order = data as Order
               this.orderDetailForm.patchValue(data as Order)
             }),
-          this.commentService.getComment(this.currentBatch)
+          this.commentService.getComment('?batch_number=' + this.currentBatch + '&limit=40')
             .map(data => {
               this.comments = (data as QueryResponse).results
             }),
