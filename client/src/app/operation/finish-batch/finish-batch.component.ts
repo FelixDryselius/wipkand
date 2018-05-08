@@ -74,7 +74,7 @@ export class FinishBatchComponent implements OnInit {
     if (this.prodInfo.active) {
       batchInfo = {
         batch_number: this.prodInfo.batch_number,
-        order_number: {
+        order: {
           order_number: this.prodInfo.order_number,
           article_number: this.prodInfo.article_number,
         },

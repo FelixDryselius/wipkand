@@ -78,7 +78,7 @@ export class OperationsService {
   getOrderByBatch(batch) {
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API + batch + '/').switchMap(data => {
       let returnedBatch = data as Batch
-      let order_number = returnedBatch.order_number.order_number
+      let order_number = returnedBatch.order.order_number
       return this.http.get(this.URL_ROOT + this.URL_ORDER_API)
     })
   }
@@ -111,8 +111,8 @@ export class OperationsService {
       currentBatch = {
         active: true,
         batch_number: data.batch_number,
-        order_number: data.order_number.order_number,
-        article_number: data.order_number.article_number,
+        order_number: data.order.order_number,
+        article_number: data.order.article_number,
       }
       this.changeProdInfo(currentBatch)
     } else {

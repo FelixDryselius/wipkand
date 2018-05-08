@@ -83,7 +83,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       .mergeMap(data => {
         let batch = data as Batch
         this.currentBatch = data.batch_number
-        let orderNumber = batch.order_number.order_number
+        let orderNumber = batch.order.order_number
         this.batchDetailForm.patchValue(batch)
         return Observable.forkJoin(
           this.operationsService.getOrder(orderNumber)
@@ -141,14 +141,14 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     let batch;
     if (form['order_number']) {
       batch = {
-        order_number: {
+        order: {
           order_number: form['order_number'],
           article_number: form['article_number'],
         },
         batch_number: this.batchDetailID
       }
     } else {
-      form['order_number'] = this.order
+      form['order'] = this.order
       form['id'] = this.batchDetailID
       batch = form
     }
@@ -156,7 +156,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         let updatedBatch = data as Batch
-        this.order = updatedBatch.order_number
+        this.order = updatedBatch.order
         this.batchDetailID = (data as Batch).id
       })
   }

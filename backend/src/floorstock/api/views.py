@@ -1,4 +1,6 @@
 
+from django.shortcuts import get_object_or_404
+
 from rest_framework import generics, mixins, permissions
 from django.shortcuts import get_object_or_404
 
@@ -8,6 +10,7 @@ from floorstock.api.serializers import (
     FloorstockStatisticSerializer
 )
 
+from operations.models import Batch
 
 class FloorstockItemAPIDetailView(
         generics.RetrieveAPIView,
@@ -51,13 +54,13 @@ class FloorstockStatisticAPIView(
     permission_classes = [permissions.AllowAny]
     serializer_class = FloorstockStatisticSerializer
     queryset = FloorstockStatistic.objects.all()
-    search_fields = ('batch_number__batch_number', 'floorstock_item__item_id', 'time_stamp')
+    search_fields = ('floorstock_item__item_id', 'time_stamp')
 
     def get_queryset(self):
         _batch_number = self.request.query_params.get("batch_number", None)
         if _batch_number:
-            queryset = FloorstockStatistic.objects.filter(
-                batch_number=_batch_number)
+            _batch = get_object_or_404(Batch, batch_number=_batch_number)
+            queryset = FloorstockStatistic.objects.filter(batch=_batch)
         else:
             queryset = FloorstockStatistic.objects.all()
         return queryset
