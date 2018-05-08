@@ -140,7 +140,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     //the following items are copied from start-batch.component. Subscribes to be able to connect comment to running batch
-    
+
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => {
       this.prodInfo = info
       if (this.prodInfo) {
@@ -190,6 +190,17 @@ export class HomeComponent implements OnInit {
 
   getFloorstock() {
 
+    this.floorstockItemsSub = this.operationsService.getFloorstockItems()
+    .switchMap(data => {
+      this.floorstockItems = (data as QueryResponse).results
+      return this.operationsService.getFloorstockChanges(this.prodInfo.batch_number)
+    })
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.floorstockChanges = (data as QueryResponse).results
+    
+
+/*
     this.floorstockItemsObservable = this.operationsService.getFloorstockItems()
     this.floorstockItemsSub = this.floorstockItemsObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
@@ -201,7 +212,7 @@ export class HomeComponent implements OnInit {
     this.floorstockChangesSub = this.floorstockChangesObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        this.floorstockChanges = (data as QueryResponse).results
+        this.floorstockChanges = (data as QueryResponse).results*/
 
         let correctLabel;
 
@@ -357,7 +368,7 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateProdStats(changeData)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
-            this.feedbackScoreboard()
+          this.feedbackScoreboard()
         }
         else if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && this.shiftProdStats[obj]["production_quantity"] > 0 && key.substr(key.length - 2) == 'pq') {
           changeData = {
@@ -368,7 +379,7 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateProdStats(changeData)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
-            this.feedbackScoreboard()
+          this.feedbackScoreboard()
         }
 
         else {
@@ -423,7 +434,7 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateFloorstock(updateItem)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
-            this.feedbackFloorstock()
+          this.feedbackFloorstock()
 
         }
         else {
