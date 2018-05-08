@@ -8,7 +8,7 @@ CREATE TABLE product
 );
 
 
-CREATE TABLE product_order
+CREATE TABLE production_order
 (
   order_number char(7) NOT NULL,
   article_number char(8) NOT NULL,
@@ -32,9 +32,9 @@ CREATE TABLE batch
   applied_labels INT,
   label_print_time datetime, 
   rework_time time,
-  order_number char(7) NOT NULL,
+  _order char(7) NOT NULL,
   PRIMARY KEY (ID),
-  FOREIGN KEY (order_number) REFERENCES product_order(order_number)
+  FOREIGN KEY (_order) REFERENCES production_order(order_number)
 );
 
 CREATE TABLE batch_comment
@@ -43,9 +43,9 @@ CREATE TABLE batch_comment
   user_name varchar(255),
   post_date datetime,
   text_comment text ,
-  batch_number char(10),
+  batch_id int,
   PRIMARY KEY (comment_ID),
-  FOREIGN KEY (batch_number) REFERENCES batch(batch_number)
+  FOREIGN KEY (batch_id) REFERENCES batch(ID)
 );
 
 CREATE TABLE floorstock_item
@@ -58,11 +58,11 @@ CREATE TABLE floorstock_item
 CREATE TABLE production_statistic
 (
   time_stamp datetime NOT NULL,
-  batch_number char(10) NOT NULL,
+  batch_id int NOT NULL,
   production_quantity INT,
   staff_quantity INT,
   PRIMARY KEY (time_stamp),
-  FOREIGN KEY (batch_number) REFERENCES batch(batch_number)
+  FOREIGN KEY (batch_id) REFERENCES batch(ID)
 );
 
 CREATE TABLE floorstock_statistic
@@ -71,8 +71,8 @@ CREATE TABLE floorstock_statistic
   time_stamp datetime NOT NULL,
   floorstock_item_id char(255) NOT NULL,
   quantity INT,
-  batch_number char(10) NOT NULL,
+  batch_id int NOT NULL,
   PRIMARY KEY (ID),
-  FOREIGN KEY (batch_number) REFERENCES batch(batch_number),
+  FOREIGN KEY (batch_id) REFERENCES batch(ID),
   FOREIGN KEY (floorstock_item_id) REFERENCES floorstock_item(item_id)
 );
