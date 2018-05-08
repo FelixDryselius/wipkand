@@ -141,8 +141,8 @@ export class OperationsService {
     return this.http.get(this.URL_ROOT + this.floorstockItemsURL)
   }
 
-  getFloorstockChanges(currentBatch) {
-    return this.http.get(this.URL_ROOT + this.floorstockChangesURL + '?search=' + currentBatch)
+  getFloorstockChanges(query?: string) {
+    return this.http.get(this.URL_ROOT + this.floorstockChangesURL + query)
   }
 
   createFloorstock(newItem: {}) {
@@ -155,8 +155,8 @@ export class OperationsService {
     return this.http.patch(UPDATE_FLOORSTOCK_URL, JSON.stringify(updatedItem), this.httpOptions)
   }
 
-  getProdStats(currentBatch) {
-    return this.http.get(this.URL_ROOT + this.scoreboardListURL + '?search=' + currentBatch)
+  getProdStats(query?: string) {
+    return this.http.get(this.URL_ROOT + this.scoreboardListURL + query)
   }
 
   createProdStats(newCell: {}) {
