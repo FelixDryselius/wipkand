@@ -3,7 +3,9 @@ import { Component, OnInit, Pipe, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Location } from '@angular/common'
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 import { tap } from 'rxjs/operators';
+
 
 // Application imports
 import { AuthAPIService } from '../auth/auth.service';
@@ -78,17 +80,23 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     })
 
     this.batchSub = this.operationsService.getBatchDetail(this.batchDetailID)
-      .switchMap(data => {
+      .mergeMap(data => {
         let batch = data as Batch
         this.currentBatch = data.batch_number
         let orderNumber = batch.order_number.order_number
         this.batchDetailForm.patchValue(batch)
-        return this.operationsService.getOrder(orderNumber)
+        return Observable.forkJoin(
+          this.operationsService.getOrder(orderNumber).map(data => {data as Order; this.orderDetailForm.patchValue(data)}),
+          this.commentService.getComment(this.currentBatch).map(data => {this.comments = (data as QueryResponse).results}),
+          this.operationsService.getProductionStatistics('?search=' + this.currentBatch + '&limit=40').map(data => {this.statistics = (data as QueryResponse).results})
+        )
       })
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        this.order = data as Order
-        this.orderDetailForm.patchValue(data)
+        console.log("In the subscribe. Data is: ");
+        console.log(data);
+        // this.order = data as Order
+        // this.orderDetailForm.patchValue(data)
       })
 
     this.productSub = this.operationsService.getProduct()
@@ -97,24 +105,29 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         this.products = (data as QueryResponse).results
       })
 
-    this.commentSub = this.commentService.getComment(this.currentBatch)
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe(data => {
-        this.comments = (data as QueryResponse).results
-      })
+    // this.commentSub = this.commentService.getComment(this.currentBatch)
+    //   .retryWhen(error => this.authAPI.checkHttpRetry(error))
+    //   .subscribe(data => {
+    //     this.comments = (data as QueryResponse).results
+    //   })
 
-    this.statisticsSub = this.operationsService.getProductionStatistics('?search=' + this.currentBatch + '&limit=40')
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe(data => {
-        this.statistics = (data as QueryResponse).results
-      })
+    // this.statisticsSub = this.operationsService.getProductionStatistics('?search=' + this.currentBatch + '&limit=40')
+    //   .retryWhen(error => this.authAPI.checkHttpRetry(error))
+    //   .subscribe(data => {
+    //     this.statistics = (data as QueryResponse).results
+    //   })
   }
 
   ngOnDestroy() {
-    this.batchSub.unsubscribe()
-    this.productSub.unsubscribe()
-    this.commentSub.unsubscribe()
-    this.statisticsSub.unsubscribe()
+    if (this.batchSub) {
+      this.batchSub.unsubscribe()
+    }
+    if (this.productSub) {
+      this.productSub.unsubscribe()
+    }
+    // this.productSub.unsubscribe()
+    // this.commentSub.unsubscribe()
+    // this.statisticsSub.unsubscribe()
   }
   submitFormDetails($theEvent, form) {
     let batch;

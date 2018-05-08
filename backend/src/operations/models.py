@@ -45,6 +45,9 @@ class Batch(models.Model):
         managed = False
         db_table = 'batch'
         ordering = ['-start_date']
+    
+    def __unicode__(self):
+        return self.batch_number
 
 
 class BatchComment(models.Model):
