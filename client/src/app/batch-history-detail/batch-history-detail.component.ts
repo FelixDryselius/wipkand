@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Pipe, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Location } from '@angular/common'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
@@ -11,6 +11,7 @@ import { tap } from 'rxjs/operators';
 import { AuthAPIService } from '../auth/auth.service';
 import { Batch } from '../shared/interfaces/batch';
 import { CommentService } from '../shared/application-services/comment.service';
+import { CustomValidation } from '../shared/validators/customValidation'
 import { OperationsService } from '../operation/shared/services/operations.service';
 import { QueryResponse } from '../shared/interfaces/query-response';
 import { Order } from '../shared/interfaces/order';
@@ -46,6 +47,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   order: Order;
 
 
+
   private prodInfo: {}
   private service_prodInfo: any;
 
@@ -62,26 +64,8 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     this.batchDetailID = this.route.snapshot.paramMap.get('id')
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
-    this.orderDetailForm = this.formBuilder.group({
-      order_number: [],
-      article_number: this.products,
-    })
-
-    this.batchDetailForm = this.formBuilder.group({
-      batch_number: [],
-      start_date: [],
-      end_date: [],
-      scrap: [],
-      production_yield: [],
-      hmi1_good: [],
-      hmi1_bad: [],
-      hmi2_good: [],
-      hmi2_bad: [],
-      rework_date: [],
-      applied_labels: [],
-      label_print_time: [],
-      rework_time: [],
-    })
+    this.createOrderForm()
+    this.createBatchForm()
 
     this.batchSub = this.operationsService.getBatchDetail(this.batchDetailID)
       .mergeMap(data => {
@@ -106,30 +90,13 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         )
       })
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe(data => {
-        console.log("In the subscribe. Data is: ");
-        console.log(data);
-        // this.order = data as Order
-        // this.orderDetailForm.patchValue(data)
-      })
+      .subscribe()
 
     this.productSub = this.operationsService.getProduct()
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.products = (data as QueryResponse).results
       })
-
-    // this.commentSub = this.commentService.getComment(this.currentBatch)
-    //   .retryWhen(error => this.authAPI.checkHttpRetry(error))
-    //   .subscribe(data => {
-    //     this.comments = (data as QueryResponse).results
-    //   })
-
-    // this.statisticsSub = this.operationsService.getProductionStatistics('?search=' + this.currentBatch + '&limit=40')
-    //   .retryWhen(error => this.authAPI.checkHttpRetry(error))
-    //   .subscribe(data => {
-    //     this.statistics = (data as QueryResponse).results
-    //   })
   }
 
   ngOnDestroy() {
@@ -142,6 +109,61 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     if (this.service_prodInfo) {
       this.service_prodInfo.unsubscribe()
     }
+  }
+
+  createOrderForm() {
+    this.orderDetailForm = this.formBuilder.group({
+      'order_number': new FormControl('', [
+        Validators.required,
+        Validators.pattern("^[0-9]*$"),
+        CustomValidation.checkLimit(1000000, 9999999),
+      ]),
+      'article_number': new FormControl(this.products, [
+        Validators.required
+      ])
+    })
+  }
+
+  createBatchForm() {
+    this.batchDetailForm = this.formBuilder.group({
+      'batch_number': new FormControl('', [
+        Validators.required,
+        Validators.pattern("^[0-9]*$"),
+        CustomValidation.checkLimit(1000000000, 9999999999),
+      ]),
+      'start_date': new FormControl('', [
+        Validators.required,
+      ]),
+      'end_date': [],
+      'scrap': new FormControl('', [
+        //Validators.required,
+        Validators.pattern("^[0-9]*$"),
+      ]),
+      'production_yield': new FormControl('', [
+        //Validators.required,
+        Validators.pattern("^[0-9]*$"),
+      ]),
+      'hmi1_good': new FormControl('', [
+        //Validators.required,
+        Validators.pattern("^[0-9]*$"),
+      ]),
+      'hmi1_bad': new FormControl('', [
+        //Validators.required,
+        Validators.pattern("^[0-9]*$"),
+      ]),
+      'hmi2_good': new FormControl('', [
+        //Validators.required,
+        Validators.pattern("^[0-9]*$"),
+      ]),
+      'hmi2_bad': new FormControl('', [
+        //Validators.required,
+        Validators.pattern("^[0-9]*$"),
+      ]),
+      'rework_date': [],
+      'applied_labels': [],
+      'label_print_time': [],
+      'rework_time': [],
+    })
   }
 
   submitFormDetails($theEvent, form) {
