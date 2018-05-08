@@ -35,8 +35,15 @@ class ProductionStatisticAPIView(
 
     permission_classes = [permissions.AllowAny]
     serializer_class = ProductionStatisticSerializer
-    queryset = ProductionStatistic.objects.all()
-    search_fields = ('batch_number__batch_number', 'batch_number__id')
+    search_fields = ('time_stamp', 'staff_quantity')
+
+    def get_queryset(self, *args, **kwargs):
+            queryset = ProductionStatistic.objects.all()
+            _batch_number = self.request.query_params.get("batch_number", None)
+            if _batch_number:
+                queryset = queryset.filter(batch_number=_batch_number)
+            return queryset
+
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 

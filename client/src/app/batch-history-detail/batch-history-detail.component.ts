@@ -86,9 +86,19 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         let orderNumber = batch.order_number.order_number
         this.batchDetailForm.patchValue(batch)
         return Observable.forkJoin(
-          this.operationsService.getOrder(orderNumber).map(data => {data as Order; this.orderDetailForm.patchValue(data)}),
-          this.commentService.getComment(this.currentBatch).map(data => {this.comments = (data as QueryResponse).results}),
-          this.operationsService.getProductionStatistics('?search=' + this.currentBatch + '&limit=40').map(data => {this.statistics = (data as QueryResponse).results})
+          this.operationsService.getOrder(orderNumber)
+            .map(data => {
+              this.order = data as Order
+              this.orderDetailForm.patchValue(data as Order)
+            }),
+          this.commentService.getComment(this.currentBatch)
+            .map(data => {
+              this.comments = (data as QueryResponse).results
+            }),
+          this.operationsService.getProductionStatistics('?batch_number=' + this.currentBatch + '&limit=40')
+            .map(data => {
+              this.statistics = (data as QueryResponse).results
+            })
         )
       })
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
@@ -125,10 +135,8 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     if (this.productSub) {
       this.productSub.unsubscribe()
     }
-    // this.productSub.unsubscribe()
-    // this.commentSub.unsubscribe()
-    // this.statisticsSub.unsubscribe()
   }
+  
   submitFormDetails($theEvent, form) {
     let batch;
     if (form['order_number']) {

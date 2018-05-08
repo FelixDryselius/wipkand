@@ -122,7 +122,7 @@ class CommentAPIView(
     serializer_class = CommentSerializer
     queryset = BatchComment.objects.all()
     lookup_url_kwarg = 'batch_number'
-    search_fields = ('batch_number__batch_number',
+    search_fields = ('batch__batch_number',
                      'text_comment', 'user_name', 'post_date')
 
     def post(self, request, *args, **kwargs):
