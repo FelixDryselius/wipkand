@@ -21,7 +21,7 @@ import { Order } from '../shared/interfaces/order';
   styleUrls: ['./batch-history-detail.component.css']
 })
 export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
-  
+
   private batchDetailForm: FormGroup;
   private batchDetailID: string;
   private batchObservable: Observable<any>;
@@ -45,6 +45,10 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   products: {};
   order: Order;
 
+
+  private prodInfo: {}
+  private service_prodInfo: any;
+
   constructor(
     private authAPI: AuthAPIService,
     private route: ActivatedRoute,
@@ -56,8 +60,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.batchDetailID = this.route.snapshot.paramMap.get('id')
-    //TODO: MAKE THIS PAGE GREAT AND REMOVE COMMENTS ETC. MORE INFO ON:
-    // https://coryrylan.com/blog/using-angular-forms-with-async-data
+    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
 
     this.orderDetailForm = this.formBuilder.group({
       order_number: [],
@@ -136,8 +139,11 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     if (this.productSub) {
       this.productSub.unsubscribe()
     }
+    if (this.service_prodInfo) {
+      this.service_prodInfo.unsubscribe()
+    }
   }
-  
+
   submitFormDetails($theEvent, form) {
     let batch;
     if (form['order_number']) {
@@ -158,6 +164,14 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         let updatedBatch = data as Batch
+        if (this.prodInfo) {
+          if ((this.prodInfo['batch_number'] == this.currentBatch) &&
+            (this.currentBatch != updatedBatch.batch_number ||
+              this.order != updatedBatch.order)) {
+            this.operationsService.setCurrentBatchInfo(updatedBatch)
+          }
+        }
+        this.currentBatch = updatedBatch.batch_number
         this.order = updatedBatch.order
         this.batchDetailID = (data as Batch).id
       })

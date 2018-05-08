@@ -9,8 +9,6 @@ import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/retryWhen';
 
-
-
 @Component({
   selector: 'current-batch-info',
   templateUrl: './current-batch-info.component.html',
@@ -23,7 +21,6 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   //observables
   private req_batch: any;
   private service_prodInfo: any;
-  private service_prodStatus: any;
 
   private tokenRefreshRecallSub: any;
 
