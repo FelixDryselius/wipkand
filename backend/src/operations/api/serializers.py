@@ -40,7 +40,7 @@ class BatchDetailSerializer(ModelSerializer):
         fields = '__all__'
 
     def update(self, instance, validated_data):
-        entered_order = validated_data.pop('order_number')
+        entered_order = validated_data.pop('order')
         previous_order = instance.order
         new_order_nr = entered_order['order_number']
         old_order_nr = previous_order.order_number
@@ -105,16 +105,9 @@ class BatchDetailSerializer(ModelSerializer):
                 instance.batch_number = validated_data.get(
                     'batch_number', instance.batch_number)
                 instance.save()
-                migrate_comments(old_batch_number, new_batch_number)
-                # migrate_productionStatistics()
-                # migrate_floorstockStatistics()
 
             instance.save()
         return instance
-
-def migrate_comments(old_batch_number, new_batch_number):
-    comments = BatchComment.objects.filter(batch_number=old_batch_number)
-    comments.update(batch_number=new_batch_number)
 
 
 class BatchCreateSerializer(ModelSerializer):
@@ -135,7 +128,7 @@ class BatchCreateSerializer(ModelSerializer):
 
     # Do we need save after objects.create()?
     def create(self, validated_data):
-        entered_order = validated_data.pop('order_number')
+        entered_order = validated_data.pop('order')
         selected_product = entered_order['article_number']
 
         try:
@@ -159,14 +152,25 @@ class BatchCreateSerializer(ModelSerializer):
         print("CREATED BATCH")
         return batch
 
-
 def validate_order(old_order, new_product):
     if old_order != new_product:
         return False
     return True
 
 
+class BatchInfoSerializer(ModelSerializer):
+
+    class Meta:
+        model = Batch
+        fields = [
+            'id',
+            'batch_number'
+        ]
+
+
 class CommentSerializer(ModelSerializer):
+    batch = BatchInfoSerializer()
+    
     class Meta:
         model = BatchComment
         fields = [
@@ -174,5 +178,5 @@ class CommentSerializer(ModelSerializer):
             'user_name',
             'post_date',
             'text_comment',
-            'batch_number',
+            'batch',
         ]

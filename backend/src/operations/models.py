@@ -61,3 +61,6 @@ class BatchComment(models.Model):
         managed = False
         db_table = 'batch_comment'
         ordering = ['-post_date']
+
+    def __str__(self):
+        return self.post_date
