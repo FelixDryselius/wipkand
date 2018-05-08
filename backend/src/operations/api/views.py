@@ -11,14 +11,13 @@ from rest_framework.permissions import (
     AllowAny,
 )
 
-from operations.models import Product, ProductOrder, Batch, BatchComment
+from operations.models import Product, ProductionOrder, Batch, BatchComment
 from operations.api.serializers import (
     ProductSerializer,
     OrderSerializer,
     OrderNoValidateSerializer,
     BatchCreateSerializer,
     BatchDetailSerializer,
-    BatchPatchSerializer,
     CommentSerializer
 )
 
@@ -41,7 +40,7 @@ class OrderAPIView(
         mixins.CreateModelMixin):
 
     serializer_class = OrderNoValidateSerializer
-    queryset = ProductOrder.objects.all()
+    queryset = ProductionOrder.objects.all()
     # permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
@@ -54,7 +53,7 @@ class OrderDetailAPIView(
         mixins.DestroyModelMixin):
 
     serializer_class = OrderSerializer
-    queryset = ProductOrder.objects.all()
+    queryset = ProductionOrder.objects.all()
     # permission_classes = [AllowAny]
 
     def put(self, request, *args, **kwargs):
@@ -70,23 +69,24 @@ class BatchAPIView(
 
     serializer_class = BatchCreateSerializer
     #permission_classes = [AllowAny]
-    search_fields = ('batch_number', 'order_number__order_number', 'start_date', 'end_date')
+    search_fields = ('id', 'batch_number', 'order__order_number',
+                     'start_date', 'end_date')
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
-        queryset_list = Batch.objects.all()
-        query = self.request.GET.get("q")
-        print("In the get_queryset. query is: ")
-        print(query)
-        x = type(query) is str
-        print("Type of query is string: " + str(x))
-        if query:
-            if query == 'activeBatch':
-                queryset_list = queryset_list.filter(end_date__exact=None)
-                print(queryset_list)
-        return queryset_list
+        queryset = Batch.objects.all()
+        _batch_number = self.request.query_params.get("batch_number", None)
+        print(_batch_number)
+        if _batch_number:
+            if _batch_number == 'activeBatch':
+                queryset = queryset.filter(end_date__exact=None)
+                print("Current active batches: ")
+                print(queryset)
+            else:
+                queryset = queryset.filter(batch_number=_batch_number)
+        return queryset
 
 
 class BatchDetailAPIView(
@@ -98,13 +98,13 @@ class BatchDetailAPIView(
     serializer_class = BatchDetailSerializer
     queryset = Batch.objects.all()
 
-    def get_serializer_class(self):
-        serializer_class = self.serializer_class
-        if self.request.method == 'PATCH':
-            serializer_class = BatchDetailSerializer
-        else:
-            serializer_class = BatchDetailSerializer
-        return serializer_class
+    # def get_serializer_class(self):
+    #     serializer_class = self.serializer_class
+    #     if self.request.method == 'PATCH':
+    #         serializer_class = BatchDetailSerializer
+    #     else:
+    #         serializer_class = BatchDetailSerializer
+    #     return serializer_class
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -120,27 +120,27 @@ class CommentAPIView(
     '''Gets list of comments for a batch, or all comments if no batch is specified'''
     #permission_classes = [AllowAny]
     serializer_class = CommentSerializer
-    queryset = BatchComment.objects.all()
-    lookup_url_kwarg = 'batch_number'
+    search_fields = ('comment_id',
+                     'text_comment', 'user_name', 'post_date')
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
     def get_queryset(self):
-        _batch_number = self.kwargs.get(self.lookup_url_kwarg)
-        if _batch_number is not None:
-            queryset_list = BatchComment.objects.filter(
-                batch_number=_batch_number)
+        _batch_number = self.request.query_params.get("batch_number", None)
+        if _batch_number:
+            _batch = get_object_or_404(Batch, batch_number=_batch_number)
+            queryset = BatchComment.objects.filter(batch=_batch)
         else:
-            queryset_list = BatchComment.objects.all()
-        return queryset_list
+            queryset = BatchComment.objects.all()
+        return queryset
 
 
 class CommentDetailAPIView(
     generics.RetrieveAPIView,
         mixins.UpdateModelMixin,
         mixins.DestroyModelMixin):
-        
+
     '''Gets detail of batch and comment id'''
     serializer_class = CommentSerializer
     #permission_classes = [AllowAny]
@@ -153,4 +153,3 @@ class CommentDetailAPIView(
 
     def patch(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
-

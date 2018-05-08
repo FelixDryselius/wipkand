@@ -21,9 +21,8 @@ urlpatterns = [
     path('order/<str:pk>/', OrderDetailAPIView.as_view(), name='order-detail'),
 
     path('batch/', BatchAPIView.as_view(), name='batch-list'),
-    path('batch/<str:pk>/', BatchDetailAPIView.as_view(), name='batch-detail'),
+    path('batch/<int:pk>/', BatchDetailAPIView.as_view(), name='batch-detail'),
 
     path('comment/', CommentAPIView.as_view(), name='comment-list'),
-    path('comment/<str:batch_number>/', CommentAPIView.as_view(), name='batch-comment-list'),
-    path('comment/<str:batch_number>/<int:pk>/', CommentDetailAPIView.as_view(), name='comment-detail'),
+    path('comment/<int:pk>/', CommentDetailAPIView.as_view(), name='comment-detail'),
 ]
