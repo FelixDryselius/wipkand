@@ -461,7 +461,7 @@ export class HomeComponent implements OnInit {
       user_name: this.commentName,
       post_date: this.commentDate,
       text_comment: this.commentText,
-      batch_number: this.prodInfo.batch_number,
+      batch: this.prodInfo.id,
     }
     // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
     if (typeof this.commentName != 'undefined' && typeof this.commentText != 'undefined') {

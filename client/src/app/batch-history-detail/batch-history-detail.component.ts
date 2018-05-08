@@ -21,7 +21,7 @@ import { Order } from '../shared/interfaces/order';
   styleUrls: ['./batch-history-detail.component.css']
 })
 export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
-  private currentBatch: string;
+  
   private batchDetailForm: FormGroup;
   private batchDetailID: string;
   private batchObservable: Observable<any>;
@@ -39,6 +39,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   private productObservable: Observable<any>;
   private productSub: any;
 
+  private currentBatch: string;
   comments: {};
   statistics: {};
   products: {};
@@ -145,7 +146,8 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
           order_number: form['order_number'],
           article_number: form['article_number'],
         },
-        batch_number: this.batchDetailID
+        id: this.batchDetailID,
+        batch_number: this.currentBatch
       }
     } else {
       form['order'] = this.order

@@ -55,7 +55,7 @@ class BatchComment(models.Model):
     user_name = models.CharField(max_length=255, blank=True, null=True)
     post_date = models.DateTimeField(blank=True, null=True)
     text_comment = models.TextField(blank=True, null=True)
-    batch = models.ForeignKey(Batch, models.DO_NOTHING, blank=True, null=True)
+    batch = models.ForeignKey(Batch, models.DO_NOTHING, blank=False, null=False)
 
     class Meta:
         managed = False

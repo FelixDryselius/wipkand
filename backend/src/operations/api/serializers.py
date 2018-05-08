@@ -75,6 +75,8 @@ class BatchDetailSerializer(ModelSerializer):
             instance.save()
             order_to_use.save()
         else:
+            instance.batch_number = validated_data.get(
+                'batch_number', instance.batch_number)
             instance.start_date = validated_data.get(
                 'start_date', instance.start_date)
             instance.end_date = validated_data.get(
@@ -98,14 +100,6 @@ class BatchDetailSerializer(ModelSerializer):
             instance.hmi2_bad = validated_data.get(
                 'hmi2_bad', instance.hmi2_bad)
             instance.scrap = validated_data.get('scrap', instance.scrap)
-
-            if instance.batch_number != validated_data.get('batch_number', instance.batch_number):
-                old_batch_number = instance.batch_number
-                new_batch_number = validated_data.get('batch_number', instance.batch_number)
-                instance.batch_number = validated_data.get(
-                    'batch_number', instance.batch_number)
-                instance.save()
-
             instance.save()
         return instance
 
@@ -152,25 +146,14 @@ class BatchCreateSerializer(ModelSerializer):
         print("CREATED BATCH")
         return batch
 
+
 def validate_order(old_order, new_product):
     if old_order != new_product:
         return False
     return True
 
 
-class BatchInfoSerializer(ModelSerializer):
-
-    class Meta:
-        model = Batch
-        fields = [
-            'id',
-            'batch_number'
-        ]
-
-
 class CommentSerializer(ModelSerializer):
-    batch = BatchInfoSerializer()
-    
     class Meta:
         model = BatchComment
         fields = [
