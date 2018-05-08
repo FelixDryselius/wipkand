@@ -76,17 +76,17 @@ class BatchAPIView(
         return self.create(request, *args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
-        queryset_list = Batch.objects.all()
-        query = self.request.GET.get("q")
-        print("In the get_queryset. query is: ")
-        print(query)
-        x = type(query) is str
-        print("Type of query is string: " + str(x))
-        if query:
-            if query == 'activeBatch':
-                queryset_list = queryset_list.filter(end_date__exact=None)
-                print(queryset_list)
-        return queryset_list
+        queryset = Batch.objects.all()
+        _batch_number = self.request.query_params.get("batch_number", None)
+        print(_batch_number)
+        if _batch_number:
+            if _batch_number == 'activeBatch':
+                queryset = queryset.filter(end_date__exact=None)
+                print("Current active batches: ")
+                print(queryset)
+            else:
+                queryset = queryset.filter(batch_number=_batch_number)
+        return queryset
 
 
 class BatchDetailAPIView(
@@ -122,20 +122,24 @@ class CommentAPIView(
     serializer_class = CommentSerializer
     queryset = BatchComment.objects.all()
     lookup_url_kwarg = 'batch_number'
-    search_fields = ('batch__batch_number',
+    search_fields = ('comment_id',
                      'text_comment', 'user_name', 'post_date')
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
     def get_queryset(self):
-        _batch_number = self.kwargs.get(self.lookup_url_kwarg)
-        if _batch_number is not None:
-            queryset_list = BatchComment.objects.filter(
+        _batch_number_kwarg = self.kwargs.get(self.lookup_url_kwarg)
+        _batch_number = self.request.query_params.get("batch_number", None)
+        if _batch_number_kwarg:
+            queryset = BatchComment.objects.filter(
+                batch_number=_batch_number_kwarg)
+        elif _batch_number:
+            queryset = BatchComment.objects.filter(
                 batch_number=_batch_number)
         else:
-            queryset_list = BatchComment.objects.all()
-        return queryset_list
+            queryset = BatchComment.objects.all()
+        return queryset
 
 
 class CommentDetailAPIView(

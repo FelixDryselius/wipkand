@@ -39,7 +39,7 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   }
 
   getActiveBatch() {
-    let activeBatchquery = "?q=activeBatch"
+    let activeBatchquery = "?batch_number=activeBatch"
     this.req_batch = this.operationsService.getBatchDetail(activeBatchquery)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
