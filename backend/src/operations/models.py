@@ -27,7 +27,7 @@ class ProductionOrder(models.Model):
 class Batch(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     batch_number = models.CharField(unique=True, max_length=10)
-    start_date = models.DateTimeField(blank=False, null=False)
+    start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
     scrap = models.IntegerField(blank=True, null=True)
     production_yield = models.IntegerField(blank=True, null=True)

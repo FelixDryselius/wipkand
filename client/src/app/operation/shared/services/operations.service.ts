@@ -110,6 +110,7 @@ export class OperationsService {
     if (data) {
       currentBatch = {
         active: true,
+        id: data.id,
         batch_number: data.batch_number,
         order_number: data.order.order_number,
         article_number: data.order.article_number,
