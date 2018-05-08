@@ -1,22 +1,42 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-2">
-      <h2 class="text-left">
-        Home
-      </h2>
-    </div>
-    <div class="col-md-8">
-    </div>
-    <div class="row">
-      <div class="col-md-5">
-        <h3>
-          Shift:
-        </h3>
-      </div>
-      <div class="col-md-7">
-        <select class="chooseShift" [(ngModel)]="selectShift" (ngModelChange)="onChange($event)" name="differentShifts">
-          <option *ngFor="let chosenShift of shifts" [ngValue]="chosenShift" [selected]='chosenShift === selectShift'> {{chosenShift}} </option>
-        </select>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-2">
+            <div><i class="fas fa-home fa-fw" style="background:MistyRose"></i> Home</div>
+<div><i class="fas fa-info fa-fw" style="background:MistyRose"></i> Info</div>
+<div><i class="fas fa-book fa-fw" style="background:MistyRose"></i> Library</div>
+<div><i class="fas fa-pencil-alt fa-fw" style="background:MistyRose"></i> Applications</div>
+<div><i class="fas fa-cog fa-fw" style="background:MistyRose"></i> Settings</div>
+          <h2 class="text-left">
+            Home
+          </h2>
+        </div>
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-3" align="right">
+          <h3>
+            Shift: {{ selectedShift }} {{ shiftDate }}
+          </h3>
+        </div>
+        <div class="row">
+
+          <div class="dropdown col-md-6">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
+              Select shift
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <div class="dropdown-item" *ngFor="let chosenShift of shifts" ngValue="chosenShift" (click)="onChange(chosenShift.shift, chosenShift.date)">
+              {{chosenShift.shift}} {{ chosenShift.date }} </div>
+            </div>
+          </div>
+          <div class="dropdown col-md-6">
+            <div>
+              <button (click)="addShift()" class="btn btn-primary">Add shift</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

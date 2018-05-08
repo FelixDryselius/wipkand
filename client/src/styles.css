@@ -10,6 +10,10 @@
     padding: 1em;
 }
 
+.dropdown-item {
+    cursor: pointer;
+}
+
 .chooseShift {
     height: 65%;
     margin-top: 1.2%;
