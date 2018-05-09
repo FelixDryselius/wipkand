@@ -78,7 +78,7 @@ export class OperationsService {
   getOrderByBatch(batch) {
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API + batch + '/').switchMap(data => {
       let returnedBatch = data as Batch
-      let order_number = returnedBatch.order_number.order_number
+      let order_number = returnedBatch.order.order_number
       return this.http.get(this.URL_ROOT + this.URL_ORDER_API)
     })
   }
@@ -91,6 +91,7 @@ export class OperationsService {
   }
 
   createBatch(newBatch: {}) {
+    console.log(newBatch)
     return this.http.post(this.URL_ROOT + this.URL_BATCH_API, JSON.stringify(newBatch))
   }
 
@@ -110,9 +111,10 @@ export class OperationsService {
     if (data) {
       currentBatch = {
         active: true,
+        id: data.id,
         batch_number: data.batch_number,
-        order_number: data.order_number.order_number,
-        article_number: data.order_number.article_number,
+        order_number: data.order.order_number,
+        article_number: data.order.article_number,
       }
       this.changeProdInfo(currentBatch)
     } else {
@@ -124,11 +126,11 @@ export class OperationsService {
   /* PATCH: update the batch on the server.  */
   /* TODO: Create pipe or similar to catch errors */
   updateBatch(updatedBatch: Batch) {
-    let UPDATE_BATCH_URL = this.URL_ROOT + this.URL_BATCH_API + updatedBatch.batch_number + "/" // The URL to correct API
+    let UPDATE_BATCH_URL = this.URL_ROOT + this.URL_BATCH_API + updatedBatch.id + "/" // The URL to correct API
     console.log("updating batch! url is: " + UPDATE_BATCH_URL)
     console.log("Data is: ")
     console.log(updatedBatch)
-    return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch), this.httpOptions)
+    return this.http.patch(UPDATE_BATCH_URL, JSON.stringify(updatedBatch))
   }
   updateOrder(order) {
     console.log("Sending data: ")
@@ -141,8 +143,8 @@ export class OperationsService {
     
   }
 
-  getFloorstockChanges(query?:string) {
-    return this.http.get(this.URL_ROOT + this.floorstockChangesURL + query + '/')
+  getFloorstockChanges(query?: string) {
+    return this.http.get(this.URL_ROOT + this.floorstockChangesURL + query)
   }
 
   createFloorstock(newItem: {}) {
@@ -155,8 +157,8 @@ export class OperationsService {
     return this.http.patch(UPDATE_FLOORSTOCK_URL, JSON.stringify(updatedItem), this.httpOptions)
   }
 
-  getProdStats(currentBatch) {
-    return this.http.get(this.URL_ROOT + this.scoreboardListURL + '?search=' + currentBatch)
+  getProdStats(query?: string) {
+    return this.http.get(this.URL_ROOT + this.scoreboardListURL + query)
   }
 
   createProdStats(newCell: {}) {

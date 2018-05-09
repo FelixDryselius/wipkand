@@ -17,7 +17,7 @@ export class CommentService {
   // the method other apps subscribe to in order to get the api
   getComment(query?: string) {
     if (query) {
-      return this.http.get(this.URL_ROOT + this.URL_COMMENT + query + '/')
+      return this.http.get(this.URL_ROOT + this.URL_COMMENT + query)
     } else {
       return this.http.get(this.URL_ROOT + this.URL_COMMENT)
     }

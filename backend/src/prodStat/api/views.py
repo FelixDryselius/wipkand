@@ -1,4 +1,6 @@
 
+from django.shortcuts import get_object_or_404
+
 from rest_framework import generics, mixins, permissions
 
 from prodStat.models import ProductionStatistic
@@ -6,6 +8,7 @@ from prodStat.api.serializers import (
     ProductionStatisticSerializer,
     ProductionStatisticSerializerReadOnlyDate
 )
+from operations.models import Batch
 
 class ProductionStatisticAPIDetailView(
         generics.RetrieveAPIView,
@@ -35,8 +38,15 @@ class ProductionStatisticAPIView(
 
     permission_classes = [permissions.AllowAny]
     serializer_class = ProductionStatisticSerializer
-    queryset = ProductionStatistic.objects.all()
-    search_fields = ('batch_number__batch_number', 'time_stamp')
+    search_fields = ('time_stamp', 'staff_quantity')
+
+    def get_queryset(self, *args, **kwargs):
+            queryset = ProductionStatistic.objects.all()
+            _batch_number = self.request.query_params.get("batch_number", None)
+            if _batch_number:
+                _batch = get_object_or_404(Batch, batch_number=_batch_number)
+                queryset = queryset.filter(batch=_batch)
+            return queryset
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)

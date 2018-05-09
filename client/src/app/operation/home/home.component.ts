@@ -181,7 +181,7 @@ export class HomeComponent implements OnInit {
   }
 
   getScoreboard() {
-    this.operationsService.getProdStats(this.prodInfo.batch_number)
+    this.operationsService.getProdStats('?batch_number=' + this.prodInfo.batch_number)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.prodStats = data as JSON[]
@@ -197,7 +197,7 @@ export class HomeComponent implements OnInit {
         this.floorstockItems = (data as QueryResponse).results
       });
 
-    this.floorstockChangesObservable = this.operationsService.getFloorstockChanges('?search='+this.prodInfo.batch_number)
+    this.floorstockChangesObservable = this.operationsService.getFloorstockChanges('?batch_number=' + this.prodInfo.batch_number)
     this.floorstockChangesSub = this.floorstockChangesObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
@@ -267,7 +267,7 @@ export class HomeComponent implements OnInit {
 
   // Function that is being called when option in dropdown menu has been selected
   onChange(chosenShift) {
-    this.productionObservable = this.operationsService.getProdStats(this.prodInfo.batch_number)
+    this.productionObservable = this.operationsService.getProdStats('?batch_number=' + this.prodInfo.batch_number)
     this.productionSub = this.productionObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
@@ -352,7 +352,7 @@ export class HomeComponent implements OnInit {
           changeData = {
             time_stamp: key.slice(0, -3),
             staff_quantity: results[key],
-            batch_number: this.prodInfo.batch_number,
+            batch: this.prodInfo.id,
           }
           this.operationsService.updateProdStats(changeData)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
@@ -363,7 +363,7 @@ export class HomeComponent implements OnInit {
           changeData = {
             time_stamp: key.slice(0, -3),
             production_quantity: results[key],
-            batch_number: this.prodInfo.batch_number,
+            batch: this.prodInfo.id,
           }
           this.operationsService.updateProdStats(changeData)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
@@ -383,7 +383,7 @@ export class HomeComponent implements OnInit {
               time_stamp: time,
               production_quantity: results[stringifiedTime + '_pq'],
               staff_quantity: results[stringifiedTime + '_sq'],
-              batch_number: this.prodInfo.batch_number,
+              batch: this.prodInfo.id,
             }
             this.operationsService.createProdStats(newData)
               .retryWhen(error => this.authAPI.checkHttpRetry(error))
@@ -418,7 +418,7 @@ export class HomeComponent implements OnInit {
             time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
             quantity: results[key],
             floorstock_item: key,
-            batch_number: this.prodInfo.batch_number,
+            batch: this.prodInfo.id,
           }
           this.operationsService.updateFloorstock(updateItem)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
@@ -436,7 +436,7 @@ export class HomeComponent implements OnInit {
               time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
               quantity: results[key],
               floorstock_item: key,
-              batch_number: this.prodInfo.batch_number,
+              batch: this.prodInfo.id,
             }
             this.operationsService.createFloorstock(createItem)
               .retryWhen(error => this.authAPI.checkHttpRetry(error))
@@ -461,7 +461,7 @@ export class HomeComponent implements OnInit {
       user_name: this.commentName,
       post_date: this.commentDate,
       text_comment: this.commentText,
-      batch_number: this.prodInfo.batch_number,
+      batch: this.prodInfo.id,
     }
     // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
     if (typeof this.commentName != 'undefined' && typeof this.commentText != 'undefined') {

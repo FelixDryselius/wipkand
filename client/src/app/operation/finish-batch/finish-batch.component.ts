@@ -73,8 +73,9 @@ export class FinishBatchComponent implements OnInit {
     let batchInfo = {}
     if (this.prodInfo.active) {
       batchInfo = {
+        id: this.prodInfo.id,
         batch_number: this.prodInfo.batch_number,
-        order_number: {
+        order: {
           order_number: this.prodInfo.order_number,
           article_number: this.prodInfo.article_number,
         },
@@ -93,6 +94,7 @@ export class FinishBatchComponent implements OnInit {
           this.createBatchSub.unsubscribe()
           this.router.navigate(['/home'])
         }, error => {
+          debugger;
           console.error(error.message)
         })
     }

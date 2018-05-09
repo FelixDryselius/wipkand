@@ -3,5 +3,5 @@ drop table production_statistic;
 drop table floorstock_statistic;
 drop table floorstock_item;
 drop table batch;
-drop table product_order;
+drop table production_order;
 drop table product;

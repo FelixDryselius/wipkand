@@ -3,7 +3,7 @@ from rest_framework.serializers import ValidationError, ModelSerializer
 
 from operations.models import (
     Product,
-    ProductOrder,
+    ProductionOrder,
     Batch,
     BatchComment
 )
@@ -17,13 +17,13 @@ class ProductSerializer(ModelSerializer):
 
 class OrderSerializer(ModelSerializer):
     class Meta:
-        model = ProductOrder
+        model = ProductionOrder
         fields = '__all__'
 
 
 class OrderNoValidateSerializer(ModelSerializer):
     class Meta:
-        model = ProductOrder
+        model = ProductionOrder
         fields = '__all__'
         extra_kwargs = {
             'order_number': {
@@ -33,23 +33,22 @@ class OrderNoValidateSerializer(ModelSerializer):
 
 
 class BatchDetailSerializer(ModelSerializer):
-    order_number = OrderNoValidateSerializer()
+    order = OrderNoValidateSerializer()
 
     class Meta:
         model = Batch
         fields = '__all__'
-        #read_only_fields = ['order_number']
 
     def update(self, instance, validated_data):
-        entered_order = validated_data.pop('order_number')
-        previous_order = instance.order_number
+        entered_order = validated_data.pop('order')
+        previous_order = instance.order
         new_order_nr = entered_order['order_number']
         old_order_nr = previous_order.order_number
         new_product = entered_order['article_number']
         old_pruduct_frontend = previous_order.article_number
         if new_order_nr != old_order_nr:
             try:
-                order_to_use = ProductOrder.objects.get(
+                order_to_use = ProductionOrder.objects.get(
                     pk=new_order_nr)
                 print("FETCH OLD ORDER!")
                 # Now have old order with a old product association
@@ -61,28 +60,23 @@ class BatchDetailSerializer(ModelSerializer):
                     order_to_use.article_number = new_product
                     order_to_use.save()
 
-            except ProductOrder.DoesNotExist:
-                order_to_use = ProductOrder.objects.create(
+            except ProductionOrder.DoesNotExist:
+                order_to_use = ProductionOrder.objects.create(
                     order_number=new_order_nr, article_number=new_product)
                 print("CREATED ORDER!")
-            instance.order_number = order_to_use
+            instance.order = order_to_use
             instance.save()
 
         elif old_pruduct_frontend != new_product:
-            order_to_use = ProductOrder.objects.get(
+            order_to_use = ProductionOrder.objects.get(
                 pk=old_order_nr)
             order_to_use.article_number = new_product
-            instance.order_number = order_to_use
+            instance.order = order_to_use
             instance.save()
             order_to_use.save()
         else:
-            if instance.batch_number != validated_data.get('batch_number', instance.batch_number):
-                # migrate_comments()
-                # migrate_productionStatistics()
-                # migrate_floorstockStatistics()
-                # delete the old batch
-                instance.batch_number = validated_data.get(
-                    'batch_number', instance.batch_number)
+            instance.batch_number = validated_data.get(
+                'batch_number', instance.batch_number)
             instance.start_date = validated_data.get(
                 'start_date', instance.start_date)
             instance.end_date = validated_data.get(
@@ -95,6 +89,8 @@ class BatchDetailSerializer(ModelSerializer):
                 'applied_labels', instance.applied_labels)
             instance.rework_time = validated_data.get(
                 'rework_time', instance.rework_time)
+            instance.shifts = validated_data.get(
+                'shifts', instance.shifts)
             instance.production_yield = validated_data.get(
                 'production_yield', instance.production_yield)
             instance.hmi1_good = validated_data.get(
@@ -110,34 +106,30 @@ class BatchDetailSerializer(ModelSerializer):
         return instance
 
 
-class BatchPatchSerializer(ModelSerializer):
-    class Meta:
-        model = Batch
-        exclude = ('order_number',)
-
-
 class BatchCreateSerializer(ModelSerializer):
-    order_number = OrderNoValidateSerializer()
+    order = OrderNoValidateSerializer()
 
     class Meta:
         model = Batch
         fields = [
+            'id',
             'batch_number',
             'start_date',
             'end_date',
             'rework_date',
             'scrap',
             'production_yield',
-            'order_number'
+            'order',
+            'shifts'
         ]
 
     # Do we need save after objects.create()?
     def create(self, validated_data):
-        entered_order = validated_data.pop('order_number')
+        entered_order = validated_data.pop('order')
         selected_product = entered_order['article_number']
 
         try:
-            order_to_use = ProductOrder.objects.get(
+            order_to_use = ProductionOrder.objects.get(
                 pk=entered_order['order_number'])
             print("FETCH OLD ORDER!")
             associated_product = order_to_use.article_number
@@ -146,12 +138,12 @@ class BatchCreateSerializer(ModelSerializer):
                 raise ValidationError(
                     {"order_number": "An order with a different article number already exists."}
                 )
-        except ProductOrder.DoesNotExist:
-            order_to_use = ProductOrder.objects.create(
+        except ProductionOrder.DoesNotExist:
+            order_to_use = ProductionOrder.objects.create(
                 order_number=entered_order['order_number'], article_number=selected_product)
             print("CREATED ORDER!")
         batch_to_create = validated_data
-        batch_to_create['order_number'] = order_to_use
+        batch_to_create['order'] = order_to_use
 
         batch = Batch.objects.create(**batch_to_create)
         print("CREATED BATCH")
@@ -172,5 +164,5 @@ class CommentSerializer(ModelSerializer):
             'user_name',
             'post_date',
             'text_comment',
-            'batch_number',
+            'batch',
         ]
