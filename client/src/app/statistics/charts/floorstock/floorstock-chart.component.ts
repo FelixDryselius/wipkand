@@ -11,12 +11,12 @@ import { OperationsService } from '../../../operation/shared/services/operations
 import { QueryResponse } from '../../../shared/interfaces/query-response';
 
 
-//test
+//test LET THIS BE
 // import { ComboChartComponent } from '../combo-chart/combo-chart.component';
 // import { ComboSeriesVerticalComponent } from '../combo-chart/combo-series-vertical.component';
-import { LineChart } from '../combo-chart/combo-chart-data';
-import { LineChartSeries } from '../combo-chart/combo-chart-data';
-import { BarChart } from '../combo-chart/combo-chart-data';
+// import { LineChart } from '../combo-chart/combo-chart-data';
+// import { LineChartSeries } from '../combo-chart/combo-chart-data';
+// import { BarChart } from '../combo-chart/combo-chart-data';
 
 
 @Component({
@@ -25,36 +25,24 @@ import { BarChart } from '../combo-chart/combo-chart-data';
   styleUrls: ['./floorstock-chart.component.css']
 })
 export class FloorstockChartComponent implements OnInit {
- // Test
-  chartType = 'combo-chart';
-  lineChart = LineChart;
-  lineChartSeries = LineChartSeries;
-  barChart  = BarChart;
-  barScheme = {domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA','#AAAAAb','AAAAAC']};
-  barScheme2 = {domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA','#AAAAAb','AAAAAC']};
+ // LET IT BE
+  // chartType = 'combo-chart';
+  // lineChart = LineChart;
+  // lineChartSeries = LineChartSeries;
+  // barChart  = BarChart;
+  // barScheme = {domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA','#AAAAAb','AAAAAC']};
+  // barScheme2 = {domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA','#AAAAAb','AAAAAC']};
 
-showXAxis = true;
-showYAxis = true;
-showXAxisLabel = true;
-showYAxisLabel = true;
-showRightYAxisLabel = true;
-xAxisLabel = 'test';
-yAxisLabel = 'test';
-yAxisLabelRight = 'test';
-
-
+  // showXAxis = true;
+  // showYAxis = true;
+  // showXAxisLabel = true;
+  // showYAxisLabel = true;
+  // showRightYAxisLabel = true;
+  // xAxisLabel = 'test';
+  // yAxisLabel = 'test';
+  // yAxisLabelRight = 'test';
 
 
-
-
-
-
-
-
-
-
-  
-  
   
   
   
@@ -66,12 +54,12 @@ yAxisLabelRight = 'test';
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
   showLabels = true;
-  //showXAxisLabel = true;
-  //showYAxisLabel = true;
+  showXAxisLabel = true;
+  showYAxisLabel = true;
   xAxis = true;
   yAxis = true;
-  //xAxisLabel = 'Batchnumber';
-  //yAxisLabel = 'Quantity';
+  xAxisLabel = 'Batchnumber';
+  yAxisLabel = 'Quantity';
    
 
   // Data:
