@@ -41,7 +41,7 @@ import { SubmitIfValidDirective } from './shared/directives/submit-if-valid.dire
     HttpModule,
     HttpClientModule,
     OperationModule,
-   AppRoutingModule
+   AppRoutingModule,     
   ],
   providers: [
     AuthGuard,

@@ -11,6 +11,12 @@ import { OperationsService } from '../shared/services/operations.service';
 import { CommentService } from '../../shared/application-services/comment.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 
+
+
+import { SubmitIfValidDirective } from '../../shared/directives/submit-if-valid.directive';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CustomValidation } from '../../shared/validators/customValidation'
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -113,6 +119,8 @@ export class HomeComponent implements OnInit {
   currentFloorstock: any[] = [];
   ngModelFloorstock: any[] = [];
 
+  newFloorstockForm: FormGroup;
+
   // END FLOORSTOCK SECTION
 
 
@@ -136,7 +144,12 @@ export class HomeComponent implements OnInit {
   private service_prodStatus: any;
   private service_prodInfo: any;
 
-  constructor(private operationsService: OperationsService, private commentService: CommentService, private http: HttpClient, private authAPI: AuthAPIService, ) { }
+  constructor(
+    private operationsService: OperationsService, 
+    private commentService: CommentService, 
+    private http: HttpClient, private authAPI: AuthAPIService, 
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit() {
 
@@ -156,6 +169,13 @@ export class HomeComponent implements OnInit {
         this.getScoreboard()
         this.onChange('day',this.todaysDate)
       }
+    })
+
+    this.newFloorstockForm = this.formBuilder.group({
+      'zebra_label': new FormControl('', [
+        Validators.required,
+        Validators.pattern("^[0-9]*$"),
+      ]),
     })
   }
 
