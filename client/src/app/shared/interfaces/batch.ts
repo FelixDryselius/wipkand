@@ -13,6 +13,7 @@ export class Batch {
     applied_labels?: number;
     label_print_time?: number;
     rework_time?: number;
+    shifts?: number;
     order: {
         order_number: string;
         article_number: string;
