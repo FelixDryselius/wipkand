@@ -1,8 +1,8 @@
 <div *ngIf="prodInfo; then pActive else pStop"></div>
 
 <ng-template #pActive>
-    <p>Order ID: {{ prodInfo.order_number }}</p>
-    <p>Article number: {{ prodInfo.article_number }}</p>
+    <p>Order ID: {{ prodInfo.order.order_number }}</p>
+    <p>Article number: {{ prodInfo.order.article_number }}</p>
     <p>Batch number: {{ prodInfo.batch_number }}</p>
     <a class="btn btn-primary" (click)="finish_batch()">Finish batch</a>
 </ng-template>

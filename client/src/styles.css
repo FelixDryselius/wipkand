@@ -10,6 +10,10 @@
     padding: 1em;
 }
 
+.dropdown-item {
+    cursor: pointer;
+}
+
 .chooseShift {
     height: 65%;
     margin-top: 1.2%;
@@ -59,13 +63,22 @@
     background-color: #e9ecef;
 }
 
+.button-signs {
+    font-size: 1.5em;
+}
 
-/* Start plus minus button --------------------------------------------- */
+.plusMinusButtons {
+    padding-top: 0; 
+    padding-bottom: 0;
+}
 
+/* Remove built in input increment/decrement */
 
-  
-  /* End plus minus button --------------------------------------------- */
-
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
 
 /* End home style */
 

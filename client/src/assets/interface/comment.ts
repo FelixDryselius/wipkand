@@ -3,5 +3,5 @@ export interface Comment {
     user_name: any;
     post_date: Date;
     text_comment: any;
-    batch_number: String; 
+    batch: String; 
     }
