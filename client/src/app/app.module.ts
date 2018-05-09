@@ -44,7 +44,7 @@ import { CommentService } from './shared/application-services/comment.service';
     HttpModule,
     HttpClientModule,
     OperationModule,
-   AppRoutingModule
+   AppRoutingModule,     
   ],
   providers: [
     AuthGuard,

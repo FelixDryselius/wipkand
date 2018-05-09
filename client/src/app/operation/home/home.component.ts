@@ -11,6 +11,12 @@ import { OperationsService } from '../shared/services/operations.service';
 import { CommentService } from '../../shared/application-services/comment.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 
+
+
+import { SubmitIfValidDirective } from '../../shared/directives/submit-if-valid.directive';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CustomValidation } from '../../shared/validators/customValidation'
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -46,10 +52,11 @@ export class HomeComponent implements OnInit {
   private currentTime: any;
 
   // Array of shifts you can select in dropdown
-  private shifts: String[] = ['day', 'evening', 'night']
+  private shifts: any[] = []
 
   // Variable used for determining which html code to render (day, evening or night)
   private selectedShift: String;
+  private shiftDate: any;
   //private scoreboardActive: boolean = false;
 
   // Arrays containing names of ngModels for every input element
@@ -135,22 +142,61 @@ export class HomeComponent implements OnInit {
   private service_prodStatus: any;
   private service_prodInfo: any;
 
-  constructor(private operationsService: OperationsService, private commentService: CommentService, private http: HttpClient, private authAPI: AuthAPIService, ) { }
+  constructor(
+    private operationsService: OperationsService,
+    private commentService: CommentService,
+    private http: HttpClient, private authAPI: AuthAPIService,
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit() {
 
-    //the following items are copied from start-batch.component. Subscribes to be able to connect comment to running batch
-    
+    this.getTime()
+
+    this.shifts = [
+      { shift: 'night', date: this.todaysDate },
+      { shift: 'day', date: this.todaysDate },
+      { shift: 'evening', date: this.todaysDate },
+    ]
+
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => {
       this.prodInfo = info
       if (this.prodInfo) {
         this.getFloorstock()
         this.getComment()
         this.getScoreboard()
-        this.getTime()
-        this.onChange('day')
+        this.onChange('day', this.todaysDate)
       }
     })
+  }
+
+  addShift() {
+    let newShiftType;
+    let newDate;
+    let day;
+    let lastShift = this.shifts.slice(-1)[0]
+
+    if (lastShift.shift == "night") {
+      newShiftType = "day"
+      newDate = lastShift.date
+    }
+    else if (lastShift.shift == "day") {
+      newShiftType = "evening"
+      newDate = lastShift.date
+    }
+    else if (lastShift.shift == "evening") {
+      newShiftType = "night"
+      if ((parseInt(lastShift.date.slice(-2)) + 1) < 10) {
+        day = '0' + (parseInt(lastShift.date.slice(-2)) + 1)
+      }
+      else {
+        day = (parseInt(lastShift.date.slice(-2)) + 1)
+      }
+      newDate = lastShift.date.slice(0, -2) + day;
+    }
+
+    let newShift = { shift: newShiftType, date: newDate }
+    this.shifts.push(newShift)
   }
 
   getTime() {
@@ -190,15 +236,12 @@ export class HomeComponent implements OnInit {
 
   getFloorstock() {
 
-    this.floorstockItemsObservable = this.operationsService.getFloorstockItems()
-    this.floorstockItemsSub = this.floorstockItemsObservable
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe(data => {
+    this.floorstockItemsSub = this.operationsService.getFloorstockItems()
+      .switchMap(data => {
         this.floorstockItems = (data as QueryResponse).results
-      });
+        return this.operationsService.getFloorstockChanges('?batch_number=' + this.prodInfo.batch_number)
+      })
 
-    this.floorstockChangesObservable = this.operationsService.getFloorstockChanges('?batch_number=' + this.prodInfo.batch_number)
-    this.floorstockChangesSub = this.floorstockChangesObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.floorstockChanges = (data as QueryResponse).results
@@ -252,8 +295,26 @@ export class HomeComponent implements OnInit {
 
         console.log("floorstockChanges: ")
         console.log(this.floorstockChanges)
-      });
 
+
+      });
+  }
+
+  addOne(item_id, quantity, change) {
+      if (change == 'incr') {
+        for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+          if (this.currentFloorstock[obj]["item_id"] == item_id) {
+            this.currentFloorstock[obj]["quantity"] += 1
+          }
+        }
+      }
+      else if (change == 'decr') {
+        for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+          if (this.currentFloorstock[obj]["item_id"] == item_id && this.currentFloorstock[obj]["quantity"] > 0) {
+            this.currentFloorstock[obj]["quantity"] -= 1
+          }
+        }
+      }
   }
 
   getComment() {
@@ -266,8 +327,10 @@ export class HomeComponent implements OnInit {
   }
 
   // Function that is being called when option in dropdown menu has been selected
-  onChange(chosenShift) {
+
+  onChange(shift, date) {
     this.productionObservable = this.operationsService.getProdStats('?batch_number=' + this.prodInfo.batch_number)
+
     this.productionSub = this.productionObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
@@ -275,7 +338,10 @@ export class HomeComponent implements OnInit {
 
         this.shiftProdStats = [];
         let shiftTimes;
-        this.selectedShift = chosenShift
+        this.selectedShift = shift
+        console.log(this.selectedShift)
+        this.shiftDate = date
+        console.log(this.shiftDate)
 
         if (this.selectedShift == 'day') {
           shiftTimes = this.dayShiftTimes
@@ -283,12 +349,12 @@ export class HomeComponent implements OnInit {
         else if (this.selectedShift == 'evening') {
           shiftTimes = this.eveningShiftTimes
         }
-        else {
+        else if (this.selectedShift == 'night') {
           shiftTimes = this.nightShiftTimes
         }
 
         for (let key in shiftTimes) {
-          let prodData = { time_stamp: this.todaysDate + 'T' + shiftTimes[key]["shift"] + ':00:00Z' }
+          let prodData = { time_stamp: this.shiftDate + 'T' + shiftTimes[key]["shift"] + ':00:00Z' }
           this.shiftProdStats.push(prodData)
         }
 
@@ -323,7 +389,7 @@ export class HomeComponent implements OnInit {
             this.shiftProdStats[obj]["batch_number"] = ''
           }
         }
-        console.log("Initial data for " + chosenShift + ":")
+        console.log("Initial data for " + this.selectedShift + ":")
         console.log(this.shiftProdStats)
       });
   }
@@ -348,7 +414,7 @@ export class HomeComponent implements OnInit {
       // Go through objects in production statistics from api
       for (let obj in this.shiftProdStats) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
-        if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && this.shiftProdStats[obj]["staff_quantity"] > 0 && key.substr(key.length - 2) == 'sq') {
+        if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && (this.shiftProdStats[obj]["staff_quantity"] > 0 || this.shiftProdStats[obj]["staff_quantity"] == null) && key.substr(key.length - 2) == 'sq') {
           changeData = {
             time_stamp: key.slice(0, -3),
             staff_quantity: results[key],
@@ -357,9 +423,9 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateProdStats(changeData)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
-            this.feedbackScoreboard()
+          this.feedbackScoreboard()
         }
-        else if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && this.shiftProdStats[obj]["production_quantity"] > 0 && key.substr(key.length - 2) == 'pq') {
+        else if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && (this.shiftProdStats[obj]["production_quantity"] > 0 || this.shiftProdStats[obj]["production_quantity"] == null) && key.substr(key.length - 2) == 'pq') {
           changeData = {
             time_stamp: key.slice(0, -3),
             production_quantity: results[key],
@@ -368,7 +434,7 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateProdStats(changeData)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
-            this.feedbackScoreboard()
+          this.feedbackScoreboard()
         }
 
         else {
@@ -376,7 +442,7 @@ export class HomeComponent implements OnInit {
           // If no time stamp in api was found this means it is new data
           if (counter == this.shiftProdStats.length) {
 
-            let time = this.todaysDate + key.slice(10, -3)
+            let time = this.shiftDate + key.slice(10, -3)
             let stringifiedTime = String(time)
 
             newData = {
@@ -407,7 +473,10 @@ export class HomeComponent implements OnInit {
         results[key] = inputData.value[key];
       }
     }
-
+    console.log("ngModelFloorstock: ")
+    console.log(this.ngModelFloorstock)
+    console.log("results: ")
+    console.log(results)
     for (let key in results) {
       let counter = 0;
       for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
@@ -423,7 +492,7 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateFloorstock(updateItem)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
-            this.feedbackFloorstock()
+          this.feedbackFloorstock()
 
         }
         else {
