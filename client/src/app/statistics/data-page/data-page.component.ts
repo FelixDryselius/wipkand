@@ -13,6 +13,8 @@ import { DataPageDisplayData } from '../../shared/interfaces/dataPageDisplayData
 import { OperationsService } from '../../operation/shared/services/operations.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 import { Order } from '../../shared/interfaces/order';
+import { Product } from '../../shared/interfaces/product';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-data-page',
@@ -31,12 +33,14 @@ export class DataPageComponent implements OnInit {
   private productSub: any;
 
   commentsList: Comment[];
+  displayComments = {};
   batchList: Batch[];
   statistics: {};
-  products: {};
+  productList: Product[];
   orders: Order[]; //might not need have info in batch
-  displayDataList: DataPageDisplayData[];
+  displayDataList: DataPageDisplayData[] = [];
   hasValues = false;
+  testSpan = 2;
 
 
   constructor(
@@ -56,53 +60,110 @@ export class DataPageComponent implements OnInit {
     this.batchSub = this.operationsService.getBatchDetail()
       .switchMap(data => {
         this.batchList = (data as QueryResponse).results as Batch []
-        console.log(this.batchList);
+       // console.log(this.batchList);
         return this.operationsService.getOrder()        
       })
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {        
         this.orders = (data as QueryResponse).results as Order[]
-        console.log(this.orders);
+       // console.log(this.orders);
+        this.populateDisplayDataList() // this one needs to be placed somewhere better
       })
 
     this.productSub = this.operationsService.getProduct()
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        this.products = (data as QueryResponse).results
-        console.log(this.products);        
+        this.productList = (data as QueryResponse).results as Product []
+        console.log(this.productList);        
       })
 
     this.commentSub = this.commentService.getComment()
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.commentsList = (data as QueryResponse).results as Comment[]
-        console.log(this.commentsList);
+        //console.log(this.commentsList);
       })
 
     this.statisticsSub = this.operationsService.getProductionStatistics('?search=' + this.batchDetailID + '&limit=40')
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.statistics = (data as QueryResponse).results
-        console.log(this.statistics);        
+        //console.log(this.statistics);        
       })
   }
 
   populateDisplayDataList(){
     //to get list of available batch numbers
-    if(this.batchList){
-      let orderNumbersList = []
+    if(this.batchList && this.productList && this.commentsList){         
+      
+      let batchIdList = []
       this.batchList.forEach(element => {
-        if(orderNumbersList.indexOf(element.batch_number) == -1 ){
-          orderNumbersList.push(element.batch_number)                 
+        if(batchIdList.indexOf(element.id) == -1 ){
+          batchIdList.push(element.id)                 
         }
-      })
-      orderNumbersList.forEach(orderNumber =>{
+      })      
+      
+      batchIdList.forEach(batchId =>{ 
+        let tempBatch;
+        let tempProduct;
+        let tempCommentsList;        
         
-      })
-    }
             
-        
+        this.displayComments[batchId.valueOf()] = []               
+        this.commentsList.forEach(comment=>{                   
+          if(comment.batch == batchId){
+            this.displayComments[batchId.valueOf()].push(comment)
+          }
+        })      
+      
 
+        this.batchList.forEach(batchElement =>{
+          if(batchElement.id == batchId){
+            tempBatch = batchElement;
+            this.productList.forEach(product =>{
+              if(product.article_number == tempBatch.order.article_number){
+                tempProduct = product
+              }
+            })
+          
+          }
+        })        
+          
+          //this.displayDataList.push( 
+            let tempdisplaydata = {
+            batch_id: tempBatch.id,
+            order_number: tempBatch.order.order_number,
+            batch_number: tempBatch.batch_number,
+            article_number: tempBatch.order.article_number,
+            start_date: tempBatch.start_date,
+            end_date: tempBatch.end_date,
+            batch_time: new Date(tempBatch.end_date - tempBatch.start_date),
+            reference_storage: tempProduct.reference_storage,
+            scrap: tempBatch.scrap,
+            yield: tempBatch.yield,
+            hmi1_good: tempBatch.hmi1_good,
+            hmi1_bad: tempBatch.hmi1_bad,
+            hmi1_total: tempBatch.hmi1_good - tempBatch.hmi1_bad,
+            hmi2_good: tempBatch.hmi2_good,
+            hmi2_bad: tempBatch.hmi2_bad,
+            hmi2_total: tempBatch.hmi2_good - tempBatch.hmi2_good,
+            grand_match_total: (tempBatch.hmi1_good - tempBatch.hmi1_bad) - (tempBatch.hmi2_good - tempBatch.hmi2_good),
+            rework_date: tempBatch.rework_date,
+            est_pick_replace:(tempBatch.hmi1_bad+tempBatch.hmi2_bad)-tempBatch.scrap*10-tempBatch.applied_labels,
+            applied_labels: tempBatch.applied_labels,
+            reprint_date: tempBatch.label_print_time,
+            rework_time: new Date(tempBatch.label_print_time - tempBatch.end_date),
+            comments: this.displayComments[tempBatch.id]
+
+          } as DataPageDisplayData
+        //)
+         this.displayDataList.push(tempdisplaydata)          
+      })
+
+    }  
+    console.log(this.displayDataList);
+      
+    this.hasValues = true
   }
 
   ngOnDestroy() {

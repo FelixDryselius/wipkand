@@ -1,14 +1,14 @@
 <button (click)='goBack()'>Back</button>
 
 <div class="container-fluid">
-  <div class="row">
+  <div class="row" style="font-size: 12px;">
     <div class="col-lg-12 text-center">
       <h5>Scoreboard</h5>
       <br>
-      <table *ngIf="statistics; else loading" id="table" class="table-striped table-bordered" style="width:100%">
+      <table *ngIf="hasValues; else loading" id="table" class="table-striped table-bordered" style="width:100%">
         <thead>
-          <tr>
-            <th rowspan="2">Prodn Order No</th>
+          <tr >
+            <th attr.rowspan="{{testSpan}}">Prodn Order No</th>
             <th rowspan="2">Batch</th>
             <th rowspan="2">Product Number</th>
             <th rowspan="2">Start Time/Date</th>
@@ -23,7 +23,7 @@
             <th rowspan="2">Rework Date</th>
             <th rowspan="2">Est. Pick And Replace</th>
             <th rowspan="2">Labels Applied</th>
-            <th rowspan="2">Print Time</th>
+            <th rowspan="2">Reprint Date/Time</th>
             <th rowspan="2">Rework Time</th>
             <th rowspan="2">Comments</th>
           </tr>
@@ -36,28 +36,31 @@
             <th>G2 Total</th>
           </tr>
         </thead>
-        <tr>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
-          <th class="font-weight-normal">test</th>
+        <tr *ngFor="let displayItem of displayDataList">
+          <td class="font-weight-normal">{{ displayItem.order_number }}</td>
+          <td class="font-weight-normal">{{ displayItem.batch_number }}</td>
+          <td class="font-weight-normal">{{ displayItem.article_number }}</td>
+          <td class="font-weight-normal">{{ displayItem.start_date | date:"yy/MM/dd HH:mm"  }}</td>
+          <td class="font-weight-normal">{{ displayItem.end_date | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="font-weight-normal">{{ displayItem.batch_time }}</td>  <!-- must add pipe later -->
+          <td class="font-weight-normal">{{ displayItem.reference_storage }}</td>
+          <td class="font-weight-normal">{{ displayItem.scrap }}</td>
+          <td class="font-weight-normal">{{ displayItem.yield }}</td>
+          <td class="font-weight-normal">{{ displayItem.hmi1_good }}</td>
+          <td class="font-weight-normal">{{ displayItem.hmi1_bad }}</td>
+          <td class="font-weight-normal">{{ displayItem.hmi1_total }}</td>
+          <td class="font-weight-normal">{{ displayItem.hmi2_good }}</td>
+          <td class="font-weight-normal">{{ displayItem.hmi2_bad }}</td>
+          <td class="font-weight-normal">{{ displayItem.hmi2_total }}</td>
+          <td class="font-weight-normal">{{ displayItem.grand_match_total }}</td>
+          <td class="font-weight-normal">{{ displayItem.rework_date | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="font-weight-normal">{{ displayItem.est_pick_replace }}</td>
+          <td class="font-weight-normal">{{ displayItem.applied_labels }}</td>
+          <td class="font-weight-normal">{{ displayItem.reprint_date | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="font-weight-normal">{{ displayItem.rework_time }}</td> <!-- must add pipe later -->
+          <td class="font-weight-normal" >
+            <tr *ngFor="let comment of displayItem.comments">{{ comment.user_name }}: <br>{{ comment.text_comment }} </tr>
+          </td>
         </tr>
       </table>
     </div>

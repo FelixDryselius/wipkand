@@ -11,7 +11,7 @@ export class Batch {
     hmi2_bad?: number;
     rework_date?: Date;
     applied_labels?: number;
-    label_print_time?: number;
+    label_print_time?: Date;
     rework_time?: number;
     shifts?: number;
     order: {
