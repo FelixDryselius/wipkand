@@ -119,8 +119,6 @@ export class HomeComponent implements OnInit {
   currentFloorstock: any[] = [];
   ngModelFloorstock: any[] = [];
 
-  newFloorstockForm: FormGroup;
-
   // END FLOORSTOCK SECTION
 
 
@@ -145,9 +143,9 @@ export class HomeComponent implements OnInit {
   private service_prodInfo: any;
 
   constructor(
-    private operationsService: OperationsService, 
-    private commentService: CommentService, 
-    private http: HttpClient, private authAPI: AuthAPIService, 
+    private operationsService: OperationsService,
+    private commentService: CommentService,
+    private http: HttpClient, private authAPI: AuthAPIService,
     private formBuilder: FormBuilder
   ) { }
 
@@ -167,15 +165,8 @@ export class HomeComponent implements OnInit {
         this.getFloorstock()
         this.getComment()
         this.getScoreboard()
-        this.onChange('day',this.todaysDate)
+        this.onChange('day', this.todaysDate)
       }
-    })
-
-    this.newFloorstockForm = this.formBuilder.group({
-      'zebra_label': new FormControl('', [
-        Validators.required,
-        Validators.pattern("^[0-9]*$"),
-      ]),
     })
   }
 
@@ -195,16 +186,16 @@ export class HomeComponent implements OnInit {
     }
     else if (lastShift.shift == "evening") {
       newShiftType = "night"
-      if ((parseInt(lastShift.date.slice(-2))+1)<10) {
-        day = '0'+(parseInt(lastShift.date.slice(-2))+1)
+      if ((parseInt(lastShift.date.slice(-2)) + 1) < 10) {
+        day = '0' + (parseInt(lastShift.date.slice(-2)) + 1)
       }
       else {
-        day = (parseInt(lastShift.date.slice(-2))+1)
+        day = (parseInt(lastShift.date.slice(-2)) + 1)
       }
-      newDate = lastShift.date.slice(0,-2) + day;
+      newDate = lastShift.date.slice(0, -2) + day;
     }
 
-    let newShift = {shift: newShiftType, date: newDate}
+    let newShift = { shift: newShiftType, date: newDate }
     this.shifts.push(newShift)
   }
 
@@ -303,8 +294,26 @@ export class HomeComponent implements OnInit {
 
         console.log("floorstockChanges: ")
         console.log(this.floorstockChanges)
-      });
 
+
+      });
+  }
+
+  addOne(item_id, quantity, change) {
+      if (change == 'incr') {
+        for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+          if (this.currentFloorstock[obj]["item_id"] == item_id) {
+            this.currentFloorstock[obj]["quantity"] += 1
+          }
+        }
+      }
+      else if (change == 'decr') {
+        for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+          if (this.currentFloorstock[obj]["item_id"] == item_id && this.currentFloorstock[obj]["quantity"] > 0) {
+            this.currentFloorstock[obj]["quantity"] -= 1
+          }
+        }
+      }
   }
 
   getComment() {
@@ -461,7 +470,10 @@ export class HomeComponent implements OnInit {
         results[key] = inputData.value[key];
       }
     }
-
+    console.log("ngModelFloorstock: ")
+    console.log(this.ngModelFloorstock)
+    console.log("results: ")
+    console.log(results)
     for (let key in results) {
       let counter = 0;
       for (let obj = 0; obj < this.currentFloorstock.length; obj++) {

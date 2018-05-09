@@ -3,9 +3,7 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-2">
-            <img src="../../../assets/icons/plus-black-symbol.png" alt="broken">../../../../../backend/src/static/ang/assets/icons/plus-black-symbol.png
-            <div>Icons made by <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-          <h2 class="text-left">  
+          <h2 class="text-left">
             Home
           </h2>
         </div>
@@ -25,7 +23,7 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <div class="dropdown-item" *ngFor="let chosenShift of shifts" ngValue="chosenShift" (click)="onChange(chosenShift.shift, chosenShift.date)">
-              {{chosenShift.shift}} {{ chosenShift.date }} </div>
+                {{chosenShift.shift}} {{ chosenShift.date }} </div>
             </div>
           </div>
           <div class="dropdown col-md-6">
@@ -189,44 +187,57 @@
 </div>
 
 <hr class="separator">
+<div class="input-group">
 
+</div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-4">
       <div class="floorstockSection border border-primary rounded">
 
         <form class="floorstockForm" #floorstockForm='ngForm' (ngSubmit)='updateFloorstock($event,floorstockForm)'>
-        <div class="row">
-          <div class="col-md-12">
-            <h3 class="text-center">Label roll</h3>
+          <div class="row">
+            <div class="col-md-12">
+              <h3 class="text-center">Label roll</h3>
+            </div>
           </div>
-        </div>
-        <table *ngIf="currentFloorstock.length > 0; else loading" class="table table-bordered table-light">
-          <tbody>
-            <tr class="d-flex" *ngFor="let item of currentFloorstock">
-              <td class="col-lg-6 col-md-6">
-                <div class="input-group col-12">
-                  <input type="number" min="0" class="form-control input-number" [placeholder]="item.quantity ? item.quantity : 0" name="{{item.item_id}}"
-                    [(ngModel)]="ngModelFloorstock[item.item_id]">
-                </div>
-              </td>
-              <td class="col-lg-6 col-md-6">{{item.item_name}}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="row">
-          <div class="col-md-8">
-            <p *ngIf="floorstockAdded" class="text-left">
-              {{ floorstockAddedNotification }}
-            </p>
+          <table *ngIf="currentFloorstock.length > 0; else loading" class="table table-bordered table-light">
+            <tbody>
+              <tr class="d-flex" *ngFor="let item of currentFloorstock">
+                <td class="col-lg-6 col-md-6">
+
+                  <div class="input-group col-12">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-danger btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'decr')">
+                        <b class="button-signs">-</b>
+                      </button>
+                    </span>
+                    <input type="number" min="0" class="form-control input-number" [value]="item.quantity ? item.quantity : 0" name="{{item.item_id}}"
+                    [ngModel]="item.quantity"> 
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-success btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'incr')">
+                        <b class="button-signs">+</b>
+                      </button>
+                    </span>
+                  </div>
+                </td>
+                <td class="col-lg-6 col-md-6">{{item.item_name}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="col-md-8">
+              <p *ngIf="floorstockAdded" class="text-left">
+                {{ floorstockAddedNotification }}
+              </p>
+            </div>
+            <div class="col-md-4 text-right">
+              <button type="submit" class="btn btn-primary">
+                Update
+              </button>
+            </div>
           </div>
-          <div class="col-md-4 text-right">
-            <button type="submit" class="btn btn-primary">
-              Update
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
       </div>
     </div>
 
@@ -284,5 +295,3 @@
     </div>
 
     <hr>
-
-      
