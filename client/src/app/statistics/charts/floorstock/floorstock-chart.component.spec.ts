@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StatisticsChartsComponent } from './statistics-charts.component';
+import { FloorstockChartComponent } from './floorstock-chart.component';
 
-describe('StatisticsChartsComponent', () => {
-  let component: StatisticsChartsComponent;
-  let fixture: ComponentFixture<StatisticsChartsComponent>;
+describe('FloorstockChartComponent', () => {
+  let component: FloorstockChartComponent;
+  let fixture: ComponentFixture<FloorstockChartComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StatisticsChartsComponent ]
+      declarations: [ FloorstockChartComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StatisticsChartsComponent);
+    fixture = TestBed.createComponent(FloorstockChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

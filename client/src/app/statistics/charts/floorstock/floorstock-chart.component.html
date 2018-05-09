@@ -1,0 +1,70 @@
+<p>
+  floorstock-chart works!
+</p>
+
+<div class="container-fluid">
+  <div class="row" style="height:50vh">
+    <ngx-charts-bar-vertical-stacked *ngIf = "displayData"
+      [scheme]="colorScheme"
+      [results]="displayData"
+      [animations] = 'animations'
+      [legend]="showLegend"
+      [legendTitle] = 'legendTitle'
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel] = "xAxisLabel"
+      [yAxisLabel] = "yAxisLabel"
+      [xAxis] = 'xAxis'
+      [yAxis] = 'yAxis'
+      (select)="pressed($event)">
+      <ng-template #tooltipTemplate let-model="model">
+        Batch number: {{model.series}} 
+        <br>
+        Floorstock item: {{model.name}}
+        <br>
+        Number Consumed: {{model.value}}
+
+      </ng-template>
+    </ngx-charts-bar-vertical-stacked> 
+  </div>
+</div>
+
+
+
+<!-- 
+
+       
+
+<div class="container-fluid">
+  <div class="row" style="height:50vh">
+<combo-chart-component  
+class="chart-container"
+*ngIf="chartType === 'combo-chart'" 
+[view]="view"
+[scheme]="barScheme"
+[colorSchemeLine]="barScheme2"
+[results]="barChart"
+[animations]="animations"
+[lineChart]="lineChartSeries"
+[tooltipDisabled]="tooltipDisabled"
+[yAxisTickFormatting]="yLeftTickFormat"
+[yLeftAxisScaleFactor]="yLeftAxisScale"
+[yRightAxisScaleFactor]="yRightAxisScale"
+[yRightAxisTickFormatting]="yRightTickFormat"
+[gradient]="gradient"
+[xAxis]="showXAxis"
+[yAxis]="showYAxis"
+[legend]="showLegend"
+[legendTitle]="legendTitle"
+[showGridLines]="showGridLines"
+[showXAxisLabel]="showXAxisLabel"
+[showYAxisLabel]="showYAxisLabel"
+[showRightYAxisLabel]="showYAxisLabel"
+[xAxisLabel]="xAxisLabel"
+[yAxisLabel]="yAxisLabel"
+[yAxisLabelRight]="yAxisLabelRight"
+(select)="onSelect($event)">
+</combo-chart-component>
+</div>
+</div>
+-->

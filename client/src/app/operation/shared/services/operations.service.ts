@@ -138,8 +138,9 @@ export class OperationsService {
     return this.http.put(this.URL_ROOT + this.URL_ORDER_API + order['order_number'] + '/', JSON.stringify(order), this.httpOptions)
   }
 
-  getFloorstockItems() {
+  getFloorstockItems(query?:string) {
     return this.http.get(this.URL_ROOT + this.floorstockItemsURL)
+    
   }
 
   getFloorstockChanges(query?: string) {

@@ -13,6 +13,8 @@
       [yAxis]=true
       [timeline]="true"
       (select)="pressed($event)">
+      <ng-template #tooltipTemplate let-model="model">
+      </ng-template>
     </ngx-charts-line-chart> 
 
     <div class="col-sm-3">
