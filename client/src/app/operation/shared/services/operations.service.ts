@@ -38,28 +38,16 @@ export class OperationsService {
   private floorstockItemsURL: string = "/api/floorstock/item/";
   private floorstockChangesURL: string = "/api/floorstock/changelog/";
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-      // 'Authorization': ''
-    })
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+  currentBatch: {
+    active: boolean,
+    shifts: number,
+    id: string,
+    batch_number: string,
+    order: {
+      order_number: string,
+      article_number: string,
     }
-    // return an ErrorObservable with a user-facing error message
-    return new ErrorObservable(
-      'Something bad happened; please try again later.');
-  };
+  }
 
   constructor(private http: HttpClient) { }
 
@@ -107,16 +95,18 @@ export class OperationsService {
   }
 
   setCurrentBatchInfo(data: Batch) {
-    let currentBatch;
     if (data) {
-      currentBatch = {
+      this.currentBatch = {
         active: true,
+        shifts: data.shifts,
         id: data.id,
         batch_number: data.batch_number,
-        order_number: data.order.order_number,
-        article_number: data.order.article_number,
+        order: {
+          order_number: data.order.order_number,
+          article_number: data.order.article_number,
+        }, 
       }
-      this.changeProdInfo(currentBatch)
+      this.changeProdInfo(this.currentBatch)
     } else {
       this.changeProdInfo(null)
     }
@@ -135,7 +125,7 @@ export class OperationsService {
   updateOrder(order) {
     console.log("Sending data: ")
     console.log(JSON.stringify(order))
-    return this.http.put(this.URL_ROOT + this.URL_ORDER_API + order['order_number'] + '/', JSON.stringify(order), this.httpOptions)
+    return this.http.put(this.URL_ROOT + this.URL_ORDER_API + order['order_number'] + '/', JSON.stringify(order))
   }
 
   getFloorstockItems() {
@@ -147,13 +137,13 @@ export class OperationsService {
   }
 
   createFloorstock(newItem: {}) {
-    return this.http.post(this.URL_ROOT + this.floorstockChangesURL, JSON.stringify(newItem), this.httpOptions).map(data => {
+    return this.http.post(this.URL_ROOT + this.floorstockChangesURL, JSON.stringify(newItem)).map(data => {
     })
   }
 
   updateFloorstock(updatedItem: any) {
     let UPDATE_FLOORSTOCK_URL = this.URL_ROOT + this.floorstockChangesURL + updatedItem.id // The URL to correct API
-    return this.http.patch(UPDATE_FLOORSTOCK_URL, JSON.stringify(updatedItem), this.httpOptions)
+    return this.http.patch(UPDATE_FLOORSTOCK_URL, JSON.stringify(updatedItem))
   }
 
   getProdStats(query?: string) {
@@ -161,7 +151,7 @@ export class OperationsService {
   }
 
   createProdStats(newCell: {}) {
-    return this.http.post(this.URL_ROOT + this.scoreboardListURL, JSON.stringify(newCell), this.httpOptions).map(data => {
+    return this.http.post(this.URL_ROOT + this.scoreboardListURL, JSON.stringify(newCell)).map(data => {
     })
   }
 
@@ -171,7 +161,7 @@ export class OperationsService {
 
   updateProdStats(updatedCell: any) {
     let UPDATE_SCOREBOARD_URL = this.URL_ROOT + this.scoreboardListURL + updatedCell.time_stamp + '/' // The URL to correct API
-    return this.http.patch(UPDATE_SCOREBOARD_URL, JSON.stringify(updatedCell), this.httpOptions)
+    return this.http.patch(UPDATE_SCOREBOARD_URL, JSON.stringify(updatedCell))
   }
 
 }

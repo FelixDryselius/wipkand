@@ -1,7 +1,7 @@
 export class Batch {
     id: string;
     batch_number: string;
-    start_date: Date;
+    start_date?: Date;
     end_date?: Date;
     scrap?: number;
     production_yield?: number;
