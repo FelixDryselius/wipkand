@@ -32,6 +32,7 @@ CREATE TABLE batch
   applied_labels INT,
   label_print_time datetime, 
   rework_time time,
+  shifts int,
   production_order char(7) NOT NULL,
   PRIMARY KEY (ID),
   FOREIGN KEY (production_order) REFERENCES production_order(order_number)

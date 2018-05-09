@@ -91,6 +91,7 @@ export class OperationsService {
   }
 
   createBatch(newBatch: {}) {
+    console.log(newBatch)
     return this.http.post(this.URL_ROOT + this.URL_BATCH_API, JSON.stringify(newBatch))
   }
 

@@ -39,6 +39,7 @@ class Batch(models.Model):
     applied_labels = models.IntegerField(blank=True, null=True)
     label_print_time = models.DateTimeField(blank=True, null=True)
     rework_time = models.TimeField(blank=True, null=True)
+    shifts = models.IntegerField(blank=True, null=True)
     order = models.ForeignKey('ProductionOrder', models.DO_NOTHING, db_column='production_order')
 
     class Meta:

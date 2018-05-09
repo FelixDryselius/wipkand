@@ -89,6 +89,8 @@ class BatchDetailSerializer(ModelSerializer):
                 'applied_labels', instance.applied_labels)
             instance.rework_time = validated_data.get(
                 'rework_time', instance.rework_time)
+            instance.shifts = validated_data.get(
+                'shifts', instance.shifts)
             instance.production_yield = validated_data.get(
                 'production_yield', instance.production_yield)
             instance.hmi1_good = validated_data.get(
@@ -117,7 +119,8 @@ class BatchCreateSerializer(ModelSerializer):
             'rework_date',
             'scrap',
             'production_yield',
-            'order'
+            'order',
+            'shifts'
         ]
 
     # Do we need save after objects.create()?
