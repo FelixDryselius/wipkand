@@ -88,11 +88,12 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
     let newBatch = {
       batch_number: this.batch,
-      order_number: {
+      order: {
         order_number: this.order,
         article_number: this.article,
       },
-      start_date: this.batchStartDate
+      start_date: this.batchStartDate,
+      shifts: 3,
     }
 
     this.batchErrorMsg = null;
