@@ -105,7 +105,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     this.statisticsSub = this.operationsService.getProductionStatistics('?search=' + this.batchDetailID + '&limit=40')
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        this.statistics = (data as QueryResponse).results
+        this.statistics = (data as QueryResponse).results        
       })
   }
 

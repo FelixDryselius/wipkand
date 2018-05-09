@@ -136,9 +136,9 @@
         <table *ngIf="statistics; else loading" id="table" class="table-striped table-bordered" style="width:100%">
           <thead>
             <tr>
-              <th data-field="id">Time Stamp</th>
-              <th data-field="name" data-editable="true">Quantity</th>
-              <th data-field="price" data-editable="true">Operators</th>
+              <th>Time Stamp</th>
+              <th  data-editable="true">Quantity</th>
+              <th  data-editable="true">Operators</th>
             </tr>
           </thead>
           <tr *ngFor="let statistic of statistics">
