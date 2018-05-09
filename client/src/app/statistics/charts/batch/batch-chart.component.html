@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <div class="row" style="height:50vh">
+    <ngx-charts-line-chart *ngIf = "haveData"
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="displayData"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel] = "xAxisLabel"
+      [xAxis]='xAxis'
+      [yAxis] = 'yAxis'
+      (select)="pressed($event)">
+    </ngx-charts-line-chart> 
+  </div>
+</div>

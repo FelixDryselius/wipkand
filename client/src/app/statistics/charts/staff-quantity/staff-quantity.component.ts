@@ -8,14 +8,13 @@ import { OperationsService } from '../../../operation/shared/services/operations
 import { QueryResponse } from '../../../shared/interfaces/query-response';
 import { Scoreboard } from '../../../../assets/interface/scoreboard';
 
-
 @Component({
-  selector: 'app-production-charts',
-  templateUrl: './production-charts.component.html',
-  styleUrls: ['./production-charts.component.css']
+  selector: 'app-staff-quantity',
+  templateUrl: './staff-quantity.component.html',
+  styleUrls: ['./staff-quantity.component.css']
 })
-export class StatisticsChartsComponent implements OnInit {
-  
+export class StaffQuantityComponent implements OnInit {
+
   //data
   haveData=false;
   displayData;
@@ -37,10 +36,11 @@ export class StatisticsChartsComponent implements OnInit {
   timeline=true;
 
 
+
   constructor(private authAPI:AuthAPIService, private operationsService:OperationsService) { }
 
   ngOnInit() {
-    this.getProductionData()           
+    this.getStaffQuantity()           
   }
 
   xAxisFormatting(data){
@@ -53,8 +53,8 @@ export class StatisticsChartsComponent implements OnInit {
   }
 
   changeTimeSpan(query?:string){
-    let tempQuery = '?limit='+query;
-    this.getProductionData(tempQuery)
+    let tempQuery = '?limit='+ query;
+    this.getStaffQuantity(tempQuery)
   }
   
   toggleBatches(toggle:boolean){
@@ -67,13 +67,13 @@ export class StatisticsChartsComponent implements OnInit {
     }
   }
 
-  getProductionData(query = '?limit=72')  {
+  getStaffQuantity(query = '?limit=72')  {
 
     this.operationsService.getProductionStatistics(query)
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
-      let productionStatistics
-      productionStatistics = (data as QueryResponse).results as Scoreboard []
+
+      let productionStatistics = (data as QueryResponse).results as Scoreboard []
       
       // Creating an to match what ngx-charts need to have
       // the element looks like this:
@@ -92,8 +92,6 @@ export class StatisticsChartsComponent implements OnInit {
       let productionDataPoints = []
       let arrayHolder = []
       let prodDataContinuesTemp = []
-      let exptectedProductionHolder = []
-
       productionStatistics.forEach(element => {
         if(relevantBatchesId.indexOf(element.batch) == -1 ){
           relevantBatchesId.push(element.batch)                 
@@ -101,7 +99,7 @@ export class StatisticsChartsComponent implements OnInit {
             'name':element.batch,
             'series':[
               {
-                'value':element.production_quantity,
+                'value':element.staff_quantity,
                 'name': new Date(element.time_stamp)
               }
            ]
@@ -110,7 +108,7 @@ export class StatisticsChartsComponent implements OnInit {
           productionDataPoints.forEach(subEl =>{            
             if(subEl.name==element.batch){             
               subEl.series.push({
-              'value':element.production_quantity,
+              'value':element.staff_quantity,
               'name': new Date(element.time_stamp)
               })
             }
@@ -120,31 +118,17 @@ export class StatisticsChartsComponent implements OnInit {
         arrayHolder.push(
           {
             'name':new Date(element.time_stamp),
-            'value': element.production_quantity
+            'value': element.staff_quantity
           }
-        )  
-        exptectedProductionHolder.push(
-          {
-            'name':new Date(element.time_stamp),
-            'value': 4200
-          }
-        )
-      })
-        
+        )         
+      });
       this.prodDataSeparateBatches = productionDataPoints;
-      this.prodDataSeparateBatches.push({
-        'name': 'Expected Production Quantity',
-        'series': exptectedProductionHolder
-      })
       this.prodDataContinues = [
         {
-          'name':'Production Quantity',
+          'name':'Staff Quantity',
           'series': arrayHolder
         }
       ]
-  
-      console.log(this.prodDataSeparateBatches);
-      
     //sets which type to show
     if(this.showBatches){
       this.displayData = this.prodDataSeparateBatches
@@ -152,6 +136,13 @@ export class StatisticsChartsComponent implements OnInit {
       this.displayData = this.prodDataContinues
     }
     this.haveData=true
-  });    
+    })
   }
 }
+
+
+
+
+
+
+
