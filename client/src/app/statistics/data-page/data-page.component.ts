@@ -61,7 +61,10 @@ export class DataPageComponent implements OnInit {
       .switchMap(data => {
         this.batchList = (data as QueryResponse).results as Batch []
        // console.log(this.batchList);
-        return this.operationsService.getOrder()        
+       console.log(this.batchList);
+        return this.operationsService.getOrder()      
+        
+          
       })
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {        
@@ -140,7 +143,7 @@ export class DataPageComponent implements OnInit {
             batch_time: new Date(tempBatch.end_date - tempBatch.start_date),
             reference_storage: tempProduct.reference_storage,
             scrap: tempBatch.scrap,
-            yield: tempBatch.yield,
+            yield: tempBatch.production_yield,
             hmi1_good: tempBatch.hmi1_good,
             hmi1_bad: tempBatch.hmi1_bad,
             hmi1_total: tempBatch.hmi1_good - tempBatch.hmi1_bad,
