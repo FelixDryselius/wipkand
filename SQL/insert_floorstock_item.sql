@@ -1,17 +1,17 @@
 INSERT INTO floorstock_item (item_id, item_name)
-VALUES ('301-6914', 'Groninger Lable 301-6914');
+VALUES ('301-6914', 'Groninger Label 301-6914');
 
 INSERT INTO floorstock_item (item_id, item_name)
-VALUES ('301-6915', 'Groninger Lable 301-6915');
+VALUES ('301-6915', 'Groninger Label 301-6915');
 
 INSERT INTO floorstock_item (item_id, item_name)
-VALUES ('301-7905', 'Groninger Lable 301-7905');
+VALUES ('301-7905', 'Groninger Label 301-7905');
 
 INSERT INTO floorstock_item (item_id, item_name)
-VALUES ('301-8023', 'Groninger Lable 301-8023');
+VALUES ('301-8023', 'Groninger Label 301-8023');
 
 INSERT INTO floorstock_item (item_id, item_name)
-VALUES ('301-8025', 'Groninger Lable 301-8025');
+VALUES ('301-8025', 'Groninger Label 301-8025');
 
 INSERT INTO floorstock_item (item_id, item_name)
 VALUES ('001-1995', 'Groninger Carbon 001-1995');

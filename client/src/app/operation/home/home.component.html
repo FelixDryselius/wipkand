@@ -28,7 +28,7 @@
           </div>
           <div class="dropdown col-md-6">
             <div>
-              <button (click)="addShift()" class="btn btn-primary">Add shift</button>
+              <button (click)="addShift(true)" class="btn btn-primary">Add shift</button>
             </div>
           </div>
         </div>
@@ -55,15 +55,15 @@
               <tr>
                 <td class="align-middle scoreboardLabels"># Shift</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [placeholder]="7<stat.time_stamp<16 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
-                    [(ngModel)]="ngModelStaffDay[stat.time_stamp]">
+                  <input type="number" min="0" class="form-control" [value]="7<stat.time_stamp<16 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
+                    [ngModel]="stat.staff_quantity">
                 </td>
               </tr>
               <tr>
                 <td class="align-middle scoreboardLabels"># Produced</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [placeholder]="7<stat.time_stamp<16 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
-                    [(ngModel)]="ngModelProdDay[stat.time_stamp]">
+                  <input type="number" min="0" class="form-control" [value]="7<stat.time_stamp<16 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
+                    [ngModel]="stat.production_quantity">
                 </td>
               </tr>
               <tr>
@@ -101,15 +101,15 @@
               <tr>
                 <td class="align-middle scoreboardLabels"># Shift</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [placeholder]="15<stat.time_stamp<24 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
-                    [(ngModel)]="ngModelStaffEve[stat.time_stamp]">
+                  <input type="number" min="0" class="form-control" [value]="15<stat.time_stamp<24 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
+                    [ngModel]="stat.staff_quantity">
                 </td>
               </tr>
               <tr>
                 <td class="align-middle scoreboardLabels"># Produced</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [placeholder]="15<stat.time_stamp<24 ? stat.production_quantity : ' '"
-                    name='{{ stat.time_stamp }}_pq' [(ngModel)]="ngModelProdEve[stat.time_stamp]">
+                  <input type="number" min="0" class="form-control" [value]="15<stat.time_stamp<24 ? stat.production_quantity : ' '"
+                    name='{{ stat.time_stamp }}_pq' [ngModel]="stat.production_quantity">
                 </td>
               </tr>
               <tr>
@@ -147,15 +147,15 @@
               <tr>
                 <td class="align-middle scoreboardLabels"># Shift</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [placeholder]="0<=stat.time_stamp<8 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
-                    [(ngModel)]="ngModelStaffNight[stat.time_stamp]">
+                  <input type="number" min="0" class="form-control" [value]="0<=stat.time_stamp<8 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
+                    [ngModel]="stat.staff_quantity">
                 </td>
               </tr>
               <tr>
                 <td class="align-middle scoreboardLabels"># Produced</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [placeholder]="0<=stat.time_stamp<8 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
-                    [(ngModel)]="ngModelProdNight[stat.time_stamp]">
+                  <input type="number" min="0" class="form-control" [value]="0<=stat.time_stamp<8 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
+                    [ngModel]="stat.production_quantity">
                 </td>
               </tr>
               <tr>

@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { OperationsService } from '../shared/services/operations.service';
 import { CommentService } from '../../shared/application-services/comment.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
+import { Batch } from '../../shared/interfaces/batch';
 
 
 
@@ -154,49 +155,93 @@ export class HomeComponent implements OnInit {
     this.getTime()
 
     this.shifts = [
-      { shift: 'night', date: this.todaysDate },
-      { shift: 'day', date: this.todaysDate },
-      { shift: 'evening', date: this.todaysDate },
+      { shift: 'night', date: this.todaysDate, firstHour: 'T00' },
+      { shift: 'day', date: this.todaysDate, firstHour: 'T07' },
+      { shift: 'evening', date: this.todaysDate, firstHour: 'T16' },
     ]
 
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => {
       this.prodInfo = info
       if (this.prodInfo) {
+        this.getScoreboard()
         this.getFloorstock()
         this.getComment()
-        this.getScoreboard()
-        this.onChange('day', this.todaysDate)
+        this.onChange(this.shifts[0].shift, this.todaysDate)
       }
     })
   }
 
-  addShift() {
+  addShift(newShift) {
+    let addShift = newShift
     let newShiftType;
     let newDate;
+    let firstHour;
     let day;
-    let lastShift = this.shifts.slice(-1)[0]
+    let allowed = false;
+    let i = this.shifts.length;
+    this.getScoreboard()
 
-    if (lastShift.shift == "night") {
-      newShiftType = "day"
-      newDate = lastShift.date
-    }
-    else if (lastShift.shift == "day") {
-      newShiftType = "evening"
-      newDate = lastShift.date
-    }
-    else if (lastShift.shift == "evening") {
-      newShiftType = "night"
-      if ((parseInt(lastShift.date.slice(-2)) + 1) < 10) {
-        day = '0' + (parseInt(lastShift.date.slice(-2)) + 1)
+    while (i < this.prodInfo.shifts) {
+      let lastShift = this.shifts.slice(-1)[0]
+      if (lastShift.shift == "night") {
+        newShiftType = "day"
+        newDate = lastShift.date
+        firstHour = 'T07'
       }
-      else {
-        day = (parseInt(lastShift.date.slice(-2)) + 1)
+      else if (lastShift.shift == "day") {
+        newShiftType = "evening"
+        newDate = lastShift.date
+        firstHour = 'T16'
       }
-      newDate = lastShift.date.slice(0, -2) + day;
+      else if (lastShift.shift == "evening") {
+        newShiftType = "night"
+        if ((parseInt(lastShift.date.slice(-2)) + 1) < 10) {
+          day = '0' + (parseInt(lastShift.date.slice(-2)) + 1)
+        }
+        else {
+          day = (parseInt(lastShift.date.slice(-2)) + 1)
+        }
+        newDate = lastShift.date.slice(0, -2) + day;
+        firstHour = 'T00'
+      }
+      let newShift = { shift: newShiftType, date: newDate, firstHour: firstHour }
+      this.shifts.push(newShift)
+      i += 1
     }
 
-    let newShift = { shift: newShiftType, date: newDate }
-    this.shifts.push(newShift)
+    if (addShift) {
+      for (let obj in this.prodStats) {
+        console.log(this.shifts.slice(-1)[0].firstHour)
+        console.log(this.shifts.slice(-1)[0].date)
+        if (this.prodStats[obj]["time_stamp"] > this.shifts.slice(-1)[0].date+this.shifts.slice(-1)[0].firstHour && (this.prodStats[obj]["production_quantity"] > 0 || this.prodStats[obj]["staff_quantity"] > 0)) {
+          allowed = true
+        }
+      }
+      console.log(allowed)
+      if (allowed) {
+        let batch = {
+          id: this.prodInfo.id,
+          batch_number: this.prodInfo.batch_number,
+          order: this.prodInfo.order,
+          shifts: this.prodInfo.shifts + 1
+        }
+
+        addShift = false
+        this.operationsService.updateBatch(batch)
+          .retryWhen(error => this.authAPI.checkHttpRetry(error))
+          .subscribe(data => {
+            this.prodInfo.shifts = (data as Batch).shifts
+            console.log(this.prodInfo)
+            this.operationsService.setCurrentBatchInfo(this.prodInfo)
+          });
+      }
+    }
+
+
+
+
+
+
   }
 
   getTime() {
@@ -230,7 +275,7 @@ export class HomeComponent implements OnInit {
     this.operationsService.getProdStats('?batch_number=' + this.prodInfo.batch_number)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        this.prodStats = data as JSON[]
+        this.prodStats = (data as QueryResponse).results
       });
   }
 
@@ -249,13 +294,12 @@ export class HomeComponent implements OnInit {
         let correctLabel;
 
         for (let key in this.productLabelPairs) {
-          if (this.productLabelPairs[key].article_number == this.prodInfo.article_number) {
+          if (this.productLabelPairs[key].article_number == this.prodInfo.order.article_number) {
             correctLabel = this.productLabelPairs[key].label
           }
         }
-
         this.currentFloorstock = [];
-
+        console.log(this.floorstockItems)
         for (let key in this.floorstockItems) {
           if (
             this.floorstockItems[key]["item_name"] == correctLabel ||
@@ -266,6 +310,7 @@ export class HomeComponent implements OnInit {
             this.floorstockItems[key]["item_name"] == "Sleever 301-6906" ||
             this.floorstockItems[key]["item_name"] == "Groninger Carbon 001-1995"
           ) {
+
             let item = { item_name: this.floorstockItems[key]["item_name"] }
             item["item_id"] = this.floorstockItems[key]["item_id"]
             this.currentFloorstock.push(item)
@@ -277,7 +322,7 @@ export class HomeComponent implements OnInit {
               this.currentFloorstock[obj]["id"] = this.floorstockChanges[k]["id"]
               this.currentFloorstock[obj]["quantity"] = this.floorstockChanges[k]["quantity"]
               this.currentFloorstock[obj]["last_update"] = this.floorstockChanges[k]["time_stamp"]
-              this.currentFloorstock[obj]["batch_number"] = this.floorstockChanges[k]["batch_number"]
+              this.currentFloorstock[obj]["batch"] = this.floorstockChanges[k]["batch"]
 
             }
           }
@@ -287,7 +332,7 @@ export class HomeComponent implements OnInit {
             this.currentFloorstock[obj]["id"] = null
             this.currentFloorstock[obj]["quantity"] = 0
             this.currentFloorstock[obj]["last_update"] = ''
-            this.currentFloorstock[obj]["batch_number"] = ''
+            this.currentFloorstock[obj]["batch"] = ''
           }
         }
         console.log("currentFloorstock: ")
@@ -301,20 +346,20 @@ export class HomeComponent implements OnInit {
   }
 
   addOne(item_id, quantity, change) {
-      if (change == 'incr') {
-        for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
-          if (this.currentFloorstock[obj]["item_id"] == item_id) {
-            this.currentFloorstock[obj]["quantity"] += 1
-          }
+    if (change == 'incr') {
+      for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+        if (this.currentFloorstock[obj]["item_id"] == item_id) {
+          this.currentFloorstock[obj]["quantity"] += 1
         }
       }
-      else if (change == 'decr') {
-        for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
-          if (this.currentFloorstock[obj]["item_id"] == item_id && this.currentFloorstock[obj]["quantity"] > 0) {
-            this.currentFloorstock[obj]["quantity"] -= 1
-          }
+    }
+    else if (change == 'decr') {
+      for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+        if (this.currentFloorstock[obj]["item_id"] == item_id && this.currentFloorstock[obj]["quantity"] > 0) {
+          this.currentFloorstock[obj]["quantity"] -= 1
         }
       }
+    }
   }
 
   getComment() {
@@ -339,9 +384,7 @@ export class HomeComponent implements OnInit {
         this.shiftProdStats = [];
         let shiftTimes;
         this.selectedShift = shift
-        console.log(this.selectedShift)
         this.shiftDate = date
-        console.log(this.shiftDate)
 
         if (this.selectedShift == 'day') {
           shiftTimes = this.dayShiftTimes
@@ -359,6 +402,8 @@ export class HomeComponent implements OnInit {
         }
 
         if (this.selectedShift == 'day') {
+
+          console.log(this.prodStats)
           getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
         }
         if (this.selectedShift == 'evening') {
@@ -370,12 +415,12 @@ export class HomeComponent implements OnInit {
 
         function getOldData(prodInfo, todaysDate, prodStats, shiftProdStats, startShift, endShift) {
           for (let inp = 0; inp < prodStats.length; inp++) {
-            if ((startShift - 1) < prodStats[inp]["time_stamp"].slice(11, 13) && prodStats[inp]["time_stamp"].slice(11, 13) < (endShift - 1)) {
+            if ((startShift - 1) < prodStats[inp]["time_stamp"].slice(11, 13) && prodStats[inp]["time_stamp"].slice(11, 13) < (endShift)) {
               for (let obj = 0; obj < shiftProdStats.length; obj++) {
                 if (shiftProdStats[obj]["time_stamp"] == prodStats[inp]["time_stamp"]) {
                   shiftProdStats[obj]["production_quantity"] = prodStats[inp]["production_quantity"]
                   shiftProdStats[obj]["staff_quantity"] = prodStats[inp]["staff_quantity"]
-                  shiftProdStats[obj]["batch_number"] = prodStats[inp]["batch_number"]
+                  shiftProdStats[obj]["batch"] = prodStats[inp]["batch"]
                 }
               }
             }
@@ -386,11 +431,12 @@ export class HomeComponent implements OnInit {
           if (typeof this.shiftProdStats[obj]["production_quantity"] == 'undefined' && typeof this.shiftProdStats[obj]["staff_quantity"] == 'undefined') {
             this.shiftProdStats[obj]["production_quantity"] = ''
             this.shiftProdStats[obj]["staff_quantity"] = ''
-            this.shiftProdStats[obj]["batch_number"] = ''
+            this.shiftProdStats[obj]["batch"] = ''
           }
         }
         console.log("Initial data for " + this.selectedShift + ":")
         console.log(this.shiftProdStats)
+        this.addShift(false)
       });
   }
 
