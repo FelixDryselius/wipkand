@@ -79,6 +79,7 @@ export class FloorstockChartComponent implements OnInit {
   }
   
  // This function populates floorstockItems and displayData
+ //TODO implement functions to enable the user to choose how far bach he, or she wants to go, eg another 'query'
  getFloorstockData(query='?limit=90'){
 
   this.operationsService.getFloorstockItems()
@@ -97,10 +98,10 @@ export class FloorstockChartComponent implements OnInit {
 
     
     this.floorstockChange.forEach(element => {
-      if(uniqueBatchNumbers.indexOf(element.batch_number) == -1 ){
-        uniqueBatchNumbers.push(element.batch_number)                 
+      if(uniqueBatchNumbers.indexOf(element.batch) == -1 ){
+        uniqueBatchNumbers.push(element.batch)                 
         tempDisplayData.push({
-          'name':element.batch_number,
+          'name':element.batch,
           'series':[
             {
               'value':element.quantity,
@@ -110,7 +111,7 @@ export class FloorstockChartComponent implements OnInit {
         })
       } else {
         tempDisplayData.forEach(subEl =>{            
-          if(subEl.name==element.batch_number){             
+          if(subEl.name==element.batch){             
             subEl.series.push({
             'value':element.quantity,
             'name': element.floorstock_item
@@ -134,10 +135,10 @@ export class FloorstockChartComponent implements OnInit {
       
   trimFloorstockChange(){
     let index = this.floorstockChange.length - 1
-    let lastBatchNumber = this.floorstockChange[index].batch_number
+    let lastBatchNumber = this.floorstockChange[index].batch
 
     // This is to eliminate 'non filled' batches with floorstock change
-    while (lastBatchNumber == this.floorstockChange[index].batch_number){
+    while (lastBatchNumber == this.floorstockChange[index].batch){
       this.floorstockChange.pop()
       index = index - 1      
     }
