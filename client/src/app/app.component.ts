@@ -25,5 +25,9 @@ export class AppComponent implements OnInit {
         this.error = message;
         this.showError = true;
       });
+
+    if (this.authAPI.loggedIn && !this.authAPI.currentUser) {
+      this.authAPI.setCurrentUser()
+    }
   }
 }

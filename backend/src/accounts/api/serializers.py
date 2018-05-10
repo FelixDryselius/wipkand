@@ -11,20 +11,15 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from rest_framework_simplejwt.settings import api_settings
 
-User = get_user_model()
 
-
-class UserCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            'username',
-            'password',
-            # 'email',
-        ]
-        extra_kwargs = {"password":
-                        {"write_only": True}
-                        }
+class UserRoleSerializer(serializers.BaseSerializer):
+    def to_representation(self, user):
+        return {
+            'user': user.username,
+            'isAdmin': user.is_admin,
+            'isOperator': user.is_operator,
+            'isSupervisor': user.is_supervisor,
+        }
 
 class JWTTokenSerializer(TokenObtainSerializer):
     @classmethod
