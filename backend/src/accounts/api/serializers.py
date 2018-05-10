@@ -15,7 +15,7 @@ from rest_framework_simplejwt.settings import api_settings
 class UserRoleSerializer(serializers.BaseSerializer):
     def to_representation(self, user):
         return {
-            'user': user.username,
+            'username': user.username,
             'isAdmin': user.is_admin,
             'isOperator': user.is_operator,
             'isSupervisor': user.is_supervisor,

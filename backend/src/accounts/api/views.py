@@ -20,8 +20,6 @@ from accounts.api.serializers import JWTTokenSerializer, JWTTokenRefreshSerializ
 
 
 class RoleView(APIView):
-    # authentication_classes = (isAuthenticated,)
-    # permission_classes = (AllowAny,)
 
     def get(self, request):
         user = request.user

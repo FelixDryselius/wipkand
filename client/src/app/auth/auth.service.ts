@@ -55,13 +55,20 @@ export class AuthAPIService {
     }
 
     setCurrentUser() {
-        this.getUserRoleSub = this.getUser().subscribe(data => {
-            this.currentUser = data as User
-            this.$currentUser.next(this.currentUser)
-            console.log("User is: ")
-            console.log(this.currentUser)
-            this.getUserRoleSub.unsubscribe()
-        })
+        this.getUserRoleSub = this.getUser()
+            .retryWhen(error => this.checkHttpRetry(error))
+            .subscribe(data => {
+                this.currentUser = data as User
+                this.$currentUser.next(this.currentUser)
+                console.log("User is: ")
+                console.log(this.currentUser)
+                this.getUserRoleSub.unsubscribe()
+            })
+    }
+
+    clearCurrentUser() {
+        this.currentUser = null
+        this.$currentUser.next(null)
     }
 
     getUser() {
@@ -102,6 +109,7 @@ export class AuthAPIService {
         this.cookieService.delete('jwt-refreshtoken', '/')
         this.cookieService.delete('jwt-refresh-expires', '/')
         this.setLoggedIn(false)
+        this.clearCurrentUser()
         this.router.navigate(['login/'])
     }
 
