@@ -14,6 +14,11 @@ import { QueryResponse } from '../../../shared/interfaces/query-response';
   styleUrls: ['./batch-chart.component.css']
 })
 export class BatchChartComponent implements OnInit {
+  // variables
+  showAllDataButton = false
+
+
+
   //data
   haveData=false;
   displayData;
@@ -42,7 +47,19 @@ export class BatchChartComponent implements OnInit {
 
   //Might be used later
   pressed(event) {
-    console.log('event triggered');   
+    let serieName;
+    if(typeof event == 'string'){
+      serieName = event
+    } else {
+      serieName = event.series
+    }
+    this.changeDisplayData(serieName)
+    this.showAllDataButton = true
+  }
+
+  showAllData(){
+    this.displayData = this.batchData
+    this.showAllDataButton = false
   }
 
   changeTimeSpan(query?:string){
@@ -50,7 +67,15 @@ export class BatchChartComponent implements OnInit {
     this.getBatchData(tempQuery)
   }
   
-
+  changeDisplayData(serieName:string){
+    this.displayData.forEach(dataSerie =>{
+      if(dataSerie.name == serieName){
+       this.displayData = [
+          dataSerie
+        ]
+      }
+    })
+  }
 
   getBatchData(query = '?limit=10')  {
 

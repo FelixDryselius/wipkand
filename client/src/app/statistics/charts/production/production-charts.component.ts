@@ -50,6 +50,8 @@ export class StatisticsChartsComponent implements OnInit {
   //Might be used later
   pressed(event) {
     console.log('event triggered');   
+    console.log(event);
+    
   }
 
   changeTimeSpan(query?:string){

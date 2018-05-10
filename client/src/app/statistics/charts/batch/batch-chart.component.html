@@ -12,5 +12,8 @@
       [yAxis] = 'yAxis'
       (select)="pressed($event)">
     </ngx-charts-line-chart> 
+    <button class="btn btn-primary" *ngIf="showAllDataButton" type="button" (click)='showAllData()'>
+      Show all data
+    </button>
   </div>
 </div>
