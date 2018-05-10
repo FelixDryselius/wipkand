@@ -31,7 +31,7 @@ export class AuthAPIService {
     isRefreshingToken: boolean = false;
 
     currentUser: User;
-    $currentUser = new BehaviorSubject<User>(this.currentUser)
+    $currentUser: Observable<User>;
 
     loggedIn: boolean;
     loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn)
@@ -47,6 +47,8 @@ export class AuthAPIService {
         if (this.tokenValid) {
             console.log("Token is valid!")
             this.setLoggedIn(true)
+            this.setCurrentUser()
+
         } else {
             console.log("Token is not valid!")
             this.setLoggedIn(false)
@@ -55,20 +57,21 @@ export class AuthAPIService {
     }
 
     setCurrentUser() {
-        this.getUserRoleSub = this.getUser()
-            .retryWhen(error => this.checkHttpRetry(error))
-            .subscribe(data => {
-                this.currentUser = data as User
-                this.$currentUser.next(this.currentUser)
+        this.$currentUser = this.getUser().switchMap(user => {
+            if (user) {
+                this.currentUser = user as User
                 console.log("User is: ")
                 console.log(this.currentUser)
-                this.getUserRoleSub.unsubscribe()
-            })
+                return Observable.of(this.currentUser)
+            } else {
+                return Observable.of(null)
+            }
+        })
     }
 
     clearCurrentUser() {
         this.currentUser = null
-        this.$currentUser.next(null)
+        this.$currentUser = Observable.of(null)
     }
 
     getUser() {
@@ -101,7 +104,7 @@ export class AuthAPIService {
         this.cookieService.set('jwt-refresh-expires', token['expiry'], null, "/")
         this.setLoggedIn(true)
         this.setCurrentUser()
-        this.router.navigate(["/"])
+        this.router.navigate(["comment/"])
     }
 
     performLogout() {

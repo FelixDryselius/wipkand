@@ -3,34 +3,44 @@ import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { AuthAPIService } from './auth.service';
 import { User } from '../shared/interfaces/user';
 
+
+//Third party imports
+import { Observable } from 'rxjs/Observable';
+import { tap, map, take } from 'rxjs/operators'
+
 @Injectable()
 export class RoleGuard implements CanActivate {
     user: User;
-    getUserRoleSub: any;
     constructor(
         public authAPI: AuthAPIService,
         public router: Router
     ) { }
 
-    canActivate(route: ActivatedRouteSnapshot): boolean {
-
+    canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
         const expectedRole = route.data.expectedRole;
         const user = this.authAPI.currentUser
-
-        if (user) {
-            if ((user.isAdmin == true) ||
-                (user.isSupervisor && expectedRole.includes('supervisor')) ||
-                (user.isOperator && expectedRole.includes('operator'))
-            ) {
-                return true
-            } else {
-                console.log("User has no role priviliges for VFAL Monitor... Logging out");
-                this.authAPI.performLogout()
-                return false
-            }
-        } else {
-            return false
-        }
+        return this.authAPI.$currentUser.pipe(
+            take(1),
+            map(user => {
+                if (user) {
+                    if ((user.isAdmin == true) ||
+                        (user.isSupervisor && expectedRole.includes('supervisor')) ||
+                        (user.isOperator && expectedRole.includes('operator'))
+                    ) {
+                        return true
+                    } else {
+                        return false
+                    }
+                } else {
+                    return false
+                }
+            }),
+            tap(isAuthorized => {
+                if (!isAuthorized) {
+                    console.error("Access denied. You have no permission")
+                }
+            })
+        )
     }
 
 }
