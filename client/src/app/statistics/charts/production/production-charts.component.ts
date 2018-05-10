@@ -92,7 +92,7 @@ export class StatisticsChartsComponent implements OnInit {
       //      ] 
       let relevantBatchesId = []
       let productionDataPoints = []
-      let arrayHolder = []
+      let continuesDataArrayHolder = []
       let prodDataContinuesTemp = []
       let exptectedProductionHolder = []
 
@@ -119,7 +119,7 @@ export class StatisticsChartsComponent implements OnInit {
           })
         }
         // Here it saves the 'continues production run'      
-        arrayHolder.push(
+        continuesDataArrayHolder.push(
           {
             'name':new Date(element.time_stamp),
             'value': element.production_quantity
@@ -133,19 +133,27 @@ export class StatisticsChartsComponent implements OnInit {
         )
       })
         
-      this.prodDataSeparateBatches = productionDataPoints;
-      this.prodDataSeparateBatches.push({
+      //adding expected value to separate production batches
+      productionDataPoints.push({
         'name': 'Expected Production Quantity',
         'series': exptectedProductionHolder
       })
+
+      //adding global variable
+      this.prodDataSeparateBatches = productionDataPoints;
+      
+      //adding to global variable with continues batches
       this.prodDataContinues = [
         {
           'name':'Production Quantity',
-          'series': arrayHolder
+          'series': continuesDataArrayHolder
+        },
+        {
+          'name': 'Expected Production Quantity',
+          'series': exptectedProductionHolder
         }
       ]
   
-      console.log(this.prodDataSeparateBatches);
       
     //sets which type to show
     if(this.showBatches){

@@ -1,4 +1,4 @@
- <div class="container">
+<div class="container-fluid">
   <div class="row" style="height:50vh">
     <ngx-charts-line-chart *ngIf = "haveData"
       [view]="view"
@@ -9,6 +9,7 @@
       [showYAxisLabel]="showYAxisLabel"
       [xAxisTickFormatting]="xAxisFormatting"
       [xAxisLabel] = "xAxisLabel"
+      [yAxisLabel] = "yAxisLabel"
       [xAxis]='xAxis'
       [yAxis] = 'yAxis'
       [timeline]="timeline"
@@ -42,13 +43,4 @@
       </div> 
     </div>
   </div>
-  <div class="row" style="height:5vh"></div>
-  <app-staff-quantity></app-staff-quantity>
-  <div class="row" style="height:5vh">  </div>
-  <app-batch-chart></app-batch-chart>
-  <div class="row" style="height:5vh"></div>
-  <app-produced-per-person></app-produced-per-person>
-  
 </div>
-
-
