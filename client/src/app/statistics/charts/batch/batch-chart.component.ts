@@ -83,7 +83,9 @@ export class BatchChartComponent implements OnInit {
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
 
-      let batchStatistics = (data as QueryResponse).results as Batch []      
+      let batchStatistics = (data as QueryResponse).results as Batch []     
+      console.log(batchStatistics);
+       
 
       let relevantBatchesId = []
       let batchDataPoints = []

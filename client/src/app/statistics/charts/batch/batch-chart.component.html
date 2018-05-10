@@ -1,5 +1,26 @@
 <div class="container-fluid">
   <div class="row" style="height:50vh">
+    <h3>Batch data per batch</h3>
+    <ngx-charts-area-chart-stacked *ngIf = "haveData"
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="displayData"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel] = "xAxisLabel"
+      [xAxis]='xAxis'
+      [yAxis] = 'yAxis'
+      (select)="pressed($event)">
+    </ngx-charts-area-chart-stacked> 
+    <button class="btn btn-primary" *ngIf="showAllDataButton" type="button" (click)='showAllData()'>
+      Show all data
+    </button>
+  </div>
+</div>
+<div class="row" style="height:5vh"></div>
+<div class="container-fluid">
+  <div class="row" style="height:50vh">
     <ngx-charts-line-chart *ngIf = "haveData"
       [view]="view"
       [scheme]="colorScheme"
@@ -17,3 +38,5 @@
     </button>
   </div>
 </div>
+
+<!-- ngx-charts-line-chart -->
