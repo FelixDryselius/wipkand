@@ -1,22 +1,37 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-2">
-      <h2 class="text-left">
-        Home
-      </h2>
-    </div>
-    <div class="col-md-8">
-    </div>
-    <div class="row">
-      <div class="col-md-5">
-        <h3>
-          Shift:
-        </h3>
-      </div>
-      <div class="col-md-7">
-        <select class="chooseShift" [(ngModel)]="selectShift" (ngModelChange)="onChange($event)" name="differentShifts">
-          <option *ngFor="let chosenShift of shifts" [ngValue]="chosenShift" [selected]='chosenShift === selectShift'> {{chosenShift}} </option>
-        </select>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-2">
+          <h2 class="text-left">
+            Home
+          </h2>
+        </div>
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-3" align="right">
+          <h3>
+            Shift: {{ selectedShift }} {{ shiftDate }}
+          </h3>
+        </div>
+        <div class="row">
+
+          <div class="dropdown col-md-6">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
+              Select shift
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <div class="dropdown-item" *ngFor="let chosenShift of shifts" ngValue="chosenShift" (click)="onChange(chosenShift.shift, chosenShift.date)">
+                {{chosenShift.shift}} {{ chosenShift.date }} </div>
+            </div>
+          </div>
+          <div class="dropdown col-md-6">
+            <div>
+              <button (click)="addShift(true)" class="btn btn-primary">Add shift</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -40,15 +55,15 @@
               <tr>
                 <td class="align-middle scoreboardLabels"># Shift</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [placeholder]="7<stat.time_stamp<16 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
-                    [(ngModel)]="ngModelStaffDay[stat.time_stamp]">
+                  <input type="number" min="0" class="form-control" [value]="7<stat.time_stamp<16 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
+                    [ngModel]="stat.staff_quantity">
                 </td>
               </tr>
               <tr>
                 <td class="align-middle scoreboardLabels"># Produced</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [placeholder]="7<stat.time_stamp<16 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
-                    [(ngModel)]="ngModelProdDay[stat.time_stamp]">
+                  <input type="number" min="0" class="form-control" [value]="7<stat.time_stamp<16 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
+                    [ngModel]="stat.production_quantity">
                 </td>
               </tr>
               <tr>
@@ -86,15 +101,15 @@
               <tr>
                 <td class="align-middle scoreboardLabels"># Shift</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [placeholder]="15<stat.time_stamp<24 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
-                    [(ngModel)]="ngModelStaffEve[stat.time_stamp]">
+                  <input type="number" min="0" class="form-control" [value]="15<stat.time_stamp<24 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
+                    [ngModel]="stat.staff_quantity">
                 </td>
               </tr>
               <tr>
                 <td class="align-middle scoreboardLabels"># Produced</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [placeholder]="15<stat.time_stamp<24 ? stat.production_quantity : ' '"
-                    name='{{ stat.time_stamp }}_pq' [(ngModel)]="ngModelProdEve[stat.time_stamp]">
+                  <input type="number" min="0" class="form-control" [value]="15<stat.time_stamp<24 ? stat.production_quantity : ' '"
+                    name='{{ stat.time_stamp }}_pq' [ngModel]="stat.production_quantity">
                 </td>
               </tr>
               <tr>
@@ -132,15 +147,15 @@
               <tr>
                 <td class="align-middle scoreboardLabels"># Shift</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [placeholder]="0<=stat.time_stamp<8 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
-                    [(ngModel)]="ngModelStaffNight[stat.time_stamp]">
+                  <input type="number" min="0" class="form-control" [value]="0<=stat.time_stamp<8 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
+                    [ngModel]="stat.staff_quantity">
                 </td>
               </tr>
               <tr>
                 <td class="align-middle scoreboardLabels"># Produced</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [placeholder]="0<=stat.time_stamp<8 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
-                    [(ngModel)]="ngModelProdNight[stat.time_stamp]">
+                  <input type="number" min="0" class="form-control" [value]="0<=stat.time_stamp<8 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
+                    [ngModel]="stat.production_quantity">
                 </td>
               </tr>
               <tr>
@@ -172,11 +187,14 @@
 </div>
 
 <hr class="separator">
+<div class="input-group">
 
+</div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-4">
       <div class="floorstockSection border border-primary rounded">
+
         <form class="floorstockForm" #floorstockForm='ngForm' (ngSubmit)='updateFloorstock($event,floorstockForm)'>
           <div class="row">
             <div class="col-md-12">
@@ -187,9 +205,20 @@
             <tbody>
               <tr class="d-flex" *ngFor="let item of currentFloorstock">
                 <td class="col-lg-6 col-md-6">
+
                   <div class="input-group col-12">
-                    <input type="number" min="0" class="form-control input-number" [placeholder]="item.quantity ? item.quantity : 0" name="{{item.item_id}}"
-                      [(ngModel)]="ngModelFloorstock[item.item_id]">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-danger btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'decr')">
+                        <b class="button-signs">-</b>
+                      </button>
+                    </span>
+                    <input type="number" min="0" class="form-control input-number" [value]="item.quantity ? item.quantity : 0" name="{{item.item_id}}"
+                    [ngModel]="item.quantity"> 
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-success btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'incr')">
+                        <b class="button-signs">+</b>
+                      </button>
+                    </span>
                   </div>
                 </td>
                 <td class="col-lg-6 col-md-6">{{item.item_name}}</td>

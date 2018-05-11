@@ -111,17 +111,7 @@ class BatchCreateSerializer(ModelSerializer):
 
     class Meta:
         model = Batch
-        fields = [
-            'id',
-            'batch_number',
-            'start_date',
-            'end_date',
-            'rework_date',
-            'scrap',
-            'production_yield',
-            'order',
-            'shifts'
-        ]
+        fields = '__all__'
 
     # Do we need save after objects.create()?
     def create(self, validated_data):
@@ -157,6 +147,7 @@ def validate_order(old_order, new_product):
 
 
 class CommentSerializer(ModelSerializer):
+    #batch = BatchInfoSerializer()
     class Meta:
         model = BatchComment
         fields = [

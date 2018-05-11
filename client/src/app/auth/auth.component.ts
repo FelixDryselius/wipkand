@@ -7,7 +7,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthLoginData } from './auth'
-import { User } from './user'
 
 import { CookieService } from 'ngx-cookie-service';
 
@@ -19,7 +18,6 @@ import { CookieService } from 'ngx-cookie-service';
 })
 
 export class AuthComponent implements OnInit {
-  userData: User;
   loginForm: FormGroup;
   usernameField: FormControl;
   passwordField: FormControl;

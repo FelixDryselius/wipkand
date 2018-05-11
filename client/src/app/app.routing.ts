@@ -5,50 +5,63 @@ import { NgModule } from '@angular/core';
 import { AuthComponent } from './auth/auth.component';
 import { AuthLogoutComponent } from './auth-logout/auth-logout.component'
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
-import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component'; 
+import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component';
 
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuard } from './auth/auth-guard.service';
+import { RoleGuard } from './auth/role-guard.service';
 
 
 
-const appRoutes: Routes = [   
+const appRoutes: Routes = [
     {
-       path:"",
-       redirectTo: '/home', 
-       pathMatch: 'full' 
+        path: "",
+        redirectTo: '/home',
+        pathMatch: 'full'
     },
     {
-        path:"login",
+        path: "login",
         component: AuthComponent,
     },
     {
-        path:"logout",
+        path: "logout",
         component: AuthLogoutComponent,
     },
     {
-        path:"batch-history",
+        path: "batch-history",
         component: BatchHistoryComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, RoleGuard],
+        data: {
+            expectedRole: ['admin', 'operator', 'supervisor']
+        }
     },
     {
-        path:"batch-history/:id",
+        path: "batch-history/:id",
         component: BatchHistoryDetailComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, RoleGuard],
+        data: {
+            expectedRole: ['admin', 'operator', 'supervisor']
+        }
     },
     {
         path: 'statistics',
         loadChildren: "./statistics/statistics.module#StatisticsModule",
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, RoleGuard],
+        data: {
+            expectedRole: ['admin', 'operator', 'supervisor']
+        }
     },
     {
-        path:"batch-rework",
+        path: "batch-rework",
         component: BatchReworkComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, RoleGuard],
+        data: {
+            expectedRole: ['admin', 'operator']
+        }
     },
     {
-        path:"**",
+        path: "**",
         component: NotFoundComponent,
     },
 ]
@@ -60,7 +73,7 @@ const appRoutes: Routes = [
         )
     ],
     exports: [
-        RouterModule      
+        RouterModule
     ]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

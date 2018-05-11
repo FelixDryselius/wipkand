@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { OperationModule } from './operation/operation.module';
 import { OperationsService } from './operation/shared/services/operations.service';
+import { RoleGuard } from './auth/role-guard.service';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -44,10 +45,11 @@ import { CommentService } from './shared/application-services/comment.service';
     HttpModule,
     HttpClientModule,
     OperationModule,
-   AppRoutingModule
+   AppRoutingModule,     
   ],
   providers: [
     AuthGuard,
+    RoleGuard,
     AuthAPIService,
     CommentService,
     OperationsService,

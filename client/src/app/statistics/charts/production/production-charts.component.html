@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="row" style="height:50vh">
+    <ngx-charts-line-chart *ngIf = "haveData"
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="displayData"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisTickFormatting]="xAxisFormatting"
+      [xAxisLabel] = "xAxisLabel"
+      [xAxis]='xAxis'
+      [yAxis] = 'yAxis'
+      [timeline]="timeline"
+      (select)="pressed($event)">
+    </ngx-charts-line-chart> 
+
+    <div class="col-sm-3">
+      <div class="dropdown">
+        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="timeScopeDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Time scope
+        </button>
+        <div class="dropdown-menu" aria-labelledby="timeScopeDropDown">
+          <div class="dropdown-item" (click)="changeTimeSpan('720')">30 Days</div>
+          <div class="dropdown-item" (click)="changeTimeSpan('360')">15 Days</div>
+          <div class="dropdown-item" (click)="changeTimeSpan('168')">7 Days</div>
+          <div class="dropdown-item" (click)="changeTimeSpan('72')">72 Hours</div>
+          <div class="dropdown-item" (click)="changeTimeSpan('24')">24 Hours</div>
+          <div class="dropdown-item" (click)="changeTimeSpan('12')">12 Hours</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="dropdown">
+        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" id="showBatchesDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Show Batches
+        </button>    
+        <div class="dropdown-menu" aria-labelledby="showBatchesDropDown">
+          <div class="dropdown-item" (click)="toggleBatches(true)">Yes</div>
+          <div class="dropdown-item" (click)="toggleBatches(false)">No</div>
+        </div>
+      </div> 
+    </div>
+  </div>
+  <div class="row" style="height:5vh"></div>
+  <app-staff-quantity></app-staff-quantity>
+  <div class="row" style="height:5vh"></div>
+  <app-batch-chart></app-batch-chart>
+</div>
+
+
