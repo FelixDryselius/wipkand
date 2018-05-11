@@ -36,7 +36,7 @@ export class ProducedPerPersonComponent implements OnInit {
     yAxisLabel = "Produced per person per hour";
     xAxis=true;
     yAxis=true;
-    timeline=true;
+    timeline=false;
   
   
   
@@ -71,6 +71,14 @@ export class ProducedPerPersonComponent implements OnInit {
         this.displayData=this.prodDataContinues
       }
     }
+    toggleTimeline(){
+      if(this.timeline){
+        this.timeline = false
+      }else {
+        this.timeline = true
+      }
+    }
+  
   
     getData(query = '?limit=72')  {
   
@@ -99,10 +107,10 @@ export class ProducedPerPersonComponent implements OnInit {
         let exptectedProductionPerPersonArrayHolder = []
         let prodDataContinuesTemp = []
         productionStatistics.forEach(element => {
-          if(relevantBatchesId.indexOf(element.batch) == -1 ){
-            relevantBatchesId.push(element.batch)                 
+          if(relevantBatchesId.indexOf(element.batch.batch_number) == -1 ){
+            relevantBatchesId.push(element.batch.batch_number)                 
             productionDataPoints.push({
-              'name':element.batch,
+              'name':element.batch.batch_number,
               'series':[
                 {
                   'value':Number(element.production_quantity)/Number(element.staff_quantity),
@@ -112,7 +120,7 @@ export class ProducedPerPersonComponent implements OnInit {
             })
           } else {
             productionDataPoints.forEach(subEl =>{            
-              if(subEl.name==element.batch){             
+              if(subEl.name==element.batch.batch_number){             
                 subEl.series.push({
                 'value':Number(element.production_quantity)/Number(element.staff_quantity),
                 'name': new Date(element.time_stamp)

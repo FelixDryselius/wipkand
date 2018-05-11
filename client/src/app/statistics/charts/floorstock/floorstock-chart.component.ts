@@ -101,7 +101,7 @@ export class FloorstockChartComponent implements OnInit {
       if(uniqueBatchNumbers.indexOf(element.batch) == -1 ){
         uniqueBatchNumbers.push(element.batch)                 
         tempDisplayData.push({
-          'name':element.batch,
+          'name':element.batch.batch_number,
           'series':[
             {
               'value':element.quantity,
@@ -111,7 +111,7 @@ export class FloorstockChartComponent implements OnInit {
         })
       } else {
         tempDisplayData.forEach(subEl =>{            
-          if(subEl.name==element.batch){             
+          if(subEl.name==element.batch.batch_number){             
             subEl.series.push({
             'value':element.quantity,
             'name': element.floorstock_item

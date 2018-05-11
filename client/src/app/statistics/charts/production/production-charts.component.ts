@@ -34,7 +34,7 @@ export class StatisticsChartsComponent implements OnInit {
   xAxisLabel = "Date";
   xAxis=true;
   yAxis=true;
-  timeline=true;
+  timeline=false;
 
 
   constructor(private authAPI:AuthAPIService, private operationsService:OperationsService) { }
@@ -68,6 +68,13 @@ export class StatisticsChartsComponent implements OnInit {
       this.displayData=this.prodDataContinues
     }
   }
+  toggleTimeline(){
+    if(this.timeline){
+      this.timeline = false
+    }else {
+      this.timeline = true
+    }
+  }
 
   getProductionData(query = '?limit=72')  {
 
@@ -97,10 +104,10 @@ export class StatisticsChartsComponent implements OnInit {
       let exptectedProductionHolder = []
 
       productionStatistics.forEach(element => {
-        if(relevantBatchesId.indexOf(element.batch) == -1 ){
-          relevantBatchesId.push(element.batch)                 
+        if(relevantBatchesId.indexOf(element.batch.batch_number) == -1 ){
+          relevantBatchesId.push(element.batch.batch_number)                 
           productionDataPoints.push({
-            'name':element.batch,
+            'name':element.batch.batch_number,
             'series':[
               {
                 'value':element.production_quantity,
@@ -110,7 +117,7 @@ export class StatisticsChartsComponent implements OnInit {
           })
         } else {
           productionDataPoints.forEach(subEl =>{            
-            if(subEl.name==element.batch){             
+            if(subEl.name==element.batch.batch_number){             
               subEl.series.push({
               'value':element.production_quantity,
               'name': new Date(element.time_stamp)
