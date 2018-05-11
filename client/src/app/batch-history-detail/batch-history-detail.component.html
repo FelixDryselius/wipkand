@@ -78,27 +78,73 @@
               <!-- Start Date -->
               <li class="list-group-item text-left">
                 <label for="start_date">Start Date:</label>
-                <input id="start_date" class="input-sm float-right" formControlName="start_date" [value]="batchDetailForm.get('start_date').value | date:'yyyy-MM-dd HH:mm:ss'"
+                <input id="start_date" class="input-sm float-right" formControlName="start_date" [value]="batchDetailForm.get('start_date').value"
                 />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.start_date.invalid && 
+                (batchDetailForm.controls.start_date.dirty || batchDetailForm.controls.start_date.touched)">
+                  <span *ngIf="batchDetailForm.controls.start_date.errors?.required">
+                    * This field is required.
+                  </span>
+                  <span *ngIf="batchDetailForm.controls.start_date.errors?.pattern">
+                    * Please enter a date with format
+                    <br> yyyy-mm-ddT00:00:00
+                    <br>
+                  </span>
+                </div>
               </li>
 
               <!-- End Date -->
               <li class="list-group-item text-left">
                 <label for="end_date">End Date:</label>
-                <input id="end_date" class="input-sm float-right" formControlName="end_date" [value]="batchDetailForm.get('end_date').value | date:'yyyy-MM-dd HH:mm:ss'"
+                <input id="end_date" class="input-sm float-right" formControlName="end_date" [value]="batchDetailForm.get('end_date').value"
                 />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.end_date.invalid && 
+                (batchDetailForm.controls.end_date.dirty || batchDetailForm.controls.end_date.touched)">
+                  <span *ngIf="batchDetailForm.controls.end_date.errors?.required">
+                    * This field is required.
+                  </span>
+                  <span *ngIf="batchDetailForm.controls.end_date.errors?.pattern">
+                    * Please enter a date with format
+                    <br> yyyy-mm-ddT00:00:00
+                    <br>
+                  </span>
+                </div>
               </li>
 
               <!-- Rework Date -->
               <li class="list-group-item text-left">
                 <label for="rework_date">Rework Date:</label>
-                <input id="rework_date" class="input-sm float-right" formControlName="rework_date" [value]="batchDetailForm.get('rework_date').value | date:'yyyy-MM-dd HH:mm:ss'"/>
+                <input id="rework_date" class="input-sm float-right" formControlName="rework_date" [value]="batchDetailForm.get('rework_date').value"
+                />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.rework_date.invalid && 
+                (batchDetailForm.controls.rework_date.dirty || batchDetailForm.controls.rework_date.touched)">
+                  <span *ngIf="batchDetailForm.controls.rework_date.errors?.required">
+                    * This field is required.
+                  </span>
+                  <span *ngIf="batchDetailForm.controls.rework_date.errors?.pattern">
+                    * Please enter a date with format
+                    <br> yyyy-mm-ddT00:00:00
+                    <br>
+                  </span>
+                </div>
               </li>
 
               <!-- Label Print Time -->
               <li class="list-group-item text-left">
                 <label for="label_print_time">Label Print Time: </label>
-                <input id="label_print_time" class="input-sm float-right" formControlName="label_print_time" [value]="batchDetailForm.get('label_print_time').value | date:'yyyy-MM-dd HH:mm:ss'"/>
+                <input id="label_print_time" class="input-sm float-right" formControlName="label_print_time" [value]="batchDetailForm.get('label_print_time').value"
+                />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.label_print_time.invalid && 
+                (batchDetailForm.controls.label_print_time.dirty || batchDetailForm.controls.label_print_time.touched)">
+                  <span *ngIf="batchDetailForm.controls.label_print_time.errors?.required">
+                    * This field is required.
+                  </span>
+                  <span *ngIf="batchDetailForm.controls.label_print_time.errors?.pattern">
+                    * Please enter a date with format
+                    <br> yyyy-mm-ddT00:00:00
+                    <br>
+                  </span>
+                </div>
               </li>
 
               <!-- Applied Labels -->

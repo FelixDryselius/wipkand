@@ -133,8 +133,11 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       ]),
       'start_date': new FormControl('', [
         Validators.required,
+        Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
       ]),
-      'end_date': [],
+      'end_date': new FormControl('', [
+        Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
+      ]),
       'scrap': new FormControl('', [
         //Validators.required,
         Validators.pattern("^[0-9]*$"),
@@ -159,10 +162,19 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         //Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
-      'rework_date': [],
-      'applied_labels': [],
-      'label_print_time': [],
-      'rework_time': [],
+      'rework_date': new FormControl('', [
+        Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
+      ]),
+      'applied_labels': new FormControl('', [
+        //Validators.required,
+        Validators.pattern("^[0-9]*$"),
+      ]),
+      'label_print_time': new FormControl('', [
+        Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
+      ]),
+      'rework_time': new FormControl('', [
+        Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
+      ]),
     })
   }
 
