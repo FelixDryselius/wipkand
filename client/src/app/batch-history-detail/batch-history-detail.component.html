@@ -226,7 +226,7 @@
             <div class="card-group text-left" *ngFor="let comment of comments; let i = index" id="comment{{i}}">
               <div class="card col-3">
                 <label>
-                  <b>Date:</b> {{ comment.post_date | date:"yy/MM/dd HH:mm" }}</label>
+                  <b>Date:</b> {{ comment.post_date | date:"yyyy-MM-dd HH:mm" }}</label>
               </div>
               <div class="card col-3">
                 <label>
@@ -262,7 +262,7 @@
             </tr>
           </thead>
           <tr *ngFor="let statistic of statistics">
-            <th class="font-weight-normal">{{ statistic.time_stamp | date:"yy/MM/dd HH:mm"}}</th>
+            <th class="font-weight-normal">{{ statistic.time_stamp | date:"yyyy-MM-dd HH:mm"}}</th>
             <th class="font-weight-normal">{{ statistic.production_quantity }}</th>
             <th class="font-weight-normal">{{ statistic.staff_quantity }}</th>
           </tr>

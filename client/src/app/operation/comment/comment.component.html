@@ -23,7 +23,7 @@
                     Author: {{ comment.user_name }} 
                   </li>
                   <li>
-                    Date: {{ comment.post_date | date:"yy/MM/dd HH:mm" }} 
+                    Date: {{ comment.post_date | date:"yyyy-MM-dd HH:mm" }} 
                   </li>
                   <li>
                     Batch: {{ comment.batch.batch_number }}
@@ -45,7 +45,7 @@
       <div class="col-4" >
         <div class="list-group" id="myScrollspy" style="position: fixed;"  >
           <a class="list-group-item list-group-item-action" *ngFor="let thisComment of (comments | sortBy:post_date); let n = index" pageScroll href="#comment{{n}}">
-            <b>Time: {{thisComment.post_date | date:"yy/MM/dd HH:mm"}}, Batch: {{ thisComment.batch.batch_number }} </b>
+            <b>Time: {{thisComment.post_date | date:"yyyy-MM-dd HH:mm"}}, Batch: {{ thisComment.batch.batch_number }} </b>
           </a>
         </div> 
       </div> 

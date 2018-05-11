@@ -5,11 +5,11 @@
       <div class="row">
           <div class="col-3 ">
               <h5>Start Date: </h5>
-              <h6>{{ currentBatch.start_date | date:'medium' }}</h6>
+              <h6>{{ currentBatch.start_date | date:"yyyy-MM-dd HH:mm" }}</h6>
             </div>
             <div class="col-3 ">
               <h5>End Date: </h5>
-              <h6>{{ currentBatch.end_date | date:'medium' }}</h6>
+              <h6>{{ currentBatch.end_date | date:"yyyy-MM-dd HH:mm"}}</h6>
             </div>
             <div class="col-3 ">
               <h5>Total yield: </h5>
@@ -17,7 +17,7 @@
             </div>
             <div class="col-3 ">
               <h5>Article Number</h5>
-              <h6>{{ currentBatch.batch_number }}</h6>
+              <h6>{{ currentBatch.order.article_number }}</h6>
             </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of productionStatistics">
-      <td>{{item.time_stamp | date:'medium' }}</td> <!--<td>{{item.time_stamp | sortBy:post_date }}</td> -->
+      <td>{{item.time_stamp | date:"yyyy-MM-dd HH:mm" }}</td> <!--<td>{{item.time_stamp | sortBy:post_date }}</td> -->
       <td>{{ item.batch.batch_number }}</td>
       <td>{{ item.production_quantity }}</td>
       <td>{{ item.staff_quantity }}</td>
@@ -83,7 +83,7 @@
   <tbody>
      <tr  *ngFor="let comment of comments"> <!-- <tr  *ngFor="let comment of (comments|sortBy:date_stamp) "></tr>-->
       <td> {{ comment.user_name }}</td>
-      <td>{{ comment.post_date | date:'medium' }} </td>  <!-- <td>{{ comment.post_date | date:"yy/MM/dd HH:mm" }} </td> -->
+      <td>{{ comment.post_date | date:"yyyy-MM-dd HH:mm" }} </td>  <!-- <td>{{ comment.post_date | date:"yy/MM/dd HH:mm" }} </td> -->
       <td colspan="3">{{ comment.text_comment }}</td> 
     </tr>
   </tbody>
