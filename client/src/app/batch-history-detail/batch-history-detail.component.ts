@@ -40,7 +40,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   private productObservable: Observable<any>;
   private productSub: any;
 
-  private currentBatch: string;
+  private currentBatch: Batch;
   comments: {};
   statistics: {};
   products: {};
@@ -166,6 +166,21 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     })
   }
 
+  convertDates(form) {
+    if (form['start_date']) {
+      form['start_date'] = new Date(form['start_date']).toISOString()
+    }
+    if (form['end_date']) {
+      form['end_date'] = new Date(form['end_date']).toISOString()
+    }
+    if (form['rework_date']) {
+      form['rework_date'] = new Date(form['rework_date']).toISOString()
+    }
+    if (form['label_print_time']) {
+      form['label_print_time'] = new Date(form['label_print_time']).toISOString()
+    }
+  }
+
   submitFormDetails($theEvent, form) {
     let batch;
     if (form['order_number']) {
@@ -180,6 +195,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     } else {
       form['order'] = this.order
       form['id'] = this.batchDetailID
+      this.convertDates(form)
       batch = form
     }
     this.operationsService.updateBatch(batch as Batch)
@@ -188,12 +204,12 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         let updatedBatch = data as Batch
         if (this.prodInfo) {
           if ((this.prodInfo['batch_number'] == this.currentBatch) &&
-            (this.currentBatch != updatedBatch.batch_number ||
+            (this.currentBatch.batch_number != updatedBatch.batch_number ||
               this.order != updatedBatch.order)) {
             this.operationsService.setCurrentBatchInfo(updatedBatch)
           }
         }
-        this.currentBatch = updatedBatch.batch_number
+        this.currentBatch = updatedBatch
         this.order = updatedBatch.order
         this.batchDetailID = (data as Batch).id
       })

@@ -78,25 +78,27 @@
               <!-- Start Date -->
               <li class="list-group-item text-left">
                 <label for="start_date">Start Date:</label>
-                <input id="start_date" class="input-sm float-right" formControlName="start_date" />
+                <input id="start_date" class="input-sm float-right" formControlName="start_date" [value]="batchDetailForm.get('start_date').value | date:'yyyy-MM-dd HH:mm:ss'"
+                />
               </li>
 
               <!-- End Date -->
               <li class="list-group-item text-left">
                 <label for="end_date">End Date:</label>
-                <input id="end_date" class="input-sm float-right" formControlName="end_date" />
+                <input id="end_date" class="input-sm float-right" formControlName="end_date" [value]="batchDetailForm.get('end_date').value | date:'yyyy-MM-dd HH:mm:ss'"
+                />
               </li>
 
               <!-- Rework Date -->
               <li class="list-group-item text-left">
                 <label for="rework_date">Rework Date:</label>
-                <input id="rework_date" class="input-sm float-right" formControlName="rework_date" />
+                <input id="rework_date" class="input-sm float-right" formControlName="rework_date" [value]="batchDetailForm.get('rework_date').value | date:'yyyy-MM-dd HH:mm:ss'"/>
               </li>
 
               <!-- Label Print Time -->
               <li class="list-group-item text-left">
                 <label for="label_print_time">Label Print Time: </label>
-                <input id="label_print_time" class="input-sm float-right" formControlName="label_print_time" />
+                <input id="label_print_time" class="input-sm float-right" formControlName="label_print_time" [value]="batchDetailForm.get('label_print_time').value | date:'yyyy-MM-dd HH:mm:ss'"/>
               </li>
 
               <!-- Applied Labels -->
@@ -257,8 +259,8 @@
           <thead>
             <tr>
               <th>Time Stamp</th>
-              <th  data-editable="true">Quantity</th>
-              <th  data-editable="true">Operators</th>
+              <th data-editable="true">Quantity</th>
+              <th data-editable="true">Operators</th>
             </tr>
           </thead>
           <tr *ngFor="let statistic of statistics">

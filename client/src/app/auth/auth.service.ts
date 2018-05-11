@@ -140,8 +140,10 @@ export class AuthAPIService {
     // If that is the case, retry the request. Otherwise throw a regular error
     checkHttpRetry(error) {
         return error.mergeMap((error: any) => {
-            if (error.error.code == "token_not_valid") {
-                return Observable.of(error.status).delay(500)
+            if (error.error) {
+                if (error.error.code == "token_not_valid") {
+                    return Observable.of(error.status).delay(500)
+                }
             }
             return Observable.throw(error)
         }).take(2)
