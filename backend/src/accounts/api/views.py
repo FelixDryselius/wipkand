@@ -11,18 +11,21 @@ from rest_framework.permissions import (
     AllowAny,
 )
 
+from rest_framework.views import APIView
+
 from rest_framework_simplejwt.authentication import AUTH_HEADER_TYPES
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
-from accounts.api.serializers import JWTTokenSerializer, JWTTokenRefreshSerializer, UserCreateSerializer
-
-User = get_user_model()
+from accounts.api.serializers import JWTTokenSerializer, JWTTokenRefreshSerializer, UserRoleSerializer
 
 
-class UserCreateAPIView(CreateAPIView):
-    serializer_class = UserCreateSerializer
-    queryset = User.objects.all()
+class RoleView(APIView):
 
+    def get(self, request):
+        user = request.user
+        serializer = UserRoleSerializer(user)
+        return Response(serializer.data)
+        
 
 class AuthView(generics.GenericAPIView):
     serializer_class = JWTTokenSerializer
