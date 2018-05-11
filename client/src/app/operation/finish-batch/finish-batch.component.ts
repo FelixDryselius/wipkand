@@ -75,10 +75,7 @@ export class FinishBatchComponent implements OnInit {
       batchInfo = {
         id: this.prodInfo.id,
         batch_number: this.prodInfo.batch_number,
-        order: {
-          order_number: this.prodInfo.order_number,
-          article_number: this.prodInfo.article_number,
-        },
+        order: this.prodInfo.order,
         end_date: new Date(),
         production_yield: batchForm.yield,
         hmi1_good: batchForm.hmi1Good,
@@ -93,11 +90,11 @@ export class FinishBatchComponent implements OnInit {
           this.operationsService.setCurrentBatchInfo(null);
           this.createBatchSub.unsubscribe()
           this.router.navigate(['/home'])
-        }, error => {
-          debugger;
-          console.error(error.message)
-        })
+        }
+          // , error => {
+          //   console.error(error.message)
+          // }
+        )
     }
-
   }
 }

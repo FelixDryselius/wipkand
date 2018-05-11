@@ -16,9 +16,9 @@ from operations.api.serializers import (
     ProductSerializer,
     OrderSerializer,
     OrderNoValidateSerializer,
-    BatchCreateSerializer,
-    BatchDetailSerializer,
-    CommentSerializer
+    BatchSerializer,
+    CommentSerializer,
+    CommentExtendedSerializer
 )
 
 
@@ -54,7 +54,6 @@ class OrderDetailAPIView(
 
     serializer_class = OrderSerializer
     queryset = ProductionOrder.objects.all()
-    # permission_classes = [AllowAny]
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -67,8 +66,7 @@ class BatchAPIView(
     generics.ListAPIView,
         mixins.CreateModelMixin):
 
-    serializer_class = BatchCreateSerializer
-    #permission_classes = [AllowAny]
+    serializer_class = BatchSerializer
     search_fields = ('id', 'batch_number', 'order__order_number',
                      'start_date', 'end_date')
 
@@ -95,16 +93,8 @@ class BatchDetailAPIView(
         mixins.DestroyModelMixin):
 
     #permission_classes = [AllowAny]
-    serializer_class = BatchDetailSerializer
+    serializer_class = BatchSerializer
     queryset = Batch.objects.all()
-
-    # def get_serializer_class(self):
-    #     serializer_class = self.serializer_class
-    #     if self.request.method == 'PATCH':
-    #         serializer_class = BatchDetailSerializer
-    #     else:
-    #         serializer_class = BatchDetailSerializer
-    #     return serializer_class
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -122,6 +112,13 @@ class CommentAPIView(
     serializer_class = CommentSerializer
     search_fields = ('comment_id',
                      'text_comment', 'user_name', 'post_date')
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            serializer_class = CommentExtendedSerializer
+        else:
+            serializer_class = CommentSerializer
+        return serializer_class
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)

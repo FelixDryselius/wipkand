@@ -7,7 +7,8 @@ from django.shortcuts import get_object_or_404
 from floorstock.models import FloorstockItem, FloorstockStatistic
 from floorstock.api.serializers import (
     FloorstockItemSerializer,
-    FloorstockStatisticSerializer
+    FloorstockStatisticSerializer,
+    FloorstockStatisticExtendedSerializer
 )
 
 from operations.models import Batch
@@ -52,9 +53,15 @@ class FloorstockStatisticAPIView(
         mixins.CreateModelMixin):
 
     permission_classes = [permissions.AllowAny]
-    serializer_class = FloorstockStatisticSerializer
     queryset = FloorstockStatistic.objects.all()
     search_fields = ('floorstock_item__item_id', 'time_stamp')
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            serializer_class = FloorstockStatisticExtendedSerializer
+        else:
+            serializer_class = FloorstockStatisticSerializer
+        return serializer_class
 
     def get_queryset(self):
         _batch_number = self.request.query_params.get("batch_number", None)
