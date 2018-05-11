@@ -11,3 +11,6 @@ class ProductionStatistic(models.Model):
         managed = False
         db_table = 'production_statistic'
         ordering = ['-time_stamp']
+
+    def __str__(self):
+        return str(self.time_stamp)  + ' - ' + str(self.batch)
