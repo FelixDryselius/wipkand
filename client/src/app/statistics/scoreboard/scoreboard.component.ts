@@ -26,6 +26,7 @@ export class ScoreboardComponent implements OnInit {
   comments=[];
   latestBatchNumbers: any[];
   numberOfBatchesBack;
+  currentBatch: Batch;
 
   constructor(
     private authAPI: AuthAPIService,
@@ -78,9 +79,10 @@ export class ScoreboardComponent implements OnInit {
     let tempData
     return this.operationsService.getBatchDetail(query).switchMap(data =>{
       tempData =  (data as QueryResponse).results as JSON []
-      let superTemp = tempData.pop() as Batch
-      this.getBatchComments('?batch_number=' + superTemp.batch_number)
-      return this.operationsService.getProductionStatistics('?batch_number=' + superTemp.batch_number) 
+
+      this.currentBatch = tempData.pop() as Batch
+      this.getBatchComments('?batch_number=' + this.currentBatch.batch_number)
+      return this.operationsService.getProductionStatistics('?batch_number=' + this.currentBatch.batch_number) 
     })
      
           

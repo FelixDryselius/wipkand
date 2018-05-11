@@ -67,6 +67,7 @@ export class AuthAPIService {
                 return Observable.of(null)
             }
         })
+            .retryWhen(error => this.checkHttpRetry(error))
     }
 
     clearCurrentUser() {
