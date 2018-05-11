@@ -3,5 +3,8 @@ export interface Comment {
     user_name: any;
     post_date: Date;
     text_comment: any;
-    batch: String; 
+    batch: {
+        id:Number;
+        batch_number:string;
+    }; 
     }
