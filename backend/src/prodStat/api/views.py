@@ -6,7 +6,8 @@ from rest_framework import generics, mixins, permissions
 from prodStat.models import ProductionStatistic
 from prodStat.api.serializers import (
     ProductionStatisticSerializer,
-    ProductionStatisticSerializerReadOnlyDate
+    ProductionStatisticSerializerReadOnlyDate,
+    ProductionStatisticExtendedSerializer
 )
 from operations.models import Batch
 
@@ -37,8 +38,14 @@ class ProductionStatisticAPIView(
         mixins.CreateModelMixin):
 
     permission_classes = [permissions.AllowAny]
-    serializer_class = ProductionStatisticSerializer
     search_fields = ('time_stamp', 'staff_quantity')
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            serializer_class = ProductionStatisticExtendedSerializer
+        else:
+            serializer_class = ProductionStatisticSerializer
+        return serializer_class
 
     def get_queryset(self, *args, **kwargs):
             queryset = ProductionStatistic.objects.all()
