@@ -29,17 +29,17 @@ class Batch(models.Model):
     batch_number = models.CharField(unique=True, max_length=10)
     start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
-    scrap = models.IntegerField(blank=True, null=True)
-    production_yield = models.IntegerField(blank=True, null=True)
-    hmi1_good = models.IntegerField(db_column='HMI1_good', blank=True, null=True)  # Field name made lowercase.
-    hmi1_bad = models.IntegerField(db_column='HMI1_bad', blank=True, null=True)  # Field name made lowercase.
-    hmi2_good = models.IntegerField(db_column='HMI2_good', blank=True, null=True)  # Field name made lowercase.
-    hmi2_bad = models.IntegerField(db_column='HMI2_bad', blank=True, null=True)  # Field name made lowercase.
+    scrap = models.IntegerField(blank=True, null=True, default=0)
+    production_yield = models.IntegerField(blank=True, null=True, default=0)
+    hmi1_good = models.IntegerField(db_column='HMI1_good', blank=True, null=True, default=0)  # Field name made lowercase.
+    hmi1_bad = models.IntegerField(db_column='HMI1_bad', blank=True, null=True, default=0)  # Field name made lowercase.
+    hmi2_good = models.IntegerField(db_column='HMI2_good', blank=True, null=True, default=0)  # Field name made lowercase.
+    hmi2_bad = models.IntegerField(db_column='HMI2_bad', blank=True, null=True, default=0)  # Field name made lowercase.
     rework_date = models.DateTimeField(blank=True, null=True)
-    applied_labels = models.IntegerField(blank=True, null=True)
+    applied_labels = models.IntegerField(blank=True, null=True, default=0)
     label_print_time = models.DateTimeField(blank=True, null=True)
     rework_time = models.TimeField(blank=True, null=True)
-    shifts = models.IntegerField(blank=True, null=True)
+    shifts = models.IntegerField(blank=True, null=True, default=3)
     order = models.ForeignKey('ProductionOrder', models.DO_NOTHING, db_column='production_order')
 
     class Meta:
