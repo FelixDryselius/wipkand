@@ -461,7 +461,7 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateProdStats(changeData)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
-          this.feedbackScoreboard()
+          //this.feedbackScoreboard()
         }
         else if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && (this.shiftProdStats[obj]["production_quantity"] > 0 || this.shiftProdStats[obj]["production_quantity"] == null) && key.substr(key.length - 2) == 'pq') {
           changeData = {
@@ -472,7 +472,7 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateProdStats(changeData)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
-          this.feedbackScoreboard()
+          //this.feedbackScoreboard()
         }
 
         else {
@@ -486,18 +486,24 @@ export class HomeComponent implements OnInit {
 
             if (this.addedProdData.indexOf(stringifiedTime) == -1) {
               this.addedProdData.push(stringifiedTime)
-              newData = {
-                time_stamp: time,
-                production_quantity: results[stringifiedTime + '_pq'],
-                staff_quantity: results[stringifiedTime + '_sq'],
-                batch: this.prodInfo.id,
-              }
-              this.operationsService.createProdStats(newData)
-                .retryWhen(error => this.authAPI.checkHttpRetry(error))
-                .subscribe();
+              if (typeof results[stringifiedTime + '_pq'] != 'undefined' && typeof results[stringifiedTime + '_sq'] != 'undefined') {
+                newData = {
+                  time_stamp: time,
+                  production_quantity: results[stringifiedTime + '_pq'],
+                  staff_quantity: results[stringifiedTime + '_sq'],
+                  batch: this.prodInfo.id,
+                }
+                this.operationsService.createProdStats(newData)
+                  .retryWhen(error => this.authAPI.checkHttpRetry(error))
+                  .subscribe();
 
-              this.onChange(this.selectedShift, this.shiftDate)
-              this.feedbackScoreboard()
+                this.onChange(this.selectedShift, this.shiftDate)
+                this.feedbackScoreboard()
+              }
+              else {
+                alert("Both people on shift and amount produced is required")
+              }
+
             }
           }
         }
