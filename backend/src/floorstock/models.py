@@ -12,6 +12,9 @@ class FloorstockItem(models.Model):
         managed = False
         db_table = 'floorstock_item'
 
+    def __str__(self):
+        return self.item_id
+
 
 class FloorstockStatistic(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
@@ -24,3 +27,6 @@ class FloorstockStatistic(models.Model):
         managed = False
         db_table = 'floorstock_statistic'
         ordering = ['-time_stamp']
+
+    def __str__(self):
+        return str(self.time_stamp) + ' - ' + str(self.floorstock_item)

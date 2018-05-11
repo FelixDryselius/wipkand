@@ -13,6 +13,8 @@ class Product(models.Model):
         managed = False
         db_table = 'product'
 
+    def __str__(self):
+        return self.article_number
 
 class ProductionOrder(models.Model):
     order_number = models.CharField(primary_key=True, max_length=7)
@@ -22,6 +24,9 @@ class ProductionOrder(models.Model):
         managed = False
         db_table = 'production_order'
         ordering = ['-order_number']
+
+    def __str__(self):
+        return self.order_number
 
 
 class Batch(models.Model):
@@ -64,4 +69,4 @@ class BatchComment(models.Model):
         ordering = ['-post_date']
 
     def __str__(self):
-        return self.post_date
+        return str(self.batch) + ' - ' + str(self.post_date) + ' - ' + str(self.text_comment)
