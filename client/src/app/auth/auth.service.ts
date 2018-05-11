@@ -9,7 +9,6 @@ import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { AuthLoginData } from './auth'
-import { User } from './user';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { QueryResponse } from '../shared/interfaces/query-response'
 
@@ -20,17 +19,23 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/publish';
+import { User } from '../shared/interfaces/user';
 
 @Injectable()
 export class AuthAPIService {
-    private baseUrl = 'http://127.0.0.1:8000/api/'
+    //readonly baseUrl = 'http://127.0.0.1:8000/api/'
+    readonly URL_AUTH = `http://127.0.0.1:8000/api/users/`
 
-    tokenRefreshHttpRecallSub: any;
+    private getUserRoleSub: any;
+    private tokenRefreshHttpRecallSub: any;
     isRefreshingToken: boolean = false;
+
+    currentUser: User;
+    $currentUser: Observable<User>;
 
     loggedIn: boolean;
     loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn)
-    
+
     errorNotification: BehaviorSubject<string> = new BehaviorSubject(null);
     readonly errorNotification$: Observable<string> = this.errorNotification.asObservable().publish().refCount();
 
@@ -41,8 +46,9 @@ export class AuthAPIService {
     ) {
         if (this.tokenValid) {
             console.log("Token is valid!")
-            // TODO: Get user profile somehow..
             this.setLoggedIn(true)
+            this.setCurrentUser()
+
         } else {
             console.log("Token is not valid!")
             this.setLoggedIn(false)
@@ -50,9 +56,31 @@ export class AuthAPIService {
         }
     }
 
+    setCurrentUser() {
+        this.$currentUser = this.getUser().switchMap(user => {
+            if (user) {
+                this.currentUser = user as User
+                console.log("User is: ")
+                console.log(this.currentUser)
+                return Observable.of(this.currentUser)
+            } else {
+                return Observable.of(null)
+            }
+        })
+    }
+
+    clearCurrentUser() {
+        this.currentUser = null
+        this.$currentUser = Observable.of(null)
+    }
+
+    getUser() {
+        return this.http.get(`${this.URL_AUTH}role/`)
+    }
+
     notifyError(message) {
-      this.errorNotification.next(message);
-      setTimeout(() => this.errorNotification.next(null), 10000);
+        this.errorNotification.next(message);
+        setTimeout(() => this.errorNotification.next(null), 10000);
     }
 
     get tokenValid(): boolean {
@@ -66,7 +94,7 @@ export class AuthAPIService {
     }
 
     login(data: AuthLoginData): Observable<any> {
-        let apiLoginEndpoint = `${this.baseUrl}users/token/`;
+        let apiLoginEndpoint = `${this.URL_AUTH}token/`;
         return this.http.post(apiLoginEndpoint, data);
     }
 
@@ -75,7 +103,8 @@ export class AuthAPIService {
         this.cookieService.set('jwt-refreshtoken', token['refresh'], token['expiry'], "/")
         this.cookieService.set('jwt-refresh-expires', token['expiry'], null, "/")
         this.setLoggedIn(true)
-        this.router.navigate(["/"])
+        this.setCurrentUser()
+        this.router.navigate(["comment/"])
     }
 
     performLogout() {
@@ -83,6 +112,7 @@ export class AuthAPIService {
         this.cookieService.delete('jwt-refreshtoken', '/')
         this.cookieService.delete('jwt-refresh-expires', '/')
         this.setLoggedIn(false)
+        this.clearCurrentUser()
         this.router.navigate(['login/'])
     }
 
@@ -95,9 +125,9 @@ export class AuthAPIService {
     }
 
     refreshToken(): Observable<any> {
-        let refreshEndpoint = `${this.baseUrl}users/token/refresh/`;
+        let refreshEndpoint = `${this.URL_AUTH}token/refresh/`;
         let refreshToken = this.cookieService.get("jwt-refreshtoken");
-        return this.http.post(`${this.baseUrl}users/token/refresh/`, { "refresh": `${refreshToken}` }).map(token => {
+        return this.http.post(`${this.URL_AUTH}token/refresh/`, { "refresh": `${refreshToken}` }).map(token => {
             console.log("In refreshToken(). response is: ")
             console.log(token);
             this.cookieService.set('jwt-accesstoken', token['access'], null, "/")
