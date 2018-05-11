@@ -30,7 +30,7 @@
 <div class="container-fluid">
   <div class="row" style="height:50vh">
     <div class="col-10">
-        <ngx-charts-area-chart-stacked *ngIf = "haveData"
+        <ngx-charts-line-chart *ngIf = "haveData"
           [view]="view"
           [scheme]="colorScheme"
           [results]="displayData"
@@ -41,7 +41,7 @@
           [xAxis]='xAxis'
           [yAxis] = 'yAxis'
           (select)="pressed($event)">
-        </ngx-charts-area-chart-stacked> 
+        </ngx-charts-line-chart> 
       </div>
       <div class="col-2 align-self-end">
           <div class="row p-1">
