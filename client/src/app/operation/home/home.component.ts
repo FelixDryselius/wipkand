@@ -43,8 +43,8 @@ export class HomeComponent implements OnInit {
 
   // SCOREBOARD SECTION
 
+  addedProdData = [];
   scoreboardAdded = false;
-  scoreboardAddedNotification = 'Scoreboard successfully updated!';
 
   shiftProdStats: any[] = [];
 
@@ -106,7 +106,6 @@ export class HomeComponent implements OnInit {
   // FLOORSTOCK SECTION
 
   floorstockAdded = false;
-  floorstockAddedNotification = 'Floorstock successfully updated!';
 
   private productLabelPairs: any[] = [
     { article_number: '700-5208', label: 'Groninger Label 301-6914' },
@@ -126,7 +125,6 @@ export class HomeComponent implements OnInit {
   // COMMENT SECTION
   // Variables for add comment used html
   commentAdded = false;
-  commentAddedNotification = 'Your comment was added!';
 
   // Variables for creating a new comment. 
   private commentDate: Date;
@@ -213,7 +211,7 @@ export class HomeComponent implements OnInit {
       for (let obj in this.prodStats) {
         console.log(this.shifts.slice(-1)[0].firstHour)
         console.log(this.shifts.slice(-1)[0].date)
-        if (this.prodStats[obj]["time_stamp"] > this.shifts.slice(-1)[0].date+this.shifts.slice(-1)[0].firstHour && (this.prodStats[obj]["production_quantity"] > 0 || this.prodStats[obj]["staff_quantity"] > 0)) {
+        if (this.prodStats[obj]["time_stamp"] > this.shifts.slice(-1)[0].date + this.shifts.slice(-1)[0].firstHour && (this.prodStats[obj]["production_quantity"] > 0 || this.prodStats[obj]["staff_quantity"] > 0)) {
           allowed = true
         }
       }
@@ -236,11 +234,6 @@ export class HomeComponent implements OnInit {
           });
       }
     }
-
-
-
-
-
 
   }
 
@@ -450,7 +443,6 @@ export class HomeComponent implements OnInit {
         results[key] = formData.value[key];
       }
     }
-
     // A for-loop that for each new data compares it with existing data from the database
     for (let key in results) {
       let changeData = {}
@@ -484,6 +476,7 @@ export class HomeComponent implements OnInit {
         }
 
         else {
+
           counter += 1
           // If no time stamp in api was found this means it is new data
           if (counter == this.shiftProdStats.length) {
@@ -491,18 +484,21 @@ export class HomeComponent implements OnInit {
             let time = this.shiftDate + key.slice(10, -3)
             let stringifiedTime = String(time)
 
-            newData = {
-              time_stamp: time,
-              production_quantity: results[stringifiedTime + '_pq'],
-              staff_quantity: results[stringifiedTime + '_sq'],
-              batch: this.prodInfo.id,
-            }
-            this.operationsService.createProdStats(newData)
-              .retryWhen(error => this.authAPI.checkHttpRetry(error))
-              .subscribe();
+            if (this.addedProdData.indexOf(stringifiedTime) == -1) {
+              this.addedProdData.push(stringifiedTime)
+              newData = {
+                time_stamp: time,
+                production_quantity: results[stringifiedTime + '_pq'],
+                staff_quantity: results[stringifiedTime + '_sq'],
+                batch: this.prodInfo.id,
+              }
+              this.operationsService.createProdStats(newData)
+                .retryWhen(error => this.authAPI.checkHttpRetry(error))
+                .subscribe();
 
-            this.getScoreboard()
-            this.feedbackScoreboard()
+              this.onChange(this.selectedShift, this.shiftDate)
+              this.feedbackScoreboard()
+            }
           }
         }
       }
@@ -519,7 +515,7 @@ export class HomeComponent implements OnInit {
         results[key] = inputData.value[key];
       }
     }
-    console.log("ngModelFloorstock: ")
+    ("ngModelFloorstock: ")
     console.log(this.ngModelFloorstock)
     console.log("results: ")
     console.log(results)

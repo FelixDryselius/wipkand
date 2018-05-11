@@ -7,34 +7,35 @@
             Home
           </h2>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-3">
         </div>
-        <div class="col-md-3" align="right">
+        <div class="col-md-4" align="right">
           <h3>
             Shift: {{ selectedShift }} {{ shiftDate }}
           </h3>
         </div>
-        <div class="row">
-
-          <div class="dropdown col-md-6">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
-              Select shift
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <div class="dropdown-item" *ngFor="let chosenShift of shifts" ngValue="chosenShift" (click)="onChange(chosenShift.shift, chosenShift.date)">
-                {{chosenShift.shift}} {{ chosenShift.date }} </div>
+        <div class="col-md-3">
+           <div class="row">
+            <div class="dropdown col-md-6">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Select shift
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <div class="dropdown-item" *ngFor="let chosenShift of shifts" ngValue="chosenShift" (click)="onChange(chosenShift.shift, chosenShift.date)">
+                  {{chosenShift.shift}} {{ chosenShift.date }} </div>
+              </div>
             </div>
-          </div>
-          <div class="dropdown col-md-6">
-            <div>
-              <button (click)="addShift(true)" class="btn btn-primary">Add shift</button>
+            <div class="dropdown col-md-6" align="right">
+              <div>
+                <button (click)="addShift(true)" class="btn btn-primary">Add shift</button>
+              </div>
             </div>
-          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <div class="container-fluid">
@@ -55,15 +56,15 @@
               <tr>
                 <td class="align-middle scoreboardLabels"># Shift</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [value]="7<stat.time_stamp<16 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
-                    [ngModel]="stat.staff_quantity">
+                  <input type="number" min="0" class="form-control inputMiddle" [value]="7<stat.time_stamp<16 ? stat.staff_quantity : ' '"
+                    name='{{ stat.time_stamp }}_sq' [ngModel]="stat.staff_quantity">
                 </td>
               </tr>
               <tr>
                 <td class="align-middle scoreboardLabels"># Produced</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [value]="7<stat.time_stamp<16 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
-                    [ngModel]="stat.production_quantity">
+                  <input type="number" min="0" class="form-control inputMiddle" [value]="7<stat.time_stamp<16 ? stat.production_quantity : ' '"
+                    name='{{ stat.time_stamp }}_pq' [ngModel]="stat.production_quantity">
                 </td>
               </tr>
               <tr>
@@ -101,15 +102,15 @@
               <tr>
                 <td class="align-middle scoreboardLabels"># Shift</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [value]="15<stat.time_stamp<24 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
-                    [ngModel]="stat.staff_quantity">
+                  <input type="number" min="0" class="form-control inputMiddle" [value]="15<stat.time_stamp<24 ? stat.staff_quantity : ' '"
+                    name='{{ stat.time_stamp }}_sq' [ngModel]="stat.staff_quantity">
                 </td>
               </tr>
               <tr>
                 <td class="align-middle scoreboardLabels"># Produced</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [value]="15<stat.time_stamp<24 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
-                    [ngModel]="stat.production_quantity">
+                  <input type="number" min="0" class="form-control inputMiddle" [value]="15<stat.time_stamp<24 ? stat.production_quantity : ' '"
+                    name='{{ stat.time_stamp }}_pq' [ngModel]="stat.production_quantity">
                 </td>
               </tr>
               <tr>
@@ -147,15 +148,15 @@
               <tr>
                 <td class="align-middle scoreboardLabels"># Shift</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [value]="0<=stat.time_stamp<8 ? stat.staff_quantity : ' '" name='{{ stat.time_stamp }}_sq'
-                    [ngModel]="stat.staff_quantity">
+                  <input type="number" min="0" class="form-control inputMiddle" [value]="0<=stat.time_stamp<8 ? stat.staff_quantity : ' '"
+                    name='{{ stat.time_stamp }}_sq' [ngModel]="stat.staff_quantity">
                 </td>
               </tr>
               <tr>
                 <td class="align-middle scoreboardLabels"># Produced</td>
                 <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control" [value]="0<=stat.time_stamp<8 ? stat.production_quantity : ' '" name='{{ stat.time_stamp }}_pq'
-                    [ngModel]="stat.production_quantity">
+                  <input type="number" min="0" class="form-control inputMiddle" [value]="0<=stat.time_stamp<8 ? stat.production_quantity : ' '"
+                    name='{{ stat.time_stamp }}_pq' [ngModel]="stat.production_quantity">
                 </td>
               </tr>
               <tr>
@@ -171,7 +172,7 @@
           <div class="row">
             <div class="col-md-10">
               <p *ngIf="scoreboardAdded" class="text-left">
-                {{ scoreboardAddedNotification }}
+                Scoreboard data successfully added!
               </p>
             </div>
             <div class="col-md-2" align="right">
@@ -206,15 +207,15 @@
               <tr class="d-flex" *ngFor="let item of currentFloorstock">
                 <td class="col-lg-6 col-md-6">
 
-                  <div class="input-group col-12">
-                    <span class="input-group-btn">
+                  <div class="input-group mb-3">
+                    <span class="input-group-prepend">
                       <button type="button" class="btn btn-danger btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'decr')">
                         <b class="button-signs">-</b>
                       </button>
                     </span>
-                    <input type="number" min="0" class="form-control input-number" [value]="item.quantity ? item.quantity : 0" name="{{item.item_id}}"
+                    <input type="number" min="0" class="form-control input-number inputMiddle" [value]="item.quantity ? item.quantity : 0" name="{{item.item_id}}"
                       [ngModel]="item.quantity">
-                    <span class="input-group-btn">
+                    <span class="input-group-append">
                       <button type="button" class="btn btn-success btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'incr')">
                         <b class="button-signs">+</b>
                       </button>
@@ -228,7 +229,7 @@
           <div class="row">
             <div class="col-md-8">
               <p *ngIf="floorstockAdded" class="text-left">
-                {{ floorstockAddedNotification }}
+                Floorstock successfully updated!
               </p>
             </div>
             <div class="col-md-4 text-right">
@@ -263,36 +264,43 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="inputName">Name:</label>
-                    <input type="text" class="form-control" id="inputName" name='commentName' [(ngModel)]="newName" #commentName="ngModel" required minlength="2" pattern="[A-Za-z]">
+                    <input type="text" class="form-control" id="inputName" name='commentName' [(ngModel)]="newName" #commentName="ngModel" required
+                      minlength="2" pattern="[A-Öa-ö]*">
                   </div>
                 </div>
 
                 <div class="col-md-8">
                   <div class="form-group">
                     <label for="inputComment">Comment:</label>
-                    <textarea type="text" class="form-control commentTextarea" id="inputComment" name='commentText' [(ngModel)]="newComment">
+                    <textarea type="text" class="form-control commentTextarea" id="inputComment" name='commentText' [(ngModel)]="newComment"
+                      #commentText="ngModel" required>
                     </textarea>
                   </div>
                 </div>
               </div>
 
-              <div class="alert alert-danger" *ngIf="commentName.invalid && (commentName.dirty || commentName.touched)">
-                <div [hidden]="!commentName.errors.required">
+              <div class="alert alert-danger" *ngIf="commentName.errors && (commentName.dirty || commentName.touched)">
+                <div *ngIf="commentName.errors.required">
                   * Name is required.
                 </div>
-                <div [hidden]="!commentName.errors.minlength">
+                <div *ngIf="commentName.errors.minlength">
                   * Name must be atleast 2 characters long.
                 </div>
-               
-              </div>  
-              <div *ngIf="commentName.invalid">
-                name is invalid
+                <div *ngIf="commentName.errors.pattern">
+                  * Name can not contain numbers.
                 </div>
+              </div>
+
+              <div class="alert alert-danger" *ngIf="commentText.errors && (commentText.dirty || commentText.touched)">
+                <div *ngIf="commentText.errors.required">
+                  * Comment is required.
+                </div>
+              </div>
 
               <div class="row btn-comment">
                 <div class="col-md-6">
                   <p *ngIf="commentAdded" class="text-left">
-                    {{ commentAddedNotification }}
+                    Your comment was added!
                   </p>
                 </div>
                 <div class="col-md-6" align="right">

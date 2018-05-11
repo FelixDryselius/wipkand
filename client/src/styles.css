@@ -10,6 +10,10 @@
     padding: 1em;
 }
 
+.inputMiddle { 
+    text-align: center; 
+}
+
 .dropdown-item {
     cursor: pointer;
 }
@@ -70,6 +74,11 @@
 .plusMinusButtons {
     padding-top: 0; 
     padding-bottom: 0;
+}
+
+.input-group-btn {
+    padding: 0;
+    margin: 0;
 }
 
 /* Remove built in input increment/decrement */
