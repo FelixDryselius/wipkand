@@ -1,16 +1,58 @@
 <div class="container-fluid">
   <div class="row" style="height:50vh">
-    <ngx-charts-line-chart *ngIf = "haveData"
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="displayData"
-      [legend]="showLegend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxisLabel] = "xAxisLabel"
-      [xAxis]='xAxis'
-      [yAxis] = 'yAxis'
-      (select)="pressed($event)">
-    </ngx-charts-line-chart> 
+    <h3>Batch data per batch</h3>
+    <div class="col-10">
+      <ngx-charts-area-chart-stacked *ngIf = "haveData"
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="displayData"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel] = "xAxisLabel"
+        [xAxis]='xAxis'
+        [yAxis] = 'yAxis'
+        (select)="pressed($event)">
+      </ngx-charts-area-chart-stacked> 
+    </div>
+    <div class="col-2 align-self-end">
+        <div class="row p-1">
+          <div class="col">
+            <button class="btn btn-primary btn-sm btn-block" *ngIf="showAllDataButton" type="button" (click)='showAllData()'>
+              Show all data
+            </button>
+          </div>
+        </div>
+      </div>
   </div>
 </div>
+<div class="row" style="height:5vh"></div>
+<div class="container-fluid">
+  <div class="row" style="height:50vh">
+    <div class="col-10">
+        <ngx-charts-line-chart *ngIf = "haveData"
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="displayData"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel] = "xAxisLabel"
+          [xAxis]='xAxis'
+          [yAxis] = 'yAxis'
+          (select)="pressed($event)">
+        </ngx-charts-line-chart> 
+      </div>
+      <div class="col-2 align-self-end">
+          <div class="row p-1">
+            <div class="col">
+              <button class="btn btn-primary btn-sm btn-block" *ngIf="showAllDataButton" type="button" (click)='showAllData()'>
+                Show all data
+              </button>
+            </div>
+          </div>
+        </div>
+  </div>
+</div>
+
+<!-- ngx-charts-line-chart -->

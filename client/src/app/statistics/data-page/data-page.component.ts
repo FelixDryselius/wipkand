@@ -84,7 +84,7 @@ export class DataPageComponent implements OnInit {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.commentsList = (data as QueryResponse).results as Comment[]
-        //console.log(this.commentsList);
+        console.log(this.commentsList);
       })
 
     this.statisticsSub = this.operationsService.getProductionStatistics('?search=' + this.batchDetailID + '&limit=40')
@@ -114,7 +114,7 @@ export class DataPageComponent implements OnInit {
             
         this.displayComments[batchId.valueOf()] = []               
         this.commentsList.forEach(comment=>{                   
-          if(comment.batch == batchId){
+          if(comment.batch.id == batchId){
             this.displayComments[batchId.valueOf()].push(comment)
           }
         })      

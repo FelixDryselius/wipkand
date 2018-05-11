@@ -34,7 +34,7 @@ export class StatisticsChartsComponent implements OnInit {
   xAxisLabel = "Date";
   xAxis=true;
   yAxis=true;
-  timeline=true;
+  timeline=false;
 
 
   constructor(private authAPI:AuthAPIService, private operationsService:OperationsService) { }
@@ -50,6 +50,8 @@ export class StatisticsChartsComponent implements OnInit {
   //Might be used later
   pressed(event) {
     console.log('event triggered');   
+    console.log(event);
+    
   }
 
   changeTimeSpan(query?:string){
@@ -64,6 +66,13 @@ export class StatisticsChartsComponent implements OnInit {
       this.displayData=this.prodDataSeparateBatches
     } else {
       this.displayData=this.prodDataContinues
+    }
+  }
+  toggleTimeline(){
+    if(this.timeline){
+      this.timeline = false
+    }else {
+      this.timeline = true
     }
   }
 
@@ -90,15 +99,15 @@ export class StatisticsChartsComponent implements OnInit {
       //      ] 
       let relevantBatchesId = []
       let productionDataPoints = []
-      let arrayHolder = []
+      let continuesDataArrayHolder = []
       let prodDataContinuesTemp = []
       let exptectedProductionHolder = []
 
       productionStatistics.forEach(element => {
-        if(relevantBatchesId.indexOf(element.batch) == -1 ){
-          relevantBatchesId.push(element.batch)                 
+        if(relevantBatchesId.indexOf(element.batch.batch_number) == -1 ){
+          relevantBatchesId.push(element.batch.batch_number)                 
           productionDataPoints.push({
-            'name':element.batch,
+            'name':element.batch.batch_number,
             'series':[
               {
                 'value':element.production_quantity,
@@ -108,7 +117,7 @@ export class StatisticsChartsComponent implements OnInit {
           })
         } else {
           productionDataPoints.forEach(subEl =>{            
-            if(subEl.name==element.batch){             
+            if(subEl.name==element.batch.batch_number){             
               subEl.series.push({
               'value':element.production_quantity,
               'name': new Date(element.time_stamp)
@@ -117,7 +126,7 @@ export class StatisticsChartsComponent implements OnInit {
           })
         }
         // Here it saves the 'continues production run'      
-        arrayHolder.push(
+        continuesDataArrayHolder.push(
           {
             'name':new Date(element.time_stamp),
             'value': element.production_quantity
@@ -131,19 +140,27 @@ export class StatisticsChartsComponent implements OnInit {
         )
       })
         
-      this.prodDataSeparateBatches = productionDataPoints;
-      this.prodDataSeparateBatches.push({
+      //adding expected value to separate production batches
+      productionDataPoints.push({
         'name': 'Expected Production Quantity',
         'series': exptectedProductionHolder
       })
+
+      //adding global variable
+      this.prodDataSeparateBatches = productionDataPoints;
+      
+      //adding to global variable with continues batches
       this.prodDataContinues = [
         {
           'name':'Production Quantity',
-          'series': arrayHolder
+          'series': continuesDataArrayHolder
+        },
+        {
+          'name': 'Expected Production Quantity',
+          'series': exptectedProductionHolder
         }
       ]
   
-      console.log(this.prodDataSeparateBatches);
       
     //sets which type to show
     if(this.showBatches){
