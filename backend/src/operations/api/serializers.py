@@ -147,6 +147,7 @@ def validate_order(old_order, new_product):
 
 
 class CommentSerializer(ModelSerializer):
+    #batch = BatchInfoSerializer()
     class Meta:
         model = BatchComment
         fields = [
