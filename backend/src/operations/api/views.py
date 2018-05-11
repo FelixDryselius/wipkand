@@ -18,7 +18,8 @@ from operations.api.serializers import (
     OrderNoValidateSerializer,
     BatchCreateSerializer,
     BatchDetailSerializer,
-    CommentSerializer
+    CommentSerializer,
+    CommentExtendedSerializer
 )
 
 
@@ -98,14 +99,6 @@ class BatchDetailAPIView(
     serializer_class = BatchDetailSerializer
     queryset = Batch.objects.all()
 
-    # def get_serializer_class(self):
-    #     serializer_class = self.serializer_class
-    #     if self.request.method == 'PATCH':
-    #         serializer_class = BatchDetailSerializer
-    #     else:
-    #         serializer_class = BatchDetailSerializer
-    #     return serializer_class
-
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
@@ -122,6 +115,13 @@ class CommentAPIView(
     serializer_class = CommentSerializer
     search_fields = ('comment_id',
                      'text_comment', 'user_name', 'post_date')
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            serializer_class = CommentExtendedSerializer
+        else:
+            serializer_class = CommentSerializer
+        return serializer_class
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
