@@ -16,8 +16,7 @@ from operations.api.serializers import (
     ProductSerializer,
     OrderSerializer,
     OrderNoValidateSerializer,
-    BatchCreateSerializer,
-    BatchDetailSerializer,
+    BatchSerializer,
     CommentSerializer,
     CommentExtendedSerializer
 )
@@ -55,7 +54,6 @@ class OrderDetailAPIView(
 
     serializer_class = OrderSerializer
     queryset = ProductionOrder.objects.all()
-    # permission_classes = [AllowAny]
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -68,8 +66,7 @@ class BatchAPIView(
     generics.ListAPIView,
         mixins.CreateModelMixin):
 
-    serializer_class = BatchCreateSerializer
-    #permission_classes = [AllowAny]
+    serializer_class = BatchSerializer
     search_fields = ('id', 'batch_number', 'order__order_number',
                      'start_date', 'end_date')
 
@@ -96,7 +93,7 @@ class BatchDetailAPIView(
         mixins.DestroyModelMixin):
 
     #permission_classes = [AllowAny]
-    serializer_class = BatchDetailSerializer
+    serializer_class = BatchSerializer
     queryset = Batch.objects.all()
 
     def put(self, request, *args, **kwargs):
