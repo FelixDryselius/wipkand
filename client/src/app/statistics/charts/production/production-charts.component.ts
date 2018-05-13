@@ -19,6 +19,9 @@ export class StatisticsChartsComponent implements OnInit {
   //data
   haveData=false;
   displayData;
+  flaggedDays = [];
+  productionStatistics = []
+
   showBatches = false;
   prodDataSeparateBatches = [];
   prodDataContinues = [];
@@ -77,13 +80,63 @@ export class StatisticsChartsComponent implements OnInit {
     }
   }
 
+  checkFullDays(){
+    let currentDayHolder = new Date(this.productionStatistics[0].time_stamp)
+    currentDayHolder.setHours(0,0,0,0)
+    let previousVal = new Date(this.productionStatistics[0].time_stamp)
+    
+    let has00 = false;
+    let has23 = false
+
+    this.flaggedDays = []
+    this.productionStatistics.forEach(prodStat=>{     
+
+      //Checks if we have moved on to the next day
+      if((new Date(prodStat.time_stamp).getTime() - new Date(currentDayHolder).getTime()) >= 86400000){
+        currentDayHolder = prodStat;
+        currentDayHolder.setHours(0,0,0,0)
+  
+
+        //Should flag?
+        if(!has00 || !has23){
+          this.flaggedDays.push(previousVal)          
+          //Sets prevVal
+          previousVal = prodStat.time_stamp
+        }  
+        has00 = false;
+        has23 = false;
+      }
+
+      //Checks if we have the whole day
+      let tempHours = new Date(prodStat.time_stamp).getHours()
+      if(tempHours == 0){
+        has00 = true;
+      } else if(tempHours == 23){
+        has23 = true;
+      }
+
+      //Checks if there is a gap between two prodStat, also guards for if the day was changed
+      if((new Date(previousVal).getTime() - new Date(prodStat.time_stamp).getTime())  > 3600000 &&  (new Date(prodStat.time_stamp).getTime() - new Date(currentDayHolder).getTime()) < 86400000) {
+        this.flaggedDays.push(currentDayHolder)      
+        console.log(new Date(previousVal).getTime() - new Date(prodStat.time_stamp).getTime());
+        console.log(prodStat.time_stamp +' and also previous val: ' + previousVal);                
+      }
+
+      //Sets prevVal
+      previousVal = prodStat.time_stamp
+    })
+    console.log(this.flaggedDays);
+
+    
+  }
+
   getProductionData(query = '?limit=72')  {
 
     this.operationsService.getProductionStatistics(query)
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
-      let productionStatistics
-      productionStatistics = (data as QueryResponse).results as Scoreboard []
+      
+      this.productionStatistics = (data as QueryResponse).results as Scoreboard []
       
       // Creating an to match what ngx-charts need to have
       // the element looks like this:
@@ -104,7 +157,7 @@ export class StatisticsChartsComponent implements OnInit {
       let prodDataContinuesTemp = []
       let exptectedProductionHolder = []
 
-      productionStatistics.forEach(element => {
+      this.productionStatistics.forEach(element => {
         if(relevantBatchesId.indexOf(element.batch.batch_number) == -1 ){
           relevantBatchesId.push(element.batch.batch_number)                 
           productionDataPoints.push({
@@ -170,6 +223,8 @@ export class StatisticsChartsComponent implements OnInit {
       this.displayData = this.prodDataContinues
     }
     this.haveData=true
+
+    this.checkFullDays()
   });    
   }
 }
