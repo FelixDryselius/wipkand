@@ -59,15 +59,16 @@ export class StatisticsChartsComponent implements OnInit {
     this.getProductionData(tempQuery)
   }
   
-  toggleBatches(toggle:boolean){
-    console.log('toggleBatches: '+toggle);
-    this.showBatches = toggle
-    if(toggle){
-      this.displayData=this.prodDataSeparateBatches
+  toggleBatches(){
+    if(this.showBatches){
+        this.displayData=this.prodDataContinues
+        this.showBatches = false
     } else {
-      this.displayData=this.prodDataContinues
+        this.displayData=this.prodDataSeparateBatches
+        this.showBatches = true
     }
   }
+
   toggleTimeline(){
     if(this.timeline){
       this.timeline = false

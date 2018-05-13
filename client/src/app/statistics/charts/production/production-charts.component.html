@@ -27,6 +27,13 @@
   </div>
   <div class="row p-1">
     <div class="col">
+      <button class="btn btn-primary btn-sm btn-block" type="button" (click)="toggleBatches()">
+      Toggle batches
+      </button>
+    </div>
+  </div>
+  <div class="row p-1">
+    <div class="col">
       <div class="dropdown">
         <button class="btn btn-primary btn-sm dropdown-toggle btn-block" type="button" id="timeScopeDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Time scope
@@ -42,19 +49,6 @@
       </div>
     </div>
     </div>
-    <div class="row p-1">
-        <div class="col">
-      <div class="dropdown">
-        <button type="button" class="btn btn-primary btn-sm dropdown-toggle btn-block" id="showBatchesDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Show Batches
-        </button>    
-        <div class="dropdown-menu" aria-labelledby="showBatchesDropDown">
-          <div class="dropdown-item" (click)="toggleBatches(true)">Yes</div>
-          <div class="dropdown-item" (click)="toggleBatches(false)">No</div>
-        </div>
-      </div> 
-    </div>
-  </div>
   </div>
 </div>
 </div>
