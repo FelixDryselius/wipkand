@@ -83,9 +83,7 @@ export class BatchChartComponent implements OnInit {
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
 
-      let batchStatistics = (data as QueryResponse).results as Batch []     
-      console.log(batchStatistics);
-       
+      let batchStatistics = (data as QueryResponse).results as Batch []           
 
       let relevantBatchesId = []
       let batchDataPoints = []
@@ -193,9 +191,7 @@ export class BatchChartComponent implements OnInit {
             "name": "Applied Labels",
             "series": appliedLabelsArrayHolder
           }
-        ]
-        console.log(batchDataPoints);
-        
+        ]        
       })
     this.batchData = batchDataPoints
     this.displayData = this.batchData

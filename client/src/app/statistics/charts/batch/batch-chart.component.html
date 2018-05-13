@@ -54,5 +54,32 @@
         </div>
   </div>
 </div>
+<div class="container-fluid">
+    <div class="row" style="height:50vh">
+      <div class="col-10">
+          <ngx-charts-bar-vertical-stacked *ngIf = "haveData"
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="displayData"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel] = "xAxisLabel"
+            [xAxis]='xAxis'
+            [yAxis] = 'yAxis'
+            (select)="pressed($event)">
+          </ngx-charts-bar-vertical-stacked> 
+        </div>
+        <div class="col-2 align-self-end">
+            <div class="row p-1">
+              <div class="col">
+                <button class="btn btn-primary btn-sm btn-block" *ngIf="showAllDataButton" type="button" (click)='showAllData()'>
+                  Show all data
+                </button>
+              </div>
+            </div>
+          </div>
+    </div>
+  </div>
 
 <!-- ngx-charts-line-chart -->

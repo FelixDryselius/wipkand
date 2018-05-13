@@ -81,7 +81,8 @@ export class StatisticsChartsComponent implements OnInit {
   }
 
   checkFullDays(){
-    let currentDayHolder = new Date(this.productionStatistics[0].time_stamp)
+    let currentDayHolder = new Date(this.productionStatistics[0].time_stamp)    
+    
     currentDayHolder.setHours(0,0,0,0)
     let previousVal = new Date(this.productionStatistics[0].time_stamp)
     
@@ -92,22 +93,24 @@ export class StatisticsChartsComponent implements OnInit {
     this.productionStatistics.forEach(prodStat=>{     
 
       //Checks if we have moved on to the next day
-      if((new Date(prodStat.time_stamp).getTime() - new Date(currentDayHolder).getTime()) >= 86400000){
-        currentDayHolder = prodStat;
-        currentDayHolder.setHours(0,0,0,0)
-  
+      if(( new Date(currentDayHolder).getTime() - new Date(prodStat.time_stamp).getTime()) >= 86400000){
 
         //Should flag?
         if(!has00 || !has23){
-          this.flaggedDays.push(previousVal)          
+          this.flaggedDays.push(currentDayHolder)
+          console.log('does not have whole day');
+                    
           //Sets prevVal
           previousVal = prodStat.time_stamp
-        }  
+        } 
+        //reset values 
         has00 = false;
         has23 = false;
+        currentDayHolder = new Date(prodStat.time_stamp);
+        currentDayHolder.setHours(0,0,0,0)
       }
 
-      //Checks if we have the whole day
+      //Checks if we have the 00th or 23th hour
       let tempHours = new Date(prodStat.time_stamp).getHours()
       if(tempHours == 0){
         has00 = true;
@@ -116,10 +119,9 @@ export class StatisticsChartsComponent implements OnInit {
       }
 
       //Checks if there is a gap between two prodStat, also guards for if the day was changed
-      if((new Date(previousVal).getTime() - new Date(prodStat.time_stamp).getTime())  > 3600000 &&  (new Date(prodStat.time_stamp).getTime() - new Date(currentDayHolder).getTime()) < 86400000) {
-        this.flaggedDays.push(currentDayHolder)      
-        console.log(new Date(previousVal).getTime() - new Date(prodStat.time_stamp).getTime());
-        console.log(prodStat.time_stamp +' and also previous val: ' + previousVal);                
+      if( ((new Date(previousVal).getTime() - new Date(prodStat.time_stamp).getTime())  > 3600000) && ((new Date(prodStat.time_stamp).getTime() - new Date(currentDayHolder).getTime()) < 86400000) ) {
+        this.flaggedDays.push(currentDayHolder) 
+        console.log(prodStat.time_stamp);              
       }
 
       //Sets prevVal

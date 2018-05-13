@@ -120,9 +120,7 @@ export class FloorstockChartComponent implements OnInit {
         })
       }       
     });
-    this.displayData = tempDisplayData
-    console.log(this.displayData);
-    console.log(this.floorstockChange);
+    this.displayData = tempDisplayData;
   })
 
 }
