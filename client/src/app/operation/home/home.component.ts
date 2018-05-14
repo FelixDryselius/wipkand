@@ -209,8 +209,6 @@ export class HomeComponent implements OnInit {
 
     if (addShift) {
       for (let obj in this.prodStats) {
-        console.log(this.shifts.slice(-1)[0].firstHour)
-        console.log(this.shifts.slice(-1)[0].date)
         if (this.prodStats[obj]["time_stamp"] > this.shifts.slice(-1)[0].date + this.shifts.slice(-1)[0].firstHour && (this.prodStats[obj]["production_quantity"] > 0 || this.prodStats[obj]["staff_quantity"] > 0)) {
           allowed = true
         }
@@ -461,7 +459,7 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateProdStats(changeData)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
-          //this.feedbackScoreboard()
+          this.feedbackScoreboard()
         }
         else if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && (this.shiftProdStats[obj]["production_quantity"] > 0 || this.shiftProdStats[obj]["production_quantity"] == null) && key.substr(key.length - 2) == 'pq') {
           changeData = {
@@ -472,7 +470,7 @@ export class HomeComponent implements OnInit {
           this.operationsService.updateProdStats(changeData)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
-          //this.feedbackScoreboard()
+          this.feedbackScoreboard()
         }
 
         else {
