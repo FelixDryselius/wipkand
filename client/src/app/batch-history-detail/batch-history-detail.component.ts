@@ -47,8 +47,10 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   order: Order;
 
   updateBatchSuccess: boolean;
-  updateBatchError: any;
-  updateBatchErrorKeys: any;
+  updateOrderSuccess: boolean;
+  updateError: any;
+  updateErrorKeys: any;
+
   serverError: any;
 
   private prodInfo: {}
@@ -229,10 +231,12 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     this.operationsService.updateBatch(batch as Batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
+        this.updateOrderSuccess = true
         this.handleUpdateBatch(data as Batch)
       },
         error => {
-          console.error(error)
+          this.updateOrderSuccess = false
+          this.handleUpdateError(error)
         })
   }
 
@@ -250,27 +254,28 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         error => {
           debugger;
           this.updateBatchSuccess = false
-          this.handleUpdateBatchError(error)
+          this.handleUpdateError(error)
         }
       )
   }
 
-  handleUpdateBatchError(error) {
+  handleUpdateError(error) {
     if (error.status == 500) {
       this.serverError = error 
     }
     console.error(error)
-    this.updateBatchError = error.error;
-    this.updateBatchErrorKeys = [];
+    this.updateError = error.error;
+    this.updateErrorKeys = [];
     for (let i = 0; i < Object.keys(error.error).length; i++) {
-      this.updateBatchErrorKeys.push(Object.keys(error.error)[i])
+      this.updateErrorKeys.push(Object.keys(error.error)[i])
     }
   }
 
   clearMsg() {
     this.updateBatchSuccess = null;
-    this.updateBatchError = null;
-    this.updateBatchErrorKeys = null;
+    this.updateOrderSuccess = null;
+    this.updateError = null;
+    this.updateErrorKeys = null;
     this.serverError = null;
   }
 
