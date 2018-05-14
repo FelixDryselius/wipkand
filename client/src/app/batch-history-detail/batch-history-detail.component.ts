@@ -178,20 +178,20 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     })
   }
 
-  convertDates(form) {
-    if (form['start_date']) {
-      form['start_date'] = new Date(form['start_date']).toISOString()
-    }
-    if (form['end_date']) {
-      form['end_date'] = new Date(form['end_date']).toISOString()
-    }
-    if (form['rework_date']) {
-      form['rework_date'] = new Date(form['rework_date']).toISOString()
-    }
-    if (form['label_print_time']) {
-      form['label_print_time'] = new Date(form['label_print_time']).toISOString()
-    }
-  }
+  // convertDates(form) {
+  //   if (form['start_date']) {
+  //     form['start_date'] = new Date(form['start_date']).toISOString()
+  //   }
+  //   if (form['end_date']) {
+  //     form['end_date'] = new Date(form['end_date']).toISOString()
+  //   }
+  //   if (form['rework_date']) {
+  //     form['rework_date'] = new Date(form['rework_date']).toISOString()
+  //   }
+  //   if (form['label_print_time']) {
+  //     form['label_print_time'] = new Date(form['label_print_time']).toISOString()
+  //   }
+  // }
 
   submitFormDetails($theEvent, form) {
     let batch;
@@ -207,7 +207,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     } else {
       form['order'] = this.order
       form['id'] = this.batchDetailID
-      this.convertDates(form)
+      //this.convertDates(form)
       batch = form
     }
     this.operationsService.updateBatch(batch as Batch)
