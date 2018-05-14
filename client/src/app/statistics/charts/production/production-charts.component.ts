@@ -310,6 +310,7 @@ export class StatisticsChartsComponent implements OnInit {
      
     //sets which type to show
     this.updateDisplayData()
+    console.log(this.continuesYieldPerHourList);
     
     this.haveData=true         
   });      

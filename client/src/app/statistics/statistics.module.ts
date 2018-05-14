@@ -5,16 +5,10 @@ import { CommonModule } from '@angular/common';
 import { DataPageComponent } from './data-page/data-page.component';
 import { FloorstockChartComponent } from './charts/floorstock/floorstock-chart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ProductionAccumulatedComponent } from './charts/production-accumulated/production-accumulated.component';
+import { ProductionPerTimeUnitComponent } from './charts/production-per-time-unit/production-per-time-unit.component';
 import { StatisticsChartsComponent } from './charts/production/production-charts.component';
 import { StatisticsRoutingModule } from './statistics-routing.module';
-
-//big test
-import { ComboChartComponent } from './charts/combo-chart/combo-chart.component';
-import { ComboSeriesVerticalComponent } from './charts/combo-chart/combo-series-vertical.component';
-import { StaffQuantityComponent } from './charts/staff-quantity/staff-quantity.component';
-import { BatchChartComponent } from './charts/batch/batch-chart.component';
-import { ProducedPerPersonComponent } from './charts/produced-per-person/produced-per-person.component';
-import { ProductionPerTimeUnitComponent } from './charts/production-per-time-unit/production-per-time-unit.component';
 
 
 
@@ -27,14 +21,10 @@ import { ProductionPerTimeUnitComponent } from './charts/production-per-time-uni
   ],
   declarations: [
     FloorstockChartComponent, 
-    ComboChartComponent, 
-    ComboSeriesVerticalComponent, 
     DataPageComponent,
     StatisticsChartsComponent,
-    StaffQuantityComponent,
-    BatchChartComponent,
-    ProducedPerPersonComponent,
-    ProductionPerTimeUnitComponent],
+    ProductionPerTimeUnitComponent,
+    ProductionAccumulatedComponent],
 
   providers: [],
   exports: []
