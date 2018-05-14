@@ -1,0 +1,25 @@
+<p>
+  production-accumulated works!
+</p>
+
+<div class="container">
+    <div class="row" style="height:70vh">
+        <h3>Accumulated production yield of latest batch</h3>
+      <ngx-charts-line-chart *ngIf = "haveData"
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="displayDataList"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisTickFormatting]="xAxisFormatting"
+        [xAxisLabel] = "xAxisLabel"
+        [yAxisLabel] = 'yAxisLabel'
+        [xAxis]='xAxis'
+        [yAxis] = 'yAxis'
+        [timeline]="timeline"
+        (select)="pressed($event)">
+      </ngx-charts-line-chart> 
+  </div>
+  </div>
+  
