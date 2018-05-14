@@ -11,7 +11,6 @@ import { StatisticsRoutingModule } from './statistics-routing.module';
 //big test
 import { ComboChartComponent } from './charts/combo-chart/combo-chart.component';
 import { ComboSeriesVerticalComponent } from './charts/combo-chart/combo-series-vertical.component';
-import { BatchChartComponent } from './charts/batch/batch-chart.component';
 import { ProductionPerTimeUnitComponent } from './charts/production-per-time-unit/production-per-time-unit.component';
 
 
@@ -29,7 +28,6 @@ import { ProductionPerTimeUnitComponent } from './charts/production-per-time-uni
     ComboSeriesVerticalComponent, 
     DataPageComponent,
     StatisticsChartsComponent,
-    BatchChartComponent,
     ProductionPerTimeUnitComponent],
 
   providers: [],
