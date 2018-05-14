@@ -29,7 +29,7 @@ const routes: Routes = [
       component: FloorstockChartComponent
     },
     {
-      path:'productionPerTimeUnit',
+      path:'production-per-time-unit',
       component: ProductionPerTimeUnitComponent
     }
    ]
