@@ -11,6 +11,7 @@
       [showYAxisLabel]="showYAxisLabel"
       [xAxisTickFormatting]="xAxisFormatting"
       [xAxisLabel] = "xAxisLabel"
+      [yAxisLabel] = 'yAxisLabel'
       [xAxis]='xAxis'
       [yAxis] = 'yAxis'
       [timeline]="timeline"
@@ -27,8 +28,15 @@
   </div>
   <div class="row p-1">
     <div class="col">
-      <button class="btn btn-primary btn-sm btn-block" type="button" (click)="toggleBatches()">
+      <button class="btn btn-primary btn-sm btn-block" type="button" (click)="toggleShowBatches()">
       Toggle batches
+      </button>
+    </div>
+  </div>
+  <div class="row p-1">
+    <div class="col">
+      <button class="btn btn-primary btn-sm btn-block" type="button" (click)="toggleShowYield()">
+      Toggle yield or PPHM
       </button>
     </div>
   </div>
