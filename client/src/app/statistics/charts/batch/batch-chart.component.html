@@ -54,5 +54,69 @@
         </div>
   </div>
 </div>
+<div class="container-fluid">
+    <div class="row" style="height:50vh">
+      <div class="col-10">
+          <ngx-charts-bar-vertical-stacked *ngIf = "haveData"
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="displayData"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel] = "xAxisLabel"
+            [xAxis]='xAxis'
+            [yAxis] = 'yAxis'
+            (select)="pressed($event)">
+          </ngx-charts-bar-vertical-stacked> 
+        </div>
+        <div class="col-2 align-self-end">
+            <div class="row p-1">
+              <div class="col">
+                <button class="btn btn-primary btn-sm btn-block" *ngIf="showAllDataButton" type="button" (click)='showAllData()'>
+                  Show all data
+                </button>
+              </div>
+            </div>
+          </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+      <div class="row" style="height:50vh">
+        <div class="col-10">
+            <ngx-charts-bar-vertical *ngIf = "haveTempData"
+              [view]="view"
+              [scheme]="colorScheme"
+              [results]="displayDataPerBatch"
+              [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              [xAxisLabel] = "xAxisLabel"
+              [xAxis]='xAxis'
+              [yAxis] = 'yAxis'>
+            </ngx-charts-bar-vertical> 
+          </div>
+          <div class="col-2 align-self-end">
+            <div class="row p-1">
+                <div class="col">
+                  <div class="dropdown">
+                    <button class="btn btn-primary btn-sm dropdown-toggle btn-block" type="button" id="whatToShow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Choose Time Frame
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="whatToShow">
+                      <div class="dropdown-item" (click)="changeDataPerBatch('scrap')">Scrap</div>
+                      <div class="dropdown-item" (click)="changeDataPerBatch('production_yield')">Production yield</div>
+                      <div class="dropdown-item" (click)="changeDataPerBatch('hmi1_good')">HMI1 good</div>
+                      <div class="dropdown-item" (click)="changeDataPerBatch('hmi1_bad')">HMI1 bad</div>                      
+                      <div class="dropdown-item" (click)="changeDataPerBatch('hmi2_good')">HMI2 good </div>
+                      <div class="dropdown-item" (click)="changeDataPerBatch('hmi2_bad')">HMI2 bad </div>                
+                      <div class="dropdown-item" (click)="changeDataPerBatch('applied_labels')">Applied labels </div>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </div>
+      </div>
+    </div>
 
 <!-- ngx-charts-line-chart -->

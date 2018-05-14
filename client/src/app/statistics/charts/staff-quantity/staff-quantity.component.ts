@@ -33,7 +33,7 @@ export class StaffQuantityComponent implements OnInit {
   xAxisLabel = "Date";
   xAxis=true;
   yAxis=true;
-  timeline=true;
+  timeline=false;
 
 
 
@@ -57,13 +57,21 @@ export class StaffQuantityComponent implements OnInit {
     this.getStaffQuantity(tempQuery)
   }
   
-  toggleBatches(toggle:boolean){
-    console.log('toggleBatches: '+toggle);
-    this.showBatches = toggle
-    if(toggle){
-      this.displayData=this.prodDataSeparateBatches
+  toggleBatches(){
+    if(this.showBatches){
+        this.displayData=this.prodDataContinues
+        this.showBatches = false
     } else {
-      this.displayData=this.prodDataContinues
+        this.displayData=this.prodDataSeparateBatches
+        this.showBatches = true
+    }
+  }
+  
+  toggleTimeline(){
+    if(this.timeline){
+      this.timeline = false
+    }else {
+      this.timeline = true
     }
   }
 
@@ -93,10 +101,10 @@ export class StaffQuantityComponent implements OnInit {
       let arrayHolder = []
       let prodDataContinuesTemp = []
       productionStatistics.forEach(element => {
-        if(relevantBatchesId.indexOf(element.batch) == -1 ){
-          relevantBatchesId.push(element.batch)                 
+        if(relevantBatchesId.indexOf(element.batch.id) == -1 ){
+          relevantBatchesId.push(element.batch.id)                 
           productionDataPoints.push({
-            'name':element.batch,
+            'name':element.batch.batch_number,
             'series':[
               {
                 'value':element.staff_quantity,
@@ -106,7 +114,7 @@ export class StaffQuantityComponent implements OnInit {
           })
         } else {
           productionDataPoints.forEach(subEl =>{            
-            if(subEl.name==element.batch){             
+            if(subEl.name==element.batch.batch_number){             
               subEl.series.push({
               'value':element.staff_quantity,
               'name': new Date(element.time_stamp)

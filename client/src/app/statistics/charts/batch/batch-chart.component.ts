@@ -8,6 +8,11 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { OperationsService } from '../../../operation/shared/services/operations.service';
 import { QueryResponse } from '../../../shared/interfaces/query-response';
 
+import { Floorstock } from '../../../../assets/interface/floorstock';
+
+import { Observable } from 'rxjs/Observable';
+
+
 @Component({
   selector: 'app-batch-chart',
   templateUrl: './batch-chart.component.html',
@@ -83,9 +88,9 @@ export class BatchChartComponent implements OnInit {
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
 
-      let batchStatistics = (data as QueryResponse).results as Batch []     
-      console.log(batchStatistics);
-       
+      let batchStatistics = (data as QueryResponse).results as Batch []
+      this.batchStatistics = batchStatistics;
+      
 
       let relevantBatchesId = []
       let batchDataPoints = []
@@ -193,9 +198,7 @@ export class BatchChartComponent implements OnInit {
             "name": "Applied Labels",
             "series": appliedLabelsArrayHolder
           }
-        ]
-        console.log(batchDataPoints);
-        
+        ]        
       })
     this.batchData = batchDataPoints
     this.displayData = this.batchData
@@ -203,7 +206,70 @@ export class BatchChartComponent implements OnInit {
     this.haveData=true
     })
   }
+
+
+
+
+
+
+
+  
+  
+
+  // Data:
+
+  displayDataPerBatch = [];
+  floorstockItems = [];
+  batchStatistics = [];
+  haveTempData = false;
+
+ // This function populates floorstockItems and displayData
+ //TODO implement functions to enable the user to choose how far bach he, or she wants to go, eg another 'query'
+  changeDataPerBatch(displayOption:string){
+    console.log(displayOption.valueOf());
+    console.log(this.batchStatistics);
+    
+    this.displayDataPerBatch = []
+    this.haveTempData=false
+    this.batchStatistics.forEach(batchElement =>{
+      this.displayDataPerBatch.push(
+        {
+          'value':batchElement[displayOption.valueOf()],
+          'name': String(batchElement.batch_number)
+        }
+      )
+    })
+    console.log(this.displayDataPerBatch);
+    
+  this.haveTempData = true
+  }
+
+      
 }
+      
+      
+      
+      
+      
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
