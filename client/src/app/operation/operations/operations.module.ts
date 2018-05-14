@@ -7,22 +7,22 @@ import { NgModule } from '@angular/core';
 
 
 //3rd party and application imports:
-import { HomeComponent } from './home.component';
-import { HomeRoutingModule } from './home-routing.module';
+import { OperationsComponent } from './operations.component';
+import { OperationsRoutingModule } from './operations-routing.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    HomeRoutingModule,
+    OperationsRoutingModule,
     BrowserModule,
     FormsModule,
     HttpModule,
     HttpClientModule
   ],
   declarations: [
-    HomeComponent
+    OperationsComponent
   ],
   bootstrap: []
 })
-export class HomeModule { }
+export class OperationsModule { }

@@ -19,12 +19,12 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { CustomValidation } from '../../shared/validators/customValidation'
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-operations',
+  templateUrl: './operations.component.html',
+  styleUrls: ['./operations.component.css']
 })
 
-export class HomeComponent implements OnInit {
+export class OperationsComponent implements OnInit {
 
   private productionObservable: Observable<any>;
   private productionSub: any;

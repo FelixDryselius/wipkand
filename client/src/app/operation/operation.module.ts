@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { CommentModule } from './comment/comment.module';
 import { CurrentBatchInfoModule } from './current-batch-info/current-batch-info.module';
 import { FinishBatchModule } from './finish-batch/finish-batch.module';
-import { HomeModule } from './home/home.module';
+import { OperationsModule } from './operations/operations.module';
 import { OperationRoutingModule } from './operation-routing.module';
 import { StartBatchModule } from './start-batch/start-batch.module';
 
@@ -19,7 +19,7 @@ import { StartBatchModule } from './start-batch/start-batch.module';
     OperationRoutingModule,
     StartBatchModule,
     CommentModule,
-    HomeModule
+    OperationsModule
   ],
   declarations: [ ],
   providers: [],

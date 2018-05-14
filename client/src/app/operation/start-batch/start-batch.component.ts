@@ -102,8 +102,8 @@ export class StartBatchComponent implements OnInit, OnDestroy {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.operationsService.setCurrentBatchInfo(data as Batch);
-        console.log("Successfully created batch! Navigating home..");
-        this.router.navigate(['/home'])
+        console.log("Successfully created batch! Navigating to operations..");
+        this.router.navigate(['/operations'])
       },
         error => {
           console.error(error)
