@@ -228,6 +228,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       id: this.currentBatch.id,
       batch_number: this.currentBatch.batch_number
     }
+    this.clearMsg()
     this.operationsService.updateBatch(batch as Batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
