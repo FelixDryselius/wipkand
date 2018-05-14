@@ -62,9 +62,11 @@ CREATE TABLE production_statistic
   batch_id int NOT NULL,
   production_quantity INT,
   staff_quantity INT,
+  user_name varchar(255),
   PRIMARY KEY (time_stamp),
   FOREIGN KEY (batch_id) REFERENCES batch(ID)
 );
+
 
 CREATE TABLE floorstock_statistic
 (
