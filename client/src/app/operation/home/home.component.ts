@@ -495,7 +495,7 @@ export class HomeComponent implements OnInit {
                   .retryWhen(error => this.authAPI.checkHttpRetry(error))
                   .subscribe();
 
-                this.onChange(this.selectedShift, this.shiftDate)
+                
                 this.feedbackScoreboard()
               }
               else {
@@ -506,6 +506,7 @@ export class HomeComponent implements OnInit {
           }
         }
       }
+      this.onChange(this.selectedShift, this.shiftDate)
     }
   }
 
