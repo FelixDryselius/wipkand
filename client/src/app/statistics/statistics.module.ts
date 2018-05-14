@@ -13,6 +13,7 @@ import { ComboChartComponent } from './charts/combo-chart/combo-chart.component'
 import { ComboSeriesVerticalComponent } from './charts/combo-chart/combo-series-vertical.component';
 import { StaffQuantityComponent } from './charts/staff-quantity/staff-quantity.component';
 import { BatchChartComponent } from './charts/batch/batch-chart.component';
+import { ProducedPerPersonComponent } from './charts/produced-per-person/produced-per-person.component';
 
 
 
@@ -30,7 +31,8 @@ import { BatchChartComponent } from './charts/batch/batch-chart.component';
     DataPageComponent,
     StatisticsChartsComponent,
     StaffQuantityComponent,
-    BatchChartComponent],
+    BatchChartComponent,
+    ProducedPerPersonComponent],
 
   providers: [],
   exports: []
