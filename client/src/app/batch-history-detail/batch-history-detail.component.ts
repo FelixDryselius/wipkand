@@ -46,8 +46,10 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   products: {};
   order: Order;
 
+  updateBatchSuccess: boolean;
   updateBatchError: any;
   updateBatchErrorKeys: any;
+  serverError: any;
 
   private prodInfo: {}
   private service_prodInfo: any;
@@ -101,6 +103,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.clearMsg()
     if (this.batchSub) {
       this.batchSub.unsubscribe()
     }
@@ -239,19 +242,25 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     //this.convertDates(form)
     this.clearMsg()
     this.operationsService.updateBatch(form as Batch)
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      //.retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
+        this.updateBatchSuccess = true
         this.handleUpdateBatch(data as Batch)
       },
         error => {
+          debugger;
+          this.updateBatchSuccess = false
           this.handleUpdateBatchError(error)
         }
       )
   }
 
   handleUpdateBatchError(error) {
+    if (error.status == 500) {
+      this.serverError = error 
+    }
     console.error(error)
-    this.updateBatchError = error.error
+    this.updateBatchError = error.error;
     this.updateBatchErrorKeys = [];
     for (let i = 0; i < Object.keys(error.error).length; i++) {
       this.updateBatchErrorKeys.push(Object.keys(error.error)[i])
@@ -259,8 +268,10 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   }
 
   clearMsg() {
+    this.updateBatchSuccess = null;
     this.updateBatchError = null;
     this.updateBatchErrorKeys = null;
+    this.serverError = null;
   }
 
   goBack() {
