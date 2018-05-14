@@ -8,8 +8,9 @@
     <p>(click to close)</p>
   </div>
 
-  <div class="row">
-    <div *ngIf="authAPI.loggedIn" class="col-lg-2">
+  <!-- Navbar -->
+  <div class="row" *ngIf="authAPI.loggedIn; else loginview">
+    <div class="col-lg-2">
       <div class="mycontent-left">
         <div class="jumbotron jumbotron-fluid">
           <div class="container">
@@ -52,9 +53,16 @@
 
     <div class="col-lg-10">
       <div class="main">
-        <!--Router imput here-->
         <router-outlet></router-outlet>
       </div>
     </div>
   </div>
+
+  <ng-template #loginview>
+    <div class="row">
+      <div class="col-lg-12">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </ng-template>
 </div>

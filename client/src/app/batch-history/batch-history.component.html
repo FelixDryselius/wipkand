@@ -18,10 +18,10 @@
                             <b>Product:</b> {{ batch.order.article_number }}
                         </li>
                         <li>
-                            <b>Start:</b> {{ batch.start_date }}
+                            <b>Start:</b> {{ batch.start_date | date:"yyyy-MM-dd HH:mm" }}
                         </li>
                         <li>
-                            <b>Ended:</b> {{ batch.end_date}}
+                            <b>Ended:</b> {{ batch.end_date | date:"yyyy-MM-dd HH:mm" }}
                         </li>
                         <li>
                             <b>Yield:</b> {{ batch.production_yield * 10}}
