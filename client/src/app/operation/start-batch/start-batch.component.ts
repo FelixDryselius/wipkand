@@ -103,7 +103,7 @@ export class StartBatchComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.operationsService.setCurrentBatchInfo(data as Batch);
         console.log("Successfully created batch! Navigating home..");
-        this.router.navigate(['/home'])
+        this.router.navigate(['/operation/home'])
       },
         error => {
           console.error(error)

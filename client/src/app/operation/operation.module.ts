@@ -22,8 +22,7 @@ import { StartBatchComponent } from './start-batch/start-batch.component';
 
 @NgModule({
   imports: [
-    //ApplicationPipeModule,        
-    //BrowserModule,
+    ApplicationPipeModule,        
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
