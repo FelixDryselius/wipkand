@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FinishBatchComponent } from '../operation/finish-batch/finish-batch.component'
 
 @Component({
-  selector: 'app-batch-rework',
+  selector: 'batch-rework',
   templateUrl: './batch-rework.component.html',
   styleUrls: ['./batch-rework.component.css']
 })
 export class BatchReworkComponent implements OnInit {
-title = "Rework batch";
-groninger1 = "Final HMI Data Groninger 1";
-groninger2 = "Final HMI Data Groninger 2";
+//@Input() group: FormGroup;
+@Input() test: string;
 
   constructor() { }
 
   ngOnInit() {
+    console.log(this.test)
   }
 
 }
