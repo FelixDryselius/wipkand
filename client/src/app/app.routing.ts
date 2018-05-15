@@ -14,7 +14,7 @@ import { BatchGuard } from './auth/batch-guard.service';
 const appRoutes: Routes = [
     {
         path: "",
-        redirectTo: '/home',
+        redirectTo: '/operations',
         pathMatch: 'full'
     },
     {
@@ -24,6 +24,14 @@ const appRoutes: Routes = [
     {
         path: "logout",
         component: AuthLogoutComponent,
+    },
+    {
+        path: 'operation',
+        loadChildren: "./operation/operation.module#OperationModule",
+        canActivate: [AuthGuard, RoleGuard],
+        data: {
+            expectedRole: ['admin', 'operator', 'supervisor']
+        }
     },
     {
         path: 'statistics',

@@ -3,6 +3,7 @@
   "project": {
     "name": "vfal-frontend"
   },
+
   "apps": [
     {
       "root": "src",
@@ -37,8 +38,7 @@
       "config": "./protractor.conf.js"
     }
   },
-  "lint": [
-    {
+  "lint": [{
       "project": "src/tsconfig.app.json",
       "exclude": "**/node_modules/**"
     },

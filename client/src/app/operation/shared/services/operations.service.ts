@@ -141,8 +141,8 @@ export class OperationsService {
     return this.http.get(this.URL_ROOT + this.scoreboardListURL + query)
   }
 
-  createProdStats(newCell: {}) {
-    return this.http.post(this.URL_ROOT + this.scoreboardListURL, JSON.stringify(newCell)).map(data => {
+  createProdStats(newData: {}) {
+    return this.http.post(this.URL_ROOT + this.scoreboardListURL, JSON.stringify(newData)).map(data => {
     })
   }
 

@@ -2,191 +2,139 @@
 
 /* Start home style */
 
-.homeContent {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-    margin: 0;
-    padding: 1em;
-}
-
-.inputMiddle { 
-    text-align: center; 
-}
-
-.dropdown-item {
-    cursor: pointer;
-}
-
-.chooseShift {
-    height: 65%;
-    margin-top: 1.2%;
-    margin-left: 5%;
-}
-
-.table td {
-    vertical-align: middle;
-}
-
-.discarded-vials {
-    padding-left: 0;
-    padding-right: 75px;
-
-}
-
-/* .filler {
-    height: 38.5vh;
-} */
-
-.scoreboardLabels {
-    width: 12%;
-    font-weight: bold;
-}
-
-.verticalShift {
-    margin-top: 29%; 
-}
-
-.verticalProduced {
-    margin-top: 12%; 
-}
-
-.verticalVials {
-    margin-top: 11%; 
+.inputMiddle {
+  text-align: center;
 }
 
 .separator {
-    border: none;
-    height: 3px;
-    background-color: black; 
+  border: none;
+  height: 3px;
+  background-color: black;
 }
 
 .floorstockSection {
-    margin-top: 5%;
-    padding: 2%;
-    background-color: #e9ecef;
+  margin-top: 5%;
+  padding: 3%;
+  background-color: #e9ecef;
 }
 
 .button-signs {
-    font-size: 1.5em;
+  font-size: 1.5em;
 }
 
 .plusMinusButtons {
-    padding-top: 0; 
-    padding-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .input-group-btn {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 /* Remove built in input increment/decrement */
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.commentSection {
+  margin-top: 3%;
+  padding: 3%;
+  background-color: #e9ecef;
+}
+
+.dataSection {
+  margin-top: 3%;
+  padding: 3%;
+  background-color: #e9ecef;
+}
+
+.commentForm {
+  margin-top: 5%;
+}
+
+.commentTextarea {
+  height: 125px;
 }
 
 /* End home style */
 
 /* Start finish batch style */
+
 .btn-startBatch {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 
 .firstInput {
-    margin-left: 83px;
-    margin-right: 123px;
+  margin-left: 83px;
+  margin-right: 123px;
 }
 
 .finishBatchLabels {
-    font-size: 120%;
+  font-size: 120%;
 }
 
 .btn-finishBatch {
-    margin-left: 600px;
-    margin-top: 40px;
+  margin-left: 600px;
+  margin-top: 40px;
 }
 
 .yieldField {
-    margin-top: 7%;
+  margin-top: 7%;
 }
 
 .finishBatch {
-    margin-left: 36px;
+  margin-left: 36px;
 }
 
 /* End finish batch style */
 
-
-
 /* Start comments style */
-
-.commentSection {
-    margin-top: 3%;
-    padding: 2%;
-    background-color: #e9ecef;
-}
-
-.commentForm {
-    margin-top: 5%;
-    
-}
-
-.commentTextarea {
-    height: 125px;
-}
 
 /* End comments style */
 
-
-
-
 /* Start Navbar style */
 
-
 /* End Navbar style */
-.mycontent-left {
-    border-right: 1px ridge #333;
-  }
 
+.mycontent-left {
+  border-right: 1px ridge #333;
+}
 
 .startBatchButton {
-    right: 0%;
+  right: 0%;
 }
 
 /*End Navbar style*/
 
-
 /* Start start batch */
 
 .selectProd {
-    width: 100%;
+  width: 100%;
 }
-
-
 
 /* End start batch */
 
 .errorNotification {
-    position: absolute;
-    z-index: 1;
-    top: 5px;
-    line-height: 20px;
-    text-align: center;
-    right: 5px;
-    background: linear-gradient(-90deg, #be3e3e, #d12b2b);
-    color: white;
-    /*font-style: oblique;*/
-    text-transform: capitalize;
-    border: solid;
-    border-color: black;
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-    min-height: 20px;
-    min-width: 160px;
-    max-width: 500px;
-    padding: 15px;
-    cursor: pointer;
+  position: absolute;
+  z-index: 1;
+  top: 5px;
+  line-height: 20px;
+  text-align: center;
+  right: 5px;
+  background: linear-gradient(-90deg, #be3e3e, #d12b2b);
+  color: white;
+  /*font-style: oblique;*/
+  text-transform: capitalize;
+  border: solid;
+  border-color: black;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+  min-height: 20px;
+  min-width: 160px;
+  max-width: 500px;
+  padding: 15px;
+  cursor: pointer;
 }
