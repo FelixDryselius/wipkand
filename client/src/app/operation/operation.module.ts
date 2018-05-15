@@ -19,6 +19,8 @@ import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { OperationRoutingModule } from './operation-routing.module';
 import { StartBatchComponent } from './start-batch/start-batch.component';
 
+import { CalendarModule } from 'primeng/calendar';
+
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { StartBatchComponent } from './start-batch/start-batch.component';
     HttpModule,
     HttpClientModule,
     Ng2PageScrollModule,
-    OperationRoutingModule
+    OperationRoutingModule,
+    CalendarModule
+
   ],
   declarations: [
     BatchHistoryComponent,
