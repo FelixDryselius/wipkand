@@ -38,7 +38,7 @@ export class BatchHistoryComponent implements OnInit {
   }
 
   toBatchDetail(id) {
-    this.router.navigate(['batch-history/' + id + '/'])
+    this.router.navigate(['operation/batch-history/' + id + '/'])
   }
 
   searchHistory(event, query) {

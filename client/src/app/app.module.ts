@@ -7,6 +7,7 @@ import { AuthLogoutComponent } from './auth-logout/auth-logout.component';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CurrentBatchInfoComponent } from './operation/current-batch-info/current-batch-info.component';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { OperationModule } from './operation/operation.module';
 import { OperationsService } from './operation/shared/services/operations.service';
@@ -31,6 +32,7 @@ import { CommentService } from './shared/application-services/comment.service';
     AppComponent,
     AuthComponent,
     AuthLogoutComponent,
+    CurrentBatchInfoComponent,
     NotFoundComponent,
     SubmitIfValidDirective,
   ],
@@ -41,7 +43,7 @@ import { CommentService } from './shared/application-services/comment.service';
     ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
-    OperationModule,
+    //OperationModule,
     AppRoutingModule,
   ],
   providers: [

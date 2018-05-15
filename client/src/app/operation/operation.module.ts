@@ -12,7 +12,6 @@ import { BatchHistoryDetailComponent } from './batch-history-detail/batch-histor
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CommentComponent } from './comment/comment.component';
 import { CommentService } from '../shared/application-services/comment.service';
-import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
 import { HomeComponent } from './home/home.component';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
@@ -25,8 +24,7 @@ import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   imports: [
-    ApplicationPipeModule,
-    BrowserModule,
+    ApplicationPipeModule,        
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -42,12 +40,11 @@ import { CalendarModule } from 'primeng/calendar';
     BatchHistoryDetailComponent,
     BatchReworkComponent,
     CommentComponent,
-    CurrentBatchInfoComponent,
     FinishBatchComponent,
     HomeComponent,
     StartBatchComponent
    ],
-  providers: [CommentService],
-  exports: [CurrentBatchInfoComponent]
+  providers: [],
+  exports: []
 })
 export class OperationModule { }

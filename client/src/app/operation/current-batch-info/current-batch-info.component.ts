@@ -59,10 +59,10 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   }
 
   start_batch() {
-    this.router.navigate(['/start-batch'])
+    this.router.navigate(['/operation/start-batch'])
   }
   finish_batch() {
-    this.router.navigate(['/finish-batch'])
+    this.router.navigate(['/operation/finish-batch'])
   }
 }
 
