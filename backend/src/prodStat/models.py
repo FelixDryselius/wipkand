@@ -6,6 +6,7 @@ class ProductionStatistic(models.Model):
     batch = models.ForeignKey(Batch, models.DO_NOTHING)
     production_quantity = models.IntegerField(blank=True, null=True)
     staff_quantity = models.IntegerField(blank=True, null=True)
+    user_name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False
