@@ -6,7 +6,6 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthLogoutComponent } from './auth-logout/auth-logout.component';
 import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component';
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
-import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TokenInterceptor } from './auth/token.interceptor';
@@ -30,7 +29,6 @@ import { CommentService } from './shared/application-services/comment.service';
 @NgModule({
   declarations: [
     AppComponent,
-    BatchReworkComponent,
     AuthComponent,
     AuthLogoutComponent,
     BatchHistoryDetailComponent,
