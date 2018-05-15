@@ -8,6 +8,24 @@
 from django.db import models
 
 
+class AccountsCepheiduser(models.Model):
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=150)
+    email = models.CharField(max_length=254)
+    staff = models.IntegerField()
+    admin = models.IntegerField()
+    operator = models.IntegerField()
+    supervisor = models.IntegerField()
+    active = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'accounts_cepheiduser'
+
+
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=80)
 
@@ -35,43 +53,6 @@ class AuthPermission(models.Model):
         managed = False
         db_table = 'auth_permission'
         unique_together = (('content_type', 'codename'),)
-
-
-class AuthUser(models.Model):
-    password = models.CharField(max_length=128)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.IntegerField()
-    username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=150)
-    email = models.CharField(max_length=254)
-    is_staff = models.IntegerField()
-    is_active = models.IntegerField()
-    date_joined = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user'
-
-
-class AuthUserGroups(models.Model):
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
-
-
-class AuthUserUserPermissions(models.Model):
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
 
 
 class Batch(models.Model):
@@ -116,7 +97,7 @@ class DjangoAdminLog(models.Model):
     action_flag = models.PositiveSmallIntegerField()
     change_message = models.TextField()
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    user = models.ForeignKey(AccountsCepheiduser, models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -179,6 +160,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=255, blank=True, null=True)
     reference_storage = models.IntegerField(blank=True, null=True)
     label = models.CharField(max_length=255, blank=True, null=True)
+    batch_quantity_goal = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -199,6 +181,7 @@ class ProductionStatistic(models.Model):
     batch = models.ForeignKey(Batch, models.DO_NOTHING)
     production_quantity = models.IntegerField(blank=True, null=True)
     staff_quantity = models.IntegerField(blank=True, null=True)
+    user_name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False

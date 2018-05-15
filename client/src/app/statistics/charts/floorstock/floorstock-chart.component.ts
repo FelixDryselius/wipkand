@@ -11,40 +11,13 @@ import { OperationsService } from '../../../operation/shared/services/operations
 import { QueryResponse } from '../../../shared/interfaces/query-response';
 
 
-//test LET THIS BE
-// import { ComboChartComponent } from '../combo-chart/combo-chart.component';
-// import { ComboSeriesVerticalComponent } from '../combo-chart/combo-series-vertical.component';
-// import { LineChart } from '../combo-chart/combo-chart-data';
-// import { LineChartSeries } from '../combo-chart/combo-chart-data';
-// import { BarChart } from '../combo-chart/combo-chart-data';
-
 
 @Component({
   selector: 'app-floorstock-chart',
   templateUrl: './floorstock-chart.component.html',
   styleUrls: ['./floorstock-chart.component.css']
 })
-export class FloorstockChartComponent implements OnInit {
- // LET IT BE
-  // chartType = 'combo-chart';
-  // lineChart = LineChart;
-  // lineChartSeries = LineChartSeries;
-  // barChart  = BarChart;
-  // barScheme = {domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA','#AAAAAb','AAAAAC']};
-  // barScheme2 = {domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA','#AAAAAb','AAAAAC']};
-
-  // showXAxis = true;
-  // showYAxis = true;
-  // showXAxisLabel = true;
-  // showYAxisLabel = true;
-  // showRightYAxisLabel = true;
-  // xAxisLabel = 'test';
-  // yAxisLabel = 'test';
-  // yAxisLabelRight = 'test';
-
-
-  
-  
+export class FloorstockChartComponent implements OnInit {  
   
   //Chart here we set options fot the chart
   animations = true;
@@ -65,7 +38,13 @@ export class FloorstockChartComponent implements OnInit {
   // Data:
   floorstockChange = [];
   displayData = [];
-  floorstockItems = []
+  floorstockItems = [];
+  haveData = false;
+
+  //navigation variables
+  previousLink:string;
+  nextLink:string;
+  query = '?limit=5&offset=0'
 
   constructor(private authAPI:AuthAPIService, private operationsService:OperationsService) { }
 
@@ -73,34 +52,37 @@ export class FloorstockChartComponent implements OnInit {
     this.getFloorstockData()
   }
 
-  // Function fired if pressing the bar chart
-  pressed(event){
-    console.log(event);
-  }
-  
  // This function populates floorstockItems and displayData
- //TODO implement functions to enable the user to choose how far bach he, or she wants to go, eg another 'query'
- getFloorstockData(query='?limit=90'){
+ getFloorstockData(){
+   this.haveData = false;
 
+  //this part populates floorstockItems which contains correct names for all floorstock change
   this.operationsService.getFloorstockItems()
   .switchMap(itemData =>{
-    this.setFloorstockItemNames(itemData)
-    return this.operationsService.getFloorstockChanges(query)
+    this.floorstockItems = (itemData as QueryResponse).results as FloorstockItem []   
+    return this.operationsService.getFloorstockChanges(this.query)
   })
+  //Here this.floorstockChange gets populated
   .retryWhen(error => this.authAPI.checkHttpRetry(error))
   .subscribe(data =>{
-    this.floorstockChange = (data as QueryResponse).results as Floorstock []        
-    this.trimFloorstockChange()
-    this.combineFloorstockItemName()
+    console.log(data)
+    this.nextLink = (data as QueryResponse).next;
+    this.previousLink = (data as QueryResponse).previous;
+    let tempFloorstockChange = (data as QueryResponse).results as Floorstock []  
     
-    let uniqueBatchNumbers = []
-    let tempDisplayData = []
+    //Correct names are combined with this.floorstockChange from this.floorstockItems
+    tempFloorstockChange = this.combineFloorstockItemName(tempFloorstockChange)
+    //Trims floorstockChange all displayed batches display all their floorstock changes
+    this.floorstockChange = this.trimFloorstockChange(tempFloorstockChange)
 
-    
+    //Here tempDisplayData is populated with info from this.floorstockChange and structured 
+    //so that the chart can display it correctly.
+    let uniqueBatchNumbers = []
+    this.displayData = []
     this.floorstockChange.forEach(element => {
-      if(uniqueBatchNumbers.indexOf(element.batch) == -1 ){
-        uniqueBatchNumbers.push(element.batch)                 
-        tempDisplayData.push({
+      if(uniqueBatchNumbers.indexOf(element.batch.batch_number) == -1 ){
+        uniqueBatchNumbers.push(element.batch.batch_number)                 
+        this.displayData.push({
           'name':element.batch.batch_number,
           'series':[
             {
@@ -110,7 +92,7 @@ export class FloorstockChartComponent implements OnInit {
           ]
         })
       } else {
-        tempDisplayData.forEach(subEl =>{            
+        this.displayData.forEach(subEl =>{            
           if(subEl.name==element.batch.batch_number){             
             subEl.series.push({
             'value':element.quantity,
@@ -120,38 +102,65 @@ export class FloorstockChartComponent implements OnInit {
         })
       }       
     });
-    this.displayData = tempDisplayData;
+    this.haveData = true;
   })
 
 }
-
-
-  // This function populates floorstockItemsNames
-  setFloorstockItemNames(data){
-      this.floorstockItems = (data as QueryResponse).results as FloorstockItem []        
+ // This is to eliminate 'non filled' batches with floorstock change
+ //NOTE THIS ONLY TRIMS THE LAST NOT THE FIRST ONE
+trimFloorstockChange(floorstockChange){
+  let index = floorstockChange.length - 1
+  let lastBatchNumber = floorstockChange[index].batch.batch_number
+  while (lastBatchNumber == floorstockChange[index].batch.batch_number){
+    floorstockChange.pop()
+    index = index - 1      
   }
-      
-  trimFloorstockChange(){
-    let index = this.floorstockChange.length - 1
-    let lastBatchNumber = this.floorstockChange[index].batch
+  return floorstockChange
+}
 
-    // This is to eliminate 'non filled' batches with floorstock change
-    while (lastBatchNumber == this.floorstockChange[index].batch){
-      this.floorstockChange.pop()
-      index = index - 1      
-    }
+//Fixes query and navigates to next api data point
+goToNextSet(){
+  if(this.nextLink){
+    let index = this.nextLink.indexOf('?')
+    this.query = this.nextLink.slice(index)
+    this.getFloorstockData()
+    console.log(this.query);
   }
+}
+//Fixes query and navigates to previous api data point
+goToPreviousSet(){
+  if(this.previousLink){
+    let index = this.previousLink.indexOf('?')
+    this.query = this.previousLink.slice(index)
+    this.getFloorstockData()
+    console.log(this.query);
+  }
+}
+//This function sets the api offset in this.query and reloads data with the new query
+setOffsetSize(size:string){
+  let andIndex = this.query.indexOf('&')
+  let questionIndex = this.query.indexOf('?')
+  if(andIndex !=-1){
+    let toReplace = this.query.slice(questionIndex,andIndex)
+    this.query =  this.query.replace(toReplace,'?limit='+size)
+  } else {
+    let toReplace = this.query.slice(questionIndex)
+    this.query =  this.query.replace(toReplace,'?limit='+size)
+  }
+  console.log(this.query);
+  this.getFloorstockData()
+}
 
-     
-  combineFloorstockItemName(){
-    this.floorstockChange.forEach(element =>{
-      this.floorstockItems.forEach(itemElement =>{
-        if(element.floorstock_item == itemElement.item_id){
-          element.floorstock_item = itemElement.item_name
+  //Combines floorstockChanges with floorstockItem names for a more rich experience
+  combineFloorstockItemName(tempFloorstockChange){
+    tempFloorstockChange.forEach(element =>{
+      this.floorstockItems.forEach(floorstockItem =>{
+        if(element.floorstock_item == floorstockItem.item_id){
+          element.floorstock_item = floorstockItem.item_name
         }
       }) 
     })
-    console.log('floorstockItems with new name: ' +this.floorstockChange );
+    return tempFloorstockChange
   }    
       
 }

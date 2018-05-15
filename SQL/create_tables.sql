@@ -4,6 +4,7 @@ CREATE TABLE product
   product_name varchar(255),
   reference_storage INT,
   label varchar(255),
+  batch_quantity_goal int,
   PRIMARY KEY (article_number)
 );
 
@@ -62,9 +63,11 @@ CREATE TABLE production_statistic
   batch_id int NOT NULL,
   production_quantity INT,
   staff_quantity INT,
+  user_name varchar(255),
   PRIMARY KEY (time_stamp),
   FOREIGN KEY (batch_id) REFERENCES batch(ID)
 );
+
 
 CREATE TABLE floorstock_statistic
 (

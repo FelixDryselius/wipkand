@@ -1,7 +1,7 @@
 <h1>production per time unit works</h1>
 
 <div class="container">
-    <div class="row" style="height:50vh">
+    <div class="row" style="height:70vh">
       <h3>Production per time unit</h3>
       <div class="col-10">
       <ngx-charts-bar-vertical *ngIf = "haveData"
@@ -46,21 +46,6 @@
             <div class="dropdown-menu" aria-labelledby="chooseDisplayType">
               <div class="dropdown-item" (click)="toggleStatisticType('yield')">Total yield</div>
               <div class="dropdown-item" (click)="toggleStatisticType('ppmh')">Per produced man hour</div>
-            </div>
-          </div>
-        </div>
-        </div>
-      <div class="row p-1">
-        <div class="col">
-          <div class="dropdown">
-            <button class="btn btn-primary btn-sm dropdown-toggle btn-block" type="button" id="chooseSpan" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Choose span
-            </button>
-            <div class="dropdown-menu" aria-labelledby="chooseSpan">
-              <div class="dropdown-item" (click)="chooseSpan('day')">Days</div>
-              <div class="dropdown-item" (click)="chooseSpan('week')">Weeks</div>
-              <div class="dropdown-item" (click)="chooseSpan('month')">Months</div>
-              <div class="dropdown-item" (click)="chooseSpan('year')">Years</div>
             </div>
           </div>
         </div>

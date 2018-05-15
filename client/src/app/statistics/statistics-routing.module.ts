@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth/auth-guard.service';
 import { DataPageComponent } from './data-page/data-page.component';
 import { FloorstockChartComponent } from './charts/floorstock/floorstock-chart.component';
+import { ProductionAccumulatedComponent } from './charts/production-accumulated/production-accumulated.component';
 import { ProductionPerTimeUnitComponent } from './charts/production-per-time-unit/production-per-time-unit.component';
 import { ScoreboardModule } from './scoreboard/scoreboard.module';
 import { StatisticsChartsComponent } from './charts/production/production-charts.component';
@@ -25,12 +26,16 @@ const routes: Routes = [
       component: StatisticsChartsComponent
     },
     {
-      path: 'floorstock',
-      component: FloorstockChartComponent
+      path:'production-accumulated',
+      component: ProductionAccumulatedComponent
     },
     {
-      path:'productionPerTimeUnit',
+      path:'production-per-time-unit',
       component: ProductionPerTimeUnitComponent
+    },
+    {
+      path: 'floorstock',
+      component: FloorstockChartComponent
     }
    ]
   },

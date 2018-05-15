@@ -46,7 +46,12 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   products: {};
   order: Order;
 
+  updateBatchSuccess: boolean;
+  updateOrderSuccess: boolean;
+  updateError: any;
+  updateErrorKeys: any;
 
+  serverError: any;
 
   private prodInfo: {}
   private service_prodInfo: any;
@@ -69,21 +74,21 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
     this.batchSub = this.operationsService.getBatchDetail(this.batchDetailID)
       .mergeMap(data => {
-        let batch = data as Batch
-        this.currentBatch = data.batch_number
-        let orderNumber = batch.order.order_number
-        this.batchDetailForm.patchValue(batch)
+        //let batch = data as Batch
+        this.currentBatch = data as Batch
+        //let orderNumber = this.currentBatch.order.order_number
+        this.batchDetailForm.patchValue(this.currentBatch)
         return Observable.forkJoin(
-          this.operationsService.getOrder(orderNumber)
+          this.operationsService.getOrder(this.currentBatch.order.order_number)
             .map(data => {
               this.order = data as Order
               this.orderDetailForm.patchValue(data as Order)
             }),
-          this.commentService.getComment('?batch_number=' + this.currentBatch + '&limit=40')
+          this.commentService.getComment('?batch_number=' + this.currentBatch.batch_number + '&limit=40')
             .map(data => {
               this.comments = (data as QueryResponse).results
             }),
-          this.operationsService.getProductionStatistics('?batch_number=' + this.currentBatch + '&limit=40')
+          this.operationsService.getProductionStatistics('?batch_number=' + this.currentBatch.batch_number + '&limit=40')
             .map(data => {
               this.statistics = (data as QueryResponse).results
             })
@@ -100,6 +105,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.clearMsg()
     if (this.batchSub) {
       this.batchSub.unsubscribe()
     }
@@ -133,10 +139,10 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       ]),
       'start_date': new FormControl('', [
         Validators.required,
-        Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
+        //Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
       ]),
       'end_date': new FormControl('', [
-        Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
+        //Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
       ]),
       'scrap': new FormControl('', [
         //Validators.required,
@@ -163,17 +169,17 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         Validators.pattern("^[0-9]*$"),
       ]),
       'rework_date': new FormControl('', [
-        Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
+        //Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
       ]),
       'applied_labels': new FormControl('', [
         //Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
       'label_print_time': new FormControl('', [
-        Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
+        //Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
       ]),
       'rework_time': new FormControl('', [
-        Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
+        //Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
       ]),
     })
   }
@@ -193,48 +199,89 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-  submitFormDetails($theEvent, form) {
-    let batch;
-    if (form['order_number']) {
-      batch = {
-        order: {
-          order_number: form['order_number'],
-          article_number: form['article_number'],
-        },
-        id: this.batchDetailID,
-        batch_number: this.currentBatch
+  checkCurrentBatchChange(batch: Batch): boolean {
+    if (this.prodInfo) {
+      if ((this.prodInfo['batch_number'] == this.currentBatch) &&
+        (this.currentBatch.batch_number != batch.batch_number ||
+          this.order != batch.order)) {
+        return true
       }
-    } else {
-      form['order'] = this.order
-      form['id'] = this.batchDetailID
-      //this.convertDates(form)
-      batch = form
     }
+    return false
+  }
+
+  handleUpdateBatch(batch: Batch) {
+    if (this.checkCurrentBatchChange(batch)) {
+      this.operationsService.setCurrentBatchInfo(batch)
+    }
+    this.currentBatch = batch
+    this.order = batch.order
+    this.batchDetailID = (batch as Batch).id
+  }
+
+  submitOrderForm($event, form) {
+    let batch = {
+      order: {
+        order_number: form['order_number'],
+        article_number: form['article_number'],
+      },
+      id: this.currentBatch.id,
+      batch_number: this.currentBatch.batch_number
+    }
+    this.clearMsg()
     this.operationsService.updateBatch(batch as Batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        let updatedBatch = data as Batch
-        if (this.prodInfo) {
-          if ((this.prodInfo['batch_number'] == this.currentBatch) &&
-            (this.currentBatch.batch_number != updatedBatch.batch_number ||
-              this.order != updatedBatch.order)) {
-            this.operationsService.setCurrentBatchInfo(updatedBatch)
-          }
-        }
-        this.currentBatch = updatedBatch
-        this.order = updatedBatch.order
-        this.batchDetailID = (data as Batch).id
-      })
+        this.updateOrderSuccess = true
+        this.handleUpdateBatch(data as Batch)
+      },
+        error => {
+          this.updateOrderSuccess = false
+          this.handleUpdateError(error)
+        })
   }
 
-  submitOrderDetails($theEvent, orderForm) {
-    this.operationsService.updateOrder(orderForm)
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe()
+  submitBatchForm($event, form) {
+    form['order'] = this.order
+    form['id'] = this.batchDetailID
+    //this.convertDates(form)
+    this.clearMsg()
+    this.operationsService.updateBatch(form as Batch)
+      //.retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.updateBatchSuccess = true
+        this.handleUpdateBatch(data as Batch)
+      },
+        error => {
+          debugger;
+          this.updateBatchSuccess = false
+          this.handleUpdateError(error)
+        }
+      )
   }
+
+  handleUpdateError(error) {
+    if (error.status == 500) {
+      this.serverError = error 
+    }
+    console.error(error)
+    this.updateError = error.error;
+    this.updateErrorKeys = [];
+    for (let i = 0; i < Object.keys(error.error).length; i++) {
+      this.updateErrorKeys.push(Object.keys(error.error)[i])
+    }
+  }
+
+  clearMsg() {
+    this.updateBatchSuccess = null;
+    this.updateOrderSuccess = null;
+    this.updateError = null;
+    this.updateErrorKeys = null;
+    this.serverError = null;
+  }
+
   goBack() {
     this.location.back()
   }
-
 }
 
