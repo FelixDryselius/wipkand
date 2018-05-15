@@ -24,6 +24,9 @@
           <ul class="nav flex-column nav-pills nav-stacked">
             <div class="border border-dark">
               <li class="nav-item">
+                <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" routerLink="./operation/operations" routerLinkActive="active">Operations</a>
               </li>
               <li class="nav-item">
@@ -48,11 +51,11 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="/statistics/charts/production-per-time-unit" routerLinkActive="active">Production per day chart</a>
-            </li> 
+            </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="/statistics/charts/production-accumulated" routerLinkActive="active">Accumulated production for latest batch</a>
-            </li>                       
-          </ul> 
+            </li>
+          </ul>
           <hr>
           <button type='button' class='btn btn-default' (click)="authAPI.performLogout()">Logout</button>
         </div>

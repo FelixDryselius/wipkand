@@ -30,7 +30,7 @@ export class FinishBatchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.service_prodInfoSub = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
+    this.service_prodInfoSub = this.operationsService.$prodInfo.subscribe(info => this.prodInfo = info)
     this.createFinishBatchForm()
   }
 
@@ -71,7 +71,7 @@ export class FinishBatchComponent implements OnInit {
     // TODO:  add these attributes so the whole batch kan close:
     // scrap, rework_date, applied_labels, label_print_time, rework_time, yield_2
     let batchInfo = {}
-    if (this.prodInfo.active) {
+    if (this.prodInfo) {
       batchInfo = {
         id: this.prodInfo.id,
         batch_number: this.prodInfo.batch_number,
@@ -89,7 +89,7 @@ export class FinishBatchComponent implements OnInit {
         .subscribe(data => {
           this.operationsService.setCurrentBatchInfo(null);
           this.createBatchSub.unsubscribe()
-          this.router.navigate(['/operation/operations'])
+          this.router.navigate([''])
 
         }
           // , error => {

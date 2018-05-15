@@ -38,6 +38,7 @@ export class RoleGuard implements CanActivate {
             tap(isAuthorized => {
                 if (!isAuthorized) {
                     console.error("Access denied. You have no permission")
+                    this.router.navigate(['']);
                 }
             })
         )

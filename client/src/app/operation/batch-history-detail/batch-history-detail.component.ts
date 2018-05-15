@@ -70,7 +70,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.batchDetailID = this.route.snapshot.paramMap.get('id')
-    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
+    this.service_prodInfo = this.operationsService.$prodInfo.subscribe(info => this.prodInfo = info)
 
     this.createOrderForm()
     this.createBatchForm()
@@ -198,7 +198,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     if (batch.rework_date) {
       batch.rework_date = new Date(batch.rework_date)
     }
-    if (batch.label_print_time){
+    if (batch.label_print_time) {
       batch.label_print_time = new Date(batch.label_print_time)
     }
   }
@@ -220,7 +220,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
   checkCurrentBatchChange(batch: Batch): boolean {
     if (this.prodInfo) {
-      if ((this.prodInfo['batch_number'] == this.currentBatch) &&
+      if ((this.prodInfo['batch_number'] == this.currentBatch.batch_number) &&
         (this.currentBatch.batch_number != batch.batch_number ||
           this.order != batch.order)) {
         return true
@@ -272,7 +272,6 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         this.handleUpdateBatch(data as Batch)
       },
         error => {
-          debugger;
           this.updateBatchSuccess = false
           this.handleUpdateError(error)
         }
@@ -281,7 +280,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
   handleUpdateError(error) {
     if (error.status == 500) {
-      this.serverError = error 
+      this.serverError = error
     }
     console.error(error)
     this.updateError = error.error;

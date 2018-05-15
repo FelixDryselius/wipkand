@@ -32,7 +32,7 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getActiveBatch()
-    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
+    this.service_prodInfo = this.operationsService.$prodInfo.subscribe(info => this.prodInfo = info)
   }
 
   getActiveBatch() {
