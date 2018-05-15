@@ -104,7 +104,7 @@ export class AuthAPIService {
         this.cookieService.set('jwt-refresh-expires', token['expiry'], null, "/")
         this.setLoggedIn(true)
         this.setCurrentUser()
-        this.router.navigate(["comment/"])
+        this.router.navigate([""])
     }
 
     performLogout() {

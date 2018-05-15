@@ -9,12 +9,13 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuard } from './auth/auth-guard.service';
 import { RoleGuard } from './auth/role-guard.service';
 import { BatchGuard } from './auth/batch-guard.service';
+import { HomeComponent } from './home/home.component';
 
 
 const appRoutes: Routes = [
     {
         path: "",
-        redirectTo: '/operations',
+        redirectTo: 'home',
         pathMatch: 'full'
     },
     {
@@ -24,6 +25,14 @@ const appRoutes: Routes = [
     {
         path: "logout",
         component: AuthLogoutComponent,
+    },
+    {
+        path: 'home',
+        canActivate: [AuthGuard, RoleGuard],
+        component: HomeComponent,
+        data: {
+            expectedRole: ['admin', 'operator', 'supervisor']
+        }
     },
     {
         path: 'operation',

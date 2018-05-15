@@ -89,7 +89,7 @@ export class FinishBatchComponent implements OnInit {
         .subscribe(data => {
           this.operationsService.setCurrentBatchInfo(null);
           this.createBatchSub.unsubscribe()
-          this.router.navigate(['/operation/operations'])
+          this.router.navigate([''])
 
         }
           // , error => {
