@@ -268,13 +268,12 @@ export class OperationsComponent implements OnInit {
   // Function that is being called when option in dropdown menu has been selected
 
   getProdList() {
-    this.productionObservable = this.operationsService.getProdStats('?batch_number=' + this.prodInfo.batch_number)
+    this.productionObservable = this.operationsService.getProdStats('?batch_number=' +  this.prodInfo.batch_number + '&limit=60')
 
     this.productionSub = this.productionObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.prodStats = (data as QueryResponse).results
-        console.log(data.next.slice(12,0))
       });
   }
 
