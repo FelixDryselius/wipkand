@@ -26,6 +26,14 @@ const appRoutes: Routes = [
         component: AuthLogoutComponent,
     },
     {
+        path: 'operation',
+        loadChildren: "./operation/operation.module#OperationModule",
+        canActivate: [AuthGuard, RoleGuard],
+        data: {
+            expectedRole: ['admin', 'operator', 'supervisor']
+        }
+    },
+    {
         path: 'statistics',
         loadChildren: "./statistics/statistics.module#StatisticsModule",
         canActivate: [AuthGuard, RoleGuard],
