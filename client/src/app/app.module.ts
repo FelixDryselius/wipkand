@@ -25,6 +25,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SubmitIfValidDirective } from './shared/directives/submit-if-valid.directive';
 import { CommentService } from './shared/application-services/comment.service';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -36,6 +37,7 @@ import { CommentService } from './shared/application-services/comment.service';
     CurrentBatchInfoComponent,
     NotFoundComponent,
     SubmitIfValidDirective,
+    HomeComponent,
   ],
   imports: [
     BrowserAnimationsModule,
