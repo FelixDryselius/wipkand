@@ -134,7 +134,7 @@ export class OperationsComponent implements OnInit {
       ])
     })
 
-    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => {
+    this.service_prodInfo = this.operationsService.$prodInfo.subscribe(info => {
       this.prodInfo = info
       if (this.prodInfo) {
         this.getProdList()
