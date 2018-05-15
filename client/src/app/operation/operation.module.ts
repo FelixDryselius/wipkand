@@ -13,7 +13,7 @@ import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CommentComponent } from './comment/comment.component';
 import { CommentService } from '../shared/application-services/comment.service';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
-import { HomeComponent } from './home/home.component';
+//import { HomeComponent } from './home/home.component';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { OperationRoutingModule } from './operation-routing.module';
 import { StartBatchComponent } from './start-batch/start-batch.component';
@@ -41,7 +41,7 @@ import { CalendarModule } from 'primeng/calendar';
     BatchReworkComponent,
     CommentComponent,
     FinishBatchComponent,
-    HomeComponent,
+   // HomeComponent,
     StartBatchComponent
    ],
   providers: [],
