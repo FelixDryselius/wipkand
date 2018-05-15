@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, take } from 'rxjs/operators';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { timeout } from 'rxjs/operators/timeout';
 import { Batch } from '../../../shared/interfaces/batch';
+import { QueryResponse } from '../../../shared/interfaces/query-response';
+import { AuthAPIService } from '../../../auth/auth.service';
+import { map } from 'rxjs/operator/map';
 
 
 
@@ -21,8 +24,8 @@ export class OperationsService {
 
   //This variable is holding the data values for the current running batch. It is shared between start-batch, finish-batch and current-batch-info.
   //It is modified as an observable make it shareable between the components. 
-  private prodInfo = new BehaviorSubject<{}>(null);
-  prodInfoObservable = this.prodInfo.asObservable();
+  prodInfo = new BehaviorSubject<Batch>(null);
+  $prodInfo = this.prodInfo.asObservable()
 
   //TODO: Should URLs really be placed here? Should we collect them in a file somewhere? 
 
@@ -38,22 +41,30 @@ export class OperationsService {
   private floorstockItemsURL: string = "/api/floorstock/item/";
   private floorstockChangesURL: string = "/api/floorstock/changelog/";
 
-  currentBatch: {
-    active: boolean,
-    shifts: number,
-    id: string,
-    batch_number: string,
-    order: {
-      order_number: string,
-      article_number: string,
-    }
+  $batchActive: Observable<QueryResponse>
+
+  constructor(private http: HttpClient, private authAPI: AuthAPIService) { 
+    this.setActiveBatchCheck()
   }
 
-  constructor(private http: HttpClient) { }
+  setActiveBatchCheck() {
+    this.$batchActive = this.getBatchDetail("?batch_number=activeBatch")
+      .switchMap(data => {
+        if (data) {
+          return Observable.of(data)
+        } else {
+          return Observable.of(null)
+        }
+      })
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+  }
 
-  //This method sets the data values for the current running batch.
-  changeProdInfo(info: {}) {
-    this.prodInfo.next(info);
+  setCurrentBatchInfo(data: Batch) {
+    if (data) {
+      this.prodInfo.next(data)
+    } else {
+      this.prodInfo.next(null)
+    }
   }
 
   getProduct(query?: string) {
@@ -94,25 +105,6 @@ export class OperationsService {
     return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
   }
 
-  setCurrentBatchInfo(data: Batch) {
-    if (data) {
-      this.currentBatch = {
-        active: true,
-        shifts: data.shifts,
-        id: data.id,
-        batch_number: data.batch_number,
-        order: {
-          order_number: data.order.order_number,
-          article_number: data.order.article_number,
-        }, 
-      }
-      this.changeProdInfo(this.currentBatch)
-    } else {
-      this.changeProdInfo(null)
-    }
-  }
-
-
   /* PATCH: update the batch on the server.  */
   /* TODO: Create pipe or similar to catch errors */
   updateBatch(updatedBatch: Batch) {
@@ -126,9 +118,9 @@ export class OperationsService {
     return this.http.put(this.URL_ROOT + this.URL_ORDER_API + order['order_number'] + '/', JSON.stringify(order))
   }
 
-  getFloorstockItems(query?:string) {
+  getFloorstockItems(query?: string) {
     return this.http.get(this.URL_ROOT + this.floorstockItemsURL)
-    
+
   }
 
   getFloorstockChanges(query?: string) {
@@ -155,10 +147,10 @@ export class OperationsService {
   }
 
   getProductionStatistics(query?: String) {
-    if(query){
+    if (query) {
       return this.http.get(this.scoreboardListURL + query)
     } else {
-      return  this.http.get(this.scoreboardListURL)
+      return this.http.get(this.scoreboardListURL)
     }
   }
 

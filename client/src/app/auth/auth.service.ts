@@ -57,16 +57,15 @@ export class AuthAPIService {
     }
 
     setCurrentUser() {
-        this.$currentUser = this.getUser().switchMap(user => {
-            if (user) {
-                this.currentUser = user as User
-                console.log("User is: ")
-                console.log(this.currentUser)
-                return Observable.of(this.currentUser)
-            } else {
-                return Observable.of(null)
-            }
-        })
+        this.$currentUser = this.getUser()
+            .switchMap(user => {
+                if (user) {
+                    this.currentUser = user as User
+                    return Observable.of(this.currentUser)
+                } else {
+                    return Observable.of(null)
+                }
+            })
             .retryWhen(error => this.checkHttpRetry(error))
     }
 

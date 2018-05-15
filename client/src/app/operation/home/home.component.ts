@@ -158,7 +158,7 @@ export class HomeComponent implements OnInit {
       { shift: 'evening', date: this.todaysDate, firstHour: 'T16' },
     ]
 
-    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => {
+    this.service_prodInfo = this.operationsService.$prodInfo.subscribe(info => {
       this.prodInfo = info
       if (this.prodInfo) {
         this.getScoreboard()

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 //3rd party and application imports
 import { AuthGuard } from '../auth/auth-guard.service';
+import { BatchGuard } from '../auth/batch-guard.service';
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
 import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
@@ -33,7 +34,7 @@ const routes: Routes = [
   {
     path: 'finish-batch',
     component: FinishBatchComponent,
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard, RoleGuard, BatchGuard],
     data: {
       expectedRole: ['admin', 'operator']
     }
@@ -41,7 +42,7 @@ const routes: Routes = [
   {
     path: 'start-batch',
     component: StartBatchComponent,
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard, RoleGuard, BatchGuard],
     data: {
       expectedRole: ['admin', 'operator']
     }
