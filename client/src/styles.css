@@ -131,8 +131,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .dataSection {
-    margin-top: 5%;
-    padding: 3%;
+    margin-top: 3%;
+    padding: 2%;
     background-color: #e9ecef;
 }
 
