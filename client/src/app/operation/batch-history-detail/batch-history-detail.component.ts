@@ -8,13 +8,13 @@ import { tap } from 'rxjs/operators';
 
 
 // Application imports
-import { AuthAPIService } from '../auth/auth.service';
-import { Batch } from '../shared/interfaces/batch';
-import { CommentService } from '../shared/application-services/comment.service';
-import { CustomValidation } from '../shared/validators/customValidation'
-import { OperationsService } from '../operation/shared/services/operations.service';
-import { QueryResponse } from '../shared/interfaces/query-response';
-import { Order } from '../shared/interfaces/order';
+import { AuthAPIService } from '../../auth/auth.service';
+import { Batch } from '../../shared/interfaces/batch';
+import { CommentService } from '../../shared/application-services/comment.service';
+import { CustomValidation } from '../../shared/validators/customValidation'
+import { OperationsService } from '../shared/services/operations.service';
+import { QueryResponse } from '../../shared/interfaces/query-response';
+import { Order } from '../../shared/interfaces/order';
 
 //Third party imports
 import { CalendarModule } from 'primeng/calendar';

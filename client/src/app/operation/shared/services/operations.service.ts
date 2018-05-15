@@ -155,7 +155,11 @@ export class OperationsService {
   }
 
   getProductionStatistics(query?: String) {
-    return this.http.get(this.scoreboardListURL + query)
+    if(query){
+      return this.http.get(this.scoreboardListURL + query)
+    } else {
+      return  this.http.get(this.scoreboardListURL)
+    }
   }
 
   updateProdStats(updatedCell: any) {
