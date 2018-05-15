@@ -15,7 +15,7 @@ import { FinishBatchRoutingModule } from './finish-batch-routing.module';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   declarations: [
     FinishBatchComponent

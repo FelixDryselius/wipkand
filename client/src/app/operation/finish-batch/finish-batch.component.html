@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="row text-center bg-light">
+<div class="container bg-light">
+  <div class="row text-center">
     <div class="col-lg-12">
       <h3 class="h3header" style="margin-top: 50px;">
         Finish Batch
@@ -13,7 +13,7 @@
             </h5>
 
             <!-- HMI 1 Good -->
-            <div class="form-group row">
+            <div class="form-group row ">
               <label for="hmi1Good" class="col-lg-3 col-form-label">Good:</label>
               <input class="col-lg-8 form-control" #hmi1Good formControlName="hmi1Good" placeholder="">
             </div>
@@ -31,7 +31,7 @@
             </div>
 
             <!-- HMI 1 Bad -->
-            <div class="form-group row">
+            <div class="form-group row ">
               <label for="hmi1Bad" class="col-lg-3 col-form-label">Bad:</label>
               <input class="col-lg-8 form-control" #hmi1Bad formControlName="hmi1Bad" placeholder="">
             </div>
@@ -47,21 +47,7 @@
                 </span>
               </div>
             </div>
-
-            <!-- Re Labeling -->
-            <div class="form-group row">
-              <label for="reLabeling" class="col-lg-3 col-form-label">Re-labeling</label>
-              <div class="col-lg-8 form-control">
-                <div class="row text-left">
-                  <label class="col-lg-6">Yes
-                    <input type="radio" value="true" formControlName="reLabeling">
-                  </label>
-                  <label class="col-lg-6">No
-                    <input type="radio" value="false" formControlName="reLabeling">
-                  </label>
-                </div>
-              </div>
-            </div>
+            <br>
           </div>
 
           <div class="col-lg-6">
@@ -104,7 +90,10 @@
                 </span>
               </div>
             </div>
+            <br>
+          </div>
 
+          <div class="col-lg-6 offset-lg-3">
             <!-- Yield -->
             <div class="form-group row">
               <label for="yield" class="col-lg-3 col-form-label">Yield:</label>
@@ -112,7 +101,7 @@
             </div>
             <div class="row">
               <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.yield.invalid && 
-                  (finishBatchForm.controls.yield.dirty || finishBatchForm.controls.yield.touched)">
+                    (finishBatchForm.controls.yield.dirty || finishBatchForm.controls.yield.touched)">
                 <span *ngIf="finishBatchForm.controls.yield.errors?.required">
                   * This field is required.
                 </span>
@@ -123,9 +112,32 @@
               </div>
             </div>
 
+            <!-- Rework -->
+            <div class="form-group row">
+              <div class="col-lg-8 offset-lg-2 text-center">
+                <h5>Rework</h5>
+              </div>
+
+              <!-- <label for="reLabeling" class="col-lg-3 col-form-label">Re-labeling</label> -->
+              <div class="col-lg-4 offset-lg-4 form-control">
+                <div class="row text-center">
+                  <label class="col-lg-6">Yes
+                    <input type="radio" value="true" formControlName="reLabeling">
+                  </label>
+                  <label class="col-lg-6">No
+                    <input type="radio" value="false" formControlName="reLabeling">
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <button type="submit" [disabled]='finishBatchForm.invalid' class="btn btn-primary" style="margin-bottom: 50px;">Save</button>
+        <!-- <batch-rework></batch-rework> -->
+        <div class="row">
+          <div class="col-lg-12">
+            <button type="submit" [disabled]='finishBatchForm.invalid' class="btn btn-primary" style="margin-bottom: 50px;">Save</button>
+          </div>
+        </div>
       </form>
     </div>
 
