@@ -40,29 +40,16 @@ export class OperationsComponent implements OnInit {
 
   // SCOREBOARD SECTION
 
-  addedProdData = [];
-  scoreboardAdded = false;
-
+  private prodDataAdded = false;
+  private prodDataError = false;
+  private dateErrorMsg;
 
   // Variables for getting todays date
   private todaysDate: any;
   private currentTime: any;
 
-  // Array of shifts you can select in dropdown
 
-  // Variable used for determining which html code to render (day, evening or night)
-  private shiftDate: any;
-  //private scoreboardActive: boolean = false;
-
-  // Arrays containing names of ngModels for every input element
-  ngModelStaffDay: any[] = [];
-  ngModelStaffEve: any[] = [];
-  ngModelStaffNight: any[] = [];
-  ngModelProdDay: any[] = [];
-  ngModelProdEve: any[] = [];
-  ngModelProdNight: any[] = [];
-
-  private prodDataColumns = ['Time stamp', 'On shift', 'Produced']
+  private prodDataColumns = ['Time stamp', 'On shift', 'Produced', 'Signature']
 
   // END SCOREBOARD SECTION  
 
@@ -70,6 +57,7 @@ export class OperationsComponent implements OnInit {
   // FLOORSTOCK SECTION
 
   floorstockAdded = false;
+  buttonOn = false;
 
   private productLabelPairs: any[] = [
     { article_number: '700-5208', label: 'Groninger Label 301-6914' },
@@ -87,6 +75,7 @@ export class OperationsComponent implements OnInit {
 
 
   // COMMENT SECTION
+  private commentForm: FormGroup;
   // Variables for add comment used html
   commentAdded = false;
 
@@ -102,17 +91,10 @@ export class OperationsComponent implements OnInit {
   //the following items are copied from start-batch.component
   private prodActive: boolean;
   private prodInfo: any;
-  private service_prodStatus: any;
   private service_prodInfo: any;
 
   private productionForm: FormGroup;
-  date1: Date;
-  dates: Date[];
-  rangeDates: Date[];
-  minDate: Date;
-  maxDate: Date;
-  es: any;
-  invalidDates: Array<Date>
+
 
   constructor(
     private operationsService: OperationsService,
@@ -124,38 +106,6 @@ export class OperationsComponent implements OnInit {
   ngOnInit() {
 
     this.getTime()
-    this.createAddDataForm()
-
-    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => {
-      this.prodInfo = info
-      if (this.prodInfo) {
-        this.getProdList()
-        this.getFloorstock()
-        this.getComment()
-      }
-    })
-
-
-  let today = new Date();
-  let month = today.getMonth();
-  let year = today.getFullYear();
-  let prevMonth = (month === 0) ? 11 : month -1;
-  let prevYear = (prevMonth === 11) ? year - 1 : year;
-  let nextMonth = (month === 11) ? 0 : month + 1;
-  let nextYear = (nextMonth === 0) ? year + 1 : year;
-  this.minDate = new Date();
-  this.minDate.setMonth(prevMonth);
-  this.minDate.setFullYear(prevYear);
-  this.maxDate = new Date();
-  this.maxDate.setMonth(nextMonth);
-  this.maxDate.setFullYear(nextYear);
-
-  let invalidDate = new Date();
-  invalidDate.setDate(today.getDate() - 1);
-  this.invalidDates = [today,invalidDate];
-  }
-
-  createAddDataForm() {
     this.productionForm = this.formBuilder.group({
       'inputDate': new FormControl('', [
         Validators.required
@@ -166,6 +116,31 @@ export class OperationsComponent implements OnInit {
       'produced': new FormControl('', [
         Validators.required
       ]),
+      'signature': new FormControl('', [
+        Validators.required,
+        Validators.pattern("^[A-Öa-ö]*$"),
+        Validators.minLength(2),
+      ]),
+    })
+
+    this.commentForm = this.formBuilder.group({
+      'commentName': new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.pattern("^[A-Öa-ö]*$")
+      ]),
+      'commentText': new FormControl('', [
+        Validators.required,
+      ])
+    })
+
+    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => {
+      this.prodInfo = info
+      if (this.prodInfo) {
+        this.getProdList()
+        this.getFloorstock()
+        this.getComment()
+      }
     })
   }
 
@@ -195,14 +170,6 @@ export class OperationsComponent implements OnInit {
 
     this.currentTime = hh + ':' + min + ':' + sec;
     this.todaysDate = yyyy + '-' + mm + '-' + dd;
-  }
-
-  getScoreboard() {
-    this.operationsService.getProdStats('?batch_number=' + this.prodInfo.batch_number)
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe(data => {
-        this.prodStats = (data as QueryResponse).results
-      });
   }
 
   getFloorstock() {
@@ -272,6 +239,7 @@ export class OperationsComponent implements OnInit {
   }
 
   addOne(item_id, quantity, change) {
+    this.buttonOn = true
     if (change == 'incr') {
       for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
         if (this.currentFloorstock[obj]["item_id"] == item_id) {
@@ -306,171 +274,48 @@ export class OperationsComponent implements OnInit {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.prodStats = (data as QueryResponse).results
-
-
-        console.log(this.prodStats)
-
-
-        /* this.shiftProdStats = [];
-         let shiftTimes;
-         this.selectedShift = shift
-         this.shiftDate = date
-   
-         if (this.selectedShift == 'day') {
-           shiftTimes = this.dayShiftTimes
-         }
-         else if (this.selectedShift == 'evening') {
-           shiftTimes = this.eveningShiftTimes
-         }
-         else if (this.selectedShift == 'night') {
-           shiftTimes = this.nightShiftTimes
-         }
-   
-         for (let key in shiftTimes) {
-           let prodData = { time_stamp: this.shiftDate + 'T' + shiftTimes[key]["shift"] + ':00:00Z' }
-           this.shiftProdStats.push(prodData)
-         }
-   
-         if (this.selectedShift == 'day') {
-   
-           console.log(this.prodStats)
-           getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
-         }
-         if (this.selectedShift == 'evening') {
-           getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 16, 24)
-         }
-         if (this.selectedShift == 'night') {
-           getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 0, 8)
-         }
-   
-         function getOldData(prodInfo, todaysDate, prodStats, shiftProdStats, startShift, endShift) {
-           for (let inp = 0; inp < prodStats.length; inp++) {
-             if ((startShift - 1) < prodStats[inp]["time_stamp"].slice(11, 13) && prodStats[inp]["time_stamp"].slice(11, 13) < (endShift)) {
-               for (let obj = 0; obj < shiftProdStats.length; obj++) {
-                 if (shiftProdStats[obj]["time_stamp"] == prodStats[inp]["time_stamp"]) {
-                   shiftProdStats[obj]["production_quantity"] = prodStats[inp]["production_quantity"]
-                   shiftProdStats[obj]["staff_quantity"] = prodStats[inp]["staff_quantity"]
-                   shiftProdStats[obj]["batch"] = prodStats[inp]["batch"]
-                 }
-               }
-             }
-           }
-         }
-   
-         for (let obj = 0; obj < this.shiftProdStats.length; obj++) {
-           if (typeof this.shiftProdStats[obj]["production_quantity"] == 'undefined' && typeof this.shiftProdStats[obj]["staff_quantity"] == 'undefined') {
-             this.shiftProdStats[obj]["production_quantity"] = ''
-             this.shiftProdStats[obj]["staff_quantity"] = ''
-             this.shiftProdStats[obj]["batch"] = ''
-           }
-         }
-         console.log("Initial data for " + this.selectedShift + ":")
-         console.log(this.shiftProdStats)
-         this.addShift(false)*/
+        console.log(data.next.slice(12,0))
       });
-
   }
 
   submitProduction(event, formData) {
 
+    this.dateErrorMsg = null
+    this.prodDataError = false
     let inputData: any = {};
 
     // Collects all changes and stores as dictionary in the object results
-    for (let key in formData) {
-      inputData[key] = formData[key];
+    for (let key in formData.value) {
+      inputData[key] = formData.value[key];
     }
-
-   
-      if (typeof inputData.inputDate != 'undefined' && typeof inputData.produced != 'undefined' && inputData.onShift != 'undefined') {
-        
+    if (typeof inputData.inputDate != 'undefined' && typeof inputData.produced != 'undefined' && inputData.onShift != 'undefined') {
       let newData = {
-        time_stamp: inputData.inputDate+'Z',
+        time_stamp: inputData.inputDate + 'Z',
         production_quantity: inputData.produced,
         staff_quantity: inputData.onShift,
+        user_name: inputData.signature,
         batch: this.prodInfo.id,
       }
       this.operationsService.createProdStats(newData)
         .retryWhen(error => this.authAPI.checkHttpRetry(error))
-        .subscribe();
-
-      this.feedbackScoreboard()
-    }
-    else {
-      alert("All fields are required to post new data")
-    }
-    
-
-    
-  }
-  /*
-  // A for-loop that for each new data compares it with existing data from the database
-  for (let key in results) {
-    let changeData = {}
-    let newData = {}
-    let counter = 0
-   
-    // Go through objects in production statistics from api
-    for (let obj in this.shiftProdStats) {
-      // Checks if time stamp exists. Determines wheter data should be created or updated
-      if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && (this.shiftProdStats[obj]["staff_quantity"] > 0 || this.shiftProdStats[obj]["staff_quantity"] == null) && key.substr(key.length - 2) == 'sq') {
-        changeData = {
-          time_stamp: key.slice(0, -3),
-          staff_quantity: results[key],
-          batch: this.prodInfo.id,
-        }
-        this.operationsService.updateProdStats(changeData)
-          .retryWhen(error => this.authAPI.checkHttpRetry(error))
-          .subscribe();
-        this.feedbackScoreboard()
-      }
-      else if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && (this.shiftProdStats[obj]["production_quantity"] > 0 || this.shiftProdStats[obj]["production_quantity"] == null) && key.substr(key.length - 2) == 'pq') {
-        changeData = {
-          time_stamp: key.slice(0, -3),
-          production_quantity: results[key],
-          batch: this.prodInfo.id,
-        }
-        this.operationsService.updateProdStats(changeData)
-          .retryWhen(error => this.authAPI.checkHttpRetry(error))
-          .subscribe();
-        this.feedbackScoreboard()
-      }
-   
-      else {
-   
-        counter += 1
-        // If no time stamp in api was found this means it is new data
-        if (counter == this.shiftProdStats.length) {
-   
-          let time = this.shiftDate + key.slice(10, -3)
-          let stringifiedTime = String(time)
-   
-          if (this.addedProdData.indexOf(stringifiedTime) == -1) {
-            this.addedProdData.push(stringifiedTime)
-            if (typeof results[stringifiedTime + '_pq'] != 'undefined' && typeof results[stringifiedTime + '_sq'] != 'undefined') {
-              newData = {
-                time_stamp: time,
-                production_quantity: results[stringifiedTime + '_pq'],
-                staff_quantity: results[stringifiedTime + '_sq'],
-                batch: this.prodInfo.id,
-              }
-              this.operationsService.createProdStats(newData)
-                .retryWhen(error => this.authAPI.checkHttpRetry(error))
-                .subscribe();
-   
-              
-              this.feedbackScoreboard()
+        .subscribe(data => {
+          let newData = data
+          this.prodDataAdded = true
+          setTimeout(() => { this.prodDataAdded = false }, 4000);
+          formData.reset()
+        },
+          error => {
+            if (error.error.time_stamp) {
+              this.dateErrorMsg = 'Production data with this time stamp already exists'
+              this.prodDataError = true
+              this.prodDataAdded = false
             }
-            else {
-              alert("Both people on shift and amount produced is required")
-            }
-   
-          }
-        }
-      }
+          });
+
+      this.getProdList()
+
     }
-    this.onChange(this.selectedShift, this.shiftDate)
   }
-  this.onChange(this.selectedShift, this.shiftDate)*/
 
   updateFloorstock(event, inputData) {
     this.getTime()
@@ -501,7 +346,8 @@ export class OperationsComponent implements OnInit {
           this.operationsService.updateFloorstock(updateItem)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
-          this.feedbackFloorstock()
+          this.floorstockAdded = true
+          setTimeout(() => { this.floorstockAdded = false }, 4000);
 
         }
         else {
@@ -521,12 +367,14 @@ export class OperationsComponent implements OnInit {
               .subscribe();
             this.getFloorstock()
             if (results.length > 0) {
-              this.feedbackFloorstock()
+              this.floorstockAdded = true
+              setTimeout(() => { this.floorstockAdded = false }, 4000);
             }
           }
         }
       }
     }
+    this.buttonOn = false;
   }
 
   submitComment(event, formData) {
@@ -551,22 +399,8 @@ export class OperationsComponent implements OnInit {
       this.commentAdded = true
       setTimeout(() => { this.commentAdded = false }, 4000);
     }
-    else {
-      alert("Please fill in both name and comment")
-    }
-
     // Resets form
-    formData.resetForm()
-  }
-
-  feedbackScoreboard() {
-    this.scoreboardAdded = true
-    setTimeout(() => { this.scoreboardAdded = false }, 4000);
-  }
-
-  feedbackFloorstock() {
-    this.floorstockAdded = true
-    setTimeout(() => { this.floorstockAdded = false }, 4000);
+    formData.reset()
   }
 
 }
