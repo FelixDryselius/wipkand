@@ -38,18 +38,21 @@
               <a class="nav-link" routerLink="/statistics/scoreboard" routerLinkActive="active">Scoreboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/statistics/charts/production" routerLinkActive="active">Production charts</a>
+              <a class="nav-link" routerLink="/statistics/data-page" routerLinkActive="active">Data page</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/statistics/charts/production" routerLinkActive="active">Production chart</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="/statistics/charts/floorstock" routerLinkActive="active">Floorstock chart</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/statistics/data-page" routerLinkActive="active">Data page</a>
-            </li>
+              <a class="nav-link" routerLink="/statistics/charts/production-per-time-unit" routerLinkActive="active">Production per day chart</a>
+            </li> 
             <li class="nav-item">
-              <a class="nav-link" routerLink="/statistics/charts/productionPerTimeUnit" routerLinkActive="active">Production per time unit</a>
-            </li>            
-          </ul>
+              <a class="nav-link" routerLink="/statistics/charts/production-accumulated" routerLinkActive="active">Accumulated production for latest batch</a>
+            </li>                       
+          </ul> 
           <hr>
           <button type='button' class='btn btn-default' (click)="authAPI.performLogout()">Logout</button>
         </div>

@@ -1,7 +1,8 @@
-<div class="container-fluid">
-  <div class="row" style="height:50vh">
+<div class="container">
+  <div class="row" style="height:70vh">
     <h3>Number of floorstock items consumed per batch </h3>
-    <ngx-charts-bar-vertical-stacked *ngIf = "displayData"
+    <div class='col-9'>
+    <ngx-charts-bar-vertical-stacked *ngIf = "haveData"
       [scheme]="colorScheme"
       [results]="displayData"
       [animations] = 'animations'
@@ -24,44 +25,35 @@
       </ng-template>
     </ngx-charts-bar-vertical-stacked> 
   </div>
-</div>
+  <div class="col-3 align-self-end"> 
+    <div class="row justify-content-between p-1">
+      <div class="col-5">
+        <button class="btn btn-danger btn-sm w-100 " type="button" (click)="goToPreviousSet()">
+        Previous
+        </button>
+      </div>
+      <div class="col-5">
+        <button class="btn btn-success btn-sm w-100  " type="button" (click)="goToNextSet()">
+        Next
+        </button>
+      </div> 
+      </div>
+      <div class="row  p-1">
+          <div class="col">
+            <div class="dropdown">
+              <button class="btn btn-secondary btn-sm dropdown-toggle btn-block " type="button" id="setSize" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Time scope
+              </button>
+              <div class="dropdown-menu" aria-labelledby="setSize">
+                  <div class="dropdown-item" (click)="setOffsetSize('40')">Show 40 floorstock changes</div>
+                <div class="dropdown-item" (click)="setOffsetSize('20')">Show 20 floorstock changes</div>
+                <div class="dropdown-item" (click)="setOffsetSize('10')">Show 10 floorstock changes</div>
+                <div class="dropdown-item" (click)="setOffsetSize('5')">Show 5 floorstock changes</div>
+              </div>
+            </div>
+          </div>
+        </div>  
+    </div>
+  </div>
+  </div>
 
-
-
-<!-- 
-
-       
-
-<div class="container-fluid">
-  <div class="row" style="height:50vh">
-<combo-chart-component  
-class="chart-container"
-*ngIf="chartType === 'combo-chart'" 
-[view]="view"
-[scheme]="barScheme"
-[colorSchemeLine]="barScheme2"
-[results]="barChart"
-[animations]="animations"
-[lineChart]="lineChartSeries"
-[tooltipDisabled]="tooltipDisabled"
-[yAxisTickFormatting]="yLeftTickFormat"
-[yLeftAxisScaleFactor]="yLeftAxisScale"
-[yRightAxisScaleFactor]="yRightAxisScale"
-[yRightAxisTickFormatting]="yRightTickFormat"
-[gradient]="gradient"
-[xAxis]="showXAxis"
-[yAxis]="showYAxis"
-[legend]="showLegend"
-[legendTitle]="legendTitle"
-[showGridLines]="showGridLines"
-[showXAxisLabel]="showXAxisLabel"
-[showYAxisLabel]="showYAxisLabel"
-[showRightYAxisLabel]="showYAxisLabel"
-[xAxisLabel]="xAxisLabel"
-[yAxisLabel]="yAxisLabel"
-[yAxisLabelRight]="yAxisLabelRight"
-(select)="onSelect($event)">
-</combo-chart-component>
-</div>
-</div>
--->
