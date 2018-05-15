@@ -31,6 +31,9 @@ export class StatisticsChartsComponent implements OnInit {
   continuesYieldPerHourList = [];
   continuesPpmhList = [];
 
+  setOffset = 0;
+  setLimit = 72;
+
   //Chart here we set options fot the chart
   showBatches = false;
   showYield = true;
@@ -51,25 +54,21 @@ export class StatisticsChartsComponent implements OnInit {
   constructor(private authAPI:AuthAPIService, private operationsService:OperationsService) { }
 
   ngOnInit() {
-    this.getProductionData()           
+    this.getProductionData('?limit='+this.setLimit+'&offset='+this.setOffset)           
   }
 
   xAxisFormatting(data){
     return data.toLocaleTimeString('sv-SV', { year: 'numeric', month: 'numeric', day: 'numeric', hour:'numeric', minute:'numeric'})
   }
-
-  //Might be used later
-  pressed(event) {
-    console.log('event triggered');   
-    console.log(event);
-    
+  goToNextSet(){
+    this.setOffset = this.setOffset + this.setLimit;
+    this.getProductionData('?limit='+this.setLimit+'&offset='+this.setOffset)  
+  
   }
-
-  changeTimeSpan(millisecondsBack:number){
-    let endDate = Date.now() 
-    let startDate = endDate - millisecondsBack;
-    let tempQuery = '?start_date=' + new Date(startDate).toISOString()+'&end_date=' + new Date(endDate).toISOString()+'&limit=60'
-    this.getProductionData(tempQuery)
+  //Fixes query and navigates to previous api data point
+  goToPreviousSet(){
+    this.setOffset = this.setOffset - this.setLimit;
+    this.getProductionData('?limit='+this.setLimit+'&offset='+this.setOffset)  
   }
 
   //to update display options

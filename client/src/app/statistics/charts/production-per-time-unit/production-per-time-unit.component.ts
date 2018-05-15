@@ -72,7 +72,7 @@ export class ProductionPerTimeUnitComponent implements OnInit {
     changeTimeFrame(millisecondsBack:number){
       let endDate = Date.now() 
       let startDate = endDate - millisecondsBack;
-      let tempQuery = '?start_date=' + new Date(startDate).toISOString()+'&end_date=' + new Date(endDate).toISOString()+'&limit=60'
+      let tempQuery = '?start_date=' + new Date(startDate).toISOString()+'&end_date=' + new Date(endDate).toISOString()+'&limit=72'
       this.getProductionStatisticsValues(tempQuery)  
       
     }
