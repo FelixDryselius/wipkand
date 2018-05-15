@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { ApplicationPipeModule } from '../shared/application-pipes/application-pipe.module';
 import { CommentComponent } from './comment/comment.component';
 import { CommentService } from '../shared/application-services/comment.service';
-import { CurrentBatchInfoModule } from './current-batch-info/current-batch-info.module';
+import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
 import { HomeComponent } from './home/home.component';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
@@ -23,7 +23,6 @@ import { StartBatchComponent } from './start-batch/start-batch.component';
     ApplicationPipeModule,
     BrowserModule,
     CommonModule,
-    CurrentBatchInfoModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
@@ -33,11 +32,12 @@ import { StartBatchComponent } from './start-batch/start-batch.component';
   ],
   declarations: [
     CommentComponent,
+    CurrentBatchInfoComponent,
     FinishBatchComponent,
     HomeComponent,
     StartBatchComponent
    ],
   providers: [CommentService],
-  exports: [CurrentBatchInfoModule]
+  exports: [CurrentBatchInfoComponent]
 })
 export class OperationModule { }
