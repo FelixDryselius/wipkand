@@ -26,6 +26,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SubmitIfValidDirective } from './shared/directives/submit-if-valid.directive';
 import { CommentService } from './shared/application-services/comment.service';
 import { FinishBatchModule } from './operation/finish-batch/finish-batch.module';
+import { CalendarModule } from 'primeng/calendar';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { FinishBatchModule } from './operation/finish-batch/finish-batch.module'
     HttpClientModule,
     OperationModule,
     AppRoutingModule,
+    CalendarModule
   ],
   providers: [
     AuthGuard,

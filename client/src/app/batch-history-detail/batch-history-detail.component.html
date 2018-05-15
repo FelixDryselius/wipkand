@@ -155,8 +155,12 @@
               <!-- Label Print Time -->
               <li class="list-group-item text-left">
                 <label for="label_print_time">Label Print Time: </label>
-                <input id="label_print_time" class="input-sm float-right" formControlName="label_print_time" [value]="batchDetailForm.get('label_print_time').value"
-                />
+                <!-- <input id="label_print_time" class="input-sm float-right" formControlName="label_print_time" [value]="batchDetailForm.get('label_print_time').value"
+                /> -->
+                <div class="ui-g-12 ui-md-4">
+                    <p-calendar formControlName="label_print_time" [showTime]="true"></p-calendar> {{date7}}
+                </div>
+                <!-- <p-calendar formControlName="label_print_time"></p-calendar> -->
                 <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.label_print_time.invalid && 
                 (batchDetailForm.controls.label_print_time.dirty || batchDetailForm.controls.label_print_time.touched)">
                   <span *ngIf="batchDetailForm.controls.label_print_time.errors?.required">

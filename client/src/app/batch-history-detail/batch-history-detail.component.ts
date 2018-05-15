@@ -16,6 +16,9 @@ import { OperationsService } from '../operation/shared/services/operations.servi
 import { QueryResponse } from '../shared/interfaces/query-response';
 import { Order } from '../shared/interfaces/order';
 
+//Third party imports
+import { CalendarModule } from 'primeng/calendar';
+
 @Component({
   selector: 'app-batch-history-detail',
   templateUrl: './batch-history-detail.component.html',
