@@ -8,6 +8,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=255, blank=True, null=True)
     reference_storage = models.IntegerField(blank=True, null=True)
     label = models.CharField(max_length=255, blank=True, null=True)
+    batch_quantity_goal = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
