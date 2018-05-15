@@ -11,7 +11,7 @@ import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuard } from './auth/auth-guard.service';
 import { RoleGuard } from './auth/role-guard.service';
-
+import { BatchGuard } from './auth/batch-guard.service';
 
 
 const appRoutes: Routes = [
