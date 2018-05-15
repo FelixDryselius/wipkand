@@ -88,11 +88,11 @@
       </div>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-1">
 
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-5">
       <div class="col-md-12">
         <div class="dataSection border border-primary rounded">
 
@@ -109,7 +109,7 @@
             <form class="commentForm col-md-12" [formGroup]="productionForm" #newProdDir='ngForm' (ngSubmit)='submitProduction($event, productionForm)'>
               <div class="form-group row">
                 <label for="inputDate" class="col-md-3 col-form-label">Date:</label>
-                <div class="col-md-7">
+                <div class="col-md-6">
                   <input class="form-control" id="inputDate" type="datetime-local" min="0" #inputDate formControlName="inputDate">
                 </div>
               </div>
@@ -121,7 +121,7 @@
 
               <div class="form-group row">
                 <label for="onShift" class="col-md-3 col-form-label">On shift:</label>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <input class="form-control" id="onShift" type="number" min="0" #onShift formControlName="onShift">
                 </div>
               </div>
@@ -133,7 +133,7 @@
 
               <div class="form-group row">
                 <label for="produced" class="col-md-3 col-form-label">Produced:</label>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <input class="form-control" id="produced" type="number" min="0" #produced formControlName="produced">
                 </div>
               </div>
@@ -145,7 +145,7 @@
 
               <div class="form-group row">
                 <label for="signature" class="col-md-3 col-form-label">Signature:</label>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <input class="form-control" id="signature" type="text" #signature formControlName="signature">
                 </div>
               </div>
