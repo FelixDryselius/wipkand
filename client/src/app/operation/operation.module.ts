@@ -1,3 +1,4 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
@@ -8,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { CommentModule } from './comment/comment.module';
 import { CurrentBatchInfoModule } from './current-batch-info/current-batch-info.module';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
-import { HomeModule } from './home/home.module';
+import { HomeComponent } from './home/home.component';
 import { OperationRoutingModule } from './operation-routing.module';
 import { StartBatchComponent } from './start-batch/start-batch.component';
 
@@ -16,18 +17,19 @@ import { StartBatchComponent } from './start-batch/start-batch.component';
 
 @NgModule({
   imports: [
+    BrowserModule,
     CommonModule,
     CommentModule,
     CurrentBatchInfoModule,
     FormsModule,
     ReactiveFormsModule,
-    HomeModule,
     HttpModule,
     HttpClientModule,
-    OperationRoutingModule
+    OperationRoutingModule    
   ],
   declarations: [
     FinishBatchComponent,
+    HomeComponent,
     StartBatchComponent
    ],
   providers: [],
