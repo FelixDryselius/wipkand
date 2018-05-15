@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FinishBatchComponent } from '../operation/finish-batch/finish-batch.component'
+import { FinishBatchComponent } from '../finish-batch/finish-batch.component';
 
 @Component({
   selector: 'batch-rework',

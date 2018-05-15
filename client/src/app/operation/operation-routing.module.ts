@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 //3rd party and application imports
 import { AuthGuard } from '../auth/auth-guard.service';
-import { BatchReworkComponent } from '../batch-rework/batch-rework.component';
+import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CommentComponent } from './comment/comment.component';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
 import { HomeComponent } from './home/home.component';
