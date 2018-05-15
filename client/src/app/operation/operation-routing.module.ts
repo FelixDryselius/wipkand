@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 //3rd party and application imports
 import { AuthGuard } from '../auth/auth-guard.service';
+import { BatchHistoryComponent } from './batch-history/batch-history.component';
+import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CommentComponent } from './comment/comment.component';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
@@ -42,6 +44,22 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: {
       expectedRole: ['admin', 'operator']
+    }
+  },
+  {
+    path: "batch-history",
+    component: BatchHistoryComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+        expectedRole: ['admin', 'operator', 'supervisor']
+    }
+  },
+  {
+    path: "batch-history/:id",
+    component: BatchHistoryDetailComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+        expectedRole: ['admin', 'operator', 'supervisor']
     }
   },
   {

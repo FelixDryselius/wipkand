@@ -7,6 +7,8 @@ import { NgModule } from '@angular/core';
 
 //3rd party and application imports:
 import { ApplicationPipeModule } from '../shared/application-pipes/application-pipe.module';
+import { BatchHistoryComponent } from './batch-history/batch-history.component';
+import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
 import { CommentComponent } from './comment/comment.component';
 import { CommentService } from '../shared/application-services/comment.service';
@@ -32,6 +34,8 @@ import { StartBatchComponent } from './start-batch/start-batch.component';
     OperationRoutingModule
   ],
   declarations: [
+    BatchHistoryComponent,
+    BatchHistoryDetailComponent,
     BatchReworkComponent,
     CommentComponent,
     CurrentBatchInfoComponent,
