@@ -23,11 +23,7 @@ export class StatisticsChartsComponent implements OnInit {
   displayYield = [];
   displayPpmh = [];
 
-  flaggedDays = [];
   productionStatistics = []
-
-  showBatches = false;
-  showYield = true;
   
   yieldPerHourSeparateBatchList = [] ;
   ppmhSeparateBatchList = [];
@@ -36,6 +32,8 @@ export class StatisticsChartsComponent implements OnInit {
   continuesPpmhList = [];
 
   //Chart here we set options fot the chart
+  showBatches = false;
+  showYield = true;
   showLegend = true;
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
@@ -67,8 +65,10 @@ export class StatisticsChartsComponent implements OnInit {
     
   }
 
-  changeTimeSpan(query?:string){
-    let tempQuery = '?limit='+query;
+  changeTimeSpan(millisecondsBack:number){
+    let endDate = Date.now() 
+    let startDate = endDate - millisecondsBack;
+    let tempQuery = '?start_date=' + new Date(startDate).toISOString()+'&end_date=' + new Date(endDate).toISOString()+'&limit=60'
     this.getProductionData(tempQuery)
   }
 
@@ -119,54 +119,7 @@ export class StatisticsChartsComponent implements OnInit {
     }
   }
 
-  checkFullDays(){
-    let currentDayHolder = new Date(this.productionStatistics[0].time_stamp)    
-    
-    currentDayHolder.setHours(0,0,0,0)
-    let previousVal = new Date(this.productionStatistics[0].time_stamp)
-    
-    let has00 = false;
-    let has23 = false
-
-    this.flaggedDays = []
-    this.productionStatistics.forEach(prodStat=>{     
-
-      //Checks if we have moved on to the next day
-      if(( new Date(currentDayHolder).getTime() - new Date(prodStat.time_stamp).getTime()) >= 86400000){
-
-        //Should flag?
-        if(!has00 || !has23){
-          this.flaggedDays.push(currentDayHolder)
-
-          //Sets prevVal
-          previousVal = prodStat.time_stamp
-        } 
-        //reset values 
-        has00 = false;
-        has23 = false;
-        currentDayHolder = new Date(prodStat.time_stamp);
-        currentDayHolder.setHours(0,0,0,0)
-      }
-
-      //Checks if we have the 00th or 23th hour
-      let tempHours = new Date(prodStat.time_stamp).getHours()
-      if(tempHours == 0){
-        has00 = true;
-      } else if(tempHours == 23){
-        has23 = true;
-      }
-
-      //Checks if there is a gap between two prodStat, also guards for if the day was changed
-      if( ((new Date(previousVal).getTime() - new Date(prodStat.time_stamp).getTime())  > 3600000) && ((new Date(prodStat.time_stamp).getTime() - new Date(currentDayHolder).getTime()) < 86400000) ) {
-        this.flaggedDays.push(currentDayHolder)            
-      }
-
-      //Sets prevVal
-      previousVal = prodStat.time_stamp
-    })    
-  }
-
-  getProductionData(query = '?limit=72')  {
+  getProductionData(query?:string)  {
     //sets all the dataholders to null
     this.yieldPerHourSeparateBatchList = [] ;
     this.ppmhSeparateBatchList = [];

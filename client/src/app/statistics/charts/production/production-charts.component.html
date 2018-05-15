@@ -47,12 +47,16 @@
           Time scope
         </button>
         <div class="dropdown-menu" aria-labelledby="timeScopeDropDown">
-          <div class="dropdown-item" (click)="changeTimeSpan('720')">30 Days</div>
-          <div class="dropdown-item" (click)="changeTimeSpan('360')">15 Days</div>
-          <div class="dropdown-item" (click)="changeTimeSpan('168')">7 Days</div>
-          <div class="dropdown-item" (click)="changeTimeSpan('72')">72 Hours</div>
-          <div class="dropdown-item" (click)="changeTimeSpan('24')">24 Hours</div>
-          <div class="dropdown-item" (click)="changeTimeSpan('12')">12 Hours</div>
+          <!-- The number arg of 'changeTimeSpan() is (number * milliseconds) where number is the number and 
+            milliseconds are the number of milliseconds that represents that time unit: hour, day, month  ' -->
+          <div class="dropdown-item" (click)="changeTimeSpan(3*30*24*60*60*1000)">3 Months</div>
+          <div class="dropdown-item" (click)="changeTimeSpan(2*30*24*60*60*1000)">2 Months</div>
+          <div class="dropdown-item" (click)="changeTimeSpan(30*24*60*60*1000)">30 Days</div>
+          <div class="dropdown-item" (click)="changeTimeSpan(15*24*60*60*1000)">15 Days</div>
+          <div class="dropdown-item" (click)="changeTimeSpan(7*24*60*60*1000)">7 Days</div>
+          <div class="dropdown-item" (click)="changeTimeSpan(72*60*60*1000)">72 Hours</div>
+          <div class="dropdown-item" (click)="changeTimeSpan(24*60*60*1000)">24 Hours</div>
+          <div class="dropdown-item" (click)="changeTimeSpan(12*60*60*1000)">12 Hours</div>
         </div>
       </div>
     </div>

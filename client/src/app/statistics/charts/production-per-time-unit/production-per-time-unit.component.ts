@@ -69,20 +69,23 @@ export class ProductionPerTimeUnitComponent implements OnInit {
       this.displayType = type;
       this.chooseDisplayData()
     }
-    changeTimeFrame(query:string){
-      this.query ='?limit='+ query
-      this.getProductionStatisticsValues()  
+    changeTimeFrame(millisecondsBack:number){
+      let endDate = Date.now() 
+      let startDate = endDate - millisecondsBack;
+      let tempQuery = '?start_date=' + new Date(startDate).toISOString()+'&end_date=' + new Date(endDate).toISOString()+'&limit=60'
+      this.getProductionStatisticsValues(tempQuery)  
       
     }
  
   // This method populates this.productionStatistics and init populateDisplayData()
-  getProductionStatisticsValues()  {
+  getProductionStatisticsValues(query?:string)  {
 
-    this.operationsService.getProductionStatistics(this.query)
+    this.operationsService.getProductionStatistics(query)
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
       this.productionStatistics = (data as QueryResponse).results as Scoreboard []
-      let tempProdStat = this.productionStatistics      
+      console.log(this.productionStatistics);
+           
       this.populateDisplayData()
     })
     
