@@ -4,6 +4,7 @@ CREATE TABLE product
   product_name varchar(255),
   reference_storage INT,
   label varchar(255),
+  batch_production_goal int,
   PRIMARY KEY (article_number)
 );
 

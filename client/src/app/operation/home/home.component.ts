@@ -508,6 +508,7 @@ export class HomeComponent implements OnInit {
       }
       this.onChange(this.selectedShift, this.shiftDate)
     }
+    this.onChange(this.selectedShift, this.shiftDate)
   }
 
   updateFloorstock(event, inputData) {

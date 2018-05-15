@@ -46,8 +46,12 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   products: {};
   order: Order;
 
-  updateBatchError: any;
-  updateBatchErrorKeys: any;
+  updateBatchSuccess: boolean;
+  updateOrderSuccess: boolean;
+  updateError: any;
+  updateErrorKeys: any;
+
+  serverError: any;
 
   private prodInfo: {}
   private service_prodInfo: any;
@@ -101,6 +105,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.clearMsg()
     if (this.batchSub) {
       this.batchSub.unsubscribe()
     }
@@ -223,13 +228,16 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       id: this.currentBatch.id,
       batch_number: this.currentBatch.batch_number
     }
+    this.clearMsg()
     this.operationsService.updateBatch(batch as Batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
+        this.updateOrderSuccess = true
         this.handleUpdateBatch(data as Batch)
       },
         error => {
-          console.error(error)
+          this.updateOrderSuccess = false
+          this.handleUpdateError(error)
         })
   }
 
@@ -239,28 +247,37 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     //this.convertDates(form)
     this.clearMsg()
     this.operationsService.updateBatch(form as Batch)
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      //.retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
+        this.updateBatchSuccess = true
         this.handleUpdateBatch(data as Batch)
       },
         error => {
-          this.handleUpdateBatchError(error)
+          debugger;
+          this.updateBatchSuccess = false
+          this.handleUpdateError(error)
         }
       )
   }
 
-  handleUpdateBatchError(error) {
+  handleUpdateError(error) {
+    if (error.status == 500) {
+      this.serverError = error 
+    }
     console.error(error)
-    this.updateBatchError = error.error
-    this.updateBatchErrorKeys = [];
+    this.updateError = error.error;
+    this.updateErrorKeys = [];
     for (let i = 0; i < Object.keys(error.error).length; i++) {
-      this.updateBatchErrorKeys.push(Object.keys(error.error)[i])
+      this.updateErrorKeys.push(Object.keys(error.error)[i])
     }
   }
 
   clearMsg() {
-    this.updateBatchError = null;
-    this.updateBatchErrorKeys = null;
+    this.updateBatchSuccess = null;
+    this.updateOrderSuccess = null;
+    this.updateError = null;
+    this.updateErrorKeys = null;
+    this.serverError = null;
   }
 
   goBack() {
