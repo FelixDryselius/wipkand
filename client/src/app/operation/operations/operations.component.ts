@@ -2,21 +2,18 @@
 import { AuthAPIService } from '../../auth/auth.service';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-
-// Application imports
 import { OperationsService } from '../shared/services/operations.service';
 import { CommentService } from '../../shared/application-services/comment.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 import { Batch } from '../../shared/interfaces/batch';
-
-
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SubmitIfValidDirective } from '../../shared/directives/submit-if-valid.directive';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { CustomValidation } from '../../shared/validators/customValidation'
+import { NgForm, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CustomValidation } from '../../shared/validators/customValidation';
+import { CalendarModule } from 'primeng/calendar';
+
 
 @Component({
   selector: 'app-operations',
@@ -46,17 +43,14 @@ export class OperationsComponent implements OnInit {
   addedProdData = [];
   scoreboardAdded = false;
 
-  shiftProdStats: any[] = [];
 
   // Variables for getting todays date
   private todaysDate: any;
   private currentTime: any;
 
   // Array of shifts you can select in dropdown
-  private shifts: any[] = []
 
   // Variable used for determining which html code to render (day, evening or night)
-  private selectedShift: String;
   private shiftDate: any;
   //private scoreboardActive: boolean = false;
 
@@ -68,37 +62,7 @@ export class OperationsComponent implements OnInit {
   ngModelProdEve: any[] = [];
   ngModelProdNight: any[] = [];
 
-  private dayShiftTimes: any[] = [
-    { time: '08-09', shift: '08' },
-    { time: '09-10', shift: '09' },
-    { time: '10-11', shift: '10' },
-    { time: '11-12', shift: '11' },
-    { time: '12-13', shift: '12' },
-    { time: '13-14', shift: '13' },
-    { time: '14-15', shift: '14' },
-    { time: '15-16', shift: '15' },
-  ]
-
-  private eveningShiftTimes: any[] = [
-    { time: '16-17', shift: '16' },
-    { time: '17-18', shift: '17' },
-    { time: '18-19', shift: '18' },
-    { time: '19-20', shift: '19' },
-    { time: '20-21', shift: '20' },
-    { time: '21-22', shift: '21' },
-    { time: '22-23', shift: '22' },
-    { time: '23-00', shift: '23' },
-  ]
-  private nightShiftTimes: any[] = [
-    { time: '00-01', shift: '00' },
-    { time: '01-02', shift: '01' },
-    { time: '02-03', shift: '02' },
-    { time: '03-04', shift: '03' },
-    { time: '04-05', shift: '04' },
-    { time: '05-06', shift: '05' },
-    { time: '06-07', shift: '06' },
-    { time: '07-08', shift: '07' },
-  ]
+  private prodDataColumns = ['Time stamp', 'On shift', 'Produced']
 
   // END SCOREBOARD SECTION  
 
@@ -141,6 +105,15 @@ export class OperationsComponent implements OnInit {
   private service_prodStatus: any;
   private service_prodInfo: any;
 
+  private productionForm: FormGroup;
+  date1: Date;
+  dates: Date[];
+  rangeDates: Date[];
+  minDate: Date;
+  maxDate: Date;
+  es: any;
+  invalidDates: Array<Date>
+
   constructor(
     private operationsService: OperationsService,
     private commentService: CommentService,
@@ -151,89 +124,51 @@ export class OperationsComponent implements OnInit {
   ngOnInit() {
 
     this.getTime()
-
-    this.shifts = [
-      { shift: 'night', date: this.todaysDate, firstHour: 'T00' },
-      { shift: 'day', date: this.todaysDate, firstHour: 'T07' },
-      { shift: 'evening', date: this.todaysDate, firstHour: 'T16' },
-    ]
+    this.createAddDataForm()
 
     this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => {
       this.prodInfo = info
       if (this.prodInfo) {
-        this.getScoreboard()
+        this.getProdList()
         this.getFloorstock()
         this.getComment()
-        this.onChange(this.shifts[0].shift, this.todaysDate)
       }
+    })
+
+
+  let today = new Date();
+  let month = today.getMonth();
+  let year = today.getFullYear();
+  let prevMonth = (month === 0) ? 11 : month -1;
+  let prevYear = (prevMonth === 11) ? year - 1 : year;
+  let nextMonth = (month === 11) ? 0 : month + 1;
+  let nextYear = (nextMonth === 0) ? year + 1 : year;
+  this.minDate = new Date();
+  this.minDate.setMonth(prevMonth);
+  this.minDate.setFullYear(prevYear);
+  this.maxDate = new Date();
+  this.maxDate.setMonth(nextMonth);
+  this.maxDate.setFullYear(nextYear);
+
+  let invalidDate = new Date();
+  invalidDate.setDate(today.getDate() - 1);
+  this.invalidDates = [today,invalidDate];
+  }
+
+  createAddDataForm() {
+    this.productionForm = this.formBuilder.group({
+      'inputDate': new FormControl('', [
+        Validators.required
+      ]),
+      'onShift': new FormControl('', [
+        Validators.required
+      ]),
+      'produced': new FormControl('', [
+        Validators.required
+      ]),
     })
   }
 
-  addShift(newShift) {
-    let addShift = newShift
-    let newShiftType;
-    let newDate;
-    let firstHour;
-    let day;
-    let allowed = false;
-    let i = this.shifts.length;
-    this.getScoreboard()
-
-    while (i < this.prodInfo.shifts) {
-      let lastShift = this.shifts.slice(-1)[0]
-      if (lastShift.shift == "night") {
-        newShiftType = "day"
-        newDate = lastShift.date
-        firstHour = 'T07'
-      }
-      else if (lastShift.shift == "day") {
-        newShiftType = "evening"
-        newDate = lastShift.date
-        firstHour = 'T16'
-      }
-      else if (lastShift.shift == "evening") {
-        newShiftType = "night"
-        if ((parseInt(lastShift.date.slice(-2)) + 1) < 10) {
-          day = '0' + (parseInt(lastShift.date.slice(-2)) + 1)
-        }
-        else {
-          day = (parseInt(lastShift.date.slice(-2)) + 1)
-        }
-        newDate = lastShift.date.slice(0, -2) + day;
-        firstHour = 'T00'
-      }
-      let newShift = { shift: newShiftType, date: newDate, firstHour: firstHour }
-      this.shifts.push(newShift)
-      i += 1
-    }
-
-    if (addShift) {
-      for (let obj in this.prodStats) {
-        if (this.prodStats[obj]["time_stamp"] > this.shifts.slice(-1)[0].date + this.shifts.slice(-1)[0].firstHour && (this.prodStats[obj]["production_quantity"] > 0 || this.prodStats[obj]["staff_quantity"] > 0)) {
-          allowed = true
-        }
-      }
-      console.log(allowed)
-      if (allowed) {
-        let batch = {
-          id: this.prodInfo.id,
-          batch_number: this.prodInfo.batch_number,
-          order: this.prodInfo.order,
-          shifts: this.prodInfo.shifts + 1
-        }
-
-        addShift = false
-        this.operationsService.updateBatch(batch)
-          .retryWhen(error => this.authAPI.checkHttpRetry(error))
-          .subscribe(data => {
-            this.prodInfo.shifts = (data as Batch).shifts
-            console.log(this.prodInfo)
-            this.operationsService.setCurrentBatchInfo(this.prodInfo)
-          });
-      }
-    }
-
-  }
 
   getTime() {
     // Get todays date and format to yyy-mm-dd
@@ -364,7 +299,7 @@ export class OperationsComponent implements OnInit {
 
   // Function that is being called when option in dropdown menu has been selected
 
-  onChange(shift, date) {
+  getProdList() {
     this.productionObservable = this.operationsService.getProdStats('?batch_number=' + this.prodInfo.batch_number)
 
     this.productionSub = this.productionObservable
@@ -372,144 +307,170 @@ export class OperationsComponent implements OnInit {
       .subscribe(data => {
         this.prodStats = (data as QueryResponse).results
 
-        this.shiftProdStats = [];
-        let shiftTimes;
-        this.selectedShift = shift
-        this.shiftDate = date
 
-        if (this.selectedShift == 'day') {
-          shiftTimes = this.dayShiftTimes
-        }
-        else if (this.selectedShift == 'evening') {
-          shiftTimes = this.eveningShiftTimes
-        }
-        else if (this.selectedShift == 'night') {
-          shiftTimes = this.nightShiftTimes
-        }
+        console.log(this.prodStats)
 
-        for (let key in shiftTimes) {
-          let prodData = { time_stamp: this.shiftDate + 'T' + shiftTimes[key]["shift"] + ':00:00Z' }
-          this.shiftProdStats.push(prodData)
-        }
 
-        if (this.selectedShift == 'day') {
-
-          console.log(this.prodStats)
-          getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
-        }
-        if (this.selectedShift == 'evening') {
-          getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 16, 24)
-        }
-        if (this.selectedShift == 'night') {
-          getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 0, 8)
-        }
-
-        function getOldData(prodInfo, todaysDate, prodStats, shiftProdStats, startShift, endShift) {
-          for (let inp = 0; inp < prodStats.length; inp++) {
-            if ((startShift - 1) < prodStats[inp]["time_stamp"].slice(11, 13) && prodStats[inp]["time_stamp"].slice(11, 13) < (endShift)) {
-              for (let obj = 0; obj < shiftProdStats.length; obj++) {
-                if (shiftProdStats[obj]["time_stamp"] == prodStats[inp]["time_stamp"]) {
-                  shiftProdStats[obj]["production_quantity"] = prodStats[inp]["production_quantity"]
-                  shiftProdStats[obj]["staff_quantity"] = prodStats[inp]["staff_quantity"]
-                  shiftProdStats[obj]["batch"] = prodStats[inp]["batch"]
-                }
-              }
-            }
-          }
-        }
-
-        for (let obj = 0; obj < this.shiftProdStats.length; obj++) {
-          if (typeof this.shiftProdStats[obj]["production_quantity"] == 'undefined' && typeof this.shiftProdStats[obj]["staff_quantity"] == 'undefined') {
-            this.shiftProdStats[obj]["production_quantity"] = ''
-            this.shiftProdStats[obj]["staff_quantity"] = ''
-            this.shiftProdStats[obj]["batch"] = ''
-          }
-        }
-        console.log("Initial data for " + this.selectedShift + ":")
-        console.log(this.shiftProdStats)
-        this.addShift(false)
+        /* this.shiftProdStats = [];
+         let shiftTimes;
+         this.selectedShift = shift
+         this.shiftDate = date
+   
+         if (this.selectedShift == 'day') {
+           shiftTimes = this.dayShiftTimes
+         }
+         else if (this.selectedShift == 'evening') {
+           shiftTimes = this.eveningShiftTimes
+         }
+         else if (this.selectedShift == 'night') {
+           shiftTimes = this.nightShiftTimes
+         }
+   
+         for (let key in shiftTimes) {
+           let prodData = { time_stamp: this.shiftDate + 'T' + shiftTimes[key]["shift"] + ':00:00Z' }
+           this.shiftProdStats.push(prodData)
+         }
+   
+         if (this.selectedShift == 'day') {
+   
+           console.log(this.prodStats)
+           getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 8, 16)
+         }
+         if (this.selectedShift == 'evening') {
+           getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 16, 24)
+         }
+         if (this.selectedShift == 'night') {
+           getOldData(this.prodInfo, this.todaysDate, this.prodStats, this.shiftProdStats, 0, 8)
+         }
+   
+         function getOldData(prodInfo, todaysDate, prodStats, shiftProdStats, startShift, endShift) {
+           for (let inp = 0; inp < prodStats.length; inp++) {
+             if ((startShift - 1) < prodStats[inp]["time_stamp"].slice(11, 13) && prodStats[inp]["time_stamp"].slice(11, 13) < (endShift)) {
+               for (let obj = 0; obj < shiftProdStats.length; obj++) {
+                 if (shiftProdStats[obj]["time_stamp"] == prodStats[inp]["time_stamp"]) {
+                   shiftProdStats[obj]["production_quantity"] = prodStats[inp]["production_quantity"]
+                   shiftProdStats[obj]["staff_quantity"] = prodStats[inp]["staff_quantity"]
+                   shiftProdStats[obj]["batch"] = prodStats[inp]["batch"]
+                 }
+               }
+             }
+           }
+         }
+   
+         for (let obj = 0; obj < this.shiftProdStats.length; obj++) {
+           if (typeof this.shiftProdStats[obj]["production_quantity"] == 'undefined' && typeof this.shiftProdStats[obj]["staff_quantity"] == 'undefined') {
+             this.shiftProdStats[obj]["production_quantity"] = ''
+             this.shiftProdStats[obj]["staff_quantity"] = ''
+             this.shiftProdStats[obj]["batch"] = ''
+           }
+         }
+         console.log("Initial data for " + this.selectedShift + ":")
+         console.log(this.shiftProdStats)
+         this.addShift(false)*/
       });
+
   }
 
-  updateProduction(event, formData) {
+  submitProduction(event, formData) {
 
-    let results: any = {};
+    let inputData: any = {};
 
     // Collects all changes and stores as dictionary in the object results
-    for (let key in formData.value) {
-      if (typeof formData.value[key] == 'number') {
-        results[key] = formData.value[key];
-      }
+    for (let key in formData) {
+      inputData[key] = formData[key];
     }
-    // A for-loop that for each new data compares it with existing data from the database
-    for (let key in results) {
-      let changeData = {}
-      let newData = {}
-      let counter = 0
 
-      // Go through objects in production statistics from api
-      for (let obj in this.shiftProdStats) {
-        // Checks if time stamp exists. Determines wheter data should be created or updated
-        if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && (this.shiftProdStats[obj]["staff_quantity"] > 0 || this.shiftProdStats[obj]["staff_quantity"] == null) && key.substr(key.length - 2) == 'sq') {
-          changeData = {
-            time_stamp: key.slice(0, -3),
-            staff_quantity: results[key],
-            batch: this.prodInfo.id,
-          }
-          this.operationsService.updateProdStats(changeData)
-            .retryWhen(error => this.authAPI.checkHttpRetry(error))
-            .subscribe();
-          this.feedbackScoreboard()
+   
+      if (typeof inputData.inputDate != 'undefined' && typeof inputData.produced != 'undefined' && inputData.onShift != 'undefined') {
+        
+      let newData = {
+        time_stamp: inputData.inputDate+'Z',
+        production_quantity: inputData.produced,
+        staff_quantity: inputData.onShift,
+        batch: this.prodInfo.id,
+      }
+      this.operationsService.createProdStats(newData)
+        .retryWhen(error => this.authAPI.checkHttpRetry(error))
+        .subscribe();
+
+      this.feedbackScoreboard()
+    }
+    else {
+      alert("All fields are required to post new data")
+    }
+    
+
+    
+  }
+  /*
+  // A for-loop that for each new data compares it with existing data from the database
+  for (let key in results) {
+    let changeData = {}
+    let newData = {}
+    let counter = 0
+   
+    // Go through objects in production statistics from api
+    for (let obj in this.shiftProdStats) {
+      // Checks if time stamp exists. Determines wheter data should be created or updated
+      if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && (this.shiftProdStats[obj]["staff_quantity"] > 0 || this.shiftProdStats[obj]["staff_quantity"] == null) && key.substr(key.length - 2) == 'sq') {
+        changeData = {
+          time_stamp: key.slice(0, -3),
+          staff_quantity: results[key],
+          batch: this.prodInfo.id,
         }
-        else if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && (this.shiftProdStats[obj]["production_quantity"] > 0 || this.shiftProdStats[obj]["production_quantity"] == null) && key.substr(key.length - 2) == 'pq') {
-          changeData = {
-            time_stamp: key.slice(0, -3),
-            production_quantity: results[key],
-            batch: this.prodInfo.id,
-          }
-          this.operationsService.updateProdStats(changeData)
-            .retryWhen(error => this.authAPI.checkHttpRetry(error))
-            .subscribe();
-          this.feedbackScoreboard()
+        this.operationsService.updateProdStats(changeData)
+          .retryWhen(error => this.authAPI.checkHttpRetry(error))
+          .subscribe();
+        this.feedbackScoreboard()
+      }
+      else if (this.shiftProdStats[obj]["time_stamp"] == key.slice(0, -3) && (this.shiftProdStats[obj]["production_quantity"] > 0 || this.shiftProdStats[obj]["production_quantity"] == null) && key.substr(key.length - 2) == 'pq') {
+        changeData = {
+          time_stamp: key.slice(0, -3),
+          production_quantity: results[key],
+          batch: this.prodInfo.id,
         }
-
-        else {
-
-          counter += 1
-          // If no time stamp in api was found this means it is new data
-          if (counter == this.shiftProdStats.length) {
-
-            let time = this.shiftDate + key.slice(10, -3)
-            let stringifiedTime = String(time)
-
-            if (this.addedProdData.indexOf(stringifiedTime) == -1) {
-              this.addedProdData.push(stringifiedTime)
-              if (typeof results[stringifiedTime + '_pq'] != 'undefined' && typeof results[stringifiedTime + '_sq'] != 'undefined') {
-                newData = {
-                  time_stamp: time,
-                  production_quantity: results[stringifiedTime + '_pq'],
-                  staff_quantity: results[stringifiedTime + '_sq'],
-                  batch: this.prodInfo.id,
-                }
-                this.operationsService.createProdStats(newData)
-                  .retryWhen(error => this.authAPI.checkHttpRetry(error))
-                  .subscribe();
-
-                
-                this.feedbackScoreboard()
+        this.operationsService.updateProdStats(changeData)
+          .retryWhen(error => this.authAPI.checkHttpRetry(error))
+          .subscribe();
+        this.feedbackScoreboard()
+      }
+   
+      else {
+   
+        counter += 1
+        // If no time stamp in api was found this means it is new data
+        if (counter == this.shiftProdStats.length) {
+   
+          let time = this.shiftDate + key.slice(10, -3)
+          let stringifiedTime = String(time)
+   
+          if (this.addedProdData.indexOf(stringifiedTime) == -1) {
+            this.addedProdData.push(stringifiedTime)
+            if (typeof results[stringifiedTime + '_pq'] != 'undefined' && typeof results[stringifiedTime + '_sq'] != 'undefined') {
+              newData = {
+                time_stamp: time,
+                production_quantity: results[stringifiedTime + '_pq'],
+                staff_quantity: results[stringifiedTime + '_sq'],
+                batch: this.prodInfo.id,
               }
-              else {
-                alert("Both people on shift and amount produced is required")
-              }
-
+              this.operationsService.createProdStats(newData)
+                .retryWhen(error => this.authAPI.checkHttpRetry(error))
+                .subscribe();
+   
+              
+              this.feedbackScoreboard()
             }
+            else {
+              alert("Both people on shift and amount produced is required")
+            }
+   
           }
         }
       }
-      this.onChange(this.selectedShift, this.shiftDate)
     }
     this.onChange(this.selectedShift, this.shiftDate)
   }
+  this.onChange(this.selectedShift, this.shiftDate)*/
 
   updateFloorstock(event, inputData) {
     this.getTime()

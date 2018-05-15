@@ -1,252 +1,17 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <div class="row">
-        <div class="col-md-2">
-          <h2 class="text-left">
-            Operations
-          </h2>
-        </div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-5" align="right">
-          <h3>
-            Shift: {{ selectedShift }} {{ shiftDate }}
-          </h3>
-        </div>
-        <div class="col-md-3">
-           <div class="row">
-            <div class="dropdown col-md-6">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                Select shift
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <div class="dropdown-item" *ngFor="let chosenShift of shifts" ngValue="chosenShift" (click)="onChange(chosenShift.shift, chosenShift.date)">
-                  {{chosenShift.shift}} {{ chosenShift.date }} </div>
-              </div>
-            </div>
-            <div class="dropdown col-md-6" align="right">
-              <div>
-                <button (click)="addShift(true)" class="btn btn-primary">Add shift</button>
-              </div>
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12" *ngIf="productionObservable | async; else loading">
-      <form class="productionForm" #productionForm='ngForm' (ngSubmit)='updateProduction($event,productionForm)'>
-
-        <!-- DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY -->
-        <div *ngIf="selectedShift == 'day'">
-          <table class="table table-bordered">
-            <thead class="thead-light">
-              <tr>
-                <th></th>
-                <th *ngFor="let times of dayShiftTimes" class="text-center">{{ times.time }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="align-middle scoreboardLabels"># Shift</td>
-                <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control inputMiddle" [value]="7<stat.time_stamp<16 ? stat.staff_quantity : ' '"
-                    name='{{ stat.time_stamp }}_sq' [ngModel]="stat.staff_quantity">
-                </td>
-              </tr>
-              <tr>
-                <td class="align-middle scoreboardLabels"># Produced</td>
-                <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control inputMiddle" [value]="7<stat.time_stamp<16 ? stat.production_quantity : ' '"
-                    name='{{ stat.time_stamp }}_pq' [ngModel]="stat.production_quantity">
-                </td>
-              </tr>
-              <tr>
-                <td class="align-middle scoreboardLabels"># Discarded vials</td>
-                <td class="align-middle" colspan="8">
-                  <div class="col-md-2 discarded-vials">
-                    <input type="number" class="form-control">
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="row">
-            <div class="col-md-10">
-              <p *ngIf="scoreboardAdded" class="text-left">
-                {{ scoreboardAddedNotification }}
-              </p>
-            </div>
-            <div class="col-md-2" align="right">
-              <button type="submit" class="btn btn-primary">Update</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- EVENIIIIIIIIIIIIIIIIIIIIIIIIIIIIIING -->
-        <div *ngIf="selectedShift == 'evening'">
-          <table class="table table-bordered">
-            <thead class="thead-light">
-              <tr>
-                <th></th>
-                <th *ngFor="let times of eveningShiftTimes" class="text-center">{{ times.time }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="align-middle scoreboardLabels"># Shift</td>
-                <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control inputMiddle" [value]="15<stat.time_stamp<24 ? stat.staff_quantity : ' '"
-                    name='{{ stat.time_stamp }}_sq' [ngModel]="stat.staff_quantity">
-                </td>
-              </tr>
-              <tr>
-                <td class="align-middle scoreboardLabels"># Produced</td>
-                <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control inputMiddle" [value]="15<stat.time_stamp<24 ? stat.production_quantity : ' '"
-                    name='{{ stat.time_stamp }}_pq' [ngModel]="stat.production_quantity">
-                </td>
-              </tr>
-              <tr>
-                <td class="align-middle scoreboardLabels"># Discarded vials</td>
-                <td class="align-middle" colspan="8">
-                  <div class="col-md-2 discarded-vials">
-                    <input type="number" class="form-control">
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="row">
-            <div class="col-md-10">
-              <p *ngIf="scoreboardAdded" class="text-left">
-                {{ scoreboardAddedNotification }}
-              </p>
-            </div>
-            <div class="col-md-2" align="right">
-              <button type="submit" class="btn btn-primary">Update</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- NIIIIIIIIIIIIIIIIIIIIIIIIIIGHT -->
-        <div *ngIf="selectedShift == 'night'">
-          <table class="table table-bordered">
-            <thead class="thead-light">
-              <tr>
-                <th></th>
-                <th *ngFor="let times of nightShiftTimes" class="text-center">{{ times.time }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="align-middle scoreboardLabels"># Shift</td>
-                <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control inputMiddle" [value]="0<=stat.time_stamp<8 ? stat.staff_quantity : ' '"
-                    name='{{ stat.time_stamp }}_sq' [ngModel]="stat.staff_quantity">
-                </td>
-              </tr>
-              <tr>
-                <td class="align-middle scoreboardLabels"># Produced</td>
-                <td *ngFor="let stat of shiftProdStats" class="align-middle">
-                  <input type="number" min="0" class="form-control inputMiddle" [value]="0<=stat.time_stamp<8 ? stat.production_quantity : ' '"
-                    name='{{ stat.time_stamp }}_pq' [ngModel]="stat.production_quantity">
-                </td>
-              </tr>
-              <tr>
-                <td class="align-middle scoreboardLabels"># Discarded vials</td>
-                <td class="align-middle" colspan="8">
-                  <div class="col-md-2 discarded-vials">
-                    <input type="number" class="form-control">
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="row">
-            <div class="col-md-10">
-              <p *ngIf="scoreboardAdded" class="text-left">
-                Scoreboard data successfully added!
-              </p>
-            </div>
-            <div class="col-md-2" align="right">
-              <button type="submit" class="btn btn-primary">Update</button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="col-md-12 filler" *ngIf="scoreboardActive == false">
+      <h3 align="left">
+        Operations
+      </h3>
     </div>
   </div>
 </div>
 
-<hr class="separator">
-<div class="input-group">
-
-</div>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4">
-      <div class="floorstockSection border border-primary rounded">
-
-        <form class="floorstockForm" #floorstockForm='ngForm' (ngSubmit)='updateFloorstock($event,floorstockForm)'>
-          <div class="row">
-            <div class="col-md-12">
-              <h3 class="text-center">Label roll</h3>
-            </div>
-          </div>
-          <table *ngIf="currentFloorstock.length > 0; else loading" class="table table-bordered table-light">
-            <tbody>
-              <tr class="d-flex" *ngFor="let item of currentFloorstock">
-                <td class="col-lg-6 col-md-6">
-
-                  <div class="input-group mb-3">
-                    <span class="input-group-prepend">
-                      <button type="button" class="btn btn-danger btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'decr')">
-                        <b class="button-signs">-</b>
-                      </button>
-                    </span>
-                    <input type="number" min="0" class="form-control input-number inputMiddle" [value]="item.quantity ? item.quantity : 0" name="{{item.item_id}}"
-                      [ngModel]="item.quantity">
-                    <span class="input-group-append">
-                      <button type="button" class="btn btn-success btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'incr')">
-                        <b class="button-signs">+</b>
-                      </button>
-                    </span>
-                  </div>
-                </td>
-                <td class="col-lg-6 col-md-6">{{item.item_name}}</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="row">
-            <div class="col-md-8">
-              <p *ngIf="floorstockAdded" class="text-left">
-                Floorstock successfully updated!
-              </p>
-            </div>
-            <div class="col-md-4 text-right">
-              <button type="submit" class="btn btn-primary">
-                Update
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div class="row col-md-8">
-      <div class="col-md-2">
-
-      </div>
-      <div class="col-md-10">
+    <div class="col-md-6">
+      <div class="col-md-12">
         <div class="commentSection border border-primary rounded">
 
           <div class="row">
@@ -315,4 +80,136 @@
       </div>
     </div>
 
-    <hr>
+    <div class="col-md-1">
+
+    </div>
+
+    <div class="col-md-4">
+      <div class="col-md-12">
+        <div class="dataSection border border-primary rounded">
+
+          <div class="row">
+            <div class="col-md-12">
+              <h3 class="text-center">
+                Add production data
+              </h3>
+
+            </div>
+          </div>
+          <div class="row">
+
+            <form class="commentForm col-md-12" [formGroup]="productionForm" (ngSubmit)='submitProduction($event, productionForm.value)'>
+              <div class="form-group row">
+                <label for="inputDate" class="col-md-3 col-form-label">Date:</label>
+                <div class="col-md-7">
+                  <input class="form-control" id="inputDate" type="datetime-local" min="0" #inputDate formControlName="inputDate" ngbDatepicker>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="onShift" class="col-md-3 col-form-label">On shift:</label>
+                <div class="col-md-4">
+                  <input class="form-control" id="onShift" type="number" min="0" #onShift formControlName="onShift">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="produced" class="col-md-3 col-form-label">Produced:</label>
+                <div class="col-md-4">
+                  <input class="form-control" id="produced" type="number" min="0" #produced formControlName="produced">
+                </div>
+              </div>
+              <div class="row btn-comment">
+                <div class="col-md-12" align="right">
+                  <button type="submit" class="btn btn-primary">
+                    Add data
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="separator">
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="floorstockSection border border-primary rounded">
+
+        <form class="floorstockForm" #floorstockForm='ngForm' (ngSubmit)='updateFloorstock($event,floorstockForm)'>
+          <div class="row">
+            <div class="col-md-12">
+              <h3 class="text-center">Consumables</h3>
+            </div>
+          </div>
+          <table *ngIf="currentFloorstock.length > 0; else loading" class="table table-bordered table-light">
+            <tbody>
+              <tr class="d-flex" *ngFor="let item of currentFloorstock">
+                <td class="col-lg-6 col-md-6">
+
+                  <div class="input-group mb-3">
+                    <span class="input-group-prepend">
+                      <button type="button" class="btn btn-danger btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'decr')">
+                        <b class="button-signs">-</b>
+                      </button>
+                    </span>
+                    <input type="number" min="0" class="form-control input-number inputMiddle" [value]="item.quantity ? item.quantity : 0" name="{{item.item_id}}"
+                      [ngModel]="item.quantity">
+                    <span class="input-group-append">
+                      <button type="button" class="btn btn-success btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'incr')">
+                        <b class="button-signs">+</b>
+                      </button>
+                    </span>
+                  </div>
+                </td>
+                <td class="col-lg-6 col-md-6">{{item.item_name}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="col-md-8">
+              <p *ngIf="floorstockAdded" class="text-left">
+                Floorstock successfully updated!
+              </p>
+            </div>
+            <div class="col-md-4 text-right">
+              <button type="submit" class="btn btn-primary">
+                Update
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-1">
+
+    </div>
+
+    <div class="row col-md-7">
+      <div class="col-md-10 dataSection border border-primary rounded">
+        <div class="row">
+          <div class="col-md-12">
+            <h3 class="text-center">Production data</h3>
+          </div>
+        </div>
+        <table class="table table-bordered table-success table-hover">
+          <thead>
+            <tr>
+              <th *ngFor="let col of prodDataColumns">{{ col }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of prodStats">
+                <td>{{item.time_stamp | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{item.staff_quantity}}</td>
+                <td>{{item.production_quantity}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr>

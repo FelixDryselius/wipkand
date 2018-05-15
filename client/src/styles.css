@@ -130,6 +130,12 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: #e9ecef;
 }
 
+.dataSection {
+    margin-top: 5%;
+    padding: 3%;
+    background-color: #e9ecef;
+}
+
 .commentForm {
     margin-top: 5%;
     
