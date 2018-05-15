@@ -3,6 +3,7 @@
   "project": {
     "name": "vfal-frontend"
   },
+
   "apps": [
     {
       "root": "src",
@@ -31,14 +32,13 @@
         "prod": "environments/environment.prod.ts"
       }
     }
-  ],
+  }],
   "e2e": {
     "protractor": {
       "config": "./protractor.conf.js"
     }
   },
-  "lint": [
-    {
+  "lint": [{
       "project": "src/tsconfig.app.json",
       "exclude": "**/node_modules/**"
     },
