@@ -1,5 +1,5 @@
  <div class="container">
-  <div class="row" style="height:50vh">
+  <div class="row" style="height:70vh">
       <h3>Number of boxes produced per hour</h3>
     <div class='col-10'>
     <ngx-charts-line-chart *ngIf = "haveData"
@@ -11,6 +11,7 @@
       [showYAxisLabel]="showYAxisLabel"
       [xAxisTickFormatting]="xAxisFormatting"
       [xAxisLabel] = "xAxisLabel"
+      [yAxisLabel] = 'yAxisLabel'
       [xAxis]='xAxis'
       [yAxis] = 'yAxis'
       [timeline]="timeline"
@@ -27,8 +28,15 @@
   </div>
   <div class="row p-1">
     <div class="col">
-      <button class="btn btn-primary btn-sm btn-block" type="button" (click)="toggleBatches()">
+      <button class="btn btn-primary btn-sm btn-block" type="button" (click)="toggleShowBatches()">
       Toggle batches
+      </button>
+    </div>
+  </div>
+  <div class="row p-1">
+    <div class="col">
+      <button class="btn btn-primary btn-sm btn-block" type="button" (click)="toggleShowYield()">
+      Toggle yield or PPHM
       </button>
     </div>
   </div>
@@ -51,14 +59,4 @@
     </div>
   </div>
 </div>
-</div>
-<div class="container">
-  <div class="row" style="height:5vh"></div>
-  <app-staff-quantity></app-staff-quantity>
-  <div class="row" style="height:5vh">  </div>
-  <app-batch-chart></app-batch-chart>
-  <div class="row" style="height:5vh"></div>
-  <app-produced-per-person></app-produced-per-person>
-  <div class="row" style="height:5vh"></div>
-  <app-production-per-time-unit></app-production-per-time-unit>>
 </div>

@@ -18,13 +18,22 @@ export class StatisticsChartsComponent implements OnInit {
   
   //data
   haveData=false;
-  displayData;
+  //the following three is to make sure all options are open to the user
+  displayData = []; // this is the variable that's always showing
+  displayYield = [];
+  displayPpmh = [];
+
   flaggedDays = [];
   productionStatistics = []
 
   showBatches = false;
-  prodDataSeparateBatches = [];
-  prodDataContinues = [];
+  showYield = true;
+  
+  yieldPerHourSeparateBatchList = [] ;
+  ppmhSeparateBatchList = [];
+
+  continuesYieldPerHourList = [];
+  continuesPpmhList = [];
 
   //Chart here we set options fot the chart
   showLegend = true;
@@ -35,6 +44,7 @@ export class StatisticsChartsComponent implements OnInit {
   showXAxisLabel = true;
   showYAxisLabel = true;
   xAxisLabel = "Date";
+  yAxisLabel = 'Produced per hour'
   xAxis=true;
   yAxis=true;
   timeline=false;
@@ -61,15 +71,44 @@ export class StatisticsChartsComponent implements OnInit {
     let tempQuery = '?limit='+query;
     this.getProductionData(tempQuery)
   }
-  
-  toggleBatches(){
+
+  //to update display options
+  toggleShowBatches(){
     if(this.showBatches){
-        this.displayData=this.prodDataContinues
-        this.showBatches = false
+      this.showBatches = false;
     } else {
-        this.displayData=this.prodDataSeparateBatches
-        this.showBatches = true
+      this.showBatches = true;
     }
+    this.updateDisplayData()
+  }
+
+  //to update display options
+  toggleShowYield(){
+    if(this.showYield){
+      this.yAxisLabel = 'Produced per man hour'
+      this.showYield = false;
+    } else {
+      this.yAxisLabel = 'Produced per hour'
+      this.showYield = true;
+    }
+    this.updateDisplayData()
+  }
+
+  //to update display options
+  updateDisplayData(){
+    if(this.showBatches){
+      this.displayYield = this.yieldPerHourSeparateBatchList
+      this.displayPpmh = this.ppmhSeparateBatchList
+    } else {
+      this.displayYield = this.continuesYieldPerHourList
+      this.displayPpmh = this.continuesPpmhList
+    }    
+    if(this.showYield){
+      this.displayData = this.displayYield;
+    } else {
+      this.displayData = this.displayPpmh;
+    }
+    
   }
 
   toggleTimeline(){
@@ -98,8 +137,7 @@ export class StatisticsChartsComponent implements OnInit {
         //Should flag?
         if(!has00 || !has23){
           this.flaggedDays.push(currentDayHolder)
-          console.log('does not have whole day');
-                    
+
           //Sets prevVal
           previousVal = prodStat.time_stamp
         } 
@@ -120,19 +158,21 @@ export class StatisticsChartsComponent implements OnInit {
 
       //Checks if there is a gap between two prodStat, also guards for if the day was changed
       if( ((new Date(previousVal).getTime() - new Date(prodStat.time_stamp).getTime())  > 3600000) && ((new Date(prodStat.time_stamp).getTime() - new Date(currentDayHolder).getTime()) < 86400000) ) {
-        this.flaggedDays.push(currentDayHolder) 
-        console.log(prodStat.time_stamp);              
+        this.flaggedDays.push(currentDayHolder)            
       }
 
       //Sets prevVal
       previousVal = prodStat.time_stamp
-    })
-    console.log(this.flaggedDays);
-
-    
+    })    
   }
 
   getProductionData(query = '?limit=72')  {
+    //sets all the dataholders to null
+    this.yieldPerHourSeparateBatchList = [] ;
+    this.ppmhSeparateBatchList = [];
+    this.continuesYieldPerHourList = [];
+    this.continuesPpmhList = [];
+    this.haveData = false
 
     this.operationsService.getProductionStatistics(query)
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
@@ -153,16 +193,18 @@ export class StatisticsChartsComponent implements OnInit {
       //          ]
       //        }
       //      ] 
-      let relevantBatchesId = []
-      let productionDataPoints = []
-      let continuesDataArrayHolder = []
-      let prodDataContinuesTemp = []
-      let exptectedProductionHolder = []
 
+      let relevantBatchesId = []
+      let exptectedProductionHolder = []
+      let exptectedPpmhHolder = []
+
+      // In the following part yieldPerHourSeparateBatchList, ppmhSeparateBatchList
+      // continuesyieldPerHourList and continuesPpmhList are populated
       this.productionStatistics.forEach(element => {
-        if(relevantBatchesId.indexOf(element.batch.batch_number) == -1 ){
-          relevantBatchesId.push(element.batch.batch_number)                 
-          productionDataPoints.push({
+        if(relevantBatchesId.indexOf(element.batch.id) == -1 ){
+          relevantBatchesId.push(element.batch.id)
+        
+          this.yieldPerHourSeparateBatchList.push({
             'name':element.batch.batch_number,
             'series':[
               {
@@ -171,8 +213,18 @@ export class StatisticsChartsComponent implements OnInit {
               }
            ]
           })
+          this.ppmhSeparateBatchList.push({
+            'name':element.batch.batch_number,
+            'series':[
+              {
+                'value': element.production_quantity/element.staff_quantity,
+                'name': new Date(element.time_stamp)
+              }
+           ]
+          })
+
         } else {
-          productionDataPoints.forEach(subEl =>{            
+          this.yieldPerHourSeparateBatchList.forEach(subEl =>{            
             if(subEl.name==element.batch.batch_number){             
               subEl.series.push({
               'value':element.production_quantity,
@@ -180,53 +232,87 @@ export class StatisticsChartsComponent implements OnInit {
               })
             }
           })
+          this.ppmhSeparateBatchList.forEach(subElement =>{            
+            if(subElement.name==element.batch.batch_number){             
+              subElement.series.push({
+              'value':element.production_quantity/element.staff_quantity,
+              'name': new Date(element.time_stamp)
+              })
+            }
+          })
         }
+
         // Here it saves the 'continues production run'      
-        continuesDataArrayHolder.push(
+        this.continuesYieldPerHourList.push(
           {
             'name':new Date(element.time_stamp),
             'value': element.production_quantity
           }
-        )  
+        )
+        this.continuesPpmhList.push(
+          {
+            'name':new Date(element.time_stamp),
+            'value': element.production_quantity/element.staff_quantity
+          }
+        )
+        //Maybe remove?
         exptectedProductionHolder.push(
           {
             'name':new Date(element.time_stamp),
             'value': 4200
           }
         )
+        exptectedPpmhHolder.push(
+          {
+            'name':new Date(element.time_stamp),
+            'value': 4200/element.staff_quantity
+          }
+        )
       })
-        
-      //adding expected value to separate production batches
-      productionDataPoints.push({
+      //Finished populating yieldPerHourSeparateBatchList, ppmhSeparateBatchList, continuesYieldPerHourList and continuesPpmhList
+      
+
+      //adding expected value to yieldPerHourSeparateBatchList
+      this.yieldPerHourSeparateBatchList.push({
         'name': 'Expected Production Quantity',
         'series': exptectedProductionHolder
       })
-
-      //adding global variable
-      this.prodDataSeparateBatches = productionDataPoints;
       
-      //adding to global variable with continues batches
-      this.prodDataContinues = [
+      //adding expected value to ppmhSeparateBatchList
+      this.ppmhSeparateBatchList.push({
+        'name': 'Expected Production Quantity',
+        'series': exptectedPpmhHolder
+      })
+
+      //adding expected value to continuesYieldPerHourList
+      this.continuesYieldPerHourList = [
         {
           'name':'Production Quantity',
-          'series': continuesDataArrayHolder
+          'series': this.continuesYieldPerHourList
         },
         {
           'name': 'Expected Production Quantity',
           'series': exptectedProductionHolder
         }
       ]
-  
-      
-    //sets which type to show
-    if(this.showBatches){
-      this.displayData = this.prodDataSeparateBatches
-    } else {
-      this.displayData = this.prodDataContinues
-    }
-    this.haveData=true
 
-    this.checkFullDays()
-  });    
+      //adding expected value to continuesPpmhList
+      this.continuesPpmhList = [
+        {
+          'name':'Production Quantity',
+          'series': this.continuesPpmhList
+        },
+        {
+          'name': 'Expected Production Quantity',
+          'series': exptectedPpmhHolder
+        }
+      ]   
+     
+    //sets which type to show
+    this.updateDisplayData()
+    console.log(this.continuesYieldPerHourList);
+    
+    this.haveData=true         
+  });      
   }
 }

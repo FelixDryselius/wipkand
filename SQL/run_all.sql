@@ -12,6 +12,7 @@ CREATE TABLE product
   product_name varchar(255),
   reference_storage INT,
   label varchar(255),
+  batch_quantity_goal int,
   PRIMARY KEY (article_number)
 );
 
@@ -70,9 +71,11 @@ CREATE TABLE production_statistic
   batch_id int NOT NULL,
   production_quantity INT,
   staff_quantity INT,
+  user_name varchar(255),
   PRIMARY KEY (time_stamp),
   FOREIGN KEY (batch_id) REFERENCES batch(ID)
 );
+
 
 CREATE TABLE floorstock_statistic
 (
@@ -87,24 +90,23 @@ CREATE TABLE floorstock_statistic
 );
 
 
+INSERT INTO product (article_number, product_name, reference_storage, label, batch_quantity_goal)
+VALUES ('700-5208', 'ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 5, '700-5208_LABEL', 11000);
 
-INSERT INTO product (article_number, product_name, reference_storage, label)
-VALUES ('700-5208', 'ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 5, '700-5208_LABEL');
+INSERT INTO product (article_number, product_name, reference_storage, label, batch_quantity_goal)
+VALUES ('700-5194', 'ASSY,WRAP,10 ELUTION,IVD,GX,MRSA/SA', 0, '700-5194_LABEL', 12000);
 
-INSERT INTO product (article_number, product_name, reference_storage, label)
-VALUES ('700-5194', 'ASSY,WRAP,10 ELUTION,IVD,GX,MRSA/SA', 0, '700-5194_LABEL');
+INSERT INTO product (article_number, product_name, reference_storage, label, batch_quantity_goal)
+VALUES ('700-5196', 'ASSY,WRAP,10 ELUTION,IVD,GX,C.DIFFICILE', 6, '700-5196_LABEL', 13000);
 
-INSERT INTO product (article_number, product_name, reference_storage, label)
-VALUES ('700-5196', 'ASSY,WRAP,10 ELUTION,IVD,GX,C.DIFFICILE', 6, '700-5196_LABEL');
+INSERT INTO product (article_number, product_name, reference_storage, label, batch_quantity_goal)
+VALUES ('700-5197', 'ASSY,WRAP,10 ELUTION,IVD,GX,SA COMP', 6, '700-5197_LABEL', 14000);
 
-INSERT INTO product (article_number, product_name, reference_storage, label)
-VALUES ('700-5197', 'ASSY,WRAP,10 ELUTION,IVD,GX,SA COMP', 6, '700-5197_LABEL');
+INSERT INTO product (article_number, product_name, reference_storage, label, batch_quantity_goal)
+VALUES ('700-5280', 'ASSY,WRAP,10 ELUTION,IVD,GX,MRSA NXG', 0, '700-5280_LABEL', 15000);
 
-INSERT INTO product (article_number, product_name, reference_storage, label)
-VALUES ('700-5280', 'ASSY,WRAP,10 ELUTION,IVD,GX,MRSA NXG', 0, '700-5280_LABEL');
-
-INSERT INTO product (article_number, product_name, reference_storage, label)
-VALUES ('700-5288', 'ASSY,WRAP,10 ELUTION,IVD,GX,MTB/RIF,JP', 0, '700-5288_LABEL');
+INSERT INTO product (article_number, product_name, reference_storage, label, batch_quantity_goal)
+VALUES ('700-5288', 'ASSY,WRAP,10 ELUTION,IVD,GX,MTB/RIF,JP', 0, '700-5288_LABEL', 16000);
 
 
 
@@ -223,143 +225,144 @@ VALUES ('zebra_label', 'Zebra Label');
 
 
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 00:00:00', 1800, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 00:00:00', 1800, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 01:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 01:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 02:00:00', 1500, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 02:00:00', 1500, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 03:00:00', 2300, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 03:00:00', 2300, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 04:00:00', 2500, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 04:00:00', 2500, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 05:00:00', 2650, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 05:00:00', 2650, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 06:00:00', 2400, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 06:00:00', 2400, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 07:00:00', 2500, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 07:00:00', 2500, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 08:00:00', 1100, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 08:00:00', 1100, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 09:00:00', 800, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 09:00:00', 800, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 10:00:00', 0, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 10:00:00', 0, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 11:00:00', 500, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 11:00:00', 500, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 13:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 13:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 14:00:00', 2100, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 14:00:00', 2100, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 15:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 15:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 16:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 16:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 17:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 17:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 18:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 18:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 19:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 19:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 20:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 20:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 21:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 21:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 22:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 22:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (1, '2018-03-01 23:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (1, '2018-03-01 23:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (3, '2018-03-02 00:00:00', 1800, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (3, '2018-03-02 00:00:00', 1800, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (3, '2018-03-02 01:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (3, '2018-03-02 01:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (3, '2018-03-02 02:00:00', 1500, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (3, '2018-03-02 02:00:00', 1500, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (3, '2018-03-02 03:00:00', 2300, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (3, '2018-03-02 03:00:00', 2300, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (3, '2018-03-02 04:00:00', 2500, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (3, '2018-03-02 04:00:00', 2500, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (3, '2018-03-02 05:00:00', 2650, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (3, '2018-03-02 05:00:00', 2650, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (3, '2018-03-02 06:00:00', 2400, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (3, '2018-03-02 06:00:00', 2400, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (3, '2018-03-02 07:00:00', 2500, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (3, '2018-03-02 07:00:00', 2500, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (3, '2018-03-02 08:00:00', 1100, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (3, '2018-03-02 08:00:00', 1100, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (3, '2018-03-02 09:00:00', 800, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (3, '2018-03-02 09:00:00', 800, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (3, '2018-03-02 10:00:00', 0, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (3, '2018-03-02 10:00:00', 0, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (4, '2018-03-02 11:00:00', 500, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (4, '2018-03-02 11:00:00', 500, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (4, '2018-03-02 13:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (4, '2018-03-02 13:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (4, '2018-03-02 14:00:00', 2100, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (4, '2018-03-02 14:00:00', 2100, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (4, '2018-03-02 15:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (4, '2018-03-02 15:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (4, '2018-03-02 16:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (4, '2018-03-02 16:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (4, '2018-03-02 17:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (4, '2018-03-02 17:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (4, '2018-03-02 18:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (4, '2018-03-02 18:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (4, '2018-03-02 19:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (4, '2018-03-02 19:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (4, '2018-03-02 20:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (4, '2018-03-02 20:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (4, '2018-03-02 21:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (4, '2018-03-02 21:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (4, '2018-03-02 22:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (4, '2018-03-02 22:00:00', 2000, 3, 'Dave Clarke');
 
-INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity)
-VALUES (4, '2018-03-02 23:00:00', 2000, 3);
+INSERT INTO production_statistic (batch_id, time_stamp, production_quantity, staff_quantity, user_name)
+VALUES (4, '2018-03-02 23:00:00', 2000, 3, 'Dave Clarke');
+
 
 
 

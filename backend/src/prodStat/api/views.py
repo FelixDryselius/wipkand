@@ -50,9 +50,13 @@ class ProductionStatisticAPIView(
     def get_queryset(self, *args, **kwargs):
             queryset = ProductionStatistic.objects.all()
             _batch_number = self.request.query_params.get("batch_number", None)
+            _start_date = self.request.query_params.get("start_date", None)
+            _end_date = self.request.query_params.get("end_date", None)
             if _batch_number:
                 _batch = get_object_or_404(Batch, batch_number=_batch_number)
                 queryset = queryset.filter(batch=_batch)
+            if _start_date and _end_date:
+                queryset = queryset.filter(time_stamp__gte=_start_date).filter(time_stamp__lte=_end_date)
             return queryset
 
     def post(self, request, *args, **kwargs):
