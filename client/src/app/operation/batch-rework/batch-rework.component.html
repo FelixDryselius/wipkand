@@ -1,0 +1,87 @@
+<div class="row" >
+  <div class="col-lg-6">
+    <h5>
+      Final HMI Data Groninger 1 {{ test }}
+    </h5>
+
+    <!-- HMI 1 Good -->
+    <div class="form-group row ">
+      <label for="hmi1Good" class="col-lg-3 col-form-label">Good:</label>
+      <input class="col-lg-8 form-control" #hmi1Good formControlName="hmi1Good" placeholder="">
+    </div>
+    <div class="row">
+      <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi1Good.invalid && 
+        (finishBatchForm.controls.hmi1Good.dirty || finishBatchForm.controls.hmi1Good.touched)">
+        <span *ngIf="finishBatchForm.controls.hmi1Good.errors?.required">
+          * This field is required.
+        </span>
+        <span *ngIf="finishBatchForm.controls.hmi1Good.errors?.pattern">
+          * Only positive numbers are accepted.
+          <br>
+        </span>
+      </div>
+    </div>
+
+    <!-- HMI 1 Bad -->
+    <div class="form-group row ">
+      <label for="hmi1Bad" class="col-lg-3 col-form-label">Bad:</label>
+      <input class="col-lg-8 form-control" #hmi1Bad formControlName="hmi1Bad" placeholder="">
+    </div>
+    <div class="row">
+      <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi1Bad.invalid && 
+          (finishBatchForm.controls.hmi1Bad.dirty || finishBatchForm.controls.hmi1Bad.touched)">
+        <span *ngIf="finishBatchForm.controls.hmi1Bad.errors?.required">
+          * This field is required.
+        </span>
+        <span *ngIf="finishBatchForm.controls.hmi1Bad.errors?.pattern">
+          * Only positive numbers are accepted.
+          <br>
+        </span>
+      </div>
+    </div>
+    <br>
+
+    <div class="col-lg-6">
+      <h5>
+        Final HMI Data Groninger 2
+      </h5>
+
+      <!-- HMI 2 Good -->
+      <div class="form-group row">
+        <label for="hmi2Good" class="col-lg-3 col-form-label">Good:</label>
+        <input class="col-lg-8 form-control" #hmi2Good formControlName="hmi2Good" placeholder="">
+      </div>
+      <div class="row">
+        <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi2Good.invalid && 
+              (finishBatchForm.controls.hmi2Good.dirty || finishBatchForm.controls.hmi2Good.touched)">
+          <span *ngIf="finishBatchForm.controls.hmi2Good.errors?.required">
+            * This field is required.
+          </span>
+          <span *ngIf="finishBatchForm.controls.hmi2Good.errors?.pattern">
+            * Only positive numbers are accepted.
+            <br>
+          </span>
+        </div>
+      </div>
+
+      <!-- HMI 2 Bad -->
+      <div class="form-group row">
+        <label for="hmi2Bad" class="col-lg-3 col-form-label">Bad:</label>
+        <input class="col-lg-8 form-control" #hmi2Bad formControlName="hmi2Bad" placeholder="">
+      </div>
+      <div class="row">
+        <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi2Bad.invalid && 
+              (finishBatchForm.controls.hmi2Bad.dirty || finishBatchForm.controls.hmi2Bad.touched)">
+          <span *ngIf="finishBatchForm.controls.hmi2Bad.errors?.required">
+            * This field is required.
+          </span>
+          <span *ngIf="finishBatchForm.controls.hmi2Bad.errors?.pattern">
+            * Only positive numbers are accepted.
+            <br>
+          </span>
+        </div>
+      </div>
+      <br>
+    </div>
+  </div>
+</div>

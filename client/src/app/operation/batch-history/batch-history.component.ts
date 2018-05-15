@@ -3,10 +3,10 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
 // Application imports
-import { AuthAPIService } from '../auth/auth.service';
-import { Batch } from '../shared/interfaces/batch';
-import { OperationsService } from '../operation/shared/services/operations.service'
-import { QueryResponse } from '../shared/interfaces/query-response';
+import { AuthAPIService } from '../../auth/auth.service';
+import { Batch } from '../../shared/interfaces/batch';
+import { OperationsService } from '../shared/services/operations.service'
+import { QueryResponse } from '../../shared/interfaces/query-response';
 
 @Component({
   selector: 'app-batch-history',
@@ -38,7 +38,7 @@ export class BatchHistoryComponent implements OnInit {
   }
 
   toBatchDetail(id) {
-    this.router.navigate(['batch-history/' + id + '/'])
+    this.router.navigate(['operation/batch-history/' + id + '/'])
   }
 
   searchHistory(event, query) {

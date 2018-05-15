@@ -8,13 +8,16 @@ import { tap } from 'rxjs/operators';
 
 
 // Application imports
-import { AuthAPIService } from '../auth/auth.service';
-import { Batch } from '../shared/interfaces/batch';
-import { CommentService } from '../shared/application-services/comment.service';
-import { CustomValidation } from '../shared/validators/customValidation'
-import { OperationsService } from '../operation/shared/services/operations.service';
-import { QueryResponse } from '../shared/interfaces/query-response';
-import { Order } from '../shared/interfaces/order';
+import { AuthAPIService } from '../../auth/auth.service';
+import { Batch } from '../../shared/interfaces/batch';
+import { CommentService } from '../../shared/application-services/comment.service';
+import { CustomValidation } from '../../shared/validators/customValidation'
+import { OperationsService } from '../shared/services/operations.service';
+import { QueryResponse } from '../../shared/interfaces/query-response';
+import { Order } from '../../shared/interfaces/order';
+
+//Third party imports
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-batch-history-detail',
@@ -76,6 +79,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       .mergeMap(data => {
         //let batch = data as Batch
         this.currentBatch = data as Batch
+        this.stringToDate(this.currentBatch)
         //let orderNumber = this.currentBatch.order.order_number
         this.batchDetailForm.patchValue(this.currentBatch)
         return Observable.forkJoin(
@@ -182,6 +186,21 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         //Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
       ]),
     })
+  }
+
+  stringToDate(batch: Batch) {
+    if (batch.start_date) {
+      batch.start_date = new Date(batch.start_date)
+    }
+    if (batch.end_date) {
+      batch.end_date = new Date(batch.end_date)
+    }
+    if (batch.rework_date) {
+      batch.rework_date = new Date(batch.rework_date)
+    }
+    if (batch.label_print_time){
+      batch.label_print_time = new Date(batch.label_print_time)
+    }
   }
 
   // convertDates(form) {

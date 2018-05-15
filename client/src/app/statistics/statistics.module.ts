@@ -24,7 +24,8 @@ import { StatisticsRoutingModule } from './statistics-routing.module';
     DataPageComponent,
     StatisticsChartsComponent,
     ProductionPerTimeUnitComponent,
-    ProductionAccumulatedComponent],
+    ProductionAccumulatedComponent
+  ],
 
   providers: [],
   exports: []

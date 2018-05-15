@@ -23,11 +23,7 @@ export class StatisticsChartsComponent implements OnInit {
   displayYield = [];
   displayPpmh = [];
 
-  flaggedDays = [];
   productionStatistics = []
-
-  showBatches = false;
-  showYield = true;
   
   yieldPerHourSeparateBatchList = [] ;
   ppmhSeparateBatchList = [];
@@ -35,7 +31,12 @@ export class StatisticsChartsComponent implements OnInit {
   continuesYieldPerHourList = [];
   continuesPpmhList = [];
 
+  setOffset = 0;
+  setLimit = 72;
+
   //Chart here we set options fot the chart
+  showBatches = false;
+  showYield = true;
   showLegend = true;
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
@@ -53,23 +54,21 @@ export class StatisticsChartsComponent implements OnInit {
   constructor(private authAPI:AuthAPIService, private operationsService:OperationsService) { }
 
   ngOnInit() {
-    this.getProductionData()           
+    this.getProductionData('?limit='+this.setLimit+'&offset='+this.setOffset)           
   }
 
   xAxisFormatting(data){
     return data.toLocaleTimeString('sv-SV', { year: 'numeric', month: 'numeric', day: 'numeric', hour:'numeric', minute:'numeric'})
   }
-
-  //Might be used later
-  pressed(event) {
-    console.log('event triggered');   
-    console.log(event);
-    
+  goToNextSet(){
+    this.setOffset = this.setOffset + this.setLimit;
+    this.getProductionData('?limit='+this.setLimit+'&offset='+this.setOffset)  
+  
   }
-
-  changeTimeSpan(query?:string){
-    let tempQuery = '?limit='+query;
-    this.getProductionData(tempQuery)
+  //Fixes query and navigates to previous api data point
+  goToPreviousSet(){
+    this.setOffset = this.setOffset - this.setLimit;
+    this.getProductionData('?limit='+this.setLimit+'&offset='+this.setOffset)  
   }
 
   //to update display options
@@ -119,54 +118,7 @@ export class StatisticsChartsComponent implements OnInit {
     }
   }
 
-  checkFullDays(){
-    let currentDayHolder = new Date(this.productionStatistics[0].time_stamp)    
-    
-    currentDayHolder.setHours(0,0,0,0)
-    let previousVal = new Date(this.productionStatistics[0].time_stamp)
-    
-    let has00 = false;
-    let has23 = false
-
-    this.flaggedDays = []
-    this.productionStatistics.forEach(prodStat=>{     
-
-      //Checks if we have moved on to the next day
-      if(( new Date(currentDayHolder).getTime() - new Date(prodStat.time_stamp).getTime()) >= 86400000){
-
-        //Should flag?
-        if(!has00 || !has23){
-          this.flaggedDays.push(currentDayHolder)
-
-          //Sets prevVal
-          previousVal = prodStat.time_stamp
-        } 
-        //reset values 
-        has00 = false;
-        has23 = false;
-        currentDayHolder = new Date(prodStat.time_stamp);
-        currentDayHolder.setHours(0,0,0,0)
-      }
-
-      //Checks if we have the 00th or 23th hour
-      let tempHours = new Date(prodStat.time_stamp).getHours()
-      if(tempHours == 0){
-        has00 = true;
-      } else if(tempHours == 23){
-        has23 = true;
-      }
-
-      //Checks if there is a gap between two prodStat, also guards for if the day was changed
-      if( ((new Date(previousVal).getTime() - new Date(prodStat.time_stamp).getTime())  > 3600000) && ((new Date(prodStat.time_stamp).getTime() - new Date(currentDayHolder).getTime()) < 86400000) ) {
-        this.flaggedDays.push(currentDayHolder)            
-      }
-
-      //Sets prevVal
-      previousVal = prodStat.time_stamp
-    })    
-  }
-
-  getProductionData(query = '?limit=72')  {
+  getProductionData(query?:string)  {
     //sets all the dataholders to null
     this.yieldPerHourSeparateBatchList = [] ;
     this.ppmhSeparateBatchList = [];

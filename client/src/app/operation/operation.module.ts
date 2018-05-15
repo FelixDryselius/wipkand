@@ -1,28 +1,50 @@
-import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http'
+import { HttpModule } from '@angular/http';
+import { NgModule } from '@angular/core';
 
 //3rd party and application imports:
-import { CommentModule } from './comment/comment.module';
-import { CurrentBatchInfoModule } from './current-batch-info/current-batch-info.module';
-import { FinishBatchModule } from './finish-batch/finish-batch.module';
-import { OperationsModule } from './operations/operations.module';
+import { ApplicationPipeModule } from '../shared/application-pipes/application-pipe.module';
+import { BatchHistoryComponent } from './batch-history/batch-history.component';
+import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component';
+import { BatchReworkComponent } from './batch-rework/batch-rework.component';
+import { CommentComponent } from './comment/comment.component';
+import { CommentService } from '../shared/application-services/comment.service';
+import { FinishBatchComponent } from './finish-batch/finish-batch.component';
+import { HomeComponent } from './home/home.component';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { OperationRoutingModule } from './operation-routing.module';
-import { StartBatchModule } from './start-batch/start-batch.module';
+import { StartBatchComponent } from './start-batch/start-batch.component';
+
+import { CalendarModule } from 'primeng/calendar';
 
 
 
 @NgModule({
   imports: [
+    ApplicationPipeModule,        
     CommonModule,
-    CurrentBatchInfoModule,
-    FinishBatchModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpModule,
+    HttpClientModule,
+    Ng2PageScrollModule,
     OperationRoutingModule,
-    StartBatchModule,
-    CommentModule,
-    OperationsModule
+    CalendarModule
+
   ],
-  declarations: [ ],
+  declarations: [
+    BatchHistoryComponent,
+    BatchHistoryDetailComponent,
+    BatchReworkComponent,
+    CommentComponent,
+    FinishBatchComponent,
+    HomeComponent,
+    StartBatchComponent
+   ],
   providers: [],
-  exports: [CurrentBatchInfoModule]
+  exports: []
 })
 export class OperationModule { }

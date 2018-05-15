@@ -15,8 +15,7 @@
         [xAxisLabel] = "xAxisLabel"
         [yAxisLabel] = "yAxisLabel"
         [xAxis]='xAxis'
-        [yAxis] = 'yAxis'
-        (select)="pressed($event)">
+        [yAxis] = 'yAxis'>
       </ngx-charts-bar-vertical> 
     </div>
     <div class="col-2 align-self-end">
@@ -27,12 +26,12 @@
                 Choose Time Frame
               </button>
               <div class="dropdown-menu" aria-labelledby="timeScopeDropDown">
-                <div class="dropdown-item" (click)="changeTimeFrame('43800')">Last five years</div>
-                <div class="dropdown-item" (click)="changeTimeFrame('8760')">Last year</div>
-                <div class="dropdown-item" (click)="changeTimeFrame('4380')">Last six months</div>
-                <div class="dropdown-item" (click)="changeTimeFrame('2190')">Last Quarter</div>
-                <div class="dropdown-item" (click)="changeTimeFrame('672')">Last four weeks</div>
-                <div class="dropdown-item" (click)="changeTimeFrame('168')">Last week </div>
+                <div class="dropdown-item" (click)="changeTimeFrame(5*365*24*60*60*1000)">Last five years</div>
+                <div class="dropdown-item" (click)="changeTimeFrame(365*24*60*60*1000)">Last year</div>
+                <div class="dropdown-item" (click)="changeTimeFrame(0.5*365*24*60*60*1000)">Last six months</div>
+                <div class="dropdown-item" (click)="changeTimeFrame(0.25*365*24*60*60*1000)">Last Quarter</div>
+                <div class="dropdown-item" (click)="changeTimeFrame(4*7*24*60*60*1000)">Last four weeks</div>
+                <div class="dropdown-item" (click)="changeTimeFrame(7*24*60*60*1000)">Last week </div>
               </div>
             </div>
           </div>
