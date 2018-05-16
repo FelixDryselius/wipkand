@@ -192,7 +192,6 @@ export class OperationsComponent implements OnInit {
           }
         }
         this.currentFloorstock = [];
-        console.log(this.floorstockItems)
         for (let key in this.floorstockItems) {
           if (
             this.floorstockItems[key]["item_name"] == correctLabel ||
@@ -228,13 +227,6 @@ export class OperationsComponent implements OnInit {
             this.currentFloorstock[obj]["batch"] = ''
           }
         }
-        console.log("currentFloorstock: ")
-        console.log(this.currentFloorstock)
-
-        console.log("floorstockChanges: ")
-        console.log(this.floorstockChanges)
-
-
       });
   }
 
@@ -326,10 +318,6 @@ export class OperationsComponent implements OnInit {
         results[key] = inputData.value[key];
       }
     }
-    ("ngModelFloorstock: ")
-    console.log(this.ngModelFloorstock)
-    console.log("results: ")
-    console.log(results)
     for (let key in results) {
       let counter = 0;
       for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
@@ -354,7 +342,6 @@ export class OperationsComponent implements OnInit {
 
           // If no time stamp in api was found this means it is new data
           if (counter == this.currentFloorstock.length) {
-            console.log("entered else")
             let createItem = {
               time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
               quantity: results[key],
