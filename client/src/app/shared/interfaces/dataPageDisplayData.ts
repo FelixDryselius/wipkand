@@ -21,6 +21,5 @@ export class DataPageDisplayData {
     applied_labels?: number;
     reprint_date?: Date;
     rework_time?: Date;
-    comments?: Array<any>;
     
 }
