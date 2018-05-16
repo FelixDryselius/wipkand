@@ -1,18 +1,46 @@
-<button (click)='goBack()'>Back</button>
-
 <div class="container-fluid">
+
+  <div class="col-lg-12 text-center" *ngIf="currentBatch; else loading">
+    <button class="btn btn-default float-left" (click)='goBack()'>Back</button>
+    <h3>#{{ currentBatch.batch_number }}</h3>
+    <hr>
+  </div>
+
+  <!-- Server Error Message-->
+  <div class="col-lg-12 alert alert-danger" *ngIf="serverError;">
+    <span class="font-weight-bold"> {{serverError.statusText }} - Please contact admin</span>
+    <br>
+    <span class="font-weight-normal">
+      {{ serverError.message }}
+    </span>
+  </div>
+
   <div class="row" style="font-size: 14px;">
     <div class="col-lg-6 text-center">
-      <h5 *ngIf="currentBatch; else loading">Batch Details - #{{ currentBatch.batch_number }}</h5>
-      <br>
 
-      <div class="col-lg-12 alert alert-danger" *ngIf="serverError;">
-        <span class="font-weight-bold"> {{serverError.statusText }} - Please contact admin</span>
+      <!-- Batch Rework -->
+      <div class="row" *ngIf="currentBatch; else loading">
+        <div class="col-lg-12" style="margin-bottom: 10px;">
+          <button [disabled]='!currentBatch.end_date || currentBatch.rework_date' (click)="setRework(true)" class="btn btn-lg" data-toggle="modal"
+            data-target="#reworkModal">Batch Rework</button>
+        </div>
         <br>
-        <span class="font-weight-normal">
-          {{ serverError.message }}
-        </span>
+        <div class="col-lg-6 offset-lg-3 alert alert-danger" *ngIf="reworkSuccess == false;">
+          <span class="font-weight-bold">Rework failed. Errors listed below: </span>
+          <br>
+          <span *ngFor="let key of updateErrorKeys" class="font-weight-normal">
+            * {{ key }}: {{ updateError[key] }}
+            <br>
+          </span>
+        </div>
+        <div class="col-lg-6 offset-lg-3 alert alert-success" *ngIf="reworkSuccess == true;">
+          <span class="font-weight-bold">Batch rework successful!</span>
+        </div>
       </div>
+      <hr>
+
+      <h5>Batch Details</h5>
+      <br>
 
       <!-- Order Form -->
       <form *ngIf="order; else loading" [formGroup]="orderDetailForm" (ngSubmit)="submitOrderForm($event, orderDetailForm.value)">
@@ -67,7 +95,7 @@
           <div class="col-lg-6 text-left">
             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore sed corporis quia a, blanditiis repellendus,
               minus quod necessitatibus.</p>
-            <button [disabled]='orderDetailForm.invalid' class="btn btn-primary " type="submit">Update Order</button>
+            <button [disabled]='orderDetailForm.invalid' class="btn btn-primary" type="submit">Update Order</button>
           </div>
         </div>
       </form>
@@ -170,7 +198,7 @@
               <!-- Applied Labels -->
               <li class="list-group-item text-left">
                 <label for="applied_labels">Applied Labels:</label>
-                <input id="applied_labels" class="input-sm float-right" formControlName="applied_labels" />
+                <input type="number" id="applied_labels" class="input-sm float-right" formControlName="applied_labels" />
               </li>
 
               <!-- Rework Time -->
@@ -188,7 +216,7 @@
               <!-- Yield -->
               <li class="list-group-item text-left">
                 <label for="production_yield">Yield:</label>
-                <input id="production_yield" class="input-sm float-right" formControlName="production_yield" />
+                <input type="number" id="production_yield" class="input-sm float-right" formControlName="production_yield" />
                 <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.production_yield.invalid && 
                 (batchDetailForm.controls.production_yield.dirty || batchDetailForm.controls.production_yield.touched)">
                   <!-- <span *ngIf="batchDetailForm.controls.production_yield.errors?.required">
@@ -204,7 +232,7 @@
               <!-- HMI1 Good -->
               <li class="list-group-item text-left">
                 <label for="hmi1_good">HMI1 Good:</label>
-                <input id="hmi1_good" class="input-sm float-right" formControlName="hmi1_good" />
+                <input type="number" id="hmi1_good" class="input-sm float-right" formControlName="hmi1_good" />
                 <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.hmi1_good.invalid && 
                 (batchDetailForm.controls.hmi1_good.dirty || batchDetailForm.controls.hmi1_good.touched)">
                   <!-- <span *ngIf="batchDetailForm.controls.hmi1_good.errors?.required">
@@ -220,7 +248,7 @@
               <!-- HMI1 Bad -->
               <li class="list-group-item text-left">
                 <label for="hmi1_bad">HMI1 Bad:</label>
-                <input id="hmi1_bad" class="input-sm float-right" formControlName="hmi1_bad" />
+                <input type="number" id="hmi1_bad" class="input-sm float-right" formControlName="hmi1_bad" />
                 <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.hmi1_bad.invalid && 
                 (batchDetailForm.controls.hmi1_bad.dirty || batchDetailForm.controls.hmi1_bad.touched)">
                   <!-- <span *ngIf="batchDetailForm.controls.hmi1_bad.errors?.required">
@@ -236,7 +264,7 @@
               <!-- HMI2 Good -->
               <li class="list-group-item text-left">
                 <label for="hmi2_good">HMI2 Good:</label>
-                <input id="hmi2_good" class="input-sm float-right" formControlName="hmi2_good" />
+                <input type="number" id="hmi2_good" class="input-sm float-right" formControlName="hmi2_good" />
                 <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.hmi2_good.invalid && 
                 (batchDetailForm.controls.hmi2_good.dirty || batchDetailForm.controls.hmi2_good.touched)">
                   <!-- <span *ngIf="batchDetailForm.controls.hmi2_good.errors?.required">
@@ -252,7 +280,7 @@
               <!-- HMI2 Bad -->
               <li class="list-group-item text-left">
                 <label for="hmi2_bad">HMI2 Bad:</label>
-                <input id="hmi2_bad" class="input-sm float-right" formControlName="hmi2_bad" />
+                <input type="number" id="hmi2_bad" class="input-sm float-right" formControlName="hmi2_bad" />
                 <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.hmi2_bad.invalid && 
                 (batchDetailForm.controls.hmi2_bad.dirty || batchDetailForm.controls.hmi2_bad.touched)">
                   <!-- <span *ngIf="batchDetailForm.controls.hmi2_bad.errors?.required">
@@ -268,7 +296,7 @@
               <!-- Scrap -->
               <li class="list-group-item text-left">
                 <label for="scrap">Scrap:</label>
-                <input id="scrap" class="input-sm float-right" formControlName="scrap" />
+                <input type="number" id="scrap" class="input-sm float-right" formControlName="scrap" />
                 <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.scrap.invalid && 
                 (batchDetailForm.controls.scrap.dirty || batchDetailForm.controls.scrap.touched)">
                   <!-- <span *ngIf="batchDetailForm.controls.scrap.errors?.required">
@@ -297,6 +325,16 @@
       <div class="col-lg-12 alert alert-success" *ngIf="updateBatchSuccess == true;">
         <span class="font-weight-bold">Batch update successful!</span>
       </div>
+    </div>
+
+    <div class="col-lg-6 text-center">
+      <h5>Batch Stats</h5>
+      <div class="row">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, laborum expedita. Cupiditate assumenda veritatis
+          possimus. Odio, aliquam. Sequi, dolores similique sed animi perspiciatis quidem corrupti, fugit delectus atque
+          blanditiis rem.</p>
+      </div>
+      <hr>
 
       <div class="row text-center">
         <div class="col-lg-12">
@@ -318,15 +356,6 @@
             </div>
           </div>
         </div>
-        <hr>
-      </div>
-    </div>
-    <div class="col-lg-6 text-center">
-      <h5>Batch Stats</h5>
-      <div class="row">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, laborum expedita. Cupiditate assumenda veritatis
-          possimus. Odio, aliquam. Sequi, dolores similique sed animi perspiciatis quidem corrupti, fugit delectus atque
-          blanditiis rem.</p>
       </div>
       <hr>
 
@@ -349,6 +378,33 @@
         </table>
       </div>
 
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div #reworkModal id="reworkModal" class="modal fade bd-example-modal-lg" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 *ngIf="currentBatch" class="modal-title float-left">Rework batch: #{{ currentBatch.batch_number }}</h4>
+        <button type="button" class="btn btn-default float-right" data-dismiss="modal" (click)="setRework(false)" id="closeReworkModal"
+          #closeReworkModal>Cancel</button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="reworking == true">
+          <form [formGroup]="reworkForm" (ngSubmit)="submitRework($event, reworkForm.value)">
+            <batch-rework [reworkForm]="reworkForm"></batch-rework>
+            <div class="col-lg-12 text-center">
+              <button [disabled]='reworkForm.invalid' type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
     </div>
   </div>
 </div>

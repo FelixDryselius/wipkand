@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, Pipe, OnDestroy } from '@angular/core';
+import { Component, OnInit, Pipe, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Location } from '@angular/common'
 import { Observable } from 'rxjs/Observable';
@@ -18,6 +18,8 @@ import { Order } from '../../shared/interfaces/order';
 
 //Third party imports
 import { CalendarModule } from 'primeng/calendar';
+import { BatchReworkComponent } from '../batch-rework/batch-rework.component';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-batch-history-detail',
@@ -25,6 +27,9 @@ import { CalendarModule } from 'primeng/calendar';
   styleUrls: ['./batch-history-detail.component.css']
 })
 export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
+
+  @ViewChild(BatchReworkComponent) batchReworkComponent: BatchReworkComponent
+  @ViewChild('closeReworkModal') closeReworkModal: ElementRef;
 
   private batchDetailForm: FormGroup;
   private batchDetailID: string;
@@ -51,10 +56,14 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
   updateBatchSuccess: boolean;
   updateOrderSuccess: boolean;
+  reworkSuccess: boolean;
   updateError: any;
   updateErrorKeys: any;
 
   serverError: any;
+
+  reworking: boolean;
+  reworkForm: FormGroup;
 
   private prodInfo: {}
   private service_prodInfo: any;
@@ -77,10 +86,8 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
     this.batchSub = this.operationsService.getBatchDetail(this.batchDetailID)
       .mergeMap(data => {
-        //let batch = data as Batch
         this.currentBatch = data as Batch
         this.stringToDate(this.currentBatch)
-        //let orderNumber = this.currentBatch.order.order_number
         this.batchDetailForm.patchValue(this.currentBatch)
         return Observable.forkJoin(
           this.operationsService.getOrder(this.currentBatch.order.order_number)
@@ -143,47 +150,34 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       ]),
       'start_date': new FormControl('', [
         Validators.required,
-        //Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
       ]),
       'end_date': new FormControl('', [
-        //Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
       ]),
       'scrap': new FormControl('', [
-        //Validators.required,
-        Validators.pattern("^[0-9]*$"),
       ]),
       'production_yield': new FormControl('', [
-        //Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
       'hmi1_good': new FormControl('', [
-        //Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
       'hmi1_bad': new FormControl('', [
-        //Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
       'hmi2_good': new FormControl('', [
-        //Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
       'hmi2_bad': new FormControl('', [
-        //Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
       'rework_date': new FormControl('', [
-        //Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
       ]),
       'applied_labels': new FormControl('', [
-        //Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
       'label_print_time': new FormControl('', [
-        //Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
       ]),
       'rework_time': new FormControl('', [
-        //Validators.pattern("[0-9]+[0-9]+[0-9]+[0-9]-[0-9]+[0-9]-[0-9]+[0-9]T[0-9]+[0-9]:[0-9]+[0-9]:[0-9]+[0-9](.*)"),
       ]),
     })
   }
@@ -201,41 +195,6 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     if (batch.label_print_time) {
       batch.label_print_time = new Date(batch.label_print_time)
     }
-  }
-
-  // convertDates(form) {
-  //   if (form['start_date']) {
-  //     form['start_date'] = new Date(form['start_date']).toISOString()
-  //   }
-  //   if (form['end_date']) {
-  //     form['end_date'] = new Date(form['end_date']).toISOString()
-  //   }
-  //   if (form['rework_date']) {
-  //     form['rework_date'] = new Date(form['rework_date']).toISOString()
-  //   }
-  //   if (form['label_print_time']) {
-  //     form['label_print_time'] = new Date(form['label_print_time']).toISOString()
-  //   }
-  // }
-
-  checkCurrentBatchChange(batch: Batch): boolean {
-    if (this.prodInfo) {
-      if ((this.prodInfo['batch_number'] == this.currentBatch.batch_number) &&
-        (this.currentBatch.batch_number != batch.batch_number ||
-          this.order != batch.order)) {
-        return true
-      }
-    }
-    return false
-  }
-
-  handleUpdateBatch(batch: Batch) {
-    if (this.checkCurrentBatchChange(batch)) {
-      this.operationsService.setCurrentBatchInfo(batch)
-    }
-    this.currentBatch = batch
-    this.order = batch.order
-    this.batchDetailID = (batch as Batch).id
   }
 
   submitOrderForm($event, form) {
@@ -263,10 +222,13 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   submitBatchForm($event, form) {
     form['order'] = this.order
     form['id'] = this.batchDetailID
+    if (form['rework_time'] == '') {
+      form['rework_time'] = null
+    }
     //this.convertDates(form)
     this.clearMsg()
     this.operationsService.updateBatch(form as Batch)
-      //.retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.updateBatchSuccess = true
         this.handleUpdateBatch(data as Batch)
@@ -276,6 +238,63 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
           this.handleUpdateError(error)
         }
       )
+  }
+
+  submitRework($event, reworkForm) {
+    let _label_print_time = new Date()
+    let _applied_labels = this.batchReworkComponent.getAppliedLabels()
+    let _pick_and_replace = this.batchReworkComponent.getPickAndReplace(this.currentBatch, _applied_labels, this.currentBatch.scrap)
+
+    let batch: Batch = {
+      id: this.currentBatch.id,
+      batch_number: this.currentBatch.batch_number,
+      order: this.currentBatch.order,
+      applied_labels: _applied_labels,
+      label_print_time: _label_print_time,
+      rework_date: new Date(),
+      rework_time: this.batchReworkComponent.milisecondsToTimeString(
+        _label_print_time.valueOf() - this.currentBatch.end_date.valueOf()
+      )
+    }
+    
+    if (this.closeReworkModal) {
+      this.closeReworkModal.nativeElement.click();
+    }
+    this.setRework(false)
+    this.operationsService.updateBatch(batch)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe((data: Batch) => {
+        this.currentBatch = data
+        this.stringToDate(this.currentBatch)
+        this.reworkSuccess = true
+        this.batchDetailForm.patchValue(this.currentBatch)
+      },
+        error => {
+          this.reworkSuccess = false
+          this.handleUpdateError(error)
+        }
+      )
+
+  }
+
+  checkCurrentBatchChange(batch: Batch): boolean {
+    if (this.prodInfo) {
+      if ((this.prodInfo['batch_number'] == this.currentBatch.batch_number) &&
+        (this.currentBatch.batch_number != batch.batch_number ||
+          this.order != batch.order)) {
+        return true
+      }
+    }
+    return false
+  }
+
+  handleUpdateBatch(batch: Batch) {
+    if (this.checkCurrentBatchChange(batch)) {
+      this.operationsService.setCurrentBatchInfo(batch)
+    }
+    this.currentBatch = batch
+    this.order = batch.order
+    this.batchDetailID = (batch as Batch).id
   }
 
   handleUpdateError(error) {
@@ -293,9 +312,20 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   clearMsg() {
     this.updateBatchSuccess = null;
     this.updateOrderSuccess = null;
+    this.reworkSuccess = null;
     this.updateError = null;
     this.updateErrorKeys = null;
     this.serverError = null;
+  }
+
+  setRework(state: boolean) {
+    if (state == true) {
+      this.reworkForm = this.formBuilder.group({
+      })
+      this.reworking = true
+    } else {
+      this.reworking = false
+    }
   }
 
   goBack() {

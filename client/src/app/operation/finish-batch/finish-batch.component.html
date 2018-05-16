@@ -14,16 +14,16 @@
 
             <!-- HMI 1 Good -->
             <div class="form-group row ">
-              <label for="hmi1Good" class="col-lg-3 col-form-label">Good:</label>
-              <input class="col-lg-8 form-control" #hmi1Good formControlName="hmi1Good" placeholder="">
+              <label for="hmi1_good" class="col-lg-3 col-form-label">Good:</label>
+              <input type="number" class="col-lg-8 form-control" #hmi1_good formControlName="hmi1_good" placeholder="">
             </div>
             <div class="row">
-              <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi1Good.invalid && 
-                (finishBatchForm.controls.hmi1Good.dirty || finishBatchForm.controls.hmi1Good.touched)">
-                <span *ngIf="finishBatchForm.controls.hmi1Good.errors?.required">
+              <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi1_good.invalid && 
+                (finishBatchForm.controls.hmi1_good.dirty || finishBatchForm.controls.hmi1_good.touched)">
+                <span *ngIf="finishBatchForm.controls.hmi1_good.errors?.required">
                   * This field is required.
                 </span>
-                <span *ngIf="finishBatchForm.controls.hmi1Good.errors?.pattern">
+                <span *ngIf="finishBatchForm.controls.hmi1_good.errors?.pattern">
                   * Only positive numbers are accepted.
                   <br>
                 </span>
@@ -32,16 +32,16 @@
 
             <!-- HMI 1 Bad -->
             <div class="form-group row ">
-              <label for="hmi1Bad" class="col-lg-3 col-form-label">Bad:</label>
-              <input class="col-lg-8 form-control" #hmi1Bad formControlName="hmi1Bad" placeholder="">
+              <label for="hmi1_bad" class="col-lg-3 col-form-label">Bad:</label>
+              <input type="number" class="col-lg-8 form-control" #hmi1_bad formControlName="hmi1_bad" placeholder="">
             </div>
             <div class="row">
-              <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi1Bad.invalid && 
-                  (finishBatchForm.controls.hmi1Bad.dirty || finishBatchForm.controls.hmi1Bad.touched)">
-                <span *ngIf="finishBatchForm.controls.hmi1Bad.errors?.required">
+              <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi1_bad.invalid && 
+                  (finishBatchForm.controls.hmi1_bad.dirty || finishBatchForm.controls.hmi1_bad.touched)">
+                <span *ngIf="finishBatchForm.controls.hmi1_bad.errors?.required">
                   * This field is required.
                 </span>
-                <span *ngIf="finishBatchForm.controls.hmi1Bad.errors?.pattern">
+                <span *ngIf="finishBatchForm.controls.hmi1_bad.errors?.pattern">
                   * Only positive numbers are accepted.
                   <br>
                 </span>
@@ -57,16 +57,16 @@
 
             <!-- HMI 2 Good -->
             <div class="form-group row">
-              <label for="hmi2Good" class="col-lg-3 col-form-label">Good:</label>
-              <input class="col-lg-8 form-control" #hmi2Good formControlName="hmi2Good" placeholder="">
+              <label for="hmi2_good" class="col-lg-3 col-form-label">Good:</label>
+              <input type="number" class="col-lg-8 form-control" #hmi2_good formControlName="hmi2_good" placeholder="">
             </div>
             <div class="row">
-              <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi2Good.invalid && 
-                  (finishBatchForm.controls.hmi2Good.dirty || finishBatchForm.controls.hmi2Good.touched)">
-                <span *ngIf="finishBatchForm.controls.hmi2Good.errors?.required">
+              <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi2_good.invalid && 
+                  (finishBatchForm.controls.hmi2_good.dirty || finishBatchForm.controls.hmi2_good.touched)">
+                <span *ngIf="finishBatchForm.controls.hmi2_good.errors?.required">
                   * This field is required.
                 </span>
-                <span *ngIf="finishBatchForm.controls.hmi2Good.errors?.pattern">
+                <span *ngIf="finishBatchForm.controls.hmi2_good.errors?.pattern">
                   * Only positive numbers are accepted.
                   <br>
                 </span>
@@ -75,16 +75,16 @@
 
             <!-- HMI 2 Bad -->
             <div class="form-group row">
-              <label for="hmi2Bad" class="col-lg-3 col-form-label">Bad:</label>
-              <input class="col-lg-8 form-control" #hmi2Bad formControlName="hmi2Bad" placeholder="">
+              <label for="hmi2_bad" class="col-lg-3 col-form-label">Bad:</label>
+              <input type="number" class="col-lg-8 form-control" #hmi2_bad formControlName="hmi2_bad" placeholder="">
             </div>
             <div class="row">
-              <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi2Bad.invalid && 
-                  (finishBatchForm.controls.hmi2Bad.dirty || finishBatchForm.controls.hmi2Bad.touched)">
-                <span *ngIf="finishBatchForm.controls.hmi2Bad.errors?.required">
+              <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi2_bad.invalid && 
+                  (finishBatchForm.controls.hmi2_bad.dirty || finishBatchForm.controls.hmi2_bad.touched)">
+                <span *ngIf="finishBatchForm.controls.hmi2_bad.errors?.required">
                   * This field is required.
                 </span>
-                <span *ngIf="finishBatchForm.controls.hmi2Bad.errors?.pattern">
+                <span *ngIf="finishBatchForm.controls.hmi2_bad.errors?.pattern">
                   * Only positive numbers are accepted.
                   <br>
                 </span>
@@ -96,43 +96,47 @@
           <div class="col-lg-6 offset-lg-3">
             <!-- Yield -->
             <div class="form-group row">
-              <label for="yield" class="col-lg-3 col-form-label">Yield:</label>
-              <input class="col-lg-8 form-control" #yield formControlName="yield" placeholder="">
+              <label for="production_yield" class="col-lg-3 col-form-label">Yield:</label>
+              <input type="number" class="col-lg-8 form-control" #production_yield formControlName="production_yield" placeholder="">
             </div>
             <div class="row">
-              <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.yield.invalid && 
-                    (finishBatchForm.controls.yield.dirty || finishBatchForm.controls.yield.touched)">
-                <span *ngIf="finishBatchForm.controls.yield.errors?.required">
+              <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.production_yield.invalid && 
+                    (finishBatchForm.controls.production_yield.dirty || finishBatchForm.controls.production_yield.touched)">
+                <span *ngIf="finishBatchForm.controls.production_yield.errors?.required">
                   * This field is required.
                 </span>
-                <span *ngIf="finishBatchForm.controls.yield.errors?.pattern">
+                <span *ngIf="finishBatchForm.controls.production_yield.errors?.pattern">
                   * Only positive numbers are accepted.
                   <br>
                 </span>
               </div>
             </div>
+            <hr>
 
             <!-- Rework -->
-            <div class="form-group row">
+            <!-- <div class="form-group row">
               <div class="col-lg-8 offset-lg-2 text-center">
-                <h5>Rework</h5>
+                <h4>Rework</h4>
               </div>
-
-              <!-- <label for="reLabeling" class="col-lg-3 col-form-label">Re-labeling</label> -->
               <div class="col-lg-4 offset-lg-4 form-control">
                 <div class="row text-center">
                   <label class="col-lg-6">Yes
-                    <input type="radio" value="true" formControlName="reLabeling">
+                    <input type="radio" value="true" formControlName="rework">
                   </label>
                   <label class="col-lg-6">No
-                    <input type="radio" value="false" formControlName="reLabeling">
+                    <input type="radio" value="false" formControlName="rework">
                   </label>
                 </div>
               </div>
-            </div>
+            </div> -->
+
+
           </div>
         </div>
-        <!-- <batch-rework></batch-rework> -->
+        <br>
+        <!-- <div *ngIf="finishBatchForm.controls.rework.value == 'true'">
+          <batch-rework [reworkForm]="finishBatchForm"></batch-rework>
+        </div> -->
         <div class="row">
           <div class="col-lg-12">
             <button type="submit" [disabled]='finishBatchForm.invalid' class="btn btn-primary" style="margin-bottom: 50px;">Save</button>
@@ -140,180 +144,5 @@
         </div>
       </form>
     </div>
-
   </div>
 </div>
-
-
-
-<!-- <div class="text-center">
-
-
-  <div class="container">
-    <form #batchFinishForm='ngForm' (ngSubmit)='submitEndBatch($event,batchFinishForm.value)'>
-      <div class="row">
-        <div class="col-lg-6">
-          <h5>{{ groninger1 }}</h5>
-        </div>
-        <div class="col-lg-6">
-          <h5>{{ groninger2 }}</h5>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <div class="col-lg-6">
-          <div class="form-group">
-            <label for="hmi1_good">Approved/Good </label>
-            <input required type="number" id="hmi1_good" name="hmi1_good" type="text" [(ngModel)]="hmi1_good" class="form-control">
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="form-group">
-            <label for="hmi2_good">Approved/Good </label>
-            <input id="hmi2_good" name="hmi2_good" type="text" [(ngModel)]="hmi2_good" class="form-control">
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <div class="col-lg-6">
-          <div class="form-group">
-            <label for="hmi1_bad">Rejected/Bad </label>
-            <input id="hmi1_bad" name="hmi1_bad" type="text" [(ngModel)]="hmi1_bad" class="form-control">
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="form-group">
-            <label for="hmi2_bad">Rejected/Bad </label>
-            <input id="hmi2_bad" name="hmi2_bad" type="text" [(ngModel)]="hmi2_bad" class="form-control">
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <div class="col-lg-6">
-          <label for="inputTotal">Re-labeling: </label>
-          <div class="form-control">
-            <div class="row">
-              <div class="col-lg-6">
-                <label class="radio-inline">
-                  Yes:
-                  <input type="radio" value="true" name="reLabeling" [(ngModel)]="reLabeling">
-                </label>
-              </div>
-              <div class="col-lg-6">
-                <label class="radio-inline">
-                  No:
-                  <input type="radio" value="false" name="reLabeling" [(ngModel)]="reLabeling">
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6">
-          <div class="form-group">
-            <label for="yield">Yield 1 </label>
-            <input id="yield_1" name="yield_1" type="text" [(ngModel)]="yield_1" class="form-control">
-          </div>
-        </div>
-      </div>
-      <div class="panel-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div>
-    </form>
-  </div>
-</div> -->
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- OLD INPUT, IT'S NOT WORKING BUT GOOD LOOKING: 
-
-<div class="text-center" style="margin-top:15px;">
-    <h3 class="h3header">
-    {{ title }}
-  </h3>
-  <br>
-  <div class="finishBatch">
-  <div class="row" style="margin-top:20px;">
-    <h5 class="col-lg-6">
-      {{ groninger1 }}
-    </h5>
-    <h5 class="col-lg-6">
-        {{ groninger2 }}
-    </h5>
-  </div>
-  <form #batchEndForm='ngForm' (ngSubmit)='submitEndBatch($event,batchEndForm)'>
-  
-    <div class="form-group row firstInput">
-      <div class="col-lg-4">
-        <input type="total" class="form-control">
-      </div>
-      <label class="col-lg-4 col-form-label text-center finishBatchLabels">Total</label>
-      <div class="col-lg-4">
-          <input type="total" class="form-control">
-      </div>
-    </div>
-
-    <div class="form-group row firstInput">
-        <div class="col-lg-4">
-          <input type="approved" class="form-control">
-        </div>
-        <label class="col-lg-4 col-form-label text-center finishBatchLabels">Approved/Good</label>
-        <div class="col-lg-4">
-            <input type="approved" class="form-control">
-        </div>
-      </div>
-
-      <div class="form-group row firstInput">
-          <div class="col-lg-4">
-            <input type="rejected" class="form-control">
-          </div>
-          <label class="col-lg-4 col-form-label text-center finishBatchLabels">Rejected/Bad</label>
-          <div class="col-lg-4">
-              <input type="rejected" class="form-control">
-          </div>
-        </div>  
-    
-        <div class="form-group row firstInput border border-secondary col-lg-6" style="margin-top:50px; margin-left:97px;">
-            <label for="inputTotal" class="col-lg-4 col-form-label text-center finishBatchLabels">Re-labeling</label>
-            <div style="margin-top:7px;">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                <label class="form-check-label finishBatchLabels" for="inlineCheckbox1">Yes</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                <label class="form-check-label finishBatchLabels" for="inlineCheckbox2">No</label>
-              </div>
-            </div>
-          </div>  
-
-          <div class="form-group firstInput row yieldField">
-            <label class="col-lg-4 col-form-label text-center finishBatchLabels">Yield</label>
-            <div class="col-lg-4">
-              <input type="yield" class="form-control">
-            </div> 
-          </div> 
-
-      <div class="btn-finishBatch">
-        <button type="submit" class="btn btn-primary  finishBatchLabels" routerLink="/batch-rework" routerLinkActive="active">
-          Update
-        </button>
-        <button type="submit" class="btn btn-secondary finishBatchLabels">
-          Cancel
-        </button>
-      </div>
-  </form>
-</div>
-</div>
--->
