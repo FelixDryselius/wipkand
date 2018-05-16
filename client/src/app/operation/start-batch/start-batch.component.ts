@@ -45,7 +45,7 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     //Use operationsService to share information between start-batch, finish-batch and current-batch-info
-    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
+    this.service_prodInfo = this.operationsService.$prodInfo.subscribe(info => this.prodInfo = info)
 
     this.getProductSub = this.operationsService.getProduct()
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
@@ -102,8 +102,9 @@ export class StartBatchComponent implements OnInit, OnDestroy {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.operationsService.setCurrentBatchInfo(data as Batch);
-        console.log("Successfully created batch! Navigating home..");
-        this.router.navigate(['/operation/home'])
+        console.log("Successfully created batch! Navigating to operations..");
+        this.router.navigate(['/operation/operations'])
+
       },
         error => {
           console.error(error)

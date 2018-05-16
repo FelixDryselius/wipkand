@@ -16,6 +16,9 @@ import { OperationsService } from '../shared/services/operations.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 import { Order } from '../../shared/interfaces/order';
 
+//Third party imports
+import { CalendarModule } from 'primeng/calendar';
+
 @Component({
   selector: 'app-batch-history-detail',
   templateUrl: './batch-history-detail.component.html',
@@ -67,7 +70,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.batchDetailID = this.route.snapshot.paramMap.get('id')
-    this.service_prodInfo = this.operationsService.prodInfoObservable.subscribe(info => this.prodInfo = info)
+    this.service_prodInfo = this.operationsService.$prodInfo.subscribe(info => this.prodInfo = info)
 
     this.createOrderForm()
     this.createBatchForm()
@@ -76,6 +79,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       .mergeMap(data => {
         //let batch = data as Batch
         this.currentBatch = data as Batch
+        this.stringToDate(this.currentBatch)
         //let orderNumber = this.currentBatch.order.order_number
         this.batchDetailForm.patchValue(this.currentBatch)
         return Observable.forkJoin(
@@ -184,6 +188,21 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     })
   }
 
+  stringToDate(batch: Batch) {
+    if (batch.start_date) {
+      batch.start_date = new Date(batch.start_date)
+    }
+    if (batch.end_date) {
+      batch.end_date = new Date(batch.end_date)
+    }
+    if (batch.rework_date) {
+      batch.rework_date = new Date(batch.rework_date)
+    }
+    if (batch.label_print_time) {
+      batch.label_print_time = new Date(batch.label_print_time)
+    }
+  }
+
   // convertDates(form) {
   //   if (form['start_date']) {
   //     form['start_date'] = new Date(form['start_date']).toISOString()
@@ -201,7 +220,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
   checkCurrentBatchChange(batch: Batch): boolean {
     if (this.prodInfo) {
-      if ((this.prodInfo['batch_number'] == this.currentBatch) &&
+      if ((this.prodInfo['batch_number'] == this.currentBatch.batch_number) &&
         (this.currentBatch.batch_number != batch.batch_number ||
           this.order != batch.order)) {
         return true
@@ -253,7 +272,6 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         this.handleUpdateBatch(data as Batch)
       },
         error => {
-          debugger;
           this.updateBatchSuccess = false
           this.handleUpdateError(error)
         }
@@ -262,7 +280,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
   handleUpdateError(error) {
     if (error.status == 500) {
-      this.serverError = error 
+      this.serverError = error
     }
     console.error(error)
     this.updateError = error.error;

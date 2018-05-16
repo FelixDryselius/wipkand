@@ -12,6 +12,7 @@ import { TokenInterceptor } from './auth/token.interceptor';
 import { OperationModule } from './operation/operation.module';
 import { OperationsService } from './operation/shared/services/operations.service';
 import { RoleGuard } from './auth/role-guard.service';
+import { CalendarModule } from 'primeng/calendar';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -24,6 +25,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SubmitIfValidDirective } from './shared/directives/submit-if-valid.directive';
 import { CommentService } from './shared/application-services/comment.service';
+import { HomeComponent } from './home/home.component';
+
 
 
 @NgModule({
@@ -34,10 +37,12 @@ import { CommentService } from './shared/application-services/comment.service';
     CurrentBatchInfoComponent,
     NotFoundComponent,
     SubmitIfValidDirective,
+    HomeComponent,
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
+    CalendarModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
