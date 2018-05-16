@@ -1,9 +1,9 @@
-import { AuthAPIService } from '../../auth/auth.service';
+import { AuthAPIService } from '../auth/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OperationsService } from '../shared/services/operations.service';
-import { Batch } from '../../shared/interfaces/batch'
-import { QueryResponse } from '../../shared/interfaces/query-response'
+import { OperationsService } from '../shared/application-services/operations.service';
+import { Batch } from '../shared/interfaces/batch'
+import { QueryResponse } from '../shared/interfaces/query-response'
 
 import { Observable } from 'rxjs/Observable';
 
@@ -52,7 +52,12 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     //Test these carefully
     //this.service_prodStatus.unsubscribe();
-    //this.service_prodInfo.unsubscribe();
+    if(this.req_batch){
+      this.req_batch.unsubscribe()
+    }
+    if(this.service_prodInfo){
+      this.service_prodInfo.unsubscribe();
+    }
     if (this.tokenRefreshRecallSub) {
       this.tokenRefreshRecallSub.unsubscribe()
     }

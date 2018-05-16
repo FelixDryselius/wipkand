@@ -1,29 +1,55 @@
 <button (click)='goBack()'>Back</button>
 
-<div class="container-fluid">
-  <div class="row" style="font-size: 12px;">
-    <div class="col-lg-12 text-center">
+<!-- If user is loaded show the form, else show the loading template -->
+<ng-template #loading>
+    Loading content...
+  </ng-template>
+
+  <!-- Comments part -->
+
+<div class="container">
+  <div class="row" >
+    <div class="col-lg-12">
       <h5>Scoreboard</h5>
-      <br>
-      <table *ngIf="hasValues; else loading" id="table" class="table-striped table-bordered" style="width:100%">
+    </div>
+    </div>
+    <br>
+    <div class="row" style="font-size:12px;">
+      <div class="col-lg-12" >
+        <div class="text-left" *ngIf="displayComments"> <!-- *ngif="displayComments" -->
+          <thead>
+            <tr>
+              <th>Comments related to the chosen batch {{commentBatchNumber}}:</th>
+            </tr>
+          </thead>
+          <tr *ngFor="let commentItem of displayCommentsList">  <!-- *ngfor="let commentItem of displayCommentsList" -->
+            <td>At {{commentItem.post_date | date:"HH:mm, dd LLL" }}, {{ commentItem.user_name }} wrote: {{ commentItem.text_comment }} </td> 
+          </tr> 
+        </div>
+      </div> 
+    </div> 
+    <br>
+    <div class="row justify-content-center">
+      <div class="col-lg-12 text-center">
+      <table *ngIf="hasValues; else loading" id="table" class="table-striped table-bordered" style="font-size:10.5px; width:100%">
         <thead>
           <tr >
-            <th attr.rowspan="{{testSpan}}">Prodn Order No</th>
-            <th rowspan="2">Batch</th>
-            <th rowspan="2">Product Number</th>
-            <th rowspan="2">Start Time/Date</th>
-            <th rowspan="2">End Time/Date</th>
+            <th attr.rowspan="{{testSpan}}">Order Num.</th>
+            <th rowspan="2">Batch Num.</th>
+            <th rowspan="2">Product Num.</th>
+            <th rowspan="2">Start Date</th>
+            <th rowspan="2">End Date</th>
             <th rowspan="2">Batch Time</th>
-            <th rowspan="2">Reference Storage</th>
+            <th rowspan="2">Ref. Storage</th>
             <th rowspan="2">Scrap</th>
             <th rowspan="2">Yield</th>
             <th colspan="3">Groninger 1 HMI Data</th>
             <th colspan="3">Groninger 2 HMI Data</th>      
-            <th rowspan="2">Grand Match Total</th>
+            <th rowspan="2">GMT</th>
             <th rowspan="2">Rework Date</th>
-            <th rowspan="2">Est. Pick And Replace</th>
+            <th rowspan="2">Est. Pick & Replace</th>
             <th rowspan="2">Labels Applied</th>
-            <th rowspan="2">Reprint Date/Time</th>
+            <th rowspan="2">Reprint Date</th>
             <th rowspan="2">Rework Time</th>
             <th rowspan="2">Comments</th>
           </tr>
@@ -37,37 +63,51 @@
           </tr>
         </thead>
         <tr *ngFor="let displayItem of displayDataList">
-          <td class="font-weight-normal">{{ displayItem.order_number }}</td>
-          <td class="font-weight-normal">{{ displayItem.batch_number }}</td>
-          <td class="font-weight-normal">{{ displayItem.article_number }}</td>
-          <td class="font-weight-normal">{{ displayItem.start_date | date:"yy/MM/dd HH:mm"  }}</td>
-          <td class="font-weight-normal">{{ displayItem.end_date | date:"yy/MM/dd HH:mm" }}</td>
-          <td class="font-weight-normal">{{ displayItem.batch_time }}</td>  <!-- must add pipe later -->
-          <td class="font-weight-normal">{{ displayItem.reference_storage }}</td>
-          <td class="font-weight-normal">{{ displayItem.scrap }}</td>
-          <td class="font-weight-normal">{{ displayItem.yield }}</td>
-          <td class="font-weight-normal">{{ displayItem.hmi1_good }}</td>
-          <td class="font-weight-normal">{{ displayItem.hmi1_bad }}</td>
-          <td class="font-weight-normal">{{ displayItem.hmi1_total }}</td>
-          <td class="font-weight-normal">{{ displayItem.hmi2_good }}</td>
-          <td class="font-weight-normal">{{ displayItem.hmi2_bad }}</td>
-          <td class="font-weight-normal">{{ displayItem.hmi2_total }}</td>
-          <td class="font-weight-normal">{{ displayItem.grand_match_total }}</td>
-          <td class="font-weight-normal">{{ displayItem.rework_date | date:"yy/MM/dd HH:mm" }}</td>
-          <td class="font-weight-normal">{{ displayItem.est_pick_replace }}</td>
-          <td class="font-weight-normal">{{ displayItem.applied_labels }}</td>
-          <td class="font-weight-normal">{{ displayItem.reprint_date | date:"yy/MM/dd HH:mm" }}</td>
-          <td class="font-weight-normal">{{ displayItem.rework_time }}</td> <!-- must add pipe later -->
-          <td class="font-weight-normal" >
-            <tr *ngFor="let comment of displayItem.comments">{{ comment.user_name }}: <br>{{ comment.text_comment }} </tr>
+          <td class="px-1">{{ displayItem.order_number }}</td>
+          <td class="px-1">{{ displayItem.batch_number }}</td>
+          <td class="px-1">{{ displayItem.article_number }}</td>
+          <td class="px-1">{{ displayItem.start_date | date:"yy/MM/dd HH:mm"  }}</td>
+          <td class="px-1">{{ displayItem.end_date | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="px-1">{{ displayItem.batch_time | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="px-1">{{ displayItem.reference_storage }}</td>
+          <td class="px-1">{{ displayItem.scrap }}</td>
+          <td class="px-1">{{ displayItem.yield }}</td>
+          <td class="px-1">{{ displayItem.hmi1_good }}</td>
+          <td class="px-1">{{ displayItem.hmi1_bad }}</td>
+          <td class="px-1">{{ displayItem.hmi1_total }}</td>
+          <td class="px-1">{{ displayItem.hmi2_good }}</td>
+          <td class="px-1">{{ displayItem.hmi2_bad }}</td>
+          <td class="px-1">{{ displayItem.hmi2_total }}</td>
+          <td class="px-1">{{ displayItem.grand_match_total }}</td>
+          <td class="px-1">{{ displayItem.rework_date | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="px-1">{{ displayItem.est_pick_replace }}</td>
+          <td class="px-1">{{ displayItem.applied_labels }}</td>
+          <td class="px-1">{{ displayItem.reprint_date | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="px-1">{{ displayItem.rework_time | date:"yy/MM/dd HH:mm" }}</td> 
+          <td class="">
+              <a (click)="getComments(displayItem.batch_number)" class="text-primary">Comments</a>
+            <!-- <tr *ngFor="let comment of displayItem.comments">{{ comment.user_name }}: <br>{{ comment.text_comment }} </tr> -->
           </td>
         </tr>
       </table>
     </div>
+    </div>
   </div>
-</div>
-
-<!-- If user is loaded show the form, else show the loading template -->
-<ng-template #loading>
-  Loading content...
-</ng-template>
+<div class="container">
+  <div class="row justify-content-end">
+      <div class="col-4 align-self-end">
+        <div class="row justify-content-between p-1">
+          <div class="col-5">
+            <button class="btn btn-danger btn-sm w-100 " type="button" (click)="goToPreviousSet()">
+            Previous
+            </button>
+          </div>
+          <div class="col-5">
+            <button class="btn btn-success btn-sm w-100  " type="button" (click)="goToNextSet()">
+            Next
+            </button>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 // Application imports
 import { AuthAPIService } from '../../auth/auth.service';
-import { OperationsService } from '../shared/services/operations.service';
+import { OperationsService } from '../../shared/application-services/operations.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 import { Batch } from '../../shared/interfaces/batch';
 import { SubmitIfValidDirective } from '../../shared/directives/submit-if-valid.directive';
@@ -104,8 +104,9 @@ export class StartBatchComponent implements OnInit, OnDestroy {
         this.operationsService.setCurrentBatchInfo(data as Batch);
         console.log("Successfully created batch! Navigating to operations..");
         this.router.navigate(['/operation/operations'])
-
-      },
+        this.createBatchSub.unsubscribe()
+      }, 
+      
         error => {
           console.error(error)
           if (error.error.batch_number) {

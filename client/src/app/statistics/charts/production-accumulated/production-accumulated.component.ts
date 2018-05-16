@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs'
 
 //3rd party and application imports
 import { AuthAPIService } from '../../../auth/auth.service';
 import { element, logging } from 'protractor';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { OperationsService } from '../../../operation/shared/services/operations.service';
+import { OperationsService } from '../../../shared/application-services/operations.service';
 import { QueryResponse } from '../../../shared/interfaces/query-response';
 import { Scoreboard } from '../../../../assets/interface/scoreboard';
 import { Batch } from '../../../shared/interfaces/batch';
+import { Product } from '../../../shared/interfaces/product';
 
 
 @Component({
@@ -19,9 +21,14 @@ import { Batch } from '../../../shared/interfaces/batch';
 
 export class ProductionAccumulatedComponent implements OnInit {
 
+  //Subscriber
+  getDataSubscriber:Subscription;
+
   productionStatistics = [];
   displayDataList = [];
   haveData = false; 
+  currentBatch:Batch;
+  currentProduct:Product;
 
    //Chart here we set options fot the chart
    showLegend = true;
@@ -43,27 +50,31 @@ export class ProductionAccumulatedComponent implements OnInit {
   ngOnInit() {
     this.getProductionData()           
   }
+  ngOnDestroy(){
+    this.getDataSubscriber.unsubscribe()
+  }
 
   xAxisFormatting(data){
     return data.toLocaleTimeString('sv-SV', { year: 'numeric', month: 'numeric', day: 'numeric', hour:'numeric', minute:'numeric'})
   }
-
   getProductionData()  {
     this.haveData = false;
-
-    //OBS THE OFFSET THING MUST CHANGE
-    //Get the latest batch's production_number
-    this.operationsService.getBatchDetail('?limit=1&offset=1')  
-    .switchMap(batchData =>{
-      let batch = (batchData as QueryResponse).results as Batch []
-      let tempQuery = '?batch_number='+ batch.pop().batch_number;
-      return this.operationsService.getProductionStatistics(tempQuery)
+    this.getDataSubscriber = this.operationsService.getBatchDetail()
+    .flatMap(data =>{
+      let batchList = (data as QueryResponse).results as Batch []
+      this.currentBatch = batchList.pop()
+    
+      return this.operationsService.getProduct(this.currentBatch.order.article_number)
     })
+    .flatMap(data =>{
+      this.currentProduct = data as Product
+      return this.operationsService.getProdStats('?batch_number='+this.currentBatch.batch_number)
+    })
+
     //populate productionStatistics using this
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
       this.productionStatistics = (data as QueryResponse).results as Scoreboard []
-
       //populate tempSeries and productionGoalList
       let accumulatedProduction = 0;
       let tempSeries = []
@@ -78,7 +89,7 @@ export class ProductionAccumulatedComponent implements OnInit {
         productionGoalList.push(
           {
             "name": new Date(this.productionStatistics[i].time_stamp),
-            "value": 1000 // should be changed to another value
+            "value": this.currentProduct.batch_production_goal // should be changed to another value
           },
         )
         accumulatedProduction = accumulatedProduction + this.productionStatistics[i].production_quantity
@@ -98,6 +109,24 @@ export class ProductionAccumulatedComponent implements OnInit {
     });   
     this.haveData=true;      
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

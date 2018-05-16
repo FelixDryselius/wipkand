@@ -7,10 +7,10 @@ import { AuthLogoutComponent } from './auth-logout/auth-logout.component';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CurrentBatchInfoComponent } from './operation/current-batch-info/current-batch-info.component';
+import { CurrentBatchInfoComponent } from './current-batch-info/current-batch-info.component';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { OperationModule } from './operation/operation.module';
-import { OperationsService } from './operation/shared/services/operations.service';
+import { OperationsService } from './shared/application-services/operations.service';
 import { RoleGuard } from './auth/role-guard.service';
 import { CalendarModule } from 'primeng/calendar';
 
@@ -47,7 +47,6 @@ import { HomeComponent } from './home/home.component';
     ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
-    //OperationModule,
     AppRoutingModule,
   ],
   providers: [

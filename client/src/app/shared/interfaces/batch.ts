@@ -12,8 +12,7 @@ export class Batch {
     rework_date?: Date;
     applied_labels?: number;
     label_print_time?: Date;
-    rework_time?: number;
-    shifts?: number;
+    rework_time?: string;
     order: {
         order_number: string;
         article_number: string;

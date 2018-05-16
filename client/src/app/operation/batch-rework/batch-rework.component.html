@@ -1,87 +1,115 @@
-<div class="row" >
+<div class="row" [formGroup]="reworkForm" *ngIf="reworkForm">
   <div class="col-lg-6">
     <h5>
-      Final HMI Data Groninger 1 {{ test }}
+      Rework HMI Data Groninger 1
     </h5>
+    <!-- HMI 1 Total -->
+    <div class="form-group row ">
+      <label for="hmi1_total_rework" class="col-lg-3 col-form-label">Total:</label>
+      <input type="number" class="col-lg-8 form-control" #hmi1_total_rework formControlName="hmi1_total_rework" placeholder="">
+    </div>
+    <div class="row">
+      <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="reworkForm.controls.hmi1_total_rework.invalid && 
+        (reworkForm.controls.hmi1_total_rework.dirty || reworkForm.controls.hmi1_total_rework.touched)">
+        <span *ngIf="reworkForm.controls.hmi1_total_rework.errors?.required">
+          * This field is required.
+        </span>
+        <span *ngIf="reworkForm.controls.hmi1_total_rework.errors?.pattern">
+          * Only positive numbers are accepted.
+        </span>
+      </div>
+    </div>
 
     <!-- HMI 1 Good -->
     <div class="form-group row ">
-      <label for="hmi1Good" class="col-lg-3 col-form-label">Good:</label>
-      <input class="col-lg-8 form-control" #hmi1Good formControlName="hmi1Good" placeholder="">
+      <label for="hmi1_good_rework" class="col-lg-3 col-form-label">Good:</label>
+      <input type="number" class="col-lg-8 form-control" #hmi1_good_rework formControlName="hmi1_good_rework" placeholder="">
     </div>
     <div class="row">
-      <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi1Good.invalid && 
-        (finishBatchForm.controls.hmi1Good.dirty || finishBatchForm.controls.hmi1Good.touched)">
-        <span *ngIf="finishBatchForm.controls.hmi1Good.errors?.required">
+      <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="reworkForm.controls.hmi1_good_rework.invalid && 
+        (reworkForm.controls.hmi1_good_rework.dirty || reworkForm.controls.hmi1_good_rework.touched)">
+        <span *ngIf="reworkForm.controls.hmi1_good_rework.errors?.required">
           * This field is required.
         </span>
-        <span *ngIf="finishBatchForm.controls.hmi1Good.errors?.pattern">
+        <span *ngIf="reworkForm.controls.hmi1_good_rework.errors?.pattern">
           * Only positive numbers are accepted.
-          <br>
         </span>
       </div>
     </div>
 
     <!-- HMI 1 Bad -->
     <div class="form-group row ">
-      <label for="hmi1Bad" class="col-lg-3 col-form-label">Bad:</label>
-      <input class="col-lg-8 form-control" #hmi1Bad formControlName="hmi1Bad" placeholder="">
+      <label for="hmi1_bad_rework" class="col-lg-3 col-form-label">Bad:</label>
+      <input type="number" class="col-lg-8 form-control" #hmi1_bad_rework formControlName="hmi1_bad_rework" placeholder="">
     </div>
     <div class="row">
-      <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi1Bad.invalid && 
-          (finishBatchForm.controls.hmi1Bad.dirty || finishBatchForm.controls.hmi1Bad.touched)">
-        <span *ngIf="finishBatchForm.controls.hmi1Bad.errors?.required">
+      <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="reworkForm.controls.hmi1_bad_rework.invalid && 
+          (reworkForm.controls.hmi1_bad_rework.dirty || reworkForm.controls.hmi1_bad_rework.touched)">
+        <span *ngIf="reworkForm.controls.hmi1_bad_rework.errors?.required">
           * This field is required.
         </span>
-        <span *ngIf="finishBatchForm.controls.hmi1Bad.errors?.pattern">
+        <span *ngIf="reworkForm.controls.hmi1_bad_rework.errors?.pattern">
           * Only positive numbers are accepted.
-          <br>
         </span>
       </div>
     </div>
-    <br>
+  </div>
 
-    <div class="col-lg-6">
-      <h5>
-        Final HMI Data Groninger 2
-      </h5>
+  <div class="col-lg-6">
+    <h5>
+      Rework HMI Data Groninger 2
+    </h5>
 
-      <!-- HMI 2 Good -->
-      <div class="form-group row">
-        <label for="hmi2Good" class="col-lg-3 col-form-label">Good:</label>
-        <input class="col-lg-8 form-control" #hmi2Good formControlName="hmi2Good" placeholder="">
+    <!-- HMI 2 Total -->
+    <div class="form-group row ">
+      <label for="hmi2_total_rework" class="col-lg-3 col-form-label">Total:</label>
+      <input type="number" class="col-lg-8 form-control" #hmi2_total_rework formControlName="hmi2_total_rework" placeholder="">
+    </div>
+    <div class="row">
+      <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="reworkForm.controls.hmi2_total_rework.invalid && 
+        (reworkForm.controls.hmi2_total_rework.dirty || reworkForm.controls.hmi2_total_rework.touched)">
+        <span *ngIf="reworkForm.controls.hmi2_total_rework.errors?.required">
+          * This field is required.
+        </span>
+        <span *ngIf="reworkForm.controls.hmi2_total_rework.errors?.pattern">
+          * Only positive numbers are accepted.
+        </span>
       </div>
-      <div class="row">
-        <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi2Good.invalid && 
-              (finishBatchForm.controls.hmi2Good.dirty || finishBatchForm.controls.hmi2Good.touched)">
-          <span *ngIf="finishBatchForm.controls.hmi2Good.errors?.required">
-            * This field is required.
-          </span>
-          <span *ngIf="finishBatchForm.controls.hmi2Good.errors?.pattern">
-            * Only positive numbers are accepted.
-            <br>
-          </span>
-        </div>
-      </div>
+    </div>
 
-      <!-- HMI 2 Bad -->
-      <div class="form-group row">
-        <label for="hmi2Bad" class="col-lg-3 col-form-label">Bad:</label>
-        <input class="col-lg-8 form-control" #hmi2Bad formControlName="hmi2Bad" placeholder="">
+    <!-- HMI 2 Good -->
+    <div class="form-group row">
+      <label for="hmi2_good_rework" class="col-lg-3 col-form-label">Good:</label>
+      <input type="number" class="col-lg-8 form-control" #hmi2_good_rework formControlName="hmi2_good_rework" placeholder="">
+    </div>
+    <div class="row">
+      <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="reworkForm.controls.hmi2_good_rework.invalid && 
+              (reworkForm.controls.hmi2_good_rework.dirty || reworkForm.controls.hmi2_good_rework.touched)">
+        <span *ngIf="reworkForm.controls.hmi2_good_rework.errors?.required">
+          * This field is required.
+        </span>
+        <span *ngIf="reworkForm.controls.hmi2_good_rework.errors?.pattern">
+          * Only positive numbers are accepted.
+        </span>
       </div>
-      <div class="row">
-        <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="finishBatchForm.controls.hmi2Bad.invalid && 
-              (finishBatchForm.controls.hmi2Bad.dirty || finishBatchForm.controls.hmi2Bad.touched)">
-          <span *ngIf="finishBatchForm.controls.hmi2Bad.errors?.required">
-            * This field is required.
-          </span>
-          <span *ngIf="finishBatchForm.controls.hmi2Bad.errors?.pattern">
-            * Only positive numbers are accepted.
-            <br>
-          </span>
-        </div>
+    </div>
+
+    <!-- HMI 2 Bad -->
+    <div class="form-group row">
+      <label for="hmi2_bad_rework" class="col-lg-3 col-form-label">Bad:</label>
+      <input type="number" class="col-lg-8 form-control" #hmi2_bad_rework formControlName="hmi2_bad_rework" placeholder="">
+    </div>
+    <div class="row">
+      <div class="col-lg-8 offset-lg-3 alert alert-danger" *ngIf="reworkForm.controls.hmi2_bad_rework.invalid && 
+              (reworkForm.controls.hmi2_bad_rework.dirty || reworkForm.controls.hmi2_bad_rework.touched)">
+        <span *ngIf="reworkForm.controls.hmi2_bad_rework.errors?.required">
+          * This field is required.
+        </span>
+        <span *ngIf="reworkForm.controls.hmi2_bad_rework.errors?.pattern">
+          * Only positive numbers are accepted.
+        </span>
       </div>
-      <br>
     </div>
   </div>
 </div>
+<br>

@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 //3rd party and application imports
 import { AuthAPIService } from '../../../auth/auth.service';
 import { element, logging } from 'protractor';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { OperationsService } from '../../../operation/shared/services/operations.service';
+import { OperationsService } from '../../../shared/application-services/operations.service';
 import { QueryResponse } from '../../../shared/interfaces/query-response';
 import { Scoreboard } from '../../../../assets/interface/scoreboard';
-
 
 @Component({
   selector: 'app-production-charts',
@@ -15,9 +15,11 @@ import { Scoreboard } from '../../../../assets/interface/scoreboard';
   styleUrls: ['./production-charts.component.css']
 })
 export class StatisticsChartsComponent implements OnInit {
-  
+  //Subscriber
+  getProductionStatisticsSubscriber: Subscription
   //data
   haveData=false;
+
   //the following three is to make sure all options are open to the user
   displayData = []; // this is the variable that's always showing
   displayYield = [];
@@ -55,6 +57,10 @@ export class StatisticsChartsComponent implements OnInit {
 
   ngOnInit() {
     this.getProductionData('?limit='+this.setLimit+'&offset='+this.setOffset)           
+  }
+
+  ngOnDestroy(){
+    this.getProductionStatisticsSubscriber.unsubscribe()
   }
 
   xAxisFormatting(data){
@@ -126,7 +132,8 @@ export class StatisticsChartsComponent implements OnInit {
     this.continuesPpmhList = [];
     this.haveData = false
 
-    this.operationsService.getProductionStatistics(query)
+    this.getProductionStatisticsSubscriber = this.operationsService.getProductionStatistics(query)
+
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
       
@@ -262,8 +269,6 @@ export class StatisticsChartsComponent implements OnInit {
      
     //sets which type to show
     this.updateDisplayData()
-    console.log(this.continuesYieldPerHourList);
-    
     this.haveData=true         
   });      
   }

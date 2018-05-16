@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthAPIService } from '../../auth/auth.service';
 import { Batch } from '../../shared/interfaces/batch';
-import { OperationsService } from '../shared/services/operations.service';
+import { OperationsService } from '../../shared/application-services/operations.service';
 import { QueryResponse } from '../../shared/interfaces/query-response'
+import { BatchReworkComponent } from '../batch-rework/batch-rework.component';
 
 // 3rd party imports
 
@@ -16,10 +17,14 @@ import { QueryResponse } from '../../shared/interfaces/query-response'
 })
 export class FinishBatchComponent implements OnInit {
 
+  @ViewChild(BatchReworkComponent) batchReworkComponent: BatchReworkComponent
+
   private prodInfo: any;
   private service_prodInfoSub: any;
   private createBatchSub: any;
+  private getProductSub: any;
 
+  private currentProduct: any;
   private finishBatchForm: FormGroup;
 
   constructor(
@@ -31,6 +36,14 @@ export class FinishBatchComponent implements OnInit {
 
   ngOnInit() {
     this.service_prodInfoSub = this.operationsService.$prodInfo.subscribe(info => this.prodInfo = info)
+    if (this.prodInfo) {
+      this.getProductSub = this.operationsService.getProduct(this.prodInfo.order.article_number)
+        .retryWhen(error => this.authAPI.checkHttpRetry(error))
+        .subscribe(data => {
+          this.currentProduct = data
+        })
+    }
+
     this.createFinishBatchForm()
   }
 
@@ -39,63 +52,76 @@ export class FinishBatchComponent implements OnInit {
     this.service_prodInfoSub.unsubscribe()
   }
 
+  calculateScrap(form: Batch, refLagerQuantity: number): number {
+    let scrap = Math.ceil(((
+      (form.hmi1_good + form.hmi1_bad + form.hmi2_good + form.hmi2_bad)
+      - (form.production_yield * 10)) / 10)
+      - refLagerQuantity
+    )
+    return scrap
+    //return scrap > 0 ? scrap: 0
+  }
+
   createFinishBatchForm() {
     this.finishBatchForm = this.formBuilder.group({
-      'hmi1Good': new FormControl('', [
+      'hmi1_good': new FormControl('', [
         Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
-      'hmi1Bad': new FormControl('', [
+      'hmi1_bad': new FormControl('', [
         Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
-      'hmi2Good': new FormControl('', [
+      'hmi2_good': new FormControl('', [
         Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
-      'hmi2Bad': new FormControl('', [
+      'hmi2_bad': new FormControl('', [
         Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
-      'yield': new FormControl('', [
+      'production_yield': new FormControl('', [
         Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
-      'reLabeling': new FormControl('', [
-        Validators.required,
-      ]),
+      // 'rework': new FormControl('', [
+      //   Validators.required,
+      // ]),
     })
   }
 
-  submitEndBatch($theEvent, batchForm) {
-    // TODO:  add these attributes so the whole batch kan close:
-    // scrap, rework_date, applied_labels, label_print_time, rework_time, yield_2
-    let batchInfo = {}
-    if (this.prodInfo) {
-      batchInfo = {
-        id: this.prodInfo.id,
-        batch_number: this.prodInfo.batch_number,
-        order: this.prodInfo.order,
-        end_date: new Date(),
-        production_yield: batchForm.yield,
-        hmi1_good: batchForm.hmi1Good,
-        hmi1_bad: batchForm.hmi1Bad,
-        hmi2_good: batchForm.hmi2Good,
-        hmi2_bad: batchForm.hmi2Bad,
-      }
-      console.log(batchInfo)
-      this.createBatchSub = this.operationsService.updateBatch(batchInfo as Batch)
-        .retryWhen(error => this.authAPI.checkHttpRetry(error))
-        .subscribe(data => {
-          this.operationsService.setCurrentBatchInfo(null);
-          this.createBatchSub.unsubscribe()
-          this.router.navigate([''])
-
-        }
-          // , error => {
-          //   console.error(error.message)
-          // }
-        )
+  submitEndBatch($theEvent, form) {
+    let batch: Batch = {
+      id: this.prodInfo.id,
+      batch_number: this.prodInfo.batch_number,
+      order: this.prodInfo.order,
+      end_date: new Date(),
+      scrap: this.calculateScrap(form, this.currentProduct.reference_storage),
+      production_yield: form.production_yield,
+      hmi1_good: form.hmi1_good,
+      hmi1_bad: form.hmi1_bad,
+      hmi2_good: form.hmi2_good,
+      hmi2_bad: form.hmi2_bad,
     }
+
+
+    // Rework is probably never done at exact end of batch
+
+    // if (form.rework == 'true') {
+    //   //let _applied_labels = this.batchReworkComponent.getAppliedLabels()
+    //   batch.applied_labels = this.batchReworkComponent.getAppliedLabels()
+    //   let _pick_and_replace = this.batchReworkComponent.getPickAndReplace(form, batch.applied_labels, batch.scrap)
+    //   batch.label_print_time = new Date()
+    //   batch.rework_date = new Date()
+    // }
+
+    this.createBatchSub = this.operationsService.updateBatch(batch)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.operationsService.setCurrentBatchInfo(null);
+        this.createBatchSub.unsubscribe()
+        this.router.navigate([''])
+      }
+      )
   }
 }

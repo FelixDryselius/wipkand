@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 // Application imports
 import { AuthAPIService } from '../../auth/auth.service';
 import { Batch } from '../../shared/interfaces/batch';
-import { OperationsService } from '../shared/services/operations.service'
+import { OperationsService } from '../../shared/application-services/operations.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 
 @Component({
@@ -29,7 +29,6 @@ export class BatchHistoryComponent implements OnInit {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.batches = (data as QueryResponse).results as [Batch]
-        console.log(this.batches)
       })
   }
 
@@ -46,7 +45,6 @@ export class BatchHistoryComponent implements OnInit {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.batches = (data as QueryResponse).results as [Batch]
-        console.log(this.batches)
       })
   }
 

@@ -2,6 +2,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Pipe, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common'
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 // Application imports
@@ -10,11 +11,12 @@ import { Batch } from '../../shared/interfaces/batch';
 import { Comment } from '../../../assets/interface/comment';
 import { CommentService } from '../../shared/application-services/comment.service';
 import { DataPageDisplayData } from '../../shared/interfaces/dataPageDisplayData';
-import { OperationsService } from '../../operation/shared/services/operations.service';
+import { OperationsService } from '../../shared/application-services/operations.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 import { Order } from '../../shared/interfaces/order';
 import { Product } from '../../shared/interfaces/product';
 import { element } from 'protractor';
+
 
 @Component({
   selector: 'app-data-page',
@@ -22,26 +24,25 @@ import { element } from 'protractor';
   styleUrls: ['./data-page.component.css']
 })
 export class DataPageComponent implements OnInit {
-  private batchDetail: Batch; // might not need
-  private batchDetailID: string;
-  private batchSub: any;
+  //how to display the page
+  offset = 0;
+  limit = 20;
 
-  private commentSub: any;
-  private statisticsSub
-  private orderSub: any;
+  //Subscribeables:
+  private batchSub: Subscription;
+  private commentSub: Subscription;
 
-  private productSub: any;
 
-  commentsList: Comment[];
-  displayComments = {};
-  batchList: Batch[];
-  statistics: {};
+  testList = ['hej', 'da']
+  displayCommentsList = []
+  commentBatchNumber:string;
+  displayComments = false;
   productList: Product[];
-  orders: Order[]; //might not need have info in batch
-  displayDataList: DataPageDisplayData[] = [];
+  displayDataList = [];
   hasValues = false;
-  testSpan = 2;
-
+  testSpan = 2
+  canGoNext: any;
+  canGoPrevious:any;
 
   constructor(
     private authAPI: AuthAPIService,
@@ -52,135 +53,125 @@ export class DataPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.batchDetailID = '1000000004'
-    //TODO: MAKE THIS PAGE GREAT AND REMOVE COMMENTS ETC. MORE INFO ON:
-    // https://coryrylan.com/blog/using-angular-forms-with-async-data
-
-    
-    this.batchSub = this.operationsService.getBatchDetail()
-      .switchMap(data => {
-        this.batchList = (data as QueryResponse).results as Batch []
-       // console.log(this.batchList);
-       console.log(this.batchList);
-        return this.operationsService.getOrder()      
-        
-          
-      })
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe(data => {        
-        this.orders = (data as QueryResponse).results as Order[]
-       // console.log(this.orders);
-        this.populateDisplayDataList() // this one needs to be placed somewhere better
-      })
-
-    this.productSub = this.operationsService.getProduct()
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe(data => {
-        this.productList = (data as QueryResponse).results as Product []
-        console.log(this.productList);        
-      })
-
-    this.commentSub = this.commentService.getComment()
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe(data => {
-        this.commentsList = (data as QueryResponse).results as Comment[]
-        console.log(this.commentsList);
-      })
-
-    this.statisticsSub = this.operationsService.getProductionStatistics('?search=' + this.batchDetailID + '&limit=40')
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe(data => {
-        this.statistics = (data as QueryResponse).results
-        //console.log(this.statistics);        
-      })
+    this.getBatchDetails()
   }
-
-  populateDisplayDataList(){
-    //to get list of available batch numbers
-    if(this.batchList && this.productList && this.commentsList){         
-      
-      let batchIdList = []
-      this.batchList.forEach(element => {
-        if(batchIdList.indexOf(element.id) == -1 ){
-          batchIdList.push(element.id)                 
-        }
-      })      
-      
-      batchIdList.forEach(batchId =>{ 
-        let tempBatch;
-        let tempProduct;
-        let tempCommentsList;        
-        
-            
-        this.displayComments[batchId.valueOf()] = []               
-        this.commentsList.forEach(comment=>{                   
-          if(comment.batch.id == batchId){
-            this.displayComments[batchId.valueOf()].push(comment)
-          }
-        })      
-      
-
-        this.batchList.forEach(batchElement =>{
-          if(batchElement.id == batchId){
-            tempBatch = batchElement;
-            this.productList.forEach(product =>{
-              if(product.article_number == tempBatch.order.article_number){
-                tempProduct = product
-              }
-            })
-          
-          }
-        })        
-          
-          //this.displayDataList.push( 
-            let tempdisplaydata = {
-            batch_id: tempBatch.id,
-            order_number: tempBatch.order.order_number,
-            batch_number: tempBatch.batch_number,
-            article_number: tempBatch.order.article_number,
-            start_date: tempBatch.start_date,
-            end_date: tempBatch.end_date,
-            batch_time: new Date(tempBatch.end_date - tempBatch.start_date),
-            reference_storage: tempProduct.reference_storage,
-            scrap: tempBatch.scrap,
-            yield: tempBatch.production_yield,
-            hmi1_good: tempBatch.hmi1_good,
-            hmi1_bad: tempBatch.hmi1_bad,
-            hmi1_total: tempBatch.hmi1_good - tempBatch.hmi1_bad,
-            hmi2_good: tempBatch.hmi2_good,
-            hmi2_bad: tempBatch.hmi2_bad,
-            hmi2_total: tempBatch.hmi2_good - tempBatch.hmi2_good,
-            grand_match_total: (tempBatch.hmi1_good - tempBatch.hmi1_bad) - (tempBatch.hmi2_good - tempBatch.hmi2_good),
-            rework_date: tempBatch.rework_date,
-            est_pick_replace:(tempBatch.hmi1_bad+tempBatch.hmi2_bad)-tempBatch.scrap*10-tempBatch.applied_labels,
-            applied_labels: tempBatch.applied_labels,
-            reprint_date: tempBatch.label_print_time,
-            rework_time: new Date(tempBatch.label_print_time - tempBatch.end_date),
-            comments: this.displayComments[tempBatch.id]
-
-          } as DataPageDisplayData
-        //)
-         this.displayDataList.push(tempdisplaydata)          
-      })
-
-    }  
-    console.log(this.displayDataList);
-      
-    this.hasValues = true
-  }
-
+ 
   ngOnDestroy() {
     this.batchSub.unsubscribe()
-    this.productSub.unsubscribe()
-    this.commentSub.unsubscribe()
-    this.statisticsSub.unsubscribe()
+    if(this.commentSub){
+     this.commentSub.unsubscribe()
+    }
   }
+
+  //Fixes query and navigates to next api data point
+  goToNextSet(){
+    if(this.canGoNext){
+      this.offset = this.offset + this.limit
+      this.getBatchDetails()
+    }
+  }
+  //Fixes query and navigates to previous api data point
+  goToPreviousSet(){
+    if(this.canGoPrevious){
+      this.offset = this.offset - this.limit
+      this.getBatchDetails()
+    }
+  }
+
+
+
+  getBatchDetails(){
+    //Initiating the query and observable
+    let query = '?limit=' + this.limit + '&' + 'offset=' + this.offset; 
+    let batchObservable = this.operationsService.getBatchDetail(query)
+    
+    //Subscribing to the obs and getting the data
+    this.batchSub = this.operationsService.getProduct()
+      .switchMap(data => {
+        this.productList = (data as QueryResponse).results as Product []
+        return batchObservable
+        })
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => { 
+        this.canGoNext = (data as QueryResponse).next
+        this.canGoPrevious = (data as QueryResponse).previous
+        let batchItemList = (data as QueryResponse).results as Batch []   
+      
+        // Populating the display data
+        this.populateDisplayDataList(batchItemList)
+      })  
+  }
+
+  getComments(batchNumber:string){
+    //Initiating the query and emptying:
+    this.displayComments = false
+    let query = '?batch_number=' + batchNumber
+    this.displayCommentsList = [];
+    this.commentBatchNumber = batchNumber
+
+    //Subscribing and getting the data
+    this.commentSub = this.commentService.getComment(query)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.displayCommentsList = (data as QueryResponse).results as Comment[]             
+        
+        if(this.displayCommentsList.length != 0){
+          this.displayComments = true
+        }        
+      })
+   
+  }
+
+
+  populateDisplayDataList(batchItemList:Batch[]){
+    // empty for each refresh
+    this.displayDataList = []
+    this.hasValues = false 
+
+    batchItemList.forEach(batch =>{
+      //This is to link each batch to the right reference storage number
+      let tempReferenceStorage
+      this.productList.forEach(product =>{
+        if(product.article_number == batch.order.article_number)
+          tempReferenceStorage = product.reference_storage
+      })
+      
+      // Because the http response from the server is strings these need to be typed as Date again
+      batch.start_date = new Date(batch.start_date)
+      batch.end_date = new Date(batch.end_date)
+      batch.label_print_time = new Date(batch.label_print_time)
+      
+      //Filling the displayDataList
+      this.displayDataList.push({
+        batch_id: batch.id,
+        order_number: batch.order.order_number,
+        batch_number: batch.batch_number,
+        article_number: batch.order.article_number,
+        start_date: batch.start_date,
+        end_date: batch.end_date,
+        batch_time: new Date(batch.end_date.getDate() - batch.start_date.getDate()),
+        reference_storage: tempReferenceStorage,
+        scrap: batch.scrap,
+        yield: batch.production_yield,
+        hmi1_good: batch.hmi1_good,
+        hmi1_bad: batch.hmi1_bad,
+        hmi1_total: batch.hmi1_good - batch.hmi1_bad,
+        hmi2_good: batch.hmi2_good,
+        hmi2_bad: batch.hmi2_bad,
+        hmi2_total: batch.hmi2_good - batch.hmi2_good,
+        grand_match_total: (batch.hmi1_good - batch.hmi1_bad) - (batch.hmi2_good - batch.hmi2_good),
+        rework_date: batch.rework_date,
+        est_pick_replace:(batch.hmi1_bad+batch.hmi2_bad)-batch.scrap*10-batch.applied_labels,
+        applied_labels: batch.applied_labels,
+        reprint_date: batch.label_print_time,
+        rework_time: new Date(batch.label_print_time.getDate() - batch.end_date.getDate())
+      } as DataPageDisplayData)
+    })
+    this.hasValues = true
+  }
+ 
   goBack() {
     this.location.back()
   }
-
 }
-
-
-
 
