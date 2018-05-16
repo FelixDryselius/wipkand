@@ -82,9 +82,7 @@ export class ScoreboardComponent implements OnInit {
     this.commentSubscriber = this.commentService.getComment(query)
    .retryWhen(error => this.authAPI.checkHttpRetry(error))
    .subscribe(data =>{
-      console.log((data as QueryResponse).results as JSON []  );
-      this.comments = (data as QueryResponse).results as JSON []   
-      
+      this.comments = (data as QueryResponse).results as JSON []      
     })
   }
 

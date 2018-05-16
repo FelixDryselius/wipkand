@@ -52,7 +52,12 @@ export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     //Test these carefully
     //this.service_prodStatus.unsubscribe();
-    //this.service_prodInfo.unsubscribe();
+    if(this.req_batch){
+      this.req_batch.unsubscribe()
+    }
+    if(this.service_prodInfo){
+      this.service_prodInfo.unsubscribe();
+    }
     if (this.tokenRefreshRecallSub) {
       this.tokenRefreshRecallSub.unsubscribe()
     }

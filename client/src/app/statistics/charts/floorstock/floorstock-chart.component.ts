@@ -72,7 +72,6 @@ export class FloorstockChartComponent implements OnInit {
   //Here this.floorstockChange gets populated
   .retryWhen(error => this.authAPI.checkHttpRetry(error))
   .subscribe(data =>{
-    console.log(data)
     this.nextLink = (data as QueryResponse).next;
     this.previousLink = (data as QueryResponse).previous;
     let tempFloorstockChange = (data as QueryResponse).results as Floorstock []  
@@ -131,7 +130,6 @@ goToNextSet(){
     let index = this.nextLink.indexOf('?')
     this.query = this.nextLink.slice(index)
     this.getFloorstockData()
-    console.log(this.query);
   }
 }
 //Fixes query and navigates to previous api data point
@@ -140,7 +138,6 @@ goToPreviousSet(){
     let index = this.previousLink.indexOf('?')
     this.query = this.previousLink.slice(index)
     this.getFloorstockData()
-    console.log(this.query);
   }
 }
 //This function sets the api offset in this.query and reloads data with the new query
@@ -154,7 +151,6 @@ setOffsetSize(size:string){
     let toReplace = this.query.slice(questionIndex)
     this.query =  this.query.replace(toReplace,'?limit='+size)
   }
-  console.log(this.query);
   this.getFloorstockData()
 }
 

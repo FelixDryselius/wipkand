@@ -93,9 +93,7 @@ export class ProductionPerTimeUnitComponent implements OnInit {
     this.productionStatisticSubscriber = this.operationsService.getProductionStatistics(query)
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
-      this.productionStatistics = (data as QueryResponse).results as Scoreboard []
-      console.log(this.productionStatistics);
-           
+      this.productionStatistics = (data as QueryResponse).results as Scoreboard []           
       this.populateDisplayData()
     })
     
