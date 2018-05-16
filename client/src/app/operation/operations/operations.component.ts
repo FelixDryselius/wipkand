@@ -277,9 +277,10 @@ export class OperationsComponent implements OnInit {
     for (let key in formData.value) {
       inputData[key] = formData.value[key];
     }
+    console.log(inputData.inputDate)
     if (typeof inputData.inputDate != 'undefined' && typeof inputData.produced != 'undefined' && inputData.onShift != 'undefined') {
       let newData = {
-        time_stamp: inputData.inputDate + 'Z',
+        time_stamp: inputData.inputDate,
         production_quantity: inputData.produced,
         staff_quantity: inputData.onShift,
         user_name: inputData.signature,
@@ -316,8 +317,6 @@ export class OperationsComponent implements OnInit {
         results[key] = inputData.value[key];
       }
     }
-    console.log(results)
-    console.log(this.beforeChanges)
     for (let key in results) {
       let counter = 0;
       for (let obj = 0; obj < this.beforeChanges.length; obj++) {
@@ -331,8 +330,6 @@ export class OperationsComponent implements OnInit {
             floorstock_item: key,
             batch: this.prodInfo.id,
           }
-          console.log("item patch")
-          console.log(this.beforeChanges[obj]["item_id"])
           this.operationsService.updateFloorstock(updateItem)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
@@ -343,7 +340,7 @@ export class OperationsComponent implements OnInit {
         else if (this.beforeChanges[obj]["item_id"] == key) {
           break;
         }
-        
+
         else {
           counter += 1
           // If no time stamp in api was found this means it is new data

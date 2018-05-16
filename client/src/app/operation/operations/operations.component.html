@@ -1,9 +1,9 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <h3 align="left">
+      <h2 align="left">
         Operations
-      </h3>
+      </h2>
     </div>
   </div>
 </div>
@@ -41,7 +41,7 @@
               </div>
             </div>
 
-            <div class="alert alert-danger" *ngIf="commentForm.controls.commentName.invalid && (commentForm.controls.commentName.dirty || commentForm.controls.commentName.touched) && prodInfo">
+            <div class="alert alert-danger inputMiddle" *ngIf="commentForm.controls.commentName.invalid && (commentForm.controls.commentName.dirty || commentForm.controls.commentName.touched) && prodInfo">
               <div *ngIf="commentForm.controls.commentName.errors.required">
                 * Name is required.
               </div>
@@ -53,22 +53,22 @@
               </div>
             </div>
 
-            <div class="alert alert-danger" *ngIf="commentForm.controls.commentText.invalid && (commentForm.controls.commentText.dirty || commentForm.controls.commentText.touched) && prodInfo">
+            <div class="alert alert-danger inputMiddle" *ngIf="commentForm.controls.commentText.invalid && (commentForm.controls.commentText.dirty || commentForm.controls.commentText.touched) && prodInfo">
               <div *ngIf="commentForm.controls.commentText.errors.required">
-                * A comment text is required.
+                * Comment text is required.
               </div>
             </div>
 
-            <div class="alert alert-danger" *ngIf="!prodInfo">
+            <div class="alert alert-danger inputMiddle" *ngIf="!prodInfo">
               <div>
                 * Comments can not be added without a batch running.
               </div>
             </div>
 
-            <div *ngIf="commentAdded" class="alert alert-success">
-                <div class="text-left">
-                  Your comment was added!
-                </div>
+            <div class="alert alert-success inputMiddle" *ngIf="commentAdded" >
+              <div>
+                Your comment was added!
+              </div>
             </div>
 
             <div class="row btn-comment">
@@ -110,12 +110,15 @@
               <div class="form-group row">
                 <label for="inputDate" class="col-md-3 col-form-label">Date:</label>
                 <div class="col-md-6">
-                  <input class="form-control" id="inputDate" type="datetime-local" min="0" #inputDate formControlName="inputDate">
+                  <p-calendar id="inputDate" #inputDate formControlName="inputDate" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar>
                 </div>
               </div>
-              <div class="alert alert-danger" *ngIf="productionForm.controls.inputDate.invalid && (productionForm.controls.inputDate.dirty || productionForm.controls.inputDate.touched)">
-                <div *ngIf="productionForm.controls.inputDate.errors?.required">
-                  * Time is required.
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.inputDate.invalid && (productionForm.controls.inputDate.dirty || productionForm.controls.inputDate.touched)">
+                  <div *ngIf="productionForm.controls.inputDate.errors?.required">
+                    * Time is required.
+                  </div>
                 </div>
               </div>
 
@@ -125,9 +128,12 @@
                   <input class="form-control" id="onShift" type="number" min="0" #onShift formControlName="onShift">
                 </div>
               </div>
-              <div class="alert alert-danger" align="center" *ngIf="productionForm.controls.onShift.invalid && (productionForm.controls.onShift.dirty || productionForm.controls.onShift.touched)">
-                <div *ngIf="productionForm.controls.onShift.errors?.required">
-                  * Number on shift is required.
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.onShift.invalid && (productionForm.controls.onShift.dirty || productionForm.controls.onShift.touched)">
+                  <div *ngIf="productionForm.controls.onShift.errors?.required">
+                    * Number on shift is required.
+                  </div>
                 </div>
               </div>
 
@@ -137,9 +143,12 @@
                   <input class="form-control" id="produced" type="number" min="0" #produced formControlName="produced">
                 </div>
               </div>
-              <div class="alert alert-danger col-md-12" *ngIf="productionForm.controls.produced.invalid && (productionForm.controls.produced.dirty || productionForm.controls.produced.touched)">
-                <div *ngIf="productionForm.controls.produced.errors?.required">
-                  * Amount produced is required.
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.produced.invalid && (productionForm.controls.produced.dirty || productionForm.controls.produced.touched)">
+                  <div *ngIf="productionForm.controls.produced.errors?.required">
+                    * Amount produced is required.
+                  </div>
                 </div>
               </div>
 
@@ -149,28 +158,31 @@
                   <input class="form-control" id="signature" type="text" #signature formControlName="signature">
                 </div>
               </div>
-              <div class="alert alert-danger col-md-12" *ngIf="productionForm.controls.signature.invalid && (productionForm.controls.signature.dirty || productionForm.controls.signature.touched)">
-                <div *ngIf="productionForm.controls.signature.errors?.required">
-                  * A signature is required.
-                </div>
-                <div *ngIf="productionForm.controls.signature.errors?.minlength">
-                  * Your signature must be atleast 2 characters long.
-                </div>
-                <div *ngIf="productionForm.controls.signature.errors?.pattern">
-                  * Your signature can not contain numbers or special characters.
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.signature.invalid && (productionForm.controls.signature.dirty || productionForm.controls.signature.touched)">
+                  <div *ngIf="productionForm.controls.signature.errors?.required">
+                    * A signature is required.
+                  </div>
+                  <div *ngIf="productionForm.controls.signature.errors?.minlength">
+                    * Your signature must be atleast 2 characters long.
+                  </div>
+                  <div *ngIf="productionForm.controls.signature.errors?.pattern">
+                    * Your signature can not contain numbers or special characters.
+                  </div>
                 </div>
               </div>
 
               <div class="row btn-comment">
-                <div class="col-md-6">
-                  <p *ngIf="prodDataAdded" class="text-left alert alert-success">
+                <div class="col-md-8">
+                  <div *ngIf="prodDataAdded" class="alert alert-success inputMiddle">
                     Production data successfully added!
-                  </p>
-                  <div *ngIf="dateErrorMsg && prodDataError" class="alert alert-danger">
+                  </div>
+                  <div *ngIf="dateErrorMsg && prodDataError" class="alert alert-danger inputMiddle">
                     <b>{{ dateErrorMsg }}</b>
                   </div>
                 </div>
-                <div class="col-md-6" align="right">
+                <div class="col-md-4" align="right">
                   <button class="btn btn-primary" *ngIf="productionForm.controls.inputDate.errors || productionForm.controls.onShift.errors || productionForm.controls.produced.errors || productionForm.controls.signature.errors"
                     disabled>
                     Add data
