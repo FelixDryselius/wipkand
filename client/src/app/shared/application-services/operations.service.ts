@@ -6,9 +6,9 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { timeout } from 'rxjs/operators/timeout';
-import { Batch } from '../../../shared/interfaces/batch';
-import { QueryResponse } from '../../../shared/interfaces/query-response';
-import { AuthAPIService } from '../../../auth/auth.service';
+import { Batch } from '../../shared/interfaces/batch';
+import { QueryResponse } from '../../shared/interfaces/query-response';
+import { AuthAPIService } from '../../auth/auth.service';
 import { map } from 'rxjs/operator/map';
 
 

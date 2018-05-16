@@ -7,7 +7,7 @@ import { Floorstock } from '../../../../assets/interface/floorstock';
 import { FloorstockItem } from '../../../../assets/interface/floorstock_item';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Observable } from 'rxjs/Observable';
-import { OperationsService } from '../../../operation/shared/services/operations.service';
+import { OperationsService } from '../../../shared/application-services/operations.service';
 import { QueryResponse } from '../../../shared/interfaces/query-response';
 
 
