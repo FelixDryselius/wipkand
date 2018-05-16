@@ -24,7 +24,7 @@ import { element } from 'protractor';
 export class DataPageComponent implements OnInit {
   //how to display the page
   offset = 0;
-  limit = 40;
+  limit = 20;
 
   //Subscribeables:
   private batchSub: any;s
@@ -39,6 +39,8 @@ export class DataPageComponent implements OnInit {
   displayDataList = [];
   hasValues = false;
   testSpan = 2
+  canGoNext: any;
+  canGoPrevious:any;
 
   constructor(
     private authAPI: AuthAPIService,
@@ -52,6 +54,23 @@ export class DataPageComponent implements OnInit {
     this.getBatchDetails()
   }
 
+  //Fixes query and navigates to next api data point
+  goToNextSet(){
+    if(this.canGoNext){
+      this.offset = this.offset + this.limit
+      this.getBatchDetails()
+    }
+  }
+  //Fixes query and navigates to previous api data point
+  goToPreviousSet(){
+    if(this.canGoPrevious){
+      this.offset = this.offset - this.limit
+      this.getBatchDetails()
+    }
+  }
+
+
+
   getBatchDetails(){
     //Initiating the query and observable
     let query = '?limit=' + this.limit + '&' + 'offset=' + this.offset; 
@@ -60,13 +79,15 @@ export class DataPageComponent implements OnInit {
     //Subscribing to the obs and getting the data
     this.batchSub = this.operationsService.getProduct()
       .switchMap(data => {
-          this.productList = (data as QueryResponse).results as Product []
-          return batchObservable
+        this.productList = (data as QueryResponse).results as Product []
+        return batchObservable
         })
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => { 
-        let batchItemList = (data as QueryResponse).results as Batch []
-        
+        this.canGoNext = (data as QueryResponse).next
+        this.canGoPrevious = (data as QueryResponse).previous
+        let batchItemList = (data as QueryResponse).results as Batch []   
+      
         // Populating the display data
         this.populateDisplayDataList(batchItemList)
       })  
@@ -83,10 +104,7 @@ export class DataPageComponent implements OnInit {
     this.commentSub = this.commentService.getComment(query)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        this.displayCommentsList = (data as QueryResponse).results as Comment[]      
-        console.log(this.displayCommentsList);
-        console.log(this.displayCommentsList.length);
-        
+        this.displayCommentsList = (data as QueryResponse).results as Comment[]             
         
         if(this.displayCommentsList.length != 0){
           this.displayComments = true

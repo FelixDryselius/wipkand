@@ -53,7 +53,7 @@ export class ProductionAccumulatedComponent implements OnInit {
 
     //OBS THE OFFSET THING MUST CHANGE
     //Get the latest batch's production_number
-    this.operationsService.getBatchDetail('?limit=1&offset=1')  
+    this.operationsService.getBatchDetail('?limit=1')  
     .switchMap(batchData =>{
       let batch = (batchData as QueryResponse).results as Batch []
       let tempQuery = '?batch_number='+ batch.pop().batch_number;
