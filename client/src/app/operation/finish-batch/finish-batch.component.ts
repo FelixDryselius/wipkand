@@ -67,24 +67,6 @@ export class FinishBatchComponent implements OnInit {
     })
   }
 
-  disableReworkForm() {
-    if (this.finishBatchForm.controls.hmi1Bad_rework) {
-      this.finishBatchForm.controls.hmi1Bad_rework.disable()
-      this.finishBatchForm.controls.hmi2Bad_rework.disable()
-      this.finishBatchForm.controls.hmi1Good_rework.disable()
-      this.finishBatchForm.controls.hmi2Good_rework.disable()
-    }
-  }
-
-  enableReworkForm() {
-    if (this.finishBatchForm.controls.hmi1Bad_rework) {
-      this.finishBatchForm.controls.hmi1Bad_rework.enable()
-      this.finishBatchForm.controls.hmi2Bad_rework.enable()
-      this.finishBatchForm.controls.hmi1Good_rework.enable()
-      this.finishBatchForm.controls.hmi2Good_rework.enable()
-    }
-  }
-
   submitEndBatch($theEvent, batchForm) {
     // TODO:  add these attributes so the whole batch kan close:
     // scrap, rework_date, applied_labels, label_print_time, rework_time, yield_2
