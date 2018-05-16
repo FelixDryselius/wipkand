@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 //3rd party and application imports
 import { AuthAPIService } from '../../../auth/auth.service';
@@ -16,7 +17,7 @@ import { Scoreboard } from '../../../../assets/interface/scoreboard';
 })
 export class ProductionPerTimeUnitComponent implements OnInit {
     //Subscribers
-    productionStatisticSubscriber:any;
+    productionStatisticSubscriber:Subscription;
   
     //Data
     productionStatistics = [];

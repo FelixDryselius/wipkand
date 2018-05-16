@@ -55,6 +55,13 @@ export class DataPageComponent implements OnInit {
   ngOnInit() {
     this.getBatchDetails()
   }
+ 
+  ngOnDestroy() {
+    this.batchSub.unsubscribe()
+    if(this.commentSub){
+     this.commentSub.unsubscribe()
+    }
+  }
 
   //Fixes query and navigates to next api data point
   goToNextSet(){
@@ -163,12 +170,6 @@ export class DataPageComponent implements OnInit {
     this.hasValues = true
   }
  
-  ngOnDestroy() {
-    this.batchSub.unsubscribe()
-    if(this.commentSub){
-     this.commentSub.unsubscribe()
-    }
-  }
   goBack() {
     this.location.back()
   }
