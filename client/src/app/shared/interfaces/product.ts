@@ -3,4 +3,5 @@ export class Product {
     product_name: string;
     reference_storage: number;
     label: string;
+    batch_production_goal:Number;
 }

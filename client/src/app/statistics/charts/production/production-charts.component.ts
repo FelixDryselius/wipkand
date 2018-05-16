@@ -127,6 +127,7 @@ export class StatisticsChartsComponent implements OnInit {
     this.haveData = false
 
     this.operationsService.getProductionStatistics(query)
+
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
       
