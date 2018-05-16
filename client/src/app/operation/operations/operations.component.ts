@@ -1,4 +1,3 @@
-
 import { AuthAPIService } from '../../auth/auth.service';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
@@ -21,7 +20,7 @@ import { CalendarModule } from 'primeng/calendar';
   styleUrls: ['./operations.component.css']
 })
 
-export class OperationsComponent implements OnInit {
+export class OperationsComponent implements OnInit, OnDestroy {
 
   private productionObservable: Observable<any>;
   private productionSub: any;
@@ -389,6 +388,10 @@ export class OperationsComponent implements OnInit {
     }
     // Resets form
     formData.reset()
+  }
+
+  ngOnDestroy() {
+    this.service_prodInfo.unsubscribe()
   }
 
 }

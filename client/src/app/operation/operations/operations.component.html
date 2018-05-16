@@ -23,29 +23,7 @@
         </div>
         <div class="row">
           <form role="form" class="col-md-12" [formGroup]="commentForm" #newCommentDir='ngForm' (ngSubmit)='submitComment($event,commentForm)'>
-            <div class="form-group commentForm row">
-              <label class="col-md-3" for="inputName">Name:</label>
-              <div class="col-md-6">
-                <input type="text" class="form-control" id="inputName" #commentName formControlName='commentName'>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-3"></div>
-              <div class="alert alert-danger inputMiddle col-md-6" *ngIf="commentForm.controls.commentName.invalid && (commentForm.controls.commentName.dirty || commentForm.controls.commentName.touched) && prodInfo">
-                <div *ngIf="commentForm.controls.commentName.errors.required">
-                  * Name is required.
-                </div>
-                <div *ngIf="commentForm.controls.commentName.errors.minlength">
-                  * Name must be atleast 2 characters long.
-                </div>
-                <div *ngIf="commentForm.controls.commentName.errors.pattern">
-                  * Name can not contain numbers or special characters.
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group row">
+            <div class="form-group row commentForm ">
               <label class="col-md-3" for="inputComment">Comment:</label>
               <div class="col-md-8">
                 <textarea type="text" rows="6" class="form-control commentTextarea" id="inputComment" #commentText formControlName='commentText'></textarea>
@@ -61,6 +39,27 @@
               <div class="alert alert-danger inputMiddle" *ngIf="!prodInfo">
                 <div>
                   * Comments can not be added without a batch running.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3" for="inputName">Signature:</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" id="inputName" #commentName formControlName='commentName'>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="alert alert-danger inputMiddle col-md-6" *ngIf="commentForm.controls.commentName.invalid && (commentForm.controls.commentName.dirty || commentForm.controls.commentName.touched) && prodInfo">
+                <div *ngIf="commentForm.controls.commentName.errors.required">
+                  * Name is required.
+                </div>
+                <div *ngIf="commentForm.controls.commentName.errors.minlength">
+                  * Name must be atleast 2 characters long.
+                </div>
+                <div *ngIf="commentForm.controls.commentName.errors.pattern">
+                  * Name can not contain numbers or special characters.
                 </div>
               </div>
             </div>
