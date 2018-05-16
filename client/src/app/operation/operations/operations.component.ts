@@ -1,4 +1,3 @@
-
 import { AuthAPIService } from '../../auth/auth.service';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
@@ -21,7 +20,7 @@ import { CalendarModule } from 'primeng/calendar';
   styleUrls: ['./operations.component.css']
 })
 
-export class OperationsComponent implements OnInit {
+export class OperationsComponent implements OnInit, OnDestroy {
 
   private productionObservable: Observable<any>;
   private productionSub: any;
@@ -69,12 +68,14 @@ export class OperationsComponent implements OnInit {
   ]
 
   currentFloorstock: any[] = [];
+  beforeChanges: any[] = [];
   ngModelFloorstock: any[] = [];
 
   // END FLOORSTOCK SECTION
 
 
   // COMMENT SECTION
+  private commentsSub: any;
   private commentForm: FormGroup;
   // Variables for add comment used html
   commentAdded = false;
@@ -192,7 +193,6 @@ export class OperationsComponent implements OnInit {
           }
         }
         this.currentFloorstock = [];
-        console.log(this.floorstockItems)
         for (let key in this.floorstockItems) {
           if (
             this.floorstockItems[key]["item_name"] == correctLabel ||
@@ -228,13 +228,7 @@ export class OperationsComponent implements OnInit {
             this.currentFloorstock[obj]["batch"] = ''
           }
         }
-        console.log("currentFloorstock: ")
-        console.log(this.currentFloorstock)
-
-        console.log("floorstockChanges: ")
-        console.log(this.floorstockChanges)
-
-
+        this.beforeChanges = JSON.parse(JSON.stringify(this.currentFloorstock))
       });
   }
 
@@ -257,18 +251,15 @@ export class OperationsComponent implements OnInit {
   }
 
   getComment() {
-    // Subscribe to service and save the data in comments list as json obj
-    this.commentService.getComment()
+    this.commentsSub = this.commentService.getComment()
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.comments = data as JSON[]
       });
   }
 
-  // Function that is being called when option in dropdown menu has been selected
-
   getProdList() {
-    this.productionObservable = this.operationsService.getProdStats('?batch_number=' +  this.prodInfo.batch_number + '&limit=60')
+    this.productionObservable = this.operationsService.getProdStats('?batch_number=' + this.prodInfo.batch_number + '&limit=60')
 
     this.productionSub = this.productionObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
@@ -278,7 +269,6 @@ export class OperationsComponent implements OnInit {
   }
 
   submitProduction(event, formData) {
-
     this.dateErrorMsg = null
     this.prodDataError = false
     let inputData: any = {};
@@ -287,9 +277,10 @@ export class OperationsComponent implements OnInit {
     for (let key in formData.value) {
       inputData[key] = formData.value[key];
     }
+    console.log(inputData.inputDate)
     if (typeof inputData.inputDate != 'undefined' && typeof inputData.produced != 'undefined' && inputData.onShift != 'undefined') {
       let newData = {
-        time_stamp: inputData.inputDate + 'Z',
+        time_stamp: inputData.inputDate,
         production_quantity: inputData.produced,
         staff_quantity: inputData.onShift,
         user_name: inputData.signature,
@@ -326,17 +317,13 @@ export class OperationsComponent implements OnInit {
         results[key] = inputData.value[key];
       }
     }
-    ("ngModelFloorstock: ")
-    console.log(this.ngModelFloorstock)
-    console.log("results: ")
-    console.log(results)
     for (let key in results) {
       let counter = 0;
-      for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+      for (let obj = 0; obj < this.beforeChanges.length; obj++) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
-        if (this.currentFloorstock[obj]["item_id"] == key && this.currentFloorstock[obj].id != null) {
+        if (this.beforeChanges[obj]["item_id"] == key && this.beforeChanges[obj]["quantity"] != results[key]) {
           let updateItem = {
-            id: this.currentFloorstock[obj].id,
+            id: this.beforeChanges[obj].id,
             time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
             quantity: results[key],
             floorstock_item: key,
@@ -347,14 +334,16 @@ export class OperationsComponent implements OnInit {
             .subscribe();
           this.floorstockAdded = true
           setTimeout(() => { this.floorstockAdded = false }, 4000);
-
         }
+
+        else if (this.beforeChanges[obj]["item_id"] == key) {
+          break;
+        }
+
         else {
           counter += 1
-
           // If no time stamp in api was found this means it is new data
-          if (counter == this.currentFloorstock.length) {
-            console.log("entered else")
+          if (counter == this.beforeChanges.length) {
             let createItem = {
               time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
               quantity: results[key],
@@ -400,6 +389,9 @@ export class OperationsComponent implements OnInit {
     }
     // Resets form
     formData.reset()
+  }
+
+  ngOnDestroy() {
   }
 
 }
