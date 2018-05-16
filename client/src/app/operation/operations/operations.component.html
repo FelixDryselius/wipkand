@@ -8,71 +8,70 @@
   </div>
 </div>
 
+<hr class="separator">
+
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-6">
-      <div class="commentSection border border-primary rounded">
-
+    <div class="col-md-5">
+      <div class="box border border-primary rounded">
         <div class="row">
           <div class="col-md-12">
             <h3 class="text-center">
               Add comment
             </h3>
-
           </div>
         </div>
         <div class="row">
-
           <form role="form" class="col-md-12" [formGroup]="commentForm" #newCommentDir='ngForm' (ngSubmit)='submitComment($event,commentForm)'>
-            <div class="commentForm row">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="inputName">Name:</label>
-                  <input type="text" class="form-control" id="inputName" #commentName formControlName='commentName'>
+            <div class="form-group commentForm row">
+              <label class="col-md-3" for="inputName">Name:</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" id="inputName" #commentName formControlName='commentName'>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="alert alert-danger inputMiddle col-md-6" *ngIf="commentForm.controls.commentName.invalid && (commentForm.controls.commentName.dirty || commentForm.controls.commentName.touched) && prodInfo">
+                <div *ngIf="commentForm.controls.commentName.errors.required">
+                  * Name is required.
+                </div>
+                <div *ngIf="commentForm.controls.commentName.errors.minlength">
+                  * Name must be atleast 2 characters long.
+                </div>
+                <div *ngIf="commentForm.controls.commentName.errors.pattern">
+                  * Name can not contain numbers or special characters.
                 </div>
               </div>
+            </div>
 
+            <div class="form-group row">
+              <label class="col-md-3" for="inputComment">Comment:</label>
               <div class="col-md-8">
-                <div class="form-group">
-                  <label for="inputComment">Comment:</label>
-                  <textarea type="text" class="form-control commentTextarea" id="inputComment" #commentText formControlName='commentText'>
-                  </textarea>
+                <textarea type="text" rows="6" class="form-control commentTextarea" id="inputComment" #commentText formControlName='commentText'></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="alert alert-danger inputMiddle col-md-6" *ngIf="commentForm.controls.commentText.invalid && (commentForm.controls.commentText.dirty || commentForm.controls.commentText.touched) && prodInfo">
+                <div *ngIf="commentForm.controls.commentText.errors.required">
+                  * Comment text is required.
+                </div>
+              </div>
+              <div class="alert alert-danger inputMiddle" *ngIf="!prodInfo">
+                <div>
+                  * Comments can not be added without a batch running.
                 </div>
               </div>
             </div>
 
-            <div class="alert alert-danger inputMiddle" *ngIf="commentForm.controls.commentName.invalid && (commentForm.controls.commentName.dirty || commentForm.controls.commentName.touched) && prodInfo">
-              <div *ngIf="commentForm.controls.commentName.errors.required">
-                * Name is required.
+            <div class="row comment-button">
+              <div class="col-md-6">
+                <div class="alert alert-success inputMiddle" *ngIf="commentAdded">
+                  Your comment was added!
+                </div>
               </div>
-              <div *ngIf="commentForm.controls.commentName.errors.minlength">
-                * Name must be atleast 2 characters long.
-              </div>
-              <div *ngIf="commentForm.controls.commentName.errors.pattern">
-                * Name can not contain numbers or special characters.
-              </div>
-            </div>
-
-            <div class="alert alert-danger inputMiddle" *ngIf="commentForm.controls.commentText.invalid && (commentForm.controls.commentText.dirty || commentForm.controls.commentText.touched) && prodInfo">
-              <div *ngIf="commentForm.controls.commentText.errors.required">
-                * Comment text is required.
-              </div>
-            </div>
-
-            <div class="alert alert-danger inputMiddle" *ngIf="!prodInfo">
-              <div>
-                * Comments can not be added without a batch running.
-              </div>
-            </div>
-
-            <div class="alert alert-success inputMiddle" *ngIf="commentAdded" >
-              <div>
-                Your comment was added!
-              </div>
-            </div>
-
-            <div class="row btn-comment">
-              <div class="col-md-12" align="right">
+              <div class="col-md-6" align="right">
                 <button class="btn btn-primary" *ngIf="commentForm.controls.commentName.errors || commentForm.controls.commentText.errors || !commentForm || !prodInfo"
                   disabled>
                   Add comment
@@ -88,125 +87,118 @@
       </div>
     </div>
 
-    <div class="col-md-1">
 
-    </div>
+    <div class="col-md-1"></div>
 
-    <div class="col-md-5">
-      <div class="col-md-12">
-        <div class="dataSection border border-primary rounded">
-
-          <div class="row">
-            <div class="col-md-12">
-              <h3 class="text-center">
-                Add production data
-              </h3>
-
+    <div class="row col-md-5">
+      <div class="col-md-12 box border border-primary rounded">
+        <div class="row">
+          <div class="col-md-12">
+            <h3 class="text-center">
+              Add production data
+            </h3>
+          </div>
+        </div>
+        <div class="row">
+          <form class=" col-md-12 commentForm" [formGroup]="productionForm" #newProdDir='ngForm' (ngSubmit)='submitProduction($event, productionForm)'>
+            <div class="form-group row">
+              <label for="inputDate" class="col-md-3 col-form-label">Date:</label>
+              <div class="col-md-6">
+                <p-calendar id="inputDate" #inputDate formControlName="inputDate" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar>
+              </div>
             </div>
-          </div>
-          <div class="row">
 
-            <form class="commentForm col-md-12" [formGroup]="productionForm" #newProdDir='ngForm' (ngSubmit)='submitProduction($event, productionForm)'>
-              <div class="form-group row">
-                <label for="inputDate" class="col-md-3 col-form-label">Date:</label>
-                <div class="col-md-6">
-                  <p-calendar id="inputDate" #inputDate formControlName="inputDate" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.inputDate.invalid && (productionForm.controls.inputDate.dirty || productionForm.controls.inputDate.touched)">
+                <div *ngIf="productionForm.controls.inputDate.errors?.required">
+                  * Time is required.
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.inputDate.invalid && (productionForm.controls.inputDate.dirty || productionForm.controls.inputDate.touched)">
-                  <div *ngIf="productionForm.controls.inputDate.errors?.required">
-                    * Time is required.
-                  </div>
-                </div>
-              </div>
+            </div>
 
-              <div class="form-group row">
-                <label for="onShift" class="col-md-3 col-form-label">On shift:</label>
-                <div class="col-md-6">
-                  <input class="form-control" id="onShift" type="number" min="0" #onShift formControlName="onShift">
+            <div class="form-group row">
+              <label for="onShift" class="col-md-3 col-form-label">On shift:</label>
+              <div class="col-md-6">
+                <input class="form-control" id="onShift" type="number" min="0" #onShift formControlName="onShift">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.onShift.invalid && (productionForm.controls.onShift.dirty || productionForm.controls.onShift.touched)">
+                <div *ngIf="productionForm.controls.onShift.errors?.required">
+                  * Number on shift is required.
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.onShift.invalid && (productionForm.controls.onShift.dirty || productionForm.controls.onShift.touched)">
-                  <div *ngIf="productionForm.controls.onShift.errors?.required">
-                    * Number on shift is required.
-                  </div>
-                </div>
-              </div>
+            </div>
 
-              <div class="form-group row">
-                <label for="produced" class="col-md-3 col-form-label">Produced:</label>
-                <div class="col-md-6">
-                  <input class="form-control" id="produced" type="number" min="0" #produced formControlName="produced">
+            <div class="form-group row">
+              <label for="produced" class="col-md-3 col-form-label">Produced:</label>
+              <div class="col-md-6">
+                <input class="form-control" id="produced" type="number" min="0" #produced formControlName="produced">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.produced.invalid && (productionForm.controls.produced.dirty || productionForm.controls.produced.touched)">
+                <div *ngIf="productionForm.controls.produced.errors?.required">
+                  * Amount produced is required.
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.produced.invalid && (productionForm.controls.produced.dirty || productionForm.controls.produced.touched)">
-                  <div *ngIf="productionForm.controls.produced.errors?.required">
-                    * Amount produced is required.
-                  </div>
-                </div>
-              </div>
+            </div>
 
-              <div class="form-group row">
-                <label for="signature" class="col-md-3 col-form-label">Signature:</label>
-                <div class="col-md-6">
-                  <input class="form-control" id="signature" type="text" #signature formControlName="signature">
+            <div class="form-group row">
+              <label for="signature" class="col-md-3 col-form-label">Signature:</label>
+              <div class="col-md-6">
+                <input class="form-control" id="signature" type="text" #signature formControlName="signature">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.signature.invalid && (productionForm.controls.signature.dirty || productionForm.controls.signature.touched)">
+                <div *ngIf="productionForm.controls.signature.errors?.required">
+                  * A signature is required.
+                </div>
+                <div *ngIf="productionForm.controls.signature.errors?.minlength">
+                  * Your signature must be atleast 2 characters long.
+                </div>
+                <div *ngIf="productionForm.controls.signature.errors?.pattern">
+                  * Your signature can not contain numbers or special characters.
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.signature.invalid && (productionForm.controls.signature.dirty || productionForm.controls.signature.touched)">
-                  <div *ngIf="productionForm.controls.signature.errors?.required">
-                    * A signature is required.
-                  </div>
-                  <div *ngIf="productionForm.controls.signature.errors?.minlength">
-                    * Your signature must be atleast 2 characters long.
-                  </div>
-                  <div *ngIf="productionForm.controls.signature.errors?.pattern">
-                    * Your signature can not contain numbers or special characters.
-                  </div>
-                </div>
-              </div>
+            </div>
 
-              <div class="row btn-comment">
-                <div class="col-md-8">
-                  <div *ngIf="prodDataAdded" class="alert alert-success inputMiddle">
-                    Production data successfully added!
-                  </div>
-                  <div *ngIf="dateErrorMsg && prodDataError" class="alert alert-danger inputMiddle">
-                    <b>{{ dateErrorMsg }}</b>
-                  </div>
+            <div class="row add-data align-bottom">
+              <div class="col-md-8">
+                <div *ngIf="prodDataAdded" class="alert alert-success inputMiddle">
+                  Production data successfully added!
                 </div>
-                <div class="col-md-4" align="right">
-                  <button class="btn btn-primary" *ngIf="productionForm.controls.inputDate.errors || productionForm.controls.onShift.errors || productionForm.controls.produced.errors || productionForm.controls.signature.errors"
-                    disabled>
-                    Add data
-                  </button>
-                  <button *ngIf="!(productionForm.controls.inputDate.errors) && !(productionForm.controls.onShift.errors) && !(productionForm.controls.produced.errors) && !(productionForm.controls.signature.errors)"
-                    type="submit" class="btn btn-primary">
-                    Add data
-                  </button>
+                <div *ngIf="dateErrorMsg && prodDataError" class="alert alert-danger inputMiddle">
+                  <b>{{ dateErrorMsg }}</b>
                 </div>
               </div>
-            </form>
-          </div>
+              <div class="col-md-4" align="right">
+                <button class="btn btn-primary" *ngIf="productionForm.controls.inputDate.errors || productionForm.controls.onShift.errors || productionForm.controls.produced.errors || productionForm.controls.signature.errors"
+                  disabled>
+                  Add data
+                </button>
+                <button *ngIf="!(productionForm.controls.inputDate.errors) && !(productionForm.controls.onShift.errors) && !(productionForm.controls.produced.errors) && !(productionForm.controls.signature.errors)"
+                  type="submit" class="btn btn-primary">
+                  Add data
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<hr class="separator">
-
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4">
-      <div class="floorstockSection border border-primary rounded">
+    <div class="col-md-5">
+      <div class="box border border-primary rounded">
 
         <form class="floorstockForm" #floorstockForm='ngForm' (ngSubmit)='updateFloorstock($event,floorstockForm)'>
           <div class="row">
@@ -257,18 +249,16 @@
       </div>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-1"></div>
 
-    </div>
-
-    <div class="row col-md-6">
-      <div class="col-md-12 dataSection border border-primary rounded">
+    <div class="row col-md-5">
+      <div class="col-md-12 box border border-primary rounded">
         <div class="row">
           <div class="col-md-12">
             <h3 class="text-center">Production data</h3>
           </div>
         </div>
-        <table class="table table-bordered table-success table-hover table-sm">
+        <table class="table table-bordered table-info table-striped table-hover table-sm">
           <thead>
             <tr>
               <th *ngFor="let col of prodDataColumns">{{ col }}</th>
@@ -284,5 +274,6 @@
           </tbody>
         </table>
       </div>
+    </div>
 
-      <hr>
+    <hr>

@@ -322,7 +322,6 @@ export class OperationsComponent implements OnInit {
       for (let obj = 0; obj < this.beforeChanges.length; obj++) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
         if (this.beforeChanges[obj]["item_id"] == key && this.beforeChanges[obj]["quantity"] != results[key]) {
-          console.log("in if")
           let updateItem = {
             id: this.beforeChanges[obj].id,
             time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
@@ -351,7 +350,6 @@ export class OperationsComponent implements OnInit {
               floorstock_item: key,
               batch: this.prodInfo.id,
             }
-            console.log("create item")
             this.operationsService.createFloorstock(createItem)
               .retryWhen(error => this.authAPI.checkHttpRetry(error))
               .subscribe();

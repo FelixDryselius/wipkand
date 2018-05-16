@@ -12,12 +12,6 @@
   background-color: black;
 }
 
-.floorstockSection {
-  margin-top: 5%;
-  padding: 3%;
-  background-color: #e9ecef;
-}
-
 .button-signs {
   font-size: 1.5em;
 }
@@ -40,14 +34,8 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.commentSection {
-  margin-top: 3%;
-  padding: 3%;
-  background-color: #e9ecef;
-}
-
-.dataSection {
-  margin-top: 3%;
+.box {
+  margin-top: 5%;
   padding: 3%;
   background-color: #e9ecef;
 }
@@ -56,9 +44,6 @@ input[type=number]::-webkit-outer-spin-button {
   margin-top: 5%;
 }
 
-.commentTextarea {
-  height: 125px;
-}
 
 /* End home style */
 
