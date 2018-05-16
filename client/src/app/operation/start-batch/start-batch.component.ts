@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 // Application imports
 import { AuthAPIService } from '../../auth/auth.service';
-import { OperationsService } from '../shared/services/operations.service';
+import { OperationsService } from '../../shared/application-services/operations.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 import { Batch } from '../../shared/interfaces/batch';
 import { SubmitIfValidDirective } from '../../shared/directives/submit-if-valid.directive';

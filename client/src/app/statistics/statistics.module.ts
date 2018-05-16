@@ -7,6 +7,7 @@ import { FloorstockChartComponent } from './charts/floorstock/floorstock-chart.c
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ProductionAccumulatedComponent } from './charts/production-accumulated/production-accumulated.component';
 import { ProductionPerTimeUnitComponent } from './charts/production-per-time-unit/production-per-time-unit.component';
+import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { StatisticsChartsComponent } from './charts/production/production-charts.component';
 import { StatisticsRoutingModule } from './statistics-routing.module';
 
@@ -22,9 +23,10 @@ import { StatisticsRoutingModule } from './statistics-routing.module';
   declarations: [
     FloorstockChartComponent, 
     DataPageComponent,
-    StatisticsChartsComponent,
     ProductionPerTimeUnitComponent,
-    ProductionAccumulatedComponent
+    ProductionAccumulatedComponent,
+    StatisticsChartsComponent,
+    ScoreboardComponent
   ],
 
   providers: [],

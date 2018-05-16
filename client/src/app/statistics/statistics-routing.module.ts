@@ -7,7 +7,7 @@ import { DataPageComponent } from './data-page/data-page.component';
 import { FloorstockChartComponent } from './charts/floorstock/floorstock-chart.component';
 import { ProductionAccumulatedComponent } from './charts/production-accumulated/production-accumulated.component';
 import { ProductionPerTimeUnitComponent } from './charts/production-per-time-unit/production-per-time-unit.component';
-import { ScoreboardModule } from './scoreboard/scoreboard.module';
+import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { StatisticsChartsComponent } from './charts/production/production-charts.component';
 
 
@@ -40,15 +40,29 @@ const routes: Routes = [
    ]
   },
   {
+    path: 'scoreboard',
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: ScoreboardComponent,
+      },
+      {
+        path: ":batchesBack",
+        component: ScoreboardComponent,
+      }
+    ]
+  },
+  {
     path: 'data-page',
     component: DataPageComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'scoreboard',
-    loadChildren: './scoreboard/scoreboard.module#ScoreboardModule',
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'scoreboard',
+  //   loadChildren: './scoreboard/scoreboard.module#ScoreboardModule',
+  //   canActivate: [AuthGuard],
+  // },
 ];
 
 @NgModule({

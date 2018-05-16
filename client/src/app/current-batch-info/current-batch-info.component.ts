@@ -1,9 +1,9 @@
-import { AuthAPIService } from '../../auth/auth.service';
+import { AuthAPIService } from '../auth/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OperationsService } from '../shared/services/operations.service';
-import { Batch } from '../../shared/interfaces/batch'
-import { QueryResponse } from '../../shared/interfaces/query-response'
+import { OperationsService } from '../shared/application-services/operations.service';
+import { Batch } from '../shared/interfaces/batch'
+import { QueryResponse } from '../shared/interfaces/query-response'
 
 import { Observable } from 'rxjs/Observable';
 
