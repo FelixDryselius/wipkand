@@ -76,7 +76,7 @@
                   Add comment
                 </button>
                 <button *ngIf="!(commentForm.controls.commentName.errors) && !(commentForm.controls.commentText.errors) && prodInfo" type="submit"
-                  class="btn btn-primary">
+                  class="btn btn-primary btn-flash">
                   Add comment
                 </button>
               </div>
@@ -182,7 +182,7 @@
                   Add data
                 </button>
                 <button *ngIf="!(productionForm.controls.inputDate.errors) && !(productionForm.controls.onShift.errors) && !(productionForm.controls.produced.errors) && !(productionForm.controls.signature.errors)"
-                  type="submit" class="btn btn-primary">
+                  type="submit" class="btn btn-primary btn-flash">
                   Add data
                 </button>
               </div>
@@ -201,8 +201,24 @@
 
         <form class="floorstockForm" #floorstockForm='ngForm' (ngSubmit)='updateFloorstock($event,floorstockForm)'>
           <div class="row">
+            <div class="col-md-8">
+              <h3 class="text-right">Consumables</h3>
+            </div>
+            <div class="col-md-4 text-right">
+              <button *ngIf="buttonOn" type="submit" class="btn btn-primary btn-flash">
+                Update
+              </button>
+              <button *ngIf="!buttonOn" type="submit" class="btn btn-primary" disabled>
+                Update
+              </button>
+            </div>
+          </div>
+          <div class="row">
+
             <div class="col-md-12">
-              <h3 class="text-center">Consumables</h3>
+              <div *ngIf="floorstockAdded" class="alert alert-success text-center">
+                Floorstock successfully updated!
+              </div>
             </div>
           </div>
           <table *ngIf="currentFloorstock.length > 0; else loading" class="table table-bordered table-light">
@@ -229,21 +245,7 @@
               </tr>
             </tbody>
           </table>
-          <div class="row">
-            <div class="col-md-8">
-              <p *ngIf="floorstockAdded" class="alert alert-success text-left">
-                Floorstock successfully updated!
-              </p>
-            </div>
-            <div class="col-md-4 text-right">
-              <button *ngIf="buttonOn" type="submit" class="btn btn-primary">
-                Update
-              </button>
-              <button *ngIf="!buttonOn" type="submit" class="btn btn-primary" disabled>
-                Update
-              </button>
-            </div>
-          </div>
+
         </form>
       </div>
     </div>
@@ -257,7 +259,7 @@
             <h3 class="text-center">Production data</h3>
           </div>
         </div>
-        <table class="table table-bordered table-info table-striped table-hover table-sm">
+        <table class="table table-bordered table-striped table-hover table-sm">
           <thead>
             <tr>
               <th *ngFor="let col of prodDataColumns">{{ col }}</th>

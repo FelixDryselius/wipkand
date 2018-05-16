@@ -75,6 +75,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
 
   // COMMENT SECTION
+  private commentsSub: any;
   private commentForm: FormGroup;
   // Variables for add comment used html
   commentAdded = false;
@@ -250,7 +251,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
   }
 
   getComment() {
-    this.commentService.getComment()
+    this.commentsSub = this.commentService.getComment()
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.comments = data as JSON[]
@@ -391,7 +392,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.service_prodInfo.unsubscribe()
   }
 
 }
