@@ -43,19 +43,28 @@
             <li class="nav-item">
               <a class="nav-link" routerLink="/statistics/data-page" routerLinkActive="active">Data page</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/statistics/charts/production" routerLinkActive="active">Production chart</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/statistics/charts/floorstock" routerLinkActive="active">Floorstock chart</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/statistics/charts/production-per-time-unit" routerLinkActive="active">Production per day chart</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/statistics/charts/production-accumulated" routerLinkActive="active">Accumulated production for latest batch</a>
+            <li>
+              <a class="btn dropdown-toggle"  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Charts
+              </a>
             </li>
           </ul>
+          <div class="collapse" id="collapseExample">
+            <ul class="nav flex-column nav-pills nav-stacked">
+              <li class="nav-item">
+                  <a class="nav-link" routerLink="/statistics/charts/production" routerLinkActive="active">Production chart</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/statistics/charts/floorstock" routerLinkActive="active">Floorstock chart</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/statistics/charts/production-per-time-unit" routerLinkActive="active">Production per day chart</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/statistics/charts/production-accumulated" routerLinkActive="active">Accumulated production for latest batch</a>
+                </li>
+              </ul>
+          </div>
           <hr>
           <button type='button' class='btn btn-default' (click)="authAPI.performLogout()">Logout</button>
         </div>
