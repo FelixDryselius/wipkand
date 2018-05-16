@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 //3rd party and application imports
 import { AuthAPIService } from '../../../auth/auth.service';
@@ -15,6 +15,9 @@ import { Scoreboard } from '../../../../assets/interface/scoreboard';
   styleUrls: ['./production-per-time-unit.component.css']
 })
 export class ProductionPerTimeUnitComponent implements OnInit {
+    //Subscribers
+    productionStatisticSubscriber:any;
+  
     //Data
     productionStatistics = [];
     yieldDisplayList = [];
@@ -47,6 +50,12 @@ export class ProductionPerTimeUnitComponent implements OnInit {
     ngOnInit() {
       this.getProductionStatisticsValues()
     }
+
+    ngOnDestroy(){
+      this.productionStatisticSubscriber.unsubscribe()
+    }
+
+
   //TODO MAKE THIS FUCKING DISGUSTING THING WORK......
 
     // xAxisFormatting(data){
@@ -80,7 +89,7 @@ export class ProductionPerTimeUnitComponent implements OnInit {
   // This method populates this.productionStatistics and init populateDisplayData()
   getProductionStatisticsValues(query?:string)  {
 
-    this.operationsService.getProductionStatistics(query)
+    this.productionStatisticSubscriber = this.operationsService.getProductionStatistics(query)
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
       this.productionStatistics = (data as QueryResponse).results as Scoreboard []

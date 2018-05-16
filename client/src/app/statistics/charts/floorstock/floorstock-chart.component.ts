@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs'
 
 //3rd party and application imports
 import { AuthAPIService } from '../../../auth/auth.service';
@@ -18,7 +19,10 @@ import { QueryResponse } from '../../../shared/interfaces/query-response';
   styleUrls: ['./floorstock-chart.component.css']
 })
 export class FloorstockChartComponent implements OnInit {  
-  
+  //Subscriber
+  floorstockSubscriber: Subscription;
+
+
   //Chart here we set options fot the chart
   animations = true;
   showLegend = true;
@@ -51,13 +55,16 @@ export class FloorstockChartComponent implements OnInit {
   ngOnInit() {
     this.getFloorstockData()
   }
+  ngOnDestroy(){
+    this.floorstockSubscriber.unsubscribe()
+  }
 
  // This function populates floorstockItems and displayData
  getFloorstockData(){
    this.haveData = false;
 
   //this part populates floorstockItems which contains correct names for all floorstock change
-  this.operationsService.getFloorstockItems()
+  this.floorstockSubscriber = this.operationsService.getFloorstockItems()
   .switchMap(itemData =>{
     this.floorstockItems = (itemData as QueryResponse).results as FloorstockItem []   
     return this.operationsService.getFloorstockChanges(this.query)

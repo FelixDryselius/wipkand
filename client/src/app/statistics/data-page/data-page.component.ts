@@ -2,6 +2,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Pipe, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common'
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 // Application imports
@@ -16,6 +17,7 @@ import { Order } from '../../shared/interfaces/order';
 import { Product } from '../../shared/interfaces/product';
 import { element } from 'protractor';
 
+
 @Component({
   selector: 'app-data-page',
   templateUrl: './data-page.component.html',
@@ -27,8 +29,8 @@ export class DataPageComponent implements OnInit {
   limit = 20;
 
   //Subscribeables:
-  private batchSub: any;s
-  private commentSub: any;
+  private batchSub: Subscription;
+  private commentSub: Subscription;
 
 
   testList = ['hej', 'da']
@@ -163,6 +165,9 @@ export class DataPageComponent implements OnInit {
  
   ngOnDestroy() {
     this.batchSub.unsubscribe()
+    if(this.commentSub){
+     this.commentSub.unsubscribe()
+    }
   }
   goBack() {
     this.location.back()
