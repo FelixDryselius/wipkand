@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs'
 
 //3rd party and application imports
 import { AuthAPIService } from '../../../auth/auth.service';
@@ -18,7 +19,10 @@ import { QueryResponse } from '../../../shared/interfaces/query-response';
   styleUrls: ['./floorstock-chart.component.css']
 })
 export class FloorstockChartComponent implements OnInit {  
-  
+  //Subscriber
+  floorstockSubscriber: Subscription;
+
+
   //Chart here we set options fot the chart
   animations = true;
   showLegend = true;
@@ -51,13 +55,16 @@ export class FloorstockChartComponent implements OnInit {
   ngOnInit() {
     this.getFloorstockData()
   }
+  ngOnDestroy(){
+    this.floorstockSubscriber.unsubscribe()
+  }
 
  // This function populates floorstockItems and displayData
  getFloorstockData(){
    this.haveData = false;
 
   //this part populates floorstockItems which contains correct names for all floorstock change
-  this.operationsService.getFloorstockItems()
+  this.floorstockSubscriber = this.operationsService.getFloorstockItems()
   .switchMap(itemData =>{
     this.floorstockItems = (itemData as QueryResponse).results as FloorstockItem []   
     return this.operationsService.getFloorstockChanges(this.query)
@@ -65,7 +72,6 @@ export class FloorstockChartComponent implements OnInit {
   //Here this.floorstockChange gets populated
   .retryWhen(error => this.authAPI.checkHttpRetry(error))
   .subscribe(data =>{
-    console.log(data)
     this.nextLink = (data as QueryResponse).next;
     this.previousLink = (data as QueryResponse).previous;
     let tempFloorstockChange = (data as QueryResponse).results as Floorstock []  
@@ -124,7 +130,6 @@ goToNextSet(){
     let index = this.nextLink.indexOf('?')
     this.query = this.nextLink.slice(index)
     this.getFloorstockData()
-    console.log(this.query);
   }
 }
 //Fixes query and navigates to previous api data point
@@ -133,7 +138,6 @@ goToPreviousSet(){
     let index = this.previousLink.indexOf('?')
     this.query = this.previousLink.slice(index)
     this.getFloorstockData()
-    console.log(this.query);
   }
 }
 //This function sets the api offset in this.query and reloads data with the new query
@@ -147,7 +151,6 @@ setOffsetSize(size:string){
     let toReplace = this.query.slice(questionIndex)
     this.query =  this.query.replace(toReplace,'?limit='+size)
   }
-  console.log(this.query);
   this.getFloorstockData()
 }
 
