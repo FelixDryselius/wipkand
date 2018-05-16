@@ -37,7 +37,6 @@ export class FinishBatchComponent implements OnInit {
   ngOnInit() {
     this.service_prodInfoSub = this.operationsService.$prodInfo.subscribe(info => this.prodInfo = info)
     if (this.prodInfo) {
-      console.log("Fetchng product");
       this.getProductSub = this.operationsService.getProduct(this.prodInfo.order.article_number)
         .retryWhen(error => this.authAPI.checkHttpRetry(error))
         .subscribe(data => {
@@ -52,10 +51,6 @@ export class FinishBatchComponent implements OnInit {
   ngOnDestroy() {
     this.service_prodInfoSub.unsubscribe()
   }
-
-  // fbTest() {
-  //   this.batchReworkComponent.calculate()
-  // }
 
   calculateScrap(form: Batch, refLagerQuantity: number): number {
     let scrap = Math.ceil(((
@@ -89,9 +84,9 @@ export class FinishBatchComponent implements OnInit {
         Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
-      'rework': new FormControl('', [
-        Validators.required,
-      ]),
+      // 'rework': new FormControl('', [
+      //   Validators.required,
+      // ]),
     })
   }
 
@@ -109,11 +104,16 @@ export class FinishBatchComponent implements OnInit {
       hmi2_bad: form.hmi2Bad,
     }
 
-    if (form.rework == 'true') {
-      //let _applied_labels = this.batchReworkComponent.getAppliedLabels()
-      batch.applied_labels = this.batchReworkComponent.getAppliedLabels()
-      let _pick_and_replace = this.batchReworkComponent.getPickAndReplace(form, batch.applied_labels, batch.scrap)
-    }
+
+    // Rework is probably never done at exakt end of batch
+
+    // if (form.rework == 'true') {
+    //   //let _applied_labels = this.batchReworkComponent.getAppliedLabels()
+    //   batch.applied_labels = this.batchReworkComponent.getAppliedLabels()
+    //   let _pick_and_replace = this.batchReworkComponent.getPickAndReplace(form, batch.applied_labels, batch.scrap)
+    //   batch.label_print_time = new Date()
+    //   batch.rework_date = new Date()
+    // }
 
     this.createBatchSub = this.operationsService.updateBatch(batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))

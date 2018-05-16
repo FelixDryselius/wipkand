@@ -114,12 +114,10 @@
             <hr>
 
             <!-- Rework -->
-            <div class="form-group row">
+            <!-- <div class="form-group row">
               <div class="col-lg-8 offset-lg-2 text-center">
                 <h4>Rework</h4>
               </div>
-
-              <!-- <label for="rework" class="col-lg-3 col-form-label">Re-labeling</label> -->
               <div class="col-lg-4 offset-lg-4 form-control">
                 <div class="row text-center">
                   <label class="col-lg-6">Yes
@@ -130,20 +128,21 @@
                   </label>
                 </div>
               </div>
-            </div>
+            </div> -->
+
+
           </div>
         </div>
         <br>
-        <div *ngIf="finishBatchForm.controls.rework.value == 'true'">
+        <!-- <div *ngIf="finishBatchForm.controls.rework.value == 'true'">
           <batch-rework [reworkForm]="finishBatchForm"></batch-rework>
-        </div>
+        </div> -->
         <div class="row">
           <div class="col-lg-12">
             <button type="submit" [disabled]='finishBatchForm.invalid' class="btn btn-primary" style="margin-bottom: 50px;">Save</button>
           </div>
         </div>
       </form>
-      <button class="btn btn-primary" style="margin-bottom: 50px;" (click)="fbTest()">Test</button>
     </div>
   </div>
 </div>
