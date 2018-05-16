@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FinishBatchComponent } from '../finish-batch/finish-batch.component';
 
 @Component({
@@ -8,13 +8,28 @@ import { FinishBatchComponent } from '../finish-batch/finish-batch.component';
   styleUrls: ['./batch-rework.component.css']
 })
 export class BatchReworkComponent implements OnInit {
-//@Input() group: FormGroup;
-@Input() test: string;
+  @Input() reworkForm: FormGroup;
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this.test)
+    this.reworkForm.addControl('hmi1Good_rework', new FormControl('', [
+      Validators.required,
+      Validators.pattern("^[0-9]*$"),
+    ]))
+    this.reworkForm.addControl('hmi1Bad_rework', new FormControl('', [
+      Validators.required,
+      Validators.pattern("^[0-9]*$"),
+    ]))
+    this.reworkForm.addControl('hmi2Good_rework', new FormControl('', [
+      Validators.required,
+      Validators.pattern("^[0-9]*$"),
+    ]))
+    this.reworkForm.addControl('hmi2Bad_rework', new FormControl('', [
+      Validators.required,
+      Validators.pattern("^[0-9]*$"),
+    ]))
   }
+
 
 }

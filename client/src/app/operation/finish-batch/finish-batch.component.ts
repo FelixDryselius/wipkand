@@ -61,10 +61,28 @@ export class FinishBatchComponent implements OnInit {
         Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
-      'reLabeling': new FormControl('', [
+      'rework': new FormControl('', [
         Validators.required,
       ]),
     })
+  }
+
+  disableReworkForm() {
+    if (this.finishBatchForm.controls.hmi1Bad_rework) {
+      this.finishBatchForm.controls.hmi1Bad_rework.disable()
+      this.finishBatchForm.controls.hmi2Bad_rework.disable()
+      this.finishBatchForm.controls.hmi1Good_rework.disable()
+      this.finishBatchForm.controls.hmi2Good_rework.disable()
+    }
+  }
+
+  enableReworkForm() {
+    if (this.finishBatchForm.controls.hmi1Bad_rework) {
+      this.finishBatchForm.controls.hmi1Bad_rework.enable()
+      this.finishBatchForm.controls.hmi2Bad_rework.enable()
+      this.finishBatchForm.controls.hmi1Good_rework.enable()
+      this.finishBatchForm.controls.hmi2Good_rework.enable()
+    }
   }
 
   submitEndBatch($theEvent, batchForm) {
