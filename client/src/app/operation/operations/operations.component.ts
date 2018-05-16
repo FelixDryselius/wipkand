@@ -69,6 +69,7 @@ export class OperationsComponent implements OnInit {
   ]
 
   currentFloorstock: any[] = [];
+  beforeChanges: any[] = [];
   ngModelFloorstock: any[] = [];
 
   // END FLOORSTOCK SECTION
@@ -192,7 +193,6 @@ export class OperationsComponent implements OnInit {
           }
         }
         this.currentFloorstock = [];
-        console.log(this.floorstockItems)
         for (let key in this.floorstockItems) {
           if (
             this.floorstockItems[key]["item_name"] == correctLabel ||
@@ -228,13 +228,7 @@ export class OperationsComponent implements OnInit {
             this.currentFloorstock[obj]["batch"] = ''
           }
         }
-        console.log("currentFloorstock: ")
-        console.log(this.currentFloorstock)
-
-        console.log("floorstockChanges: ")
-        console.log(this.floorstockChanges)
-
-
+        this.beforeChanges = JSON.parse(JSON.stringify(this.currentFloorstock))
       });
   }
 
@@ -257,7 +251,6 @@ export class OperationsComponent implements OnInit {
   }
 
   getComment() {
-    // Subscribe to service and save the data in comments list as json obj
     this.commentService.getComment()
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
@@ -265,10 +258,8 @@ export class OperationsComponent implements OnInit {
       });
   }
 
-  // Function that is being called when option in dropdown menu has been selected
-
   getProdList() {
-    this.productionObservable = this.operationsService.getProdStats('?batch_number=' +  this.prodInfo.batch_number + '&limit=60')
+    this.productionObservable = this.operationsService.getProdStats('?batch_number=' + this.prodInfo.batch_number + '&limit=60')
 
     this.productionSub = this.productionObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
@@ -278,7 +269,6 @@ export class OperationsComponent implements OnInit {
   }
 
   submitProduction(event, formData) {
-
     this.dateErrorMsg = null
     this.prodDataError = false
     let inputData: any = {};
@@ -326,41 +316,45 @@ export class OperationsComponent implements OnInit {
         results[key] = inputData.value[key];
       }
     }
-    ("ngModelFloorstock: ")
-    console.log(this.ngModelFloorstock)
-    console.log("results: ")
     console.log(results)
+    console.log(this.beforeChanges)
     for (let key in results) {
       let counter = 0;
-      for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
+      for (let obj = 0; obj < this.beforeChanges.length; obj++) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
-        if (this.currentFloorstock[obj]["item_id"] == key && this.currentFloorstock[obj].id != null) {
+        if (this.beforeChanges[obj]["item_id"] == key && this.beforeChanges[obj]["quantity"] != results[key]) {
+          console.log("in if")
           let updateItem = {
-            id: this.currentFloorstock[obj].id,
+            id: this.beforeChanges[obj].id,
             time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
             quantity: results[key],
             floorstock_item: key,
             batch: this.prodInfo.id,
           }
+          console.log("item patch")
+          console.log(this.beforeChanges[obj]["item_id"])
           this.operationsService.updateFloorstock(updateItem)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
           this.floorstockAdded = true
           setTimeout(() => { this.floorstockAdded = false }, 4000);
-
         }
+
+        else if (this.beforeChanges[obj]["item_id"] == key) {
+          break;
+        }
+        
         else {
           counter += 1
-
           // If no time stamp in api was found this means it is new data
-          if (counter == this.currentFloorstock.length) {
-            console.log("entered else")
+          if (counter == this.beforeChanges.length) {
             let createItem = {
               time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
               quantity: results[key],
               floorstock_item: key,
               batch: this.prodInfo.id,
             }
+            console.log("create item")
             this.operationsService.createFloorstock(createItem)
               .retryWhen(error => this.authAPI.checkHttpRetry(error))
               .subscribe();
