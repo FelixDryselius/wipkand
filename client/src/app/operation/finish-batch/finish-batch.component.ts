@@ -98,14 +98,14 @@ export class FinishBatchComponent implements OnInit {
       end_date: new Date(),
       scrap: this.calculateScrap(form, this.currentProduct.reference_storage),
       production_yield: form.production_yield,
-      hmi1_good: form.hmi1Good,
-      hmi1_bad: form.hmi1Bad,
-      hmi2_good: form.hmi2Good,
-      hmi2_bad: form.hmi2Bad,
+      hmi1_good: form.hmi1_good,
+      hmi1_bad: form.hmi1_bad,
+      hmi2_good: form.hmi2_good,
+      hmi2_bad: form.hmi2_bad,
     }
 
 
-    // Rework is probably never done at exakt end of batch
+    // Rework is probably never done at exact end of batch
 
     // if (form.rework == 'true') {
     //   //let _applied_labels = this.batchReworkComponent.getAppliedLabels()

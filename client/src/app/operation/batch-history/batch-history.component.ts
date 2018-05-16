@@ -29,7 +29,6 @@ export class BatchHistoryComponent implements OnInit {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.batches = (data as QueryResponse).results as [Batch]
-        console.log(this.batches)
       })
   }
 
@@ -46,7 +45,6 @@ export class BatchHistoryComponent implements OnInit {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.batches = (data as QueryResponse).results as [Batch]
-        console.log(this.batches)
       })
   }
 
