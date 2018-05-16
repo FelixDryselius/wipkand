@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthAPIService } from '../../../auth/auth.service';
 import { element, logging } from 'protractor';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { OperationsService } from '../../../operation/shared/services/operations.service';
+import { OperationsService } from '../../../shared/application-services/operations.service';
 import { QueryResponse } from '../../../shared/interfaces/query-response';
 import { Scoreboard } from '../../../../assets/interface/scoreboard';
 

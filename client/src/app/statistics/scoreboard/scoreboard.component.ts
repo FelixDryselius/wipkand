@@ -7,7 +7,7 @@ import { AuthAPIService } from '../../auth/auth.service';
 import { Batch } from '../../shared/interfaces/batch';
 import { CommentService } from '../../shared/application-services/comment.service';
 import { map } from 'rxjs/operators';
-import { OperationsService } from '../../operation/shared/services/operations.service';
+import { OperationsService } from '../../shared/application-services/operations.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';

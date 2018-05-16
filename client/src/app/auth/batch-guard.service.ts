@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
-import { OperationsService } from '../operation/shared/services/operations.service';
+import { OperationsService } from '../shared/application-services/operations.service'
 import { take, map } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { QueryResponse } from '../shared/interfaces/query-response';

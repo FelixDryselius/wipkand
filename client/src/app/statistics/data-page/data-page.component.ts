@@ -10,7 +10,7 @@ import { Batch } from '../../shared/interfaces/batch';
 import { Comment } from '../../../assets/interface/comment';
 import { CommentService } from '../../shared/application-services/comment.service';
 import { DataPageDisplayData } from '../../shared/interfaces/dataPageDisplayData';
-import { OperationsService } from '../../operation/shared/services/operations.service';
+import { OperationsService } from '../../shared/application-services/operations.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
 import { Order } from '../../shared/interfaces/order';
 import { Product } from '../../shared/interfaces/product';
