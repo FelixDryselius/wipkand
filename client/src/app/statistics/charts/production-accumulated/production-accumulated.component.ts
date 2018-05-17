@@ -62,7 +62,7 @@ export class ProductionAccumulatedComponent implements OnInit {
     this.getDataSubscriber = this.operationsService.getBatchDetail()
     .flatMap(data =>{
       let batchList = (data as QueryResponse).results as Batch []
-      this.currentBatch = batchList.pop()
+      this.currentBatch = batchList[0]
     
       return this.operationsService.getProduct(this.currentBatch.order.article_number)
     })
