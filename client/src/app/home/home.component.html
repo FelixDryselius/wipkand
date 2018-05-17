@@ -1,3 +1,52 @@
-<p>
-  home works!
-</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 align="left">
+        Home
+      </h2>
+    </div>
+  </div>
+</div>
+
+<hr class="separator">
+
+<div class="container-fluid">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="col-md-6 box border border-primary rounded">
+          <div>
+            <h4>{{ active }} batch status:</h4>
+            <p>Order ID: {{ latestBatch.order.order_number }}</p>
+            <p>Article number: {{ latestBatch.order.article_number }}</p>
+            <p>Batch number: {{ latestBatch.batch_number }}</p>
+          </div>
+        </div>
+        <div class="col-md-9 box border border-primary rounded">
+          <div>
+            <h4>{{ active }} batch summary:</h4>
+            <p>Start Date: {{ latestBatch.start?date }}</p>
+            <p>End Date: {{ latestBatch.order.article_number }}</p>
+            <p>Rework Date: {{ latestBatch.batch_number }}</p>
+            <p>Label Print Time: {{ latestBatch.batch_number }}</p>
+            <p>Applied Lables: {{ latestBatch.batch_number }}</p>
+            <p>Rework Time: {{ latestBatch.batch_number }}</p>
+            new column
+            <p>Yield: {{ latestBatch.batch_number }}</p>
+            <p>HMI1 Good: {{ latestBatch.batch_number }}</p>
+            <p>HMI1 Bad: {{ latestBatch.batch_number }}</p>
+            <p>HMI2 Good: {{ latestBatch.batch_number }}</p>
+            <p>HMI2 Bad: {{ latestBatch.batch_number }}</p>
+            <p>Scrap: {{ latestBatch.batch_number }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  Loading content...
+</ng-template>
