@@ -47,8 +47,9 @@ export class AuthAPIService {
         if (this.tokenValid) {
             console.log("Token is valid!")
             this.setLoggedIn(true)
-            this.setCurrentUser()
-
+            if (!this.currentUser) {
+                this.setCurrentUser()
+            }
         } else {
             console.log("Token is not valid!")
             this.setLoggedIn(false)
