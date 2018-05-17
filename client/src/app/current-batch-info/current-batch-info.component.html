@@ -1,12 +1,32 @@
+<div class="text-center m-3">
+    <h3>Production status</h3>
+</div>
 <div *ngIf="prodInfo; then pActive else pStop"></div>
-
 <ng-template #pActive>
-    <p>Order ID: {{ prodInfo.order.order_number }}</p>
-    <p>Article number: {{ prodInfo.order.article_number }}</p>
-    <p>Batch number: {{ prodInfo.batch_number }}</p>
-    <a class="btn btn-primary" (click)="finish_batch()">Finish batch</a>
+    <div class="text-center bg-success-light col-lg-6 offset-lg-3 rounded  p-1">
+        <h5>Active</h5>
+    </div>
+    <ul class="list-group m-2">
+        <li class="list-group-item batch-status-info">
+            <b>Order:</b> {{ prodInfo.order.order_number }}
+        </li>
+        <li class="list-group-item batch-status-info">
+            <b>Article number:</b> {{ prodInfo.order.article_number }}
+        </li>
+        <li class="list-group-item batch-status-info">
+            <b>Batch number:</b> {{ prodInfo.batch_number }}
+        </li>
+    </ul>
+    <div class="text-center m-3">
+        <button class="btn btn-primary" (click)="finish_batch()">Finish batch</button>
+    </div>
 </ng-template>
 
 <ng-template #pStop>
-    <a class="btn btn-primary" (click)="start_batch()">Start Batch</a>
+    <div class="text-center bg-warning-light col-lg-6 offset-lg-3 rounded p-1">
+        <h5>Stopped</h5>
+    </div>
+    <div class="text-center m-3">
+        <button class="btn btn-primary" (click)="start_batch()">Start Batch</button>
+    </div>
 </ng-template>

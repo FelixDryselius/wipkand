@@ -45,6 +45,7 @@ import { CalendarModule } from 'primeng/calendar';
     StartBatchComponent
    ],
   providers: [
+    BatchGuard
   ],
   exports: []
 })

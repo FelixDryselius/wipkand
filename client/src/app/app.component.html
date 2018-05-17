@@ -1,6 +1,6 @@
 <!--Start navBar.-->
 
-<div class="container-fluid" style="margin-top: 2%">
+<div class="container-fluid">
 
   <div *ngIf="error && showError" (click)="showError = !showError" class="errorNotification">
     <h2>Error | Status: {{ error.status }}</h2>
@@ -8,32 +8,47 @@
     <p>(click to close)</p>
   </div>
 
-  <!-- Navbar -->
+<!-- 
+  <div id="header" class="row">
+    <div class="col-lg-2 my-auto text-center">
+      <img src="assets/cepheidLogo.png">
+    </div>
+    <div class="col-lg-2 offset-lg-6 my-auto text-center" *ngIf="authAPI.currentUser">
+      <p>
+        User: {{ authAPI.currentUser.username }}
+      </p>
+    </div>
+    <div class="col-lg-2 text-center my-auto">
+      <button type='button' class='btn btn-lg btn-primary' (click)="authAPI.performLogout()">Logout</button>
+    </div>
+  </div> -->
+
   <div class="row" *ngIf="authAPI.loggedIn; else loginview">
-    <div class="col-lg-2">
-      <div class="mycontent-left">
-        <div class="jumbotron jumbotron-fluid">
-          <div class="container">
-            <h3>Batch information: </h3>
-          </div>
-          <div class="container">
+    <!-- Navbar -->
+    <nav class="col-lg-2 navbar-body">
+
+      <div class="row">
+        <div class="col-lg-12 batch-status-body">
+          <div class="">
             <current-batch-info></current-batch-info>
           </div>
         </div>
-        <div class="card-fluid">
+      </div>
+      <hr>
+
+      <div class="row mt-2">
+        <div class="card-fluid col-lg-12">
           <ul class="nav flex-column nav-pills nav-stacked">
-            <div class="border border-dark">
-              <li class="nav-item">
-                <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" routerLink="./operation/operations" routerLinkActive="active">Operations</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" routerLink="./operation/comment" routerLinkActive="active">Comments</a>
-              </li>
-            </div>
-            <br>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="./operation/operations" routerLinkActive="active">Operations</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="./operation/comment" routerLinkActive="active">Comments</a>
+            </li>
+
             <li class="nav-item">
               <a class="nav-link" routerLink="./operation/batch-history" routerLinkActive="active">History</a>
             </li>
@@ -44,7 +59,7 @@
               <a class="nav-link" routerLink="/statistics/data-page" routerLinkActive="active">Data page</a>
             </li>
             <li>
-              <a class="btn dropdown-toggle"  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <a class="btn dropdown-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                 Charts
               </a>
             </li>
@@ -52,27 +67,30 @@
           <div class="collapse" id="collapseExample">
             <ul class="nav flex-column nav-pills nav-stacked">
               <li class="nav-item">
-                  <a class="nav-link" routerLink="/statistics/charts/production" routerLinkActive="active">Production chart</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="/statistics/charts/floorstock" routerLinkActive="active">Floorstock chart</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="/statistics/charts/production-per-time-unit" routerLinkActive="active">Production per day chart</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="/statistics/charts/production-accumulated" routerLinkActive="active">Accumulated production for latest batch</a>
-                </li>
-              </ul>
+                <a class="nav-link" routerLink="/statistics/charts/production" routerLinkActive="active">Production chart</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/statistics/charts/floorstock" routerLinkActive="active">Floorstock chart</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/statistics/charts/production-per-time-unit" routerLinkActive="active">Production per day chart</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/statistics/charts/production-accumulated" routerLinkActive="active">Accumulated production for latest batch</a>
+              </li>
+            </ul>
           </div>
           <hr>
+          <p *ngIf="authAPI.currentUser">
+            <b>Logged in as:</b> {{ authAPI.currentUser.username }}
+          </p>
           <button type='button' class='btn btn-default' (click)="authAPI.performLogout()">Logout</button>
         </div>
       </div>
-    </div>
+    </nav>
     <!--End navBar.-->
 
-    <div class="col-lg-10">
+    <div class="col-lg-10 mt-3">
       <div class="main">
         <router-outlet></router-outlet>
       </div>
