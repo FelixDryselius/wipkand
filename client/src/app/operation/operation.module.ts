@@ -30,8 +30,6 @@ import { CalendarModule } from 'primeng/calendar';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
-    HttpClientModule,
     Ng2PageScrollModule,
     OperationRoutingModule,
     CalendarModule
@@ -47,7 +45,6 @@ import { CalendarModule } from 'primeng/calendar';
     StartBatchComponent
    ],
   providers: [
-    CommentService,
     BatchGuard
   ],
   exports: []

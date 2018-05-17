@@ -225,7 +225,6 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     if (form['rework_time'] == '') {
       form['rework_time'] = null
     }
-    //this.convertDates(form)
     this.clearMsg()
     this.operationsService.updateBatch(form as Batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
@@ -256,11 +255,11 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         _label_print_time.valueOf() - this.currentBatch.end_date.valueOf()
       )
     }
-    
     if (this.closeReworkModal) {
       this.closeReworkModal.nativeElement.click();
     }
     this.setRework(false)
+    this.clearMsg()
     this.operationsService.updateBatch(batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe((data: Batch) => {

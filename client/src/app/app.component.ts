@@ -23,5 +23,8 @@ export class AppComponent implements OnInit {
         this.error = message;
         this.showError = true;
       });
+      console.log(this.authAPI);
   }
+  
+  
 }
