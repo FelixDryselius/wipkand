@@ -56,6 +56,24 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* End operations style */
 
+/* Start home style */
+
+.batchInfoHeader {
+  margin-bottom: 3%;
+}
+
+.boxHome {
+  padding: 1.5%;
+  padding-top: 1%;
+  background-color: #e9ecef;
+}
+
+.batchStatusList {
+  list-style-type: none;
+}
+
+/* End home style */
+
 /* Start finish batch style */
 
 .btn-startBatch {

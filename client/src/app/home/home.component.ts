@@ -7,6 +7,14 @@ import { AuthAPIService } from '../auth/auth.service';
 import { Batch } from '../shared/interfaces/batch';
 import { OperationsService } from '../shared/application-services/operations.service';
 import { QueryResponse } from '../shared/interfaces/query-response';
+import { ProductionAccumulatedComponent } from '../statistics/charts/production-accumulated/production-accumulated.component';
+
+// FOR STATISTICS
+import { Subscription } from 'rxjs'
+import { element, logging } from 'protractor';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { Scoreboard } from '../../assets/interface/scoreboard';
+import { Product } from '../shared/interfaces/product';
 
 @Component({
   selector: 'app-home',
@@ -15,37 +23,128 @@ import { QueryResponse } from '../shared/interfaces/query-response';
 })
 export class HomeComponent implements OnInit {
 
+  private productionObservable: Observable<any>;
+  private productionSub: any;
+  prodStats: {};
+  private prodDataColumns = ['Time stamp', 'On shift', 'Produced', 'Signature']
+
   batches: [Batch]
-  latestBatch: any;
-  active;
+  latestBatch: Batch;
+  active: any;
 
   getBatchesSub: any;
-  service_prodInfo: any;
 
   constructor(
     private authAPI: AuthAPIService,
     private operationsService: OperationsService,
     private router: Router) { }
 
-  ngOnInit() {
+  // FOR STATISTICS
+  //Subscriber
+  getDataSubscriber: Subscription;
 
-    this.getBatchesSub = this.operationsService.getBatchList()
+  productionStatistics = [];
+  displayDataList = [];
+  haveData = false;
+  currentProduct: Product;
+
+  //Chart here we set options fot the chart
+  showLegend = true;
+  colorScheme = {
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  };
+  showLabels = true;
+  showXAxisLabel = true;
+  showYAxisLabel = true;
+  xAxisLabel = "Time";
+  yAxisLabel = 'Accumulated production'
+  xAxis = true;
+  yAxis = true;
+  timeline = false;
+
+  ngOnInit() {
+    this.getProductionData()
+    
+  }
+
+  reworkBatch() {
+    this.router.navigate(['/operation/batch-rework'])
+  }
+
+  getProdList() {
+    this.productionObservable = this.operationsService.getProdStats('?batch_number=' + this.latestBatch.batch_number + '&limit=60')
+
+    this.productionSub = this.productionObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        this.batches = (data as QueryResponse).results as [Batch]
-        this.latestBatch = this.batches[0]
-        console.log(this.latestBatch )
+        this.prodStats = (data as QueryResponse).results
+      });
+  }
+
+  // FOR STATISTICS
+  xAxisFormatting(data) {
+    return data.toLocaleTimeString('sv-SV', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' })
+  }
+  getProductionData() {
+    this.haveData = false;
+    this.getDataSubscriber = this.operationsService.getBatchDetail()
+      .flatMap(data => {
+        let batchList = (data as QueryResponse).results as Batch[]
+        this.latestBatch = batchList[0]
+        this.getProdList()
         if (this.latestBatch.end_date == null) {
           this.active = 'Current'
         }
         else {
           this.active = 'Latest'
         }
+        return this.operationsService.getProduct(this.latestBatch.order.article_number)
       })
+      .flatMap(data => {
+        this.currentProduct = data as Product
+        return this.operationsService.getProdStats('?batch_number=' + this.latestBatch.batch_number)
+      })
+
+      //populate productionStatistics using this
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.productionStatistics = (data as QueryResponse).results as Scoreboard[]
+        //populate tempSeries and productionGoalList
+        let accumulatedProduction = 0;
+        let tempSeries = []
+        let productionGoalList = []
+        for (let i = this.productionStatistics.length - 1; i >= 0; i--) {
+          tempSeries.push(
+            {
+              "name": new Date(this.productionStatistics[i].time_stamp),
+              "value": accumulatedProduction + this.productionStatistics[i].production_quantity
+            },
+          )
+          productionGoalList.push(
+            {
+              "name": new Date(this.productionStatistics[i].time_stamp),
+              "value": this.currentProduct.batch_production_goal // should be changed to another value
+            },
+          )
+          accumulatedProduction = accumulatedProduction + this.productionStatistics[i].production_quantity
+        }
+
+        //adding both goal and accumulated production statistics to displayData
+        this.displayDataList = [
+          {
+            'name': this.productionStatistics[0].batch.batch_number + "'s accumulated yield",
+            'series': tempSeries
+          },
+          {
+            'name': 'Production goal',
+            'series': productionGoalList
+          }
+        ]
+      });
+    this.haveData = true;
   }
 
   ngOnDestroy(): void {
-    this.getBatchesSub.unsubscribe()
   }
 
 }

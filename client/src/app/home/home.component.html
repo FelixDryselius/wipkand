@@ -13,30 +13,30 @@
 <div class="container-fluid">
   <div class="col-md-12">
     <div class="row">
-      <div class="col-md-6">
-        <div class="col-md-6 box border border-primary rounded">
-          <div>
-            <h4>{{ active }} batch status:</h4>
-            <ul class="list-group m-2">
-              <li class="list-group-item batch-status-info">
+      <div class="col-md-6 boxHome border border-primary rounded">
+          <h3 class="text-center batchInfoHeader">{{ active }} batch info:</h3>
+          <div class="row">
+              <div class="col-md-1"></div>
+            <ul class="batchStatusList">
+              <li>
                 <b>Order:</b> {{ latestBatch.order.order_number }}
               </li>
-              <li class="list-group-item batch-status-info">
+            </ul>
+            <ul class="batchStatusList">
+              <li>
                 <b>Article number:</b> {{ latestBatch.order.article_number }}
               </li>
-              <li class="list-group-item batch-status-info">
+            </ul>
+            <ul class="batchStatusList">
+              <li>
                 <b>Batch number:</b> {{ latestBatch.batch_number }}
               </li>
             </ul>
           </div>
-        </div>
-        <div class="col-md-11 box border border-primary rounded">
-          <div class="col-md-12">
-            <h4>{{ active }} batch summary:</h4>
-          </div>
+        <div class="col-md-12">
           <div class="row">
             <div class="col-md-6">
-              <ul class="list-group m-2">
+              <ul class="list-group list-group-flush">
                 <li class="list-group-item batch-status-info">
                   <b>Start Date:</b> {{ latestBatch.start_date | date:'yyyy-MM-dd HH:mm:ss' }}
                 </li>
@@ -58,7 +58,7 @@
               </ul>
             </div>
             <div class="col-md-6">
-              <ul class="list-group m-2">
+              <ul class="list-group list-group-flush">
                 <li class="list-group-item batch-status-info">
                   <b>Yield:</b> {{ latestBatch.yield }}
                 </li>
@@ -80,14 +80,66 @@
               </ul>
             </div>
           </div>
-          
+          <div class="col-md-12" align="right">
+            <button class="btn btn-primary" *ngIf="!latestBatch.end_date || latestBatch.rework_date" disabled>
+              Rework batch
+            </button>
+            <button class="btn btn-primary" *ngIf="latestBatch.end_date && !latestBatch.rework_date" (click)="reworkBatch()">
+              Rework Batch
+            </button>
+          </div>
         </div>
       </div>
       <div class="col-md-6">
+        <div class="container">
+          <div class="row" style="height:50vh">
+            <h3>Accumulated production yield of latest batch</h3>
+            <ngx-charts-line-chart *ngIf="haveData" [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisTickFormatting]="xAxisFormatting" [xAxisLabel]="xAxisLabel"
+              [yAxisLabel]='yAxisLabel' [xAxis]='xAxis' [yAxis]='yAxis' [timeline]="timeline" (select)="pressed($event)">
+            </ngx-charts-line-chart>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="col-md-12 box border border-primary rounded">
+            <div class="row">
+              <div class="col-md-12">
+                <h3 class="text-center">Production data</h3>
+              </div>
+            </div>
+            <table class="table table-bordered table-striped table-hover table-sm">
+              <thead>
+                <tr>
+                  <th *ngFor="let col of prodDataColumns">{{ col }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of prodStats">
+                  <td>{{item.time_stamp | date:'yyyy-MM-dd HH:mm'}}</td>
+                  <td>{{item.staff_quantity}}</td>
+                  <td>{{item.production_quantity}}</td>
+                  <td>{{item.user_name}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-6">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <ng-template #loading>
   Loading content...
