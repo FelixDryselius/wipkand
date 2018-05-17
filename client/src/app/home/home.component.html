@@ -17,33 +17,70 @@
         <div class="col-md-6 box border border-primary rounded">
           <div>
             <h4>{{ active }} batch status:</h4>
-            <p>Order ID: {{ latestBatch.order.order_number }}</p>
-            <p>Article number: {{ latestBatch.order.article_number }}</p>
-            <p>Batch number: {{ latestBatch.batch_number }}</p>
+            <ul class="list-group m-2">
+              <li class="list-group-item batch-status-info">
+                <b>Order:</b> {{ latestBatch.order.order_number }}
+              </li>
+              <li class="list-group-item batch-status-info">
+                <b>Article number:</b> {{ latestBatch.order.article_number }}
+              </li>
+              <li class="list-group-item batch-status-info">
+                <b>Batch number:</b> {{ latestBatch.batch_number }}
+              </li>
+            </ul>
           </div>
         </div>
-        <div class="col-md-9 box border border-primary rounded">
+        <div class="col-md-11 box border border-primary rounded">
           <div class="col-md-12">
             <h4>{{ active }} batch summary:</h4>
           </div>
           <div class="row">
             <div class="col-md-6">
-              <p><b>Start Date:</b> {{ latestBatch.start_date }}</p>
-              <p><b>End Date:</b> {{ latestBatch.order.end_date }}</p>
-              <p><b>Rework Date:</b> {{ latestBatch.rework_date }}</p>
-              <p><b>Label Print Time:</b> {{ latestBatch.label_print_time }}</p>
-              <p><b>Applied Lables:</b> {{ latestBatch.applied_labels }}</p>
-              <p><b>Rework Time:</b> {{ latestBatch.rework_time }}</p>
+              <ul class="list-group m-2">
+                <li class="list-group-item batch-status-info">
+                  <b>Start Date:</b> {{ latestBatch.start_date | date:'yyyy-MM-dd HH:mm:ss' }}
+                </li>
+                <li class="list-group-item batch-status-info">
+                  <b>End Date:</b> {{ latestBatch.order.end_date }}
+                </li>
+                <li class="list-group-item batch-status-info">
+                  <b>Rework Date:</b> {{ latestBatch.rework_date }}
+                </li>
+                <li class="list-group-item batch-status-info">
+                  <b>Label Print Time:</b> {{ latestBatch.label_print_time }}
+                </li>
+                <li class="list-group-item batch-status-info">
+                  <b>Applied Lables:</b> {{ latestBatch.applied_labels }}
+                </li>
+                <li class="list-group-item batch-status-info">
+                  <b>Rework Time:</b> {{ latestBatch.rework_time }}
+                </li>
+              </ul>
             </div>
             <div class="col-md-6">
-              <p><b>Yield:</b> {{ latestBatch.yield }}</p>
-              <p><b>HMI1 Good:</b> {{ latestBatch.hmi1_good }}</p>
-              <p><b>HMI1 Bad:</b> {{ latestBatch.hmi1_bad }}</p>
-              <p><b>HMI2 Good:</b> {{ latestBatch.hmi2_good }}</p>
-              <p><b>HMI2 Bad:</b> {{ latestBatch.hmi1_bad }}</p>
-              <p><b>Scrap:</b> {{ latestBatch.scrap }}</p>
+              <ul class="list-group m-2">
+                <li class="list-group-item batch-status-info">
+                  <b>Yield:</b> {{ latestBatch.yield }}
+                </li>
+                <li class="list-group-item batch-status-info">
+                  <b>HMI1 Good:</b> {{ latestBatch.hmi1_good }}
+                </li>
+                <li class="list-group-item batch-status-info">
+                  <b>HMI1 Bad:</b> {{ latestBatch.hmi1_bad }}
+                </li>
+                <li class="list-group-item batch-status-info">
+                  <b>HMI2 Good:</b> {{ latestBatch.hmi2_good }}
+                </li>
+                <li class="list-group-item batch-status-info">
+                  <b>HMI2 Bad:</b> {{ latestBatch.hmi1_bad }}
+                </li>
+                <li class="list-group-item batch-status-info">
+                  <b>Scrap:</b> {{ latestBatch.scrap }}
+                </li>
+              </ul>
             </div>
           </div>
+          
         </div>
       </div>
       <div class="col-md-6">
