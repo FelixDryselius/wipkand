@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs'
 
 //3rd party and application imports
 import { AuthAPIService } from '../../../auth/auth.service';
@@ -19,6 +20,9 @@ import { Product } from '../../../shared/interfaces/product';
 
 
 export class ProductionAccumulatedComponent implements OnInit {
+
+  //Subscriber
+  getDataSubscriber:Subscription;
 
   productionStatistics = [];
   displayDataList = [];
@@ -46,13 +50,16 @@ export class ProductionAccumulatedComponent implements OnInit {
   ngOnInit() {
     this.getProductionData()           
   }
+  ngOnDestroy(){
+    this.getDataSubscriber.unsubscribe()
+  }
 
   xAxisFormatting(data){
     return data.toLocaleTimeString('sv-SV', { year: 'numeric', month: 'numeric', day: 'numeric', hour:'numeric', minute:'numeric'})
   }
   getProductionData()  {
     this.haveData = false;
-    this.operationsService.getBatchDetail()
+    this.getDataSubscriber = this.operationsService.getBatchDetail()
     .flatMap(data =>{
       let batchList = (data as QueryResponse).results as Batch []
       this.currentBatch = batchList.pop()

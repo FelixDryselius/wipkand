@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* Start home style */
+/* Start operations style */
 
 .inputMiddle {
   text-align: center;
@@ -10,12 +10,6 @@
   border: none;
   height: 3px;
   background-color: black;
-}
-
-.floorstockSection {
-  margin-top: 5%;
-  padding: 3%;
-  background-color: #e9ecef;
 }
 
 .button-signs {
@@ -40,14 +34,8 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.commentSection {
-  margin-top: 3%;
-  padding: 3%;
-  background-color: #e9ecef;
-}
-
-.dataSection {
-  margin-top: 3%;
+.box {
+  margin-top: 5%;
   padding: 3%;
   background-color: #e9ecef;
 }
@@ -56,11 +44,17 @@ input[type=number]::-webkit-outer-spin-button {
   margin-top: 5%;
 }
 
-.commentTextarea {
-  height: 125px;
+.btn-flash {
+  border: none;
+  animation: glowing 1000ms infinite;
+}
+@keyframes glowing {
+  0% { background-color: #007bff; box-shadow: 0 0 10px #007bff; }
+  /*50% { background-color: #0094FF; box-shadow: 0 0 10px #0094FF; }*/
+  100% { background-color: #007bff; box-shadow: 0 0 10px #007bff; }
 }
 
-/* End home style */
+/* End operations style */
 
 /* Start finish batch style */
 

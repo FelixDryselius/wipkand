@@ -1,6 +1,9 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Observable';
 
 // 3rd party and application imports
 import { AuthAPIService } from '../../auth/auth.service';
@@ -9,8 +12,6 @@ import { CommentService } from '../../shared/application-services/comment.servic
 import { map } from 'rxjs/operators';
 import { OperationsService } from '../../shared/application-services/operations.service';
 import { QueryResponse } from '../../shared/interfaces/query-response';
-import 'rxjs/add/operator/switchMap';
-import { Observable } from 'rxjs/Observable';
 import { Logs } from 'selenium-webdriver';
 
 
@@ -21,7 +22,10 @@ import { Logs } from 'selenium-webdriver';
   styleUrls: ['./scoreboard.component.css']
 })
 export class ScoreboardComponent implements OnInit {
-  productionStatisticsSubscribe: any; 
+  //Subscribers
+  productionStatisticsSubscriber: Subscription;
+  commentSubscriber:Subscription;
+
   productionStatistics = [];
   comments=[];
   latestBatchNumbers: any[];
@@ -48,12 +52,21 @@ export class ScoreboardComponent implements OnInit {
     } 
     else {
       let query = '?limit=1&offset=' + String(this.numberOfBatchesBack)
-      this.getProdStatLatestBatches(query)
+      this.productionStatisticsSubscriber =  this.getProdStatLatestBatches(query)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data =>{
         this.productionStatistics = (data as QueryResponse).results as JSON []
       });
     }
+  }
+
+  ngOnDestroy(){
+    if(this.productionStatisticsSubscriber){
+      this.productionStatisticsSubscriber.unsubscribe()
+    }
+    if(this.commentSubscriber){
+      this.commentSubscriber.unsubscribe()
+     }
   }
   
   
@@ -66,12 +79,10 @@ export class ScoreboardComponent implements OnInit {
   }
           
   getBatchComments(query?:string) {
-   this.commentService.getComment(query)
+    this.commentSubscriber = this.commentService.getComment(query)
    .retryWhen(error => this.authAPI.checkHttpRetry(error))
    .subscribe(data =>{
-      console.log((data as QueryResponse).results as JSON []  );
-      this.comments = (data as QueryResponse).results as JSON []   
-      
+      this.comments = (data as QueryResponse).results as JSON []      
     })
   }
 

@@ -46,7 +46,7 @@ export class AuthComponent implements OnInit {
   }
 
   doLogin(data) {
-    this.authAPI.login(data)
+   let authAPISubscriber = this.authAPI.login(data)
     .subscribe(data => {
       //TODO: Store this in AuthService?
       let token = {
@@ -56,6 +56,7 @@ export class AuthComponent implements OnInit {
       } 
       this.authAPI.performLogin(token)
       console.log("Login Success!")
+      authAPISubscriber.unsubscribe()
     }, error => {
       if (error.status == 400) {
         console.error(error.error.non_field_errors[0]);
