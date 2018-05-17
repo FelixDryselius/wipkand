@@ -23,21 +23,26 @@
           </div>
         </div>
         <div class="col-md-9 box border border-primary rounded">
-          <div>
+          <div class="col-md-12">
             <h4>{{ active }} batch summary:</h4>
-            <p>Start Date: {{ latestBatch.start?date }}</p>
-            <p>End Date: {{ latestBatch.order.article_number }}</p>
-            <p>Rework Date: {{ latestBatch.batch_number }}</p>
-            <p>Label Print Time: {{ latestBatch.batch_number }}</p>
-            <p>Applied Lables: {{ latestBatch.batch_number }}</p>
-            <p>Rework Time: {{ latestBatch.batch_number }}</p>
-            new column
-            <p>Yield: {{ latestBatch.batch_number }}</p>
-            <p>HMI1 Good: {{ latestBatch.batch_number }}</p>
-            <p>HMI1 Bad: {{ latestBatch.batch_number }}</p>
-            <p>HMI2 Good: {{ latestBatch.batch_number }}</p>
-            <p>HMI2 Bad: {{ latestBatch.batch_number }}</p>
-            <p>Scrap: {{ latestBatch.batch_number }}</p>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <p><b>Start Date:</b> {{ latestBatch.start_date }}</p>
+              <p>End Date: {{ latestBatch.order.end_date }}</p>
+              <p>Rework Date: {{ latestBatch.rework_date }}</p>
+              <p>Label Print Time: {{ latestBatch.label_print_time }}</p>
+              <p>Applied Lables: {{ latestBatch.applied_labels }}</p>
+              <p>Rework Time: {{ latestBatch.rework_time }}</p>
+            </div>
+            <div class="col-md-6">
+              <p>Yield: {{ latestBatch.yield }}</p>
+              <p>HMI1 Good: {{ latestBatch.hmi1_good }}</p>
+              <p>HMI1 Bad: {{ latestBatch.hmi1_bad }}</p>
+              <p>HMI2 Good: {{ latestBatch.hmi2_good }}</p>
+              <p>HMI2 Bad: {{ latestBatch.hmi1_bad }}</p>
+              <p>Scrap: {{ latestBatch.scrap }}</p>
+            </div>
           </div>
         </div>
       </div>
