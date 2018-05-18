@@ -73,6 +73,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.getProductionData()
     this.getComment()
+    this.getProdList()
   }
 
   reworkBatch() {
@@ -85,8 +86,22 @@ export class HomeComponent implements OnInit {
       .subscribe(data => {
         this.comments = (data as QueryResponse).results
         for (let comment in this.comments) {
-          if (this.comments[comment]["batch"]["batch_number"] == this.latestBatch.batch_number && this.recentComments.length < 5) {
+          if (this.recentComments.length < 5) {
             this.recentComments.push(this.comments[comment])
+          }
+        }
+      });
+  }
+
+  getProdList() {
+    this.productionObservable = this.operationsService.getProductionStatistics()
+    this.productionSub = this.productionObservable
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.prodStats = (data as QueryResponse).results
+        for (let stat in this.prodStats) {
+          if (this.recentProdStats.length < 5) {
+            this.recentProdStats.push(this.prodStats[stat])
           }
         }
       });
@@ -119,11 +134,6 @@ export class HomeComponent implements OnInit {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.productionStatistics = (data as QueryResponse).results as Scoreboard[]
-        for (let stat in this.productionStatistics) {
-          if (this.recentProdStats.length < 5) {
-            this.recentProdStats.push(this.productionStatistics[stat])
-          }
-        }
         //populate tempSeries and productionGoalList
         let accumulatedProduction = 0;
         let tempSeries = []
