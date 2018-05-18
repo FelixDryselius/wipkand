@@ -227,7 +227,7 @@
               </div>
             </div>
           </div>
-          <table *ngIf="currentFloorstock.length > 0; else loading" class="table table-bordered table-light">
+          <table *ngIf="prodInfo; else loading" class="table table-bordered table-light">
             <tbody>
               <tr class="d-flex" *ngFor="let item of currentFloorstock">
                 <td class="col-lg-6 col-md-6">
@@ -265,7 +265,7 @@
             <h3 class="text-center">Production data</h3>
           </div>
         </div>
-        <table class="table table-bordered table-striped table-hover table-sm">
+        <table class="table table-bordered table-striped table-hover table-light table-sm" *ngIf="prodInfo; else loading" >
           <thead>
             <tr>
               <th *ngFor="let col of prodDataColumns">{{ col }}</th>
@@ -284,3 +284,7 @@
     </div>
 
     <hr>
+
+    <ng-template #loading>
+      Loading content...
+    </ng-template>

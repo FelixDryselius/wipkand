@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <h2 align="left">
-        Home
+        Dashboard
       </h2>
     </div>
   </div>
@@ -25,29 +25,18 @@
         </div>
       </div>
       <div class="col-md-5">
-        <div class="headerHome">{{ active }} batch info:</div>
+        <div class="headerHome">{{ active }} batch #{{ latestBatch.batch_number }}:</div>
         <hr>
-        <div class="row">
-          <ul>
-            <li>
-              <b>Order:</b> {{ latestBatch.order.order_number }}
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <b>Article number:</b> {{ latestBatch.order.article_number }}
-            </li>
-          </ul>
-          <ul class="text-center">
-            <li>
-              <b>Batch number:</b> {{ latestBatch.batch_number }}
-            </li>
-          </ul>
-        </div>
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-6">
               <ul>
+                <li>
+                  <b>Order:</b> {{ latestBatch.order.order_number }}
+                </li>
+                <li>
+                  <b>Article number:</b> {{ latestBatch.order.article_number }}
+                </li>
                 <li>
                   <b>Start Date:</b> {{ latestBatch.start_date | date:'yyyy-MM-dd HH:mm:ss' }}
                 </li>
@@ -63,13 +52,13 @@
                 <li>
                   <b>Applied Lables:</b> {{ latestBatch.applied_labels }}
                 </li>
-                <li>
-                  <b>Rework Time:</b> {{ latestBatch.rework_time }}
-                </li>
               </ul>
             </div>
             <div class="col-md-6">
               <ul>
+                <li>
+                  <b>Rework Time:</b> {{ latestBatch.rework_time }}
+                </li>
                 <li>
                   <b>Yield:</b> {{ latestBatch.yield }}
                 </li>
@@ -100,7 +89,7 @@
             </button>
           </div>
         </div>
-        <div class="headerHome">Recent events:</div>
+        <div class="headerHome">Most recent events:</div>
         <hr>
         <div class="row">
           <div class="col-md-6">
