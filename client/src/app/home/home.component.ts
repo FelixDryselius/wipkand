@@ -68,6 +68,7 @@ export class HomeComponent implements OnInit {
   comments;
   commentsSub;
   recentComments = [];
+  recentProdStats = []; 
 
   ngOnInit() {
     this.getProductionData()
@@ -105,7 +106,7 @@ export class HomeComponent implements OnInit {
           this.active = 'Current'
         }
         else {
-          this.active = 'Latest'
+          this.active = 'Most recent'
         }
         return this.operationsService.getProduct(this.latestBatch.order.article_number)
       })
@@ -118,6 +119,11 @@ export class HomeComponent implements OnInit {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.productionStatistics = (data as QueryResponse).results as Scoreboard[]
+        for (let stat in this.productionStatistics) {
+          if (this.recentProdStats.length < 5) {
+            this.recentProdStats.push(this.productionStatistics[stat])
+          }
+        }
         //populate tempSeries and productionGoalList
         let accumulatedProduction = 0;
         let tempSeries = []

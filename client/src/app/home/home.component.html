@@ -104,6 +104,7 @@
         <hr>
         <div class="row">
           <div class="col-md-6">
+            <p>Last 5 comments:</p>
             <ul class="recentEvent border border-primary rounded" *ngFor="let comment of recentComments">
               <li>
                 <b>Post Date:</b> {{ comment.post_date | date:'yyyy-MM-dd HH:mm:ss' }}
@@ -117,7 +118,8 @@
             </ul>
           </div>
           <div class="col-md-6">
-            <ul class="recentEvent border border-primary rounded" *ngFor="let stat of productionStatistics">
+            <p>Last 5 production stats of batch:</p>
+            <ul class="recentEvent border border-primary rounded" *ngFor="let stat of recentProdStats">
               <li>
                 <b>Time Stamp:</b> {{ stat.time_stamp | date:'yyyy-MM-dd HH:mm:ss' }}
               </li>
