@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 // Application imports
 import { AuthAPIService } from '../auth/auth.service';
 import { Batch } from '../shared/interfaces/batch';
 import { OperationsService } from '../shared/application-services/operations.service';
+import { CommentService } from '../shared/application-services/comment.service';
 import { QueryResponse } from '../shared/interfaces/query-response';
 import { ProductionAccumulatedComponent } from '../statistics/charts/production-accumulated/production-accumulated.component';
 
@@ -29,7 +30,6 @@ export class HomeComponent implements OnInit {
   private prodDataColumns = ['Time stamp', 'On shift', 'Produced', 'Signature']
 
   batches: [Batch]
-  latestBatch: Batch;
   active: any;
 
   getBatchesSub: any;
@@ -37,7 +37,9 @@ export class HomeComponent implements OnInit {
   constructor(
     private authAPI: AuthAPIService,
     private operationsService: OperationsService,
-    private router: Router) { }
+    private commentService: CommentService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   // FOR STATISTICS
   //Subscriber
@@ -62,22 +64,30 @@ export class HomeComponent implements OnInit {
   yAxis = true;
   timeline = false;
 
+  latestBatch;
+  comments;
+  commentsSub;
+  recentComments = [];
+
   ngOnInit() {
     this.getProductionData()
-    
+    this.getComment()
   }
 
   reworkBatch() {
     this.router.navigate(['/operation/batch-rework'])
   }
 
-  getProdList() {
-    this.productionObservable = this.operationsService.getProdStats('?batch_number=' + this.latestBatch.batch_number + '&limit=60')
-
-    this.productionSub = this.productionObservable
+  getComment() {
+    this.commentsSub = this.commentService.getComment()
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        this.prodStats = (data as QueryResponse).results
+        this.comments = (data as QueryResponse).results
+        for (let comment in this.comments) {
+          if (this.comments[comment]["batch"]["batch_number"] == this.latestBatch.batch_number && this.recentComments.length < 5) {
+            this.recentComments.push(this.comments[comment])
+          }
+        }
       });
   }
 
@@ -91,7 +101,6 @@ export class HomeComponent implements OnInit {
       .flatMap(data => {
         let batchList = (data as QueryResponse).results as Batch[]
         this.latestBatch = batchList[0]
-        this.getProdList()
         if (this.latestBatch.end_date == null) {
           this.active = 'Current'
         }
@@ -128,7 +137,6 @@ export class HomeComponent implements OnInit {
           )
           accumulatedProduction = accumulatedProduction + this.productionStatistics[i].production_quantity
         }
-
         //adding both goal and accumulated production statistics to displayData
         this.displayDataList = [
           {

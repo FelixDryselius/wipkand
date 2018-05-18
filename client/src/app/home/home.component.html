@@ -13,87 +13,10 @@
 <div class="container-fluid">
   <div class="col-md-12">
     <div class="row">
-      <div class="col-md-6 boxHome border border-primary rounded">
-          <h3 class="text-center batchInfoHeader">{{ active }} batch info:</h3>
-          <div class="row">
-              <div class="col-md-1"></div>
-            <ul class="batchStatusList">
-              <li>
-                <b>Order:</b> {{ latestBatch.order.order_number }}
-              </li>
-            </ul>
-            <ul class="batchStatusList">
-              <li>
-                <b>Article number:</b> {{ latestBatch.order.article_number }}
-              </li>
-            </ul>
-            <ul class="batchStatusList">
-              <li>
-                <b>Batch number:</b> {{ latestBatch.batch_number }}
-              </li>
-            </ul>
-          </div>
-        <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-6">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item batch-status-info">
-                  <b>Start Date:</b> {{ latestBatch.start_date | date:'yyyy-MM-dd HH:mm:ss' }}
-                </li>
-                <li class="list-group-item batch-status-info">
-                  <b>End Date:</b> {{ latestBatch.order.end_date }}
-                </li>
-                <li class="list-group-item batch-status-info">
-                  <b>Rework Date:</b> {{ latestBatch.rework_date }}
-                </li>
-                <li class="list-group-item batch-status-info">
-                  <b>Label Print Time:</b> {{ latestBatch.label_print_time }}
-                </li>
-                <li class="list-group-item batch-status-info">
-                  <b>Applied Lables:</b> {{ latestBatch.applied_labels }}
-                </li>
-                <li class="list-group-item batch-status-info">
-                  <b>Rework Time:</b> {{ latestBatch.rework_time }}
-                </li>
-              </ul>
-            </div>
-            <div class="col-md-6">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item batch-status-info">
-                  <b>Yield:</b> {{ latestBatch.yield }}
-                </li>
-                <li class="list-group-item batch-status-info">
-                  <b>HMI1 Good:</b> {{ latestBatch.hmi1_good }}
-                </li>
-                <li class="list-group-item batch-status-info">
-                  <b>HMI1 Bad:</b> {{ latestBatch.hmi1_bad }}
-                </li>
-                <li class="list-group-item batch-status-info">
-                  <b>HMI2 Good:</b> {{ latestBatch.hmi2_good }}
-                </li>
-                <li class="list-group-item batch-status-info">
-                  <b>HMI2 Bad:</b> {{ latestBatch.hmi1_bad }}
-                </li>
-                <li class="list-group-item batch-status-info">
-                  <b>Scrap:</b> {{ latestBatch.scrap }}
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-12" align="right">
-            <button class="btn btn-primary" *ngIf="!latestBatch.end_date || latestBatch.rework_date" disabled>
-              Rework batch
-            </button>
-            <button class="btn btn-primary" *ngIf="latestBatch.end_date && !latestBatch.rework_date" (click)="reworkBatch()">
-              Rework Batch
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
+      <div class="col-md-7">
         <div class="container">
-          <div class="row" style="height:50vh">
-            <h3>Accumulated production yield of latest batch</h3>
+          <div class="row" style="height:75vh">
+            <div class="headerHome">Accumulated production yield of latest batch</div>
             <ngx-charts-line-chart *ngIf="haveData" [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
               [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisTickFormatting]="xAxisFormatting" [xAxisLabel]="xAxisLabel"
               [yAxisLabel]='yAxisLabel' [xAxis]='xAxis' [yAxis]='yAxis' [timeline]="timeline" (select)="pressed($event)">
@@ -101,45 +24,119 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="col-md-12 box border border-primary rounded">
-            <div class="row">
-              <div class="col-md-12">
-                <h3 class="text-center">Production data</h3>
-              </div>
+      <div class="col-md-5">
+        <div class="headerHome">{{ active }} batch info:</div>
+        <hr>
+        <div class="row">
+          <ul>
+            <li>
+              <b>Order:</b> {{ latestBatch.order.order_number }}
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <b>Article number:</b> {{ latestBatch.order.article_number }}
+            </li>
+          </ul>
+          <ul class="text-center">
+            <li>
+              <b>Batch number:</b> {{ latestBatch.batch_number }}
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <ul>
+                <li>
+                  <b>Start Date:</b> {{ latestBatch.start_date | date:'yyyy-MM-dd HH:mm:ss' }}
+                </li>
+                <li>
+                  <b>End Date:</b> {{ latestBatch.order.end_date }}
+                </li>
+                <li>
+                  <b>Rework Date:</b> {{ latestBatch.rework_date }}
+                </li>
+                <li>
+                  <b>Label Print Time:</b> {{ latestBatch.label_print_time }}
+                </li>
+                <li>
+                  <b>Applied Lables:</b> {{ latestBatch.applied_labels }}
+                </li>
+                <li>
+                  <b>Rework Time:</b> {{ latestBatch.rework_time }}
+                </li>
+              </ul>
             </div>
-            <table class="table table-bordered table-striped table-hover table-sm">
-              <thead>
-                <tr>
-                  <th *ngFor="let col of prodDataColumns">{{ col }}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of prodStats">
-                  <td>{{item.time_stamp | date:'yyyy-MM-dd HH:mm'}}</td>
-                  <td>{{item.staff_quantity}}</td>
-                  <td>{{item.production_quantity}}</td>
-                  <td>{{item.user_name}}</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="col-md-6">
+              <ul>
+                <li>
+                  <b>Yield:</b> {{ latestBatch.yield }}
+                </li>
+                <li>
+                  <b>HMI1 Good:</b> {{ latestBatch.hmi1_good }}
+                </li>
+                <li>
+                  <b>HMI1 Bad:</b> {{ latestBatch.hmi1_bad }}
+                </li>
+                <li>
+                  <b>HMI2 Good:</b> {{ latestBatch.hmi2_good }}
+                </li>
+                <li>
+                  <b>HMI2 Bad:</b> {{ latestBatch.hmi1_bad }}
+                </li>
+                <li>
+                  <b>Scrap:</b> {{ latestBatch.scrap }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-12" align="right">
+            <button class="btn btn-primary" *ngIf="!(latestBatch.end_date)" disabled>
+              Rework batch
+            </button>
+            <button class="btn btn-primary" *ngIf="latestBatch.end_date && !(latestBatch.rework_date)" (click)="reworkBatch()">
+              Rework Batch
+            </button>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="headerHome">Recent events:</div>
+        <hr>
+        <div class="row">
+          <div class="col-md-6">
+            <ul class="recentEvent border border-primary rounded" *ngFor="let comment of recentComments">
+              <li>
+                <b>Post Date:</b> {{ comment.post_date | date:'yyyy-MM-dd HH:mm:ss' }}
+              </li>
+              <li>
+                <b>Author:</b> {{ comment.user_name }}
+              </li>
+              <li>
+                <b>Comment:</b> {{ comment.text_comment }}
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="recentEvent border border-primary rounded" *ngFor="let stat of productionStatistics">
+              <li>
+                <b>Time Stamp:</b> {{ stat.time_stamp | date:'yyyy-MM-dd HH:mm:ss' }}
+              </li>
+              <li>
+                <b>Produced:</b> {{ stat.production_quantity }}
+              </li>
+              <li>
+                <b>Staff:</b> {{ stat.staff_quantity }}
+              </li>
+              <li>
+                <b>Signature:</b> {{ stat.user_name }}
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 
 <ng-template #loading>
   Loading content...

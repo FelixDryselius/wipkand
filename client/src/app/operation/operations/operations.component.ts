@@ -48,7 +48,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
   private currentTime: any;
 
 
-  private prodDataColumns = ['Time stamp', 'On shift', 'Produced', 'Signature']
+  private prodDataColumns = ['Time stamp', 'Staff', 'Produced', 'Signature']
 
   // END SCOREBOARD SECTION  
 

@@ -58,19 +58,18 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* Start home style */
 
-.batchInfoHeader {
+.headerHome {
   margin-bottom: 3%;
+  font-size: 1.5em;
 }
 
-.boxHome {
-  padding: 1.5%;
-  padding-top: 1%;
-  background-color: #e9ecef;
-}
-
-.batchStatusList {
+.recentEvent {
+  background-color: rgba(236, 240, 241, 0.904);
   list-style-type: none;
+  padding-top: 2%;
+  padding-bottom: 2%;
 }
+
 
 /* End home style */
 
