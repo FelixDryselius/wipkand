@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   showError: boolean;
   public isCollapsed = true;
   constructor(
-    private authAPI: AuthAPIService
+    public authAPI: AuthAPIService
   ) { }
 
   ngOnInit() {

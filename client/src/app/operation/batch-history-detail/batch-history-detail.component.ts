@@ -49,7 +49,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
   private modal: NgbModalRef
 
-  private currentBatch: Batch;
+  currentBatch: Batch;
   comments: {};
   statistics: {};
   products: {};

@@ -16,7 +16,7 @@ import 'rxjs/add/operator/retryWhen';
 })
 export class CurrentBatchInfoComponent implements OnInit, OnDestroy {
  // private prodActive: boolean;
-  private prodInfo: {};
+  prodInfo: {};
 
   //observables
   private req_batch: any;
