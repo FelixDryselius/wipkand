@@ -138,8 +138,7 @@ input[type=number]::-webkit-outer-spin-button {
 .navbar-body {
   background-color: rgba(236, 240, 241, 0.904);
   border-right: groove;
-  height: 100&;
-
+  height: 100%;
 }
 
 .batch-status-info {
@@ -160,4 +159,40 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: rgba(236, 240, 241, 0.904);
   border-bottom: groove;
   height: 8vh;
+}
+
+/* Collapse */
+
+/* .collapse, .collapse.in {
+  display: block !important;
+  transition: all .25s ease-in-out;
+}
+
+.collapse {
+ opacity: 0;
+ height: 0;
+}
+
+.collapse.in {
+  opacity: 1;
+  height: 100%;
+} */
+
+.collapse{
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+  color: black;
+  display: block !important;
+  max-height: 0 !important;
+  opacity: 0;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.collapse.show{
+  max-height: 100% !important;
+  opacity: 1;
 }
