@@ -26,7 +26,11 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SubmitIfValidDirective } from './shared/directives/submit-if-valid.directive';
 import { CommentService } from './shared/application-services/comment.service';
 import { HomeComponent } from './home/home.component';
+<<<<<<< HEAD
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+=======
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+>>>>>>> ddf334b9513ce858aba518d7294c63de6714d74b
 
 
 
@@ -48,6 +52,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
+    NgxChartsModule,
     AppRoutingModule,
     NgbModule.forRoot(),
   ],
