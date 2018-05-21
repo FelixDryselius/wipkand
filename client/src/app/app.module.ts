@@ -26,6 +26,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SubmitIfValidDirective } from './shared/directives/submit-if-valid.directive';
 import { CommentService } from './shared/application-services/comment.service';
 import { HomeComponent } from './home/home.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 
@@ -47,6 +48,7 @@ import { HomeComponent } from './home/home.component';
     ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
+    NgxChartsModule,
     AppRoutingModule,
   ],
   providers: [

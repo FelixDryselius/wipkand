@@ -56,6 +56,23 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* End operations style */
 
+/* Start home style */
+
+.headerHome {
+  margin-bottom: 3%;
+  font-size: 1.5em;
+}
+
+.recentEvent {
+  background-color: rgba(236, 240, 241, 0.904);
+  list-style-type: none;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+
+/* End home style */
+
 /* Start finish batch style */
 
 .btn-startBatch {
@@ -131,4 +148,33 @@ input[type=number]::-webkit-outer-spin-button {
   max-width: 500px;
   padding: 15px;
   cursor: pointer;
+}
+
+
+/* Navbar */
+.navbar-body {
+  background-color: rgba(236, 240, 241, 0.904);
+  border-right: groove;
+  height: 100&;
+
+}
+
+.batch-status-info {
+  background-color: rgba(227, 233, 236, 0.904);
+}
+
+.bg-warning-light {
+  background-color: rgba(230, 200, 70, 0.712)
+}
+
+.bg-success-light {
+  background-color: rgba(65, 199, 65, 0.712)
+}
+
+/* Header */
+
+#header {
+  background-color: rgba(236, 240, 241, 0.904);
+  border-bottom: groove;
+  height: 8vh;
 }
