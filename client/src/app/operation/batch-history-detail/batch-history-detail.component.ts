@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, Pipe, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Pipe, OnDestroy, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Location } from '@angular/common'
 import { Observable } from 'rxjs/Observable';
@@ -10,6 +10,7 @@ import { tap } from 'rxjs/operators';
 // Application imports
 import { AuthAPIService } from '../../auth/auth.service';
 import { Batch } from '../../shared/interfaces/batch';
+import { BatchReworkComponent } from '../batch-rework/batch-rework.component';
 import { CommentService } from '../../shared/application-services/comment.service';
 import { CustomValidation } from '../../shared/validators/customValidation'
 import { OperationsService } from '../../shared/application-services/operations.service';
@@ -18,8 +19,7 @@ import { Order } from '../../shared/interfaces/order';
 
 //Third party imports
 import { CalendarModule } from 'primeng/calendar';
-import { BatchReworkComponent } from '../batch-rework/batch-rework.component';
-import { ModalDirective } from 'ngx-bootstrap/modal';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-batch-history-detail',
@@ -29,7 +29,6 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
   @ViewChild(BatchReworkComponent) batchReworkComponent: BatchReworkComponent
-  @ViewChild('closeReworkModal') closeReworkModal: ElementRef;
 
   private batchDetailForm: FormGroup;
   private batchDetailID: string;
@@ -47,6 +46,8 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
   private productObservable: Observable<any>;
   private productSub: any;
+
+  private modal: NgbModalRef
 
   private currentBatch: Batch;
   comments: {};
@@ -75,6 +76,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     private location: Location,
     private operationsService: OperationsService,
     private commentService: CommentService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -175,10 +177,10 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       'applied_labels': new FormControl('', [
         Validators.pattern("^[0-9]*$"),
       ]),
-      'label_print_time': new FormControl('', [
-      ]),
-      'rework_time': new FormControl('', [
-      ]),
+      // 'label_print_time': new FormControl('', [
+      // ]),
+      // 'rework_time': new FormControl('', [
+      // ]),
     })
   }
 
@@ -249,14 +251,10 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       batch_number: this.currentBatch.batch_number,
       order: this.currentBatch.order,
       applied_labels: _applied_labels,
-      label_print_time: _label_print_time,
       rework_date: new Date(),
-      rework_time: this.batchReworkComponent.milisecondsToTimeString(
-        _label_print_time.valueOf() - this.currentBatch.end_date.valueOf()
-      )
     }
-    if (this.closeReworkModal) {
-      this.closeReworkModal.nativeElement.click();
+    if (this.modal) {
+      this.modal.close()
     }
     this.setRework(false)
     this.clearMsg()
@@ -325,6 +323,10 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     } else {
       this.reworking = false
     }
+  }
+
+  openModal(content) {
+    this.modal = this.modalService.open(content, { size: 'lg' });
   }
 
   goBack() {

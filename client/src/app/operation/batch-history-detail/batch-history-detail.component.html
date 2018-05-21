@@ -21,8 +21,11 @@
       <!-- Batch Rework -->
       <div class="row" *ngIf="currentBatch; else loading">
         <div class="col-lg-12" style="margin-bottom: 10px;">
-          <button [disabled]='!currentBatch.end_date || currentBatch.rework_date' (click)="setRework(true)" class="btn btn-lg" data-toggle="modal"
-            data-target="#reworkModal">Batch Rework</button>
+          <button [disabled]='!currentBatch.end_date || currentBatch.rework_date' (click)="setRework(true); openModal(reworkModal)"
+            class="btn btn-lg">Batch Rework</button>
+          <!-- <button [disabled]='!currentBatch.end_date || currentBatch.rework_date' data-toggle="modal" data-target="#reworkModal" (click)="setRework(true)"
+            class="btn btn-lg">Batch Rework</button> -->
+
         </div>
         <br>
         <div class="col-lg-6 offset-lg-3 alert alert-danger" *ngIf="reworkSuccess == false;">
@@ -39,289 +42,287 @@
       </div>
       <hr>
 
-        <!-- Edit Batch -->
-        <h5>Batch Details</h5>
-        <br>
-        <!-- Order Form -->
-        <form *ngIf="order; else loading" [formGroup]="orderDetailForm" (ngSubmit)="submitOrderForm($event, orderDetailForm.value)">
-          <div class="row">
-            <div class="col-lg-6 font-weight-bold">
-              <ul class="list-group">
+      <!-- Edit Batch -->
+      <h5>Batch Details</h5>
+      <br>
+      <!-- Order Form -->
+      <form *ngIf="order; else loading" [formGroup]="orderDetailForm" (ngSubmit)="submitOrderForm($event, orderDetailForm.value)">
+        <div class="row">
+          <div class="col-lg-6 font-weight-bold">
+            <ul class="list-group">
 
-                <!-- Order Number -->
-                <li class="list-group-item text-left">
-                  <label for="order_number">Order Number:</label>
-                  <input id="order_number" class="input-sm float-right" #order_number formControlName="order_number" />
-                  <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="orderDetailForm.controls.order_number.invalid && 
+              <!-- Order Number -->
+              <li class="list-group-item text-left">
+                <label for="order_number">Order Number:</label>
+                <input id="order_number" class="input-sm float-right" #order_number formControlName="order_number" />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="orderDetailForm.controls.order_number.invalid && 
                     (orderDetailForm.controls.order_number.dirty || orderDetailForm.controls.order_number.touched)">
-                    <span *ngIf="orderDetailForm.controls.order_number.errors?.required">
-                      * This field is required.
-                    </span>
-                    <span *ngIf="orderDetailForm.controls.order_number.errors?.pattern">
-                      * An order number can only consist of numbers.
-                      <br>
-                    </span>
-                    <span *ngIf="orderDetailForm.controls.order_number.errors?.range">
-                      * An order number must be 7 digits.
-                    </span>
-                  </div>
-                </li>
+                  <span *ngIf="orderDetailForm.controls.order_number.errors?.required">
+                    * This field is required.
+                  </span>
+                  <span *ngIf="orderDetailForm.controls.order_number.errors?.pattern">
+                    * An order number can only consist of numbers.
+                    <br>
+                  </span>
+                  <span *ngIf="orderDetailForm.controls.order_number.errors?.range">
+                    * An order number must be 7 digits.
+                  </span>
+                </div>
+              </li>
 
-                <!-- Article Number -->
-                <li class="list-group-item text-left dropdown" *ngIf="products; else loading">
-                  <label for="article_number">Article Number:</label>
-                  <select name="prodnr" class="selectProd" #article_number formControlName="article_number">
-                    <option *ngFor="let product of products" class="optionProd" [(ngValue)]="product.article_number">
-                      {{ product.article_number }}, {{ product.product_name }}</option>
-                  </select>
-                </li>
-              </ul>
+              <!-- Article Number -->
+              <li class="list-group-item text-left dropdown" *ngIf="products; else loading">
+                <label for="article_number">Article Number:</label>
+                <select name="prodnr" class="selectProd" #article_number formControlName="article_number">
+                  <option *ngFor="let product of products" class="optionProd" [(ngValue)]="product.article_number">
+                    {{ product.article_number }}, {{ product.product_name }}</option>
+                </select>
+              </li>
+            </ul>
 
-              <div class="col-lg-12 alert alert-danger" *ngIf="updateOrderSuccess == false;">
-                <span class="font-weight-bold">Update failed. Errors listed below: </span>
+            <div class="col-lg-12 alert alert-danger" *ngIf="updateOrderSuccess == false;">
+              <span class="font-weight-bold">Update failed. Errors listed below: </span>
+              <br>
+              <span *ngFor="let key of updateErrorKeys" class="font-weight-normal">
+                * {{ key }}: {{ updateError[key] }}
                 <br>
-                <span *ngFor="let key of updateErrorKeys" class="font-weight-normal">
-                  * {{ key }}: {{ updateError[key] }}
-                  <br>
-                </span>
-              </div>
-              <div class="col-lg-12 alert alert-success" *ngIf="updateOrderSuccess == true;">
-                <span class="font-weight-bold">Order update successful!</span>
-              </div>
+              </span>
             </div>
-            <div class="col-lg-6 text-left">
-              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore sed corporis quia a, blanditiis repellendus,
-                minus quod necessitatibus.</p>
-              <button [disabled]='orderDetailForm.invalid' class="btn btn-primary" type="submit">Update Order</button>
+            <div class="col-lg-12 alert alert-success" *ngIf="updateOrderSuccess == true;">
+              <span class="font-weight-bold">Order update successful!</span>
             </div>
           </div>
-        </form>
-        <hr>
+          <div class="col-lg-6 text-left">
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore sed corporis quia a, blanditiis repellendus,
+              minus quod necessitatibus.</p>
+            <button [disabled]='orderDetailForm.invalid' class="btn btn-primary" type="submit">Update Order</button>
+          </div>
+        </div>
+      </form>
+      <hr>
 
-        <!-- Batch Form -->
-        <form *ngIf="currentBatch; else loading" [formGroup]="batchDetailForm" (ngSubmit)="submitBatchForm($event, batchDetailForm.value)">
-          <div class="row font-weight-bold">
-            <div class="col-lg-6">
-              <ul class="list-group">
+      <!-- Batch Form -->
+      <form *ngIf="currentBatch; else loading" [formGroup]="batchDetailForm" (ngSubmit)="submitBatchForm($event, batchDetailForm.value)">
+        <div class="row font-weight-bold">
+          <div class="col-lg-6">
+            <ul class="list-group">
 
-                <!-- Batch Number -->
-                <li class="list-group-item text-left">
-                  <label for="batch_number">Batch Number:</label>
-                  <input id="batch_number" class="input-sm float-right" formControlName="batch_number" />
-                  <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.batch_number.invalid && 
+              <!-- Batch Number -->
+              <li class="list-group-item text-left">
+                <label for="batch_number">Batch Number:</label>
+                <input id="batch_number" class="input-sm float-right" formControlName="batch_number" />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.batch_number.invalid && 
                 (batchDetailForm.controls.batch_number.dirty || batchDetailForm.controls.batch_number.touched)">
-                    <span *ngIf="batchDetailForm.controls.batch_number.errors?.required">
-                      * This field is required.
-                    </span>
-                    <span *ngIf="batchDetailForm.controls.batch_number.errors?.pattern">
-                      * A batch number can only consist of numbers.
-                      <br>
-                    </span>
-                    <span *ngIf="batchDetailForm.controls.batch_number.errors?.range">
-                      * A batch number must be 10 digits.
-                    </span>
-                  </div>
-                </li>
+                  <span *ngIf="batchDetailForm.controls.batch_number.errors?.required">
+                    * This field is required.
+                  </span>
+                  <span *ngIf="batchDetailForm.controls.batch_number.errors?.pattern">
+                    * A batch number can only consist of numbers.
+                    <br>
+                  </span>
+                  <span *ngIf="batchDetailForm.controls.batch_number.errors?.range">
+                    * A batch number must be 10 digits.
+                  </span>
+                </div>
+              </li>
 
-                <!-- Start Date -->
-                <li class="list-group-item text-left">
-                  <label for="start_date">Start Date:</label>
-                  <p-calendar class="float-right" formControlName="start_date" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar>
-                  <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.start_date.invalid && 
+              <!-- Start Date -->
+              <li class="list-group-item text-left">
+                <label for="start_date">Start Date:</label>
+                <p-calendar class="float-right" formControlName="start_date" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar>
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.start_date.invalid && 
                 (batchDetailForm.controls.start_date.dirty || batchDetailForm.controls.start_date.touched)">
-                    <span *ngIf="batchDetailForm.controls.start_date.errors?.required">
-                      * This field is required.
-                    </span>
-                    <span *ngIf="batchDetailForm.controls.start_date.errors?.pattern">
-                      * Please enter a date with format
-                      <br> yyyy-mm-ddT00:00:00
-                      <br>
-                    </span>
-                  </div>
-                </li>
+                  <span *ngIf="batchDetailForm.controls.start_date.errors?.required">
+                    * This field is required.
+                  </span>
+                  <span *ngIf="batchDetailForm.controls.start_date.errors?.pattern">
+                    * Please enter a date with format
+                    <br> yyyy-mm-ddT00:00:00
+                    <br>
+                  </span>
+                </div>
+              </li>
 
-                <!-- End Date -->
-                <li class="list-group-item text-left">
-                  <label for="end_date">End Date:</label>
-                  <p-calendar class="float-right" formControlName="end_date" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar>
-                  <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.end_date.invalid && 
+              <!-- End Date -->
+              <li class="list-group-item text-left">
+                <label for="end_date">End Date:</label>
+                <p-calendar class="float-right" formControlName="end_date" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar>
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.end_date.invalid && 
                 (batchDetailForm.controls.end_date.dirty || batchDetailForm.controls.end_date.touched)">
-                    <span *ngIf="batchDetailForm.controls.end_date.errors?.required">
-                      * This field is required.
-                    </span>
-                    <span *ngIf="batchDetailForm.controls.end_date.errors?.pattern">
-                      * Please enter a date with format
-                      <br> yyyy-mm-ddT00:00:00
-                      <br>
-                    </span>
-                  </div>
-                </li>
+                  <span *ngIf="batchDetailForm.controls.end_date.errors?.required">
+                    * This field is required.
+                  </span>
+                  <span *ngIf="batchDetailForm.controls.end_date.errors?.pattern">
+                    * Please enter a date with format
+                    <br> yyyy-mm-ddT00:00:00
+                    <br>
+                  </span>
+                </div>
+              </li>
 
-                <!-- Rework Date -->
-                <li class="list-group-item text-left">
-                  <label for="rework_date">Rework Date:</label>
-                  <p-calendar class="float-right" formControlName="rework_date" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar>
-                  <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.rework_date.invalid && 
+              <!-- Rework Date -->
+              <li class="list-group-item text-left">
+                <label for="rework_date">Rework Date:</label>
+                <p-calendar class="float-right" formControlName="rework_date" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar>
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.rework_date.invalid && 
                 (batchDetailForm.controls.rework_date.dirty || batchDetailForm.controls.rework_date.touched)">
-                    <span *ngIf="batchDetailForm.controls.rework_date.errors?.required">
-                      * This field is required.
-                    </span>
-                    <span *ngIf="batchDetailForm.controls.rework_date.errors?.pattern">
-                      * Please enter a date with format
-                      <br> yyyy-mm-ddT00:00:00
-                      <br>
-                    </span>
-                  </div>
-                </li>
+                  <span *ngIf="batchDetailForm.controls.rework_date.errors?.required">
+                    * This field is required.
+                  </span>
+                  <span *ngIf="batchDetailForm.controls.rework_date.errors?.pattern">
+                    * Please enter a date with format
+                    <br> yyyy-mm-ddT00:00:00
+                    <br>
+                  </span>
+                </div>
+              </li>
 
-                <!-- Label Print Time -->
-                <li class="list-group-item text-left">
-                  <label for="label_print_time">Label Print Time: </label>
-                  <p-calendar class="float-right" formControlName="label_print_time" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar>
-                  <!-- <p-calendar formControlName="label_print_time"></p-calendar> -->
-                  <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.label_print_time.invalid && 
+              <!-- Label Print Time
+              <li class="list-group-item text-left">
+                <label for="label_print_time">Label Print Time: </label>
+                <p-calendar class="float-right" formControlName="label_print_time" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar>
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.label_print_time.invalid && 
                 (batchDetailForm.controls.label_print_time.dirty || batchDetailForm.controls.label_print_time.touched)">
-                    <span *ngIf="batchDetailForm.controls.label_print_time.errors?.required">
-                      * This field is required.
-                    </span>
-                    <span *ngIf="batchDetailForm.controls.label_print_time.errors?.pattern">
-                      * Please enter a date with format
-                      <br> yyyy-mm-ddT00:00:00
-                      <br>
-                    </span>
-                  </div>
-                </li>
-
-                <!-- Applied Labels -->
-                <li class="list-group-item text-left">
-                  <label for="applied_labels">Applied Labels:</label>
-                  <input type="number" id="applied_labels" class="input-sm float-right" formControlName="applied_labels" />
-                </li>
-
-                <!-- Rework Time -->
-                <li class="list-group-item text-left">
-                  <label for="rework_time">Rework Time:</label>
-                  <input id="rework_time" class="input-sm float-right" formControlName="rework_time" />
-                  <!-- <p-calendar class="float-right" formControlName="rework_time" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar> -->
-                </li>
-              </ul>
-            </div>
-
-            <div class="col-lg-6">
-              <ul class="list-group">
-
-                <!-- Yield -->
-                <li class="list-group-item text-left">
-                  <label for="production_yield">Yield:</label>
-                  <input type="number" id="production_yield" class="input-sm float-right" formControlName="production_yield" />
-                  <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.production_yield.invalid && 
-                (batchDetailForm.controls.production_yield.dirty || batchDetailForm.controls.production_yield.touched)">
-                    <!-- <span *ngIf="batchDetailForm.controls.production_yield.errors?.required">
+                  <span *ngIf="batchDetailForm.controls.label_print_time.errors?.required">
                     * This field is required.
-                  </span> -->
-                    <span *ngIf="batchDetailForm.controls.production_yield.errors?.pattern">
-                      * Only positive numbers are accepted.
-                      <br>
-                    </span>
-                  </div>
-                </li>
+                  </span>
+                  <span *ngIf="batchDetailForm.controls.label_print_time.errors?.pattern">
+                    * Please enter a date with format
+                    <br> yyyy-mm-ddT00:00:00
+                    <br>
+                  </span>
+                </div>
+              </li> -->
 
-                <!-- HMI1 Good -->
-                <li class="list-group-item text-left">
-                  <label for="hmi1_good">HMI1 Good:</label>
-                  <input type="number" id="hmi1_good" class="input-sm float-right" formControlName="hmi1_good" />
-                  <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.hmi1_good.invalid && 
-                (batchDetailForm.controls.hmi1_good.dirty || batchDetailForm.controls.hmi1_good.touched)">
-                    <!-- <span *ngIf="batchDetailForm.controls.hmi1_good.errors?.required">
-                    * This field is required.
-                  </span> -->
-                    <span *ngIf="batchDetailForm.controls.hmi1_good.errors?.pattern">
-                      * Only positive numbers are accepted.
-                      <br>
-                    </span>
-                  </div>
-                </li>
+              <!-- Applied Labels -->
+              <li class="list-group-item text-left">
+                <label for="applied_labels">Applied Labels:</label>
+                <input type="number" id="applied_labels" class="input-sm float-right" formControlName="applied_labels" />
+              </li>
 
-                <!-- HMI1 Bad -->
-                <li class="list-group-item text-left">
-                  <label for="hmi1_bad">HMI1 Bad:</label>
-                  <input type="number" id="hmi1_bad" class="input-sm float-right" formControlName="hmi1_bad" />
-                  <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.hmi1_bad.invalid && 
-                (batchDetailForm.controls.hmi1_bad.dirty || batchDetailForm.controls.hmi1_bad.touched)">
-                    <!-- <span *ngIf="batchDetailForm.controls.hmi1_bad.errors?.required">
-                    * This field is required.
-                  </span> -->
-                    <span *ngIf="batchDetailForm.controls.hmi1_bad.errors?.pattern">
-                      * Only positive numbers are accepted.
-                      <br>
-                    </span>
-                  </div>
-                </li>
-
-                <!-- HMI2 Good -->
-                <li class="list-group-item text-left">
-                  <label for="hmi2_good">HMI2 Good:</label>
-                  <input type="number" id="hmi2_good" class="input-sm float-right" formControlName="hmi2_good" />
-                  <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.hmi2_good.invalid && 
-                (batchDetailForm.controls.hmi2_good.dirty || batchDetailForm.controls.hmi2_good.touched)">
-                    <!-- <span *ngIf="batchDetailForm.controls.hmi2_good.errors?.required">
-                    * This field is required.
-                  </span> -->
-                    <span *ngIf="batchDetailForm.controls.hmi2_good.errors?.pattern">
-                      * Only positive numbers are accepted.
-                      <br>
-                    </span>
-                  </div>
-                </li>
-
-                <!-- HMI2 Bad -->
-                <li class="list-group-item text-left">
-                  <label for="hmi2_bad">HMI2 Bad:</label>
-                  <input type="number" id="hmi2_bad" class="input-sm float-right" formControlName="hmi2_bad" />
-                  <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.hmi2_bad.invalid && 
-                (batchDetailForm.controls.hmi2_bad.dirty || batchDetailForm.controls.hmi2_bad.touched)">
-                    <!-- <span *ngIf="batchDetailForm.controls.hmi2_bad.errors?.required">
-                    * This field is required.
-                  </span> -->
-                    <span *ngIf="batchDetailForm.controls.hmi2_bad.errors?.pattern">
-                      * Only positive numbers are accepted.
-                      <br>
-                    </span>
-                  </div>
-                </li>
-
-                <!-- Scrap -->
-                <li class="list-group-item text-left">
-                  <label for="scrap">Scrap:</label>
-                  <input type="number" id="scrap" class="input-sm float-right" formControlName="scrap" />
-                  <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.scrap.invalid && 
-                (batchDetailForm.controls.scrap.dirty || batchDetailForm.controls.scrap.touched)">
-                    <!-- <span *ngIf="batchDetailForm.controls.scrap.errors?.required">
-                    * This field is required.
-                  </span> -->
-                    <span *ngIf="batchDetailForm.controls.scrap.errors?.pattern">
-                      * Only positive numbers are accepted.
-                      <br>
-                    </span>
-                  </div>
-                </li>
-              </ul>
-              <button [disabled]='batchDetailForm.invalid' class="btn btn-primary" type="submit">Update Batch</button>
-            </div>
+              <!-- Rework Time -->
+              <!-- <li class="list-group-item text-left">
+                <label for="rework_time">Rework Time:</label>
+                <input id="rework_time" class="input-sm float-right" formControlName="rework_time" />
+              </li> -->
+            </ul>
           </div>
-        </form>
-        <hr>
-        <div class="col-lg-12 alert alert-danger" *ngIf="updateBatchSuccess == false;">
-          <span class="font-weight-bold">Update failed. Errors listed below: </span>
+
+          <div class="col-lg-6">
+            <ul class="list-group">
+
+              <!-- Yield -->
+              <li class="list-group-item text-left">
+                <label for="production_yield">Yield:</label>
+                <input type="number" id="production_yield" class="input-sm float-right" formControlName="production_yield" />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.production_yield.invalid && 
+                (batchDetailForm.controls.production_yield.dirty || batchDetailForm.controls.production_yield.touched)">
+                  <!-- <span *ngIf="batchDetailForm.controls.production_yield.errors?.required">
+                    * This field is required.
+                  </span> -->
+                  <span *ngIf="batchDetailForm.controls.production_yield.errors?.pattern">
+                    * Only positive numbers are accepted.
+                    <br>
+                  </span>
+                </div>
+              </li>
+
+              <!-- HMI1 Good -->
+              <li class="list-group-item text-left">
+                <label for="hmi1_good">HMI1 Good:</label>
+                <input type="number" id="hmi1_good" class="input-sm float-right" formControlName="hmi1_good" />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.hmi1_good.invalid && 
+                (batchDetailForm.controls.hmi1_good.dirty || batchDetailForm.controls.hmi1_good.touched)">
+                  <!-- <span *ngIf="batchDetailForm.controls.hmi1_good.errors?.required">
+                    * This field is required.
+                  </span> -->
+                  <span *ngIf="batchDetailForm.controls.hmi1_good.errors?.pattern">
+                    * Only positive numbers are accepted.
+                    <br>
+                  </span>
+                </div>
+              </li>
+
+              <!-- HMI1 Bad -->
+              <li class="list-group-item text-left">
+                <label for="hmi1_bad">HMI1 Bad:</label>
+                <input type="number" id="hmi1_bad" class="input-sm float-right" formControlName="hmi1_bad" />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.hmi1_bad.invalid && 
+                (batchDetailForm.controls.hmi1_bad.dirty || batchDetailForm.controls.hmi1_bad.touched)">
+                  <!-- <span *ngIf="batchDetailForm.controls.hmi1_bad.errors?.required">
+                    * This field is required.
+                  </span> -->
+                  <span *ngIf="batchDetailForm.controls.hmi1_bad.errors?.pattern">
+                    * Only positive numbers are accepted.
+                    <br>
+                  </span>
+                </div>
+              </li>
+
+              <!-- HMI2 Good -->
+              <li class="list-group-item text-left">
+                <label for="hmi2_good">HMI2 Good:</label>
+                <input type="number" id="hmi2_good" class="input-sm float-right" formControlName="hmi2_good" />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.hmi2_good.invalid && 
+                (batchDetailForm.controls.hmi2_good.dirty || batchDetailForm.controls.hmi2_good.touched)">
+                  <!-- <span *ngIf="batchDetailForm.controls.hmi2_good.errors?.required">
+                    * This field is required.
+                  </span> -->
+                  <span *ngIf="batchDetailForm.controls.hmi2_good.errors?.pattern">
+                    * Only positive numbers are accepted.
+                    <br>
+                  </span>
+                </div>
+              </li>
+
+              <!-- HMI2 Bad -->
+              <li class="list-group-item text-left">
+                <label for="hmi2_bad">HMI2 Bad:</label>
+                <input type="number" id="hmi2_bad" class="input-sm float-right" formControlName="hmi2_bad" />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.hmi2_bad.invalid && 
+                (batchDetailForm.controls.hmi2_bad.dirty || batchDetailForm.controls.hmi2_bad.touched)">
+                  <!-- <span *ngIf="batchDetailForm.controls.hmi2_bad.errors?.required">
+                    * This field is required.
+                  </span> -->
+                  <span *ngIf="batchDetailForm.controls.hmi2_bad.errors?.pattern">
+                    * Only positive numbers are accepted.
+                    <br>
+                  </span>
+                </div>
+              </li>
+
+              <!-- Scrap -->
+              <li class="list-group-item text-left">
+                <label for="scrap">Scrap:</label>
+                <input type="number" id="scrap" class="input-sm float-right" formControlName="scrap" />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.scrap.invalid && 
+                (batchDetailForm.controls.scrap.dirty || batchDetailForm.controls.scrap.touched)">
+                  <!-- <span *ngIf="batchDetailForm.controls.scrap.errors?.required">
+                    * This field is required.
+                  </span> -->
+                  <span *ngIf="batchDetailForm.controls.scrap.errors?.pattern">
+                    * Only positive numbers are accepted.
+                    <br>
+                  </span>
+                </div>
+              </li>
+            </ul>
+            <button [disabled]='batchDetailForm.invalid' class="btn btn-primary" type="submit">Update Batch</button>
+          </div>
+        </div>
+      </form>
+      <hr>
+      <div class="col-lg-12 alert alert-danger" *ngIf="updateBatchSuccess == false;">
+        <span class="font-weight-bold">Update failed. Errors listed below: </span>
+        <br>
+        <span *ngFor="let key of updateErrorKeys" class="font-weight-normal">
+          * {{ key }}: {{ updateError[key] }}
           <br>
-          <span *ngFor="let key of updateErrorKeys" class="font-weight-normal">
-            * {{ key }}: {{ updateError[key] }}
-            <br>
-          </span>
-        </div>
-        <div class="col-lg-12 alert alert-success" *ngIf="updateBatchSuccess == true;">
-          <span class="font-weight-bold">Batch update successful!</span>
-        </div>
+        </span>
+      </div>
+      <div class="col-lg-12 alert alert-success" *ngIf="updateBatchSuccess == true;">
+        <span class="font-weight-bold">Batch update successful!</span>
+      </div>
     </div>
 
     <!-- Batch Stats -->
@@ -384,31 +385,27 @@
 
 
 <!-- Modal -->
-<div #reworkModal id="reworkModal" class="modal fade bd-example-modal-lg" role="dialog">
-  <div class="modal-dialog modal-lg">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 *ngIf="currentBatch" class="modal-title float-left">Rework batch: #{{ currentBatch.batch_number }}</h4>
-        <button type="button" class="btn btn-default float-right" data-dismiss="modal" (click)="setRework(false)" id="closeReworkModal"
-          #closeReworkModal>Cancel</button>
-      </div>
-      <div class="modal-body">
-        <div *ngIf="reworking == true">
-          <form [formGroup]="reworkForm" (ngSubmit)="submitRework($event, reworkForm.value)">
-            <batch-rework [reworkForm]="reworkForm"></batch-rework>
-            <div class="col-lg-12 text-center">
-              <button [disabled]='reworkForm.invalid' type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          </form>
+<ng-template #reworkModal let-c="close" let-d="dismiss" id="reworkModal" role="dialog">
+  <div class="modal-header">
+    <h4 *ngIf="currentBatch" class="modal-title float-left">Rework batch: #{{ currentBatch.batch_number }}</h4>
+    <button type="button" class="btn btn-default float-right" aria-label="Close" data-dismiss="modal" (click)="setRework(false); c('Close click')"
+      id="closeReworkModal" #closeReworkModal>Cancel</button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="reworking == true">
+      <form [formGroup]="reworkForm" (ngSubmit)="submitRework($event, reworkForm.value)">
+        <batch-rework [reworkForm]="reworkForm"></batch-rework>
+        <div class="col-lg-12 text-center">
+          <button [disabled]='reworkForm.invalid' type="submit" class="btn btn-primary">Submit</button>
         </div>
-      </div>
-      <div class="modal-footer">
-      </div>
+      </form>
     </div>
   </div>
-</div>
+</ng-template>
 
+<div *ngIf="reworking == true" hidden="true">
+  <batch-rework [reworkForm]="reworkForm"></batch-rework>
+</div>
 
 <!-- If user is loaded show the form, else show the loading template -->
 <ng-template #loading>

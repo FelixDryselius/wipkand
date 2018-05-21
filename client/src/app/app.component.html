@@ -8,7 +8,7 @@
     <p>(click to close)</p>
   </div>
 
-<!-- 
+  <!-- 
   <div id="header" class="row">
     <div class="col-lg-2 my-auto text-center">
       <img src="assets/cepheidLogo.png">
@@ -59,11 +59,8 @@
               <a class="nav-link" routerLink="/statistics/data-page" routerLinkActive="active">Data page</a>
             </li>
             <li>
-              <!-- <a class="btn dropdown-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                Charts
-              </a> -->
-              <a class="btn dropdown-toggle" role="button" (click)="isCollapsed = !isCollapsed"
-              [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample" data-toggle="collapse">
+              <a class="btn dropdown-toggle" role="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"
+                data-toggle="collapse">
                 Charts
               </a>
             </li>
