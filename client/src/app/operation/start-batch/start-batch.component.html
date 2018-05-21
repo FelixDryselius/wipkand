@@ -6,7 +6,7 @@
         </h3>
         <br>
   
-        <form [formGroup]="newBatchForm" #newBatchDir='ngForm' (ngSubmit)="submitBatch(event$, newBatchForm)">
+        <form [formGroup]="newBatchForm" #newBatchDir='ngForm' (ngSubmit)="submitBatch($event, newBatchForm)">
           <!-- Order Number -->
           <div class="form-group row">
             <label for="orderNumber" class="col-lg-3 col-form-label">Order Number</label>

@@ -39,16 +39,16 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   // SCOREBOARD SECTION
 
-  private prodDataAdded = false;
-  private prodDataError = false;
-  private dateErrorMsg;
+  prodDataAdded = false;
+  prodDataError = false;
+  dateErrorMsg;
 
   // Variables for getting todays date
   private todaysDate: any;
   private currentTime: any;
 
 
-  private prodDataColumns = ['Time stamp', 'Staff', 'Produced', 'Signature']
+  prodDataColumns = ['Time stamp', 'Staff', 'Produced', 'Signature']
 
   // END SCOREBOARD SECTION  
 
@@ -76,7 +76,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   // COMMENT SECTION
   private commentsSub: any;
-  private commentForm: FormGroup;
+  commentForm: FormGroup;
   // Variables for add comment used html
   commentAdded = false;
   commentError = false;
@@ -92,10 +92,10 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   //the following items are copied from start-batch.component
   private prodActive: boolean;
-  private prodInfo: any;
+  prodInfo: any;
   private service_prodInfo: any;
 
-  private productionForm: FormGroup;
+  productionForm: FormGroup;
 
 
   constructor(
