@@ -48,7 +48,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
   private currentTime: any;
 
 
-  private prodDataColumns = ['Time stamp', 'On shift', 'Produced', 'Signature']
+  private prodDataColumns = ['Time stamp', 'Staff', 'Produced', 'Signature']
 
   // END SCOREBOARD SECTION  
 
@@ -79,6 +79,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
   private commentForm: FormGroup;
   // Variables for add comment used html
   commentAdded = false;
+  commentError = false;
 
   // Variables for creating a new comment. 
   private commentDate: Date;
@@ -277,7 +278,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
     for (let key in formData.value) {
       inputData[key] = formData.value[key];
     }
-    console.log(inputData.inputDate)
     if (typeof inputData.inputDate != 'undefined' && typeof inputData.produced != 'undefined' && inputData.onShift != 'undefined') {
       let newData = {
         time_stamp: inputData.inputDate,
@@ -296,7 +296,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
         },
           error => {
             if (error.error.time_stamp) {
-              this.dateErrorMsg = 'Production data with this time stamp already exists'
+              this.dateErrorMsg = error.error.time_stamp
               this.prodDataError = true
               this.prodDataAdded = false
             }
@@ -381,11 +381,20 @@ export class OperationsComponent implements OnInit, OnDestroy {
     if (typeof this.commentName != 'undefined' && typeof this.commentText != 'undefined') {
       this.req_comment = this.commentService.addComment(newComment)
         .retryWhen(error => this.authAPI.checkHttpRetry(error))
-        .subscribe(data => { this.getComment() });
-
-      // Triggers notification
-      this.commentAdded = true
-      setTimeout(() => { this.commentAdded = false }, 4000);
+        .subscribe(data => {
+          this.getComment()
+        },
+          error => {
+            if (!error) {
+              this.commentError = false
+              this.commentAdded = true
+              setTimeout(() => { this.commentAdded = false }, 4000);
+            }
+            else if (error) {
+              this.commentAdded = false
+              this.commentError = true
+            }
+          });
     }
     // Resets form
     formData.reset()

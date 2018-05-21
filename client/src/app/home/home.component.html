@@ -1,3 +1,134 @@
-<p>
-  home works!
-</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 align="left">
+        Dashboard
+      </h2>
+    </div>
+  </div>
+</div>
+
+<hr class="separator">
+
+<div class="container-fluid">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-7">
+        <div class="container">
+          <div class="row" style="height:75vh">
+            <div class="headerHome">Accumulated production yield of latest batch</div>
+            <ngx-charts-line-chart *ngIf="haveData" [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisTickFormatting]="xAxisFormatting" [xAxisLabel]="xAxisLabel"
+              [yAxisLabel]='yAxisLabel' [xAxis]='xAxis' [yAxis]='yAxis' [timeline]="timeline" (select)="pressed($event)">
+            </ngx-charts-line-chart>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="headerHome">{{ active }} batch #{{ latestBatch.batch_number }}:</div>
+        <hr>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <ul>
+                <li>
+                  <b>Order:</b> {{ latestBatch.order.order_number }}
+                </li>
+                <li>
+                  <b>Article number:</b> {{ latestBatch.order.article_number }}
+                </li>
+                <li>
+                  <b>Start Date:</b> {{ latestBatch.start_date | date:'yyyy-MM-dd HH:mm:ss' }}
+                </li>
+                <li>
+                  <b>End Date:</b> {{ latestBatch.order.end_date }}
+                </li>
+                <li>
+                  <b>Rework Date:</b> {{ latestBatch.rework_date }}
+                </li>
+                <li>
+                  <b>Label Print Time:</b> {{ latestBatch.label_print_time }}
+                </li>
+                <li>
+                  <b>Applied Lables:</b> {{ latestBatch.applied_labels }}
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul>
+                <li>
+                  <b>Rework Time:</b> {{ latestBatch.rework_time }}
+                </li>
+                <li>
+                  <b>Yield:</b> {{ latestBatch.yield }}
+                </li>
+                <li>
+                  <b>HMI1 Good:</b> {{ latestBatch.hmi1_good }}
+                </li>
+                <li>
+                  <b>HMI1 Bad:</b> {{ latestBatch.hmi1_bad }}
+                </li>
+                <li>
+                  <b>HMI2 Good:</b> {{ latestBatch.hmi2_good }}
+                </li>
+                <li>
+                  <b>HMI2 Bad:</b> {{ latestBatch.hmi1_bad }}
+                </li>
+                <li>
+                  <b>Scrap:</b> {{ latestBatch.scrap }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-12" align="right">
+            <button class="btn btn-primary" *ngIf="!(latestBatch.end_date)" disabled>
+              Rework batch
+            </button>
+            <button class="btn btn-primary" *ngIf="latestBatch.end_date && !(latestBatch.rework_date)" (click)="reworkBatch()">
+              Rework Batch
+            </button>
+          </div>
+        </div>
+        <div class="headerHome">Most recent events:</div>
+        <hr>
+        <div class="row">
+          <div class="col-md-6">
+            <p>Last 5 comments:</p>
+            <ul class="recentEvent border border-primary rounded" *ngFor="let comment of recentComments">
+              <li>
+                <b>Post Date:</b> {{ comment.post_date | date:'yyyy-MM-dd HH:mm:ss' }}
+              </li>
+              <li>
+                <b>Author:</b> {{ comment.user_name }}
+              </li>
+              <li>
+                <b>Comment:</b> {{ comment.text_comment }}
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <p>Last 5 production stats:</p>
+            <ul class="recentEvent border border-primary rounded" *ngFor="let stat of recentProdStats">
+              <li>
+                <b>Time Stamp:</b> {{ stat.time_stamp | date:'yyyy-MM-dd HH:mm:ss' }}
+              </li>
+              <li>
+                <b>Produced:</b> {{ stat.production_quantity }}
+              </li>
+              <li>
+                <b>Staff:</b> {{ stat.staff_quantity }}
+              </li>
+              <li>
+                <b>Signature:</b> {{ stat.user_name }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  Loading content...
+</ng-template>
