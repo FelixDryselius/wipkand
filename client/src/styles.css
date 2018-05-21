@@ -179,6 +179,10 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .collapse.show{
+  pointer-events: auto;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
   max-height: 100% !important;
   opacity: 1;
 }
