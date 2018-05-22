@@ -319,17 +319,10 @@ export class OperationsComponent implements OnInit, OnDestroy {
         results[key] = inputData.value[key];
       }
     }
-    console.log(this.currentFloorstock)
-    console.log(this.beforeChanges)
-    console.log(results)
     for (let key in results) {
       let counter = 0;
       for (let obj = 0; obj < this.beforeChanges.length; obj++) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
-        console.log(key)
-        console.log(this.beforeChanges[obj]["item_id"])
-        console.log(results[key])
-        console.log(this.beforeChanges[obj]["quantity"])
 
         if (this.beforeChanges[obj]["item_id"] == key && this.beforeChanges[obj]["quantity"] != results[key] && this.beforeChanges[obj]["quantity"] != null) {
           let updateItem = {
@@ -339,7 +332,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
             floorstock_item: key,
             batch: this.prodInfo.id,
           }
-          console.log("update")
           this.operationsService.updateFloorstock(updateItem)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
@@ -355,7 +347,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
             floorstock_item: key,
             batch: this.prodInfo.id,
           }
-          console.log("create")
           this.operationsService.createFloorstock(createItem)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe(data => {
@@ -371,9 +362,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
                   this.prodDataAdded = false
                 }
               });
-
         }
-
         else if (this.beforeChanges[obj]["item_id"] == key) {
           break;
         }
