@@ -14,7 +14,7 @@
   
 
 ## Project setup
-- Instll Python3?
+- Install Python 3.6.4 at: https://www.python.org/downloads/release/python-364/
 
 ### VirtualenvWrapper
 Use this virtual env or similiar
