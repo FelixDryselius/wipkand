@@ -57,6 +57,16 @@ export class AuthAPIService {
         }
     }
 
+    getRole(): string {
+        if (this.currentUser.isAdmin) {
+            return "admin"
+        } else if (this.currentUser.isOperator) {
+            return "operator"
+        } else if (this.currentUser.isSupervisor) {
+            return "supervisor"
+        }
+    }
+
     setCurrentUser() {
         this.$currentUser = this.getUser()
             .switchMap(user => {
