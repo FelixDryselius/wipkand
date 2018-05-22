@@ -67,45 +67,70 @@ export class HomeComponent implements OnInit {
   latestBatch;
   comments;
   commentsSub;
-  commentList = [];
-  prodList = [];
+  recentComments = [];
+  recentProd = [];
+  recentEvents = [];
 
   ngOnInit() {
     this.getProductionData()
-    this.getComment()
-    this.getProdList()
+    this.getRecent()
   }
 
   reworkBatch() {
     this.router.navigate(['/operation/batch-rework'])
   }
 
-  getComment() {
+  getRecent() {
     this.commentsSub = this.commentService.getComment()
-      .retryWhen(error => this.authAPI.checkHttpRetry(error))
-      .subscribe(data => {
+      .switchMap(data => {
         this.comments = (data as QueryResponse).results
         for (let comment in this.comments) {
-          if (this.commentList.length < 3) {
-            this.commentList.push(this.comments[comment])
+          if (this.recentComments.length < 3) {
+            this.recentComments.push(this.comments[comment])
           }
         }
-      });
-  }
+        return this.productionObservable = this.operationsService.getProductionStatistics()
+      })
 
-  getProdList() {
-    this.productionObservable = this.operationsService.getProductionStatistics()
-    this.productionSub = this.productionObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.prodStats = (data as QueryResponse).results
         for (let stat in this.prodStats) {
-          if (this.prodList.length < 3) {
-            this.prodList.push(this.prodStats[stat])
+          if (this.recentProd.length < 3) {
+            this.recentProd.push(this.prodStats[stat])
           }
         }
+       // this.sortRecent()
       });
   }
+
+  /*sortRecent() {
+    function mergeSorted(a, b) {
+      let sorted = new Array(a.length + b.length), i = 0, j = 0, k = 0;
+      while (i < a.length && j < b.length) {
+        if (a[i].time_stamp > b[j].post_date) {
+          sorted[k] = a[i];
+          i++;
+        } else {
+          sorted[k] = b[j];
+          j++;
+        }
+        k++;
+      }
+      while (i < a.length) {
+        sorted[k] = a[i];
+        i++;
+        k++;
+      }
+      while (j < b.length) {
+        sorted[k] = b[j];
+        j++;
+        k++;
+      }
+      return sorted;
+    }
+    this.recentEvents = mergeSorted(this.prodList, this.commentList)
+  }*/
 
   // FOR STATISTICS
   xAxisFormatting(data) {

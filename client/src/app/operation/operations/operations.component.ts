@@ -332,7 +332,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
             floorstock_item: key,
             batch: this.prodInfo.id,
           }
-          console.log("update")
           this.operationsService.updateFloorstock(updateItem)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe();
@@ -348,7 +347,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
             floorstock_item: key,
             batch: this.prodInfo.id,
           }
-          console.log("create")
           this.operationsService.createFloorstock(createItem)
             .retryWhen(error => this.authAPI.checkHttpRetry(error))
             .subscribe(data => {
@@ -364,9 +362,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
                   this.prodDataAdded = false
                 }
               });
-
         }
-
         else if (this.beforeChanges[obj]["item_id"] == key) {
           break;
         }
