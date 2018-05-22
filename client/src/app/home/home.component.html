@@ -91,10 +91,24 @@
         </div>
         <div class="headerHome">Most recent events:</div>
         <hr>
-        <div class="row">
-          <div class="col-md-6">
-            <p>Last 5 comments:</p>
-            <ul class="recentEvent border border-primary rounded" *ngFor="let comment of recentComments">
+        <div class="card" *ngFor="let stat of prodList">
+          <h5 class="card-header">Production data {{ stat.time_stamp | date:'yyyy-MM-dd HH:mm:ss' }}</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{ stat.user_name }}</h5>
+            <div class="row">
+              <p class="card-text col-md-4">Staff quantity: {{ stat.staff_quantity }}</p>
+              <p class="card-text col-md-5">Production quantity: {{ stat.production_quantity }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card" *ngFor="let comment of commentList">
+          <h5 class="card-header">Comment {{ comment.post_date | date:'yyyy-MM-dd HH:mm:ss' }}</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{ comment.user_name }}</h5>
+            <p class="card-text">{{ comment.text_comment }}</p>
+          </div>
+        </div>
+        <!-- <ul class="recentEvent border rounded" *ngFor="let comment of recentComments">
               <li>
                 <b>Post Date:</b> {{ comment.post_date | date:'yyyy-MM-dd HH:mm:ss' }}
               </li>
@@ -108,7 +122,8 @@
           </div>
           <div class="col-md-6">
             <p>Last 5 production stats:</p>
-            <ul class="recentEvent border border-primary rounded" *ngFor="let stat of recentProdStats">
+            
+            <ul class="recentEvent border rounded" *ngFor="let stat of recentProdStats">
               <li>
                 <b>Time Stamp:</b> {{ stat.time_stamp | date:'yyyy-MM-dd HH:mm:ss' }}
               </li>
@@ -121,9 +136,7 @@
               <li>
                 <b>Signature:</b> {{ stat.user_name }}
               </li>
-            </ul>
-          </div>
-        </div>
+            </ul> -->
       </div>
     </div>
   </div>

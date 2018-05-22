@@ -67,8 +67,8 @@ export class HomeComponent implements OnInit {
   latestBatch;
   comments;
   commentsSub;
-  recentComments = [];
-  recentProdStats = []; 
+  commentList = [];
+  prodList = [];
 
   ngOnInit() {
     this.getProductionData()
@@ -86,8 +86,8 @@ export class HomeComponent implements OnInit {
       .subscribe(data => {
         this.comments = (data as QueryResponse).results
         for (let comment in this.comments) {
-          if (this.recentComments.length < 5) {
-            this.recentComments.push(this.comments[comment])
+          if (this.commentList.length < 3) {
+            this.commentList.push(this.comments[comment])
           }
         }
       });
@@ -100,8 +100,8 @@ export class HomeComponent implements OnInit {
       .subscribe(data => {
         this.prodStats = (data as QueryResponse).results
         for (let stat in this.prodStats) {
-          if (this.recentProdStats.length < 5) {
-            this.recentProdStats.push(this.prodStats[stat])
+          if (this.prodList.length < 3) {
+            this.prodList.push(this.prodStats[stat])
           }
         }
       });
