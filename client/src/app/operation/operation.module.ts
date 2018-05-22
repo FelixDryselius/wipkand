@@ -20,6 +20,7 @@ import { OperationRoutingModule } from './operation-routing.module';
 import { StartBatchComponent } from './start-batch/start-batch.component';
 
 import { CalendarModule } from 'primeng/calendar';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -31,6 +32,7 @@ import { CalendarModule } from 'primeng/calendar';
     FormsModule,
     ReactiveFormsModule,
     Ng2PageScrollModule,
+    NgbModule,
     OperationRoutingModule,
     CalendarModule
 

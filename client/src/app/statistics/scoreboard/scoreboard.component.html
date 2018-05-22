@@ -1,95 +1,85 @@
-<div class="container-fluid">
-  <div class="row justify-content-between" *ngIf="currentBatch; else loading">
+<div class="container-fluid" *ngIf="currentBatch; else loading">
+  <div class="row justify-content-between">
     <div class="col-sm-7 col-lg-9 ">
-      <h3>Batch number: {{ currentBatch.batch_number }} </h3> <br>
+      <h3>Batch number: {{ currentBatch.batch_number }} </h3>
+      <br>
       <div class="row">
-          <div class="col-3 ">
-              <h5>Start Date: </h5>
-              <h6>{{ currentBatch.start_date | date:"yyyy-MM-dd HH:mm" }}</h6>
-            </div>
-            <div class="col-3 ">
-              <h5>End Date: </h5>
-              <h6>{{ currentBatch.end_date | date:"yyyy-MM-dd HH:mm"}}</h6>
-            </div>
-            <div class="col-3 ">
-              <h5>Total yield: </h5>
-              <h6>{{ currentBatch.production_yield }}</h6>
-            </div>
-            <div class="col-3 ">
-              <h5>Article Number</h5>
-              <h6>{{ currentBatch.order.article_number }}</h6>
-            </div>
+        <div class="col-3 ">
+          <h5>Start Date: </h5>
+          <h6>{{ currentBatch.start_date | date:"yyyy-MM-dd HH:mm" }}</h6>
+        </div>
+        <div class="col-3 ">
+          <h5>End Date: </h5>
+          <h6>{{ currentBatch.end_date | date:"yyyy-MM-dd HH:mm"}}</h6>
+        </div>
+        <div class="col-3 ">
+          <h5>Total yield: </h5>
+          <h6>{{ currentBatch.production_yield }}</h6>
+        </div>
+        <div class="col-3 ">
+          <h5>Article Number: </h5>
+          <h6>{{ currentBatch.order.article_number }}</h6>
+        </div>
       </div>
     </div>
     <div class="col-sm-5 col-lg-3 ">
       <div class="row">
         <div class="col-6">
-          <a class="btn btn-danger float-right" (click)="beforeBatch()" >Previous batch</a>
+          <a class="btn btn-outline-primary float-right" (click)="beforeBatch()">Previous batch</a>
         </div>
         <div class="col-6 ">
-          <a class="btn btn-primary float-right" (click)="nextBatch()" >Next batch</a>
+          <a class="btn btn-outline-primary float-right" (click)="nextBatch()">Next batch</a>
         </div>
       </div>
     </div>
   </div>
- <!-- <div class="row">
-    <div class="col-3 ">
-      <h5>Start Date: 2018-04-19 15:36:32 </h5>
+  <br>
+  <div class="row">
+    <div class="col-6">
+      <h3>Batch statistics: </h3>
+
+      <table class="table table-striped table-bordered text-center">
+        <thead>
+          <tr>
+            <th scope="col">Time Stamp</th>
+            <th scope="col">Batch</th>
+            <th scope="col">Production Quantity</th>
+            <th scope="col">Staff Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of productionStatistics">
+            <td class="font-weight-normal py-1">{{item.time_stamp | date:"yyyy-MM-dd HH:mm" }}</td>
+            <td class="font-weight-normal py-1">{{ item.batch.batch_number }}</td>
+            <td class="font-weight-normal py-1">{{ item.production_quantity }}</td>
+            <td class="font-weight-normal py-1">{{ item.staff_quantity }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="col-3 ">
-      <h5>End Date: 2018-04-22 15:36:33 </h5>
+    <div class="col-6">
+      <h3>Batch comments: </h3>
+      <table class="table table-striped table-bordered text-center">
+        <thead>
+          <tr>
+            <th scope="col">User Name</th>
+            <th scope="col">Comment post time</th>
+            <th scope="col">Comment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let comment of comments">
+            <td class="font-weight-normal py-1"> {{ comment.user_name }}</td>
+            <td class="font-weight-normal py-1">{{ comment.post_date | date:"yyyy-MM-dd HH:mm" }} </td>
+            <td colspan="3" class="font-weight-normal py-1">{{ comment.text_comment }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="col-3 ">
-      <h5>Total yield: 38000 </h5>
-    </div>
-    <div class="col-3 ">
-      <h5>product number: 777-5558 </h5>
-    </div>
-  </div> -->
+  </div>
 </div>
-
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">Time Stamp</th>
-      <th scope="col">Batch</th>
-      <th scope="col">Production Quantity</th>
-      <th scope="col">Staff Number</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of productionStatistics">
-      <td>{{item.time_stamp | date:"yyyy-MM-dd HH:mm" }}</td> <!--<td>{{item.time_stamp | sortBy:post_date }}</td> -->
-      <td>{{ item.batch.batch_number }}</td>
-      <td>{{ item.production_quantity }}</td>
-      <td>{{ item.staff_quantity }}</td>
-    </tr>
-  </tbody> 
-</table>
-
-
-<div class="container-fluid">
-  <h3>Batch comments: </h3>
-</div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">User Name</th>
-      <th scope="col">Comment post time</th>
-      <th scope="col">Comment</th>
-    </tr>
-  </thead>
-  <tbody>
-     <tr  *ngFor="let comment of comments"> <!-- <tr  *ngFor="let comment of (comments|sortBy:date_stamp) "></tr>-->
-      <td> {{ comment.user_name }}</td>
-      <td>{{ comment.post_date | date:"yyyy-MM-dd HH:mm" }} </td>  <!-- <td>{{ comment.post_date | date:"yy/MM/dd HH:mm" }} </td> -->
-      <td colspan="3">{{ comment.text_comment }}</td> 
-    </tr>
-  </tbody>
-</table>
 
 <!-- If user is loaded show the form, else show the loading template -->
 <ng-template #loading>
-    Loading content...
-  </ng-template>
+  Loading content...
+</ng-template>
