@@ -48,28 +48,42 @@ input[type=number]::-webkit-outer-spin-button {
   border: none;
   animation: glowing 1000ms infinite;
 }
+
 @keyframes glowing {
-  0% { background-color: #007bff; box-shadow: 0 0 10px #007bff; }
+  0% {
+    background-color: #007bff;
+    box-shadow: 0 0 10px #007bff;
+  }
   /*50% { background-color: #0094FF; box-shadow: 0 0 10px #0094FF; }*/
-  100% { background-color: #007bff; box-shadow: 0 0 10px #007bff; }
+  100% {
+    background-color: #007bff;
+    box-shadow: 0 0 10px #007bff;
+  }
 }
 
 /* End operations style */
 
 /* Start home style */
 
-.headerHome {
+.headerRecentEvents {
+  margin-top: 3%;
   margin-bottom: 3%;
   font-size: 1.5em;
 }
 
-.recentEvent {
-  background-color: rgba(236, 240, 241, 0.904);
-  list-style-type: none;
-  padding-top: 2%;
-  padding-bottom: 2%;
+.headerBatchStats {
+  margin-bottom: 3%;
+  font-size: 1.5em;
 }
 
+.recentEvents {
+  font-size: 1.25em;
+}
+
+.eventCard {
+  padding-bottom: 0.3em;
+  padding-top: 0.3em;
+}
 
 /* End home style */
 
@@ -150,13 +164,12 @@ input[type=number]::-webkit-outer-spin-button {
   cursor: pointer;
 }
 
-
 /* Navbar */
+
 .navbar-body {
   background-color: rgba(236, 240, 241, 0.904);
   border-right: groove;
-  height: 100&;
-
+  height: 100%;
 }
 
 .batch-status-info {
