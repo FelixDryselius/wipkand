@@ -182,9 +182,9 @@ export class HomeComponent implements OnInit {
               'series': productionGoalList
             }
           ]
+          this.graphData = true
         }
       });
-    this.graphData = true;
   }
   ngOnDestroy(): void {
     this.commentsSub.unsubscribe()
