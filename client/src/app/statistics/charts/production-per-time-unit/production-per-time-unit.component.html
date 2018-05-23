@@ -1,10 +1,8 @@
-<h1>production per time unit works</h1>
-
 <div class="container">
     <div class="row" style="height:70vh">
       <h3>Production per time unit</h3>
-      <div class="col-10">
-      <ngx-charts-bar-vertical *ngIf = "haveData"
+      <div class="col-9">
+      <ngx-charts-bar-vertical *ngIf = "haveData; else loading"
         [view]="view"
         [scheme]="colorScheme"
         [results]="displayData"
@@ -18,33 +16,33 @@
         [yAxis] = 'yAxis'>
       </ngx-charts-bar-vertical> 
     </div>
-    <div class="col-2 align-self-end">
+    <div class="col-3 align-self-end">
       <div class="row p-1">
           <div class="col">
-            <div class="dropdown">
-              <button class="btn btn-primary btn-sm dropdown-toggle btn-block" type="button" id="timeScopeDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div ngbDropdown class="d-inline-block btn-block">
+              <button ngbDropdownToggle class="btn btn-primary btn-sm btn-block" id="timeScopeDropDown" > 
                 Choose Time Frame
               </button>
-              <div class="dropdown-menu" aria-labelledby="timeScopeDropDown">
-                <div class="dropdown-item" (click)="changeTimeFrame(5*365*24*60*60*1000)">Last five years</div>
-                <div class="dropdown-item" (click)="changeTimeFrame(365*24*60*60*1000)">Last year</div>
-                <div class="dropdown-item" (click)="changeTimeFrame(0.5*365*24*60*60*1000)">Last six months</div>
-                <div class="dropdown-item" (click)="changeTimeFrame(0.25*365*24*60*60*1000)">Last Quarter</div>
-                <div class="dropdown-item" (click)="changeTimeFrame(4*7*24*60*60*1000)">Last four weeks</div>
-                <div class="dropdown-item" (click)="changeTimeFrame(7*24*60*60*1000)">Last week </div>
+              <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="timeScopeDropDown">
+                <button class="dropdown-item" (click)="changeTimeFrame(5*365*24*60*60*1000)">Last five years</button>
+                <button class="dropdown-item" (click)="changeTimeFrame(365*24*60*60*1000)">Last year</button>
+                <button class="dropdown-item" (click)="changeTimeFrame(0.5*365*24*60*60*1000)">Last six months</button>
+                <button class="dropdown-item" (click)="changeTimeFrame(0.25*365*24*60*60*1000)">Last Quarter</button>
+                <button class="dropdown-item" (click)="changeTimeFrame(4*7*24*60*60*1000)">Last four weeks</button>
+                <button class="dropdown-item" (click)="changeTimeFrame(7*24*60*60*1000)">Last week </button>
               </div>
             </div>
           </div>
         </div>    
       <div class="row p-1">
         <div class="col">
-          <div class="dropdown">
-            <button class="btn btn-primary btn-sm dropdown-toggle btn-block" type="button" id="chooseDisplayType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div ngbDropdown class="d-inline-block btn-block">
+            <button ngbDropdownToggle class="btn btn-primary btn-sm btn-block" id="chooseDisplayType" >
               Choose display type
             </button>
-            <div class="dropdown-menu" aria-labelledby="chooseDisplayType">
-              <div class="dropdown-item" (click)="toggleStatisticType('yield')">Total yield</div>
-              <div class="dropdown-item" (click)="toggleStatisticType('ppmh')">Per produced man hour</div>
+            <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="chooseDisplayType">
+              <button class="dropdown-item" (click)="toggleStatisticType('yield')">Total yield</button>
+              <button class="dropdown-item" (click)="toggleStatisticType('ppmh')">Per produced man hour</button>
             </div>
           </div>
         </div>
@@ -52,3 +50,8 @@
       </div>
       </div>
       </div>
+
+<!-- If user is loaded show the form, else show the loading template -->
+<ng-template #loading>
+  Loading content...
+</ng-template>

@@ -2,7 +2,7 @@
   <div class="row" style="height:70vh">
       <h3>Production during 72 hours per hour</h3>
     <div class='col-9'>
-    <ngx-charts-line-chart *ngIf = "haveData"
+    <ngx-charts-line-chart *ngIf = "haveData; else loading"
       [view]="view"
       [scheme]="colorScheme"
       [results]="displayData"
@@ -41,12 +41,12 @@
   </div>
     <div class="row justify-content-between p-1">
       <div class="col-5">
-        <button class="btn btn-sm w-100  " type="button" (click)="goToNextSet()">
+        <button class="btn btn-outline-primary btn-sm w-100  " type="button" (click)="goToNextSet()">
         Backward
         </button>
       </div> 
       <div class="col-5">
-        <button class="btn btn-sm w-100 " type="button" (click)="goToPreviousSet()">
+        <button class="btn btn-outline-primary btn-sm w-100 " type="button" (click)="goToPreviousSet()">
         Forward
         </button>
       </div>
@@ -54,3 +54,8 @@
   </div>
 </div>
 </div>
+
+<!-- If user is loaded show the form, else show the loading template -->
+<ng-template #loading>
+  Loading content...
+</ng-template>

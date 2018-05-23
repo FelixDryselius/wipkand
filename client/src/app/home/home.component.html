@@ -16,84 +16,75 @@
       <div class="col-md-7">
         <div class="container">
           <div class="row" style="height:75vh">
-            <div class="headerBatchStats">Accumulated production yield of latest batch</div>
-            <ngx-charts-line-chart *ngIf="haveData" [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
+
+            <div class="headerHome">Accumulated production yield of latest batch</div>
+            <ngx-charts-line-chart *ngIf="haveData; else loading" [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
+
               [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisTickFormatting]="xAxisFormatting" [xAxisLabel]="xAxisLabel"
               [yAxisLabel]='yAxisLabel' [xAxis]='xAxis' [yAxis]='yAxis' [timeline]="timeline" (select)="pressed($event)">
             </ngx-charts-line-chart>
           </div>
         </div>
       </div>
-      <div class="col-md-5">
-        <div class="card batchStats">
-          <div class="card-header headerBatchStats">
-            <div class="row">
-              <div class="col-md-8" align="left">
-                {{ active }} batch #{{ latestBatch.batch_number }}:
-              </div>
-              <div class="col-md-4" align="right">
-                <button class="btn btn-primary" *ngIf="!(latestBatch.end_date)" disabled>
-                  Rework batch
-                </button>
-                <button class="btn btn-primary" *ngIf="latestBatch.end_date && !(latestBatch.rework_date)" (click)="reworkBatch()">
-                  Rework Batch
-                </button>
-              </div>
+      <div class="col-md-5" *ngIf="haveData; else loading">
+        <div class="headerHome">{{ active }} batch #{{ latestBatch.batch_number }}
+      </div>
+      <div class="col-md-12" align="right">
+        <button class="btn btn-secondary" *ngIf="!(hasFinished)" disabled>
+            Rework batch
+        </button>
+        <button class="btn btn-primary" *ngIf="hasFinished && !(hasReworked)" (click)="reworkBatch()">
+            Rework Batch
+        </button>
+       </div>
+        <hr>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <ul>
+                <li>
+                  <b>Order:</b> {{ latestBatch.order.order_number }}
+                </li>
+                <li>
+                  <b>Article number:</b> {{ latestBatch.order.article_number }}
+                </li>
+                <li>
+                  <b>Start Date:</b> {{ latestBatch.start_date | date:'yyyy-MM-dd HH:mm:ss' }}
+                </li>
+                <li *ngIf="hasFinished">
+                  <b>End Date:</b> {{ latestBatch.end_date | date:'yyyy-MM-dd HH:mm:ss' }}
+                </li>
+                <li *ngIf="hasReworked">
+                  <b>Rework Date:</b> {{ latestBatch.rework_date | date:'yyyy-MM-dd HH:mm:ss'  }}
+                </li>
+                <li>
+                  <b>Applied Lables:</b> {{ latestBatch.applied_labels }}
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul>
+                <li>
+                  <b>Yield:</b> {{ latestBatch.yield }}
+                </li>
+                <li>
+                  <b>HMI1 Good:</b> {{ latestBatch.hmi1_good }}
+                </li>
+                <li>
+                  <b>HMI1 Bad:</b> {{ latestBatch.hmi1_bad }}
+                </li>
+                <li>
+                  <b>HMI2 Good:</b> {{ latestBatch.hmi2_good }}
+                </li>
+                <li>
+                  <b>HMI2 Bad:</b> {{ latestBatch.hmi1_bad }}
+                </li>
+                <li>
+                  <b>Scrap:</b> {{ latestBatch.scrap }}
+                </li>
+              </ul>
             </div>
           </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <ul>
-                  <li>
-                    <b>Order:</b> {{ latestBatch.order.order_number }}
-                  </li>
-                  <li>
-                    <b>Article number:</b> {{ latestBatch.order.article_number }}
-                  </li>
-                  <li>
-                    <b>Start Date:</b> {{ latestBatch.start_date | date:'yyyy-MM-dd HH:mm:ss' }}
-                  </li>
-                  <li>
-                    <b>End Date:</b> {{ latestBatch.order.end_date }}
-                  </li>
-                  <li>
-                    <b>Rework Date:</b> {{ latestBatch.rework_date }}
-                  </li>
-                  <li>
-                    <b>Label Print Time:</b> {{ latestBatch.label_print_time }}
-                  </li>
-                  <li>
-                    <b>Applied Lables:</b> {{ latestBatch.applied_labels }}
-                  </li>
-                </ul>
-              </div>
-              <div class="col-md-6">
-                <ul>
-                  <li>
-                    <b>Rework Time:</b> {{ latestBatch.rework_time }}
-                  </li>
-                  <li>
-                    <b>Yield:</b> {{ latestBatch.yield }}
-                  </li>
-                  <li>
-                    <b>HMI1 Good:</b> {{ latestBatch.hmi1_good }}
-                  </li>
-                  <li>
-                    <b>HMI1 Bad:</b> {{ latestBatch.hmi1_bad }}
-                  </li>
-                  <li>
-                    <b>HMI2 Good:</b> {{ latestBatch.hmi2_good }}
-                  </li>
-                  <li>
-                    <b>HMI2 Bad:</b> {{ latestBatch.hmi1_bad }}
-                  </li>
-                  <li>
-                    <b>Scrap:</b> {{ latestBatch.scrap }}
-                  </li>
-                </ul>
-              </div>
-            </div>
           </div>
 
         </div>

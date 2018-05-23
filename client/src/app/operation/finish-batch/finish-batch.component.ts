@@ -24,8 +24,8 @@ export class FinishBatchComponent implements OnInit {
   private createBatchSub: any;
   private getProductSub: any;
 
-  private currentProduct: any;
-  private finishBatchForm: FormGroup;
+  currentProduct: any;
+  finishBatchForm: FormGroup;
 
   constructor(
     private router: Router,

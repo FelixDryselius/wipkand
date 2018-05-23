@@ -2,7 +2,7 @@
     <div class="row text-center">
         <div class="col-lg-12">
             <h1>Login</h1>
-            <form *ngIf='!userData' [formGroup]='loginForm' #ourLoginDir='ngForm' (submit)='handleSubmit($event, ourLoginDir, loginForm)'>
+            <form [formGroup]='loginForm' #ourLoginDir='ngForm' (submit)='handleSubmit($event, ourLoginDir, loginForm)'>
                 <input type='text' id='username' formControlName='usernameField' style="margin: 10px;">
                 <div *ngIf='usernameField.invalid && (usernameField.dirty || usernameField.touched)'>
                          <div *ngIf='usernameField.errors.required'>
