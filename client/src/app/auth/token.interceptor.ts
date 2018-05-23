@@ -53,7 +53,6 @@ export class TokenInterceptor {//implements HttpInterceptor {
           case 403:
             return this.handle403Error(error);
           default:
-            this.authAPI.notifyError(error)
             console.log("An error with status " + error.status + " occurred. Message: " + error.error['detail'])
             return Observable.throw(error)
         }
@@ -77,12 +76,10 @@ export class TokenInterceptor {//implements HttpInterceptor {
   }
 
   handle403Error(error) {
-    this.authAPI.notifyError(error)
     return Observable.throw(error);
   }
 
   handle400Error(error) {
-    this.authAPI.notifyError(error)
     if (error && error.status === 400 && error.error && error.error.code === 'token_not_valid') {
       // If we get a 400 and the error message is 'invalid_grant', the token is no longer valid so logout.
       return this.authAPI.performLogout();
@@ -98,7 +95,6 @@ export class TokenInterceptor {//implements HttpInterceptor {
         return
       }
     } else {
-      this.authAPI.notifyError(error)
       console.log("Authorization denied. Logging out...");
       this.authAPI.performLogout()
       return
