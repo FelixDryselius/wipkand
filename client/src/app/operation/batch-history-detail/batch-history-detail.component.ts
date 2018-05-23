@@ -31,6 +31,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   @ViewChild(BatchReworkComponent) batchReworkComponent: BatchReworkComponent
 
   private batchDetailForm: FormGroup;
+  batchFormActive: boolean = false;
   private batchDetailID: string;
   private batchObservable: Observable<any>;
   private batchSub: any;
@@ -43,6 +44,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   private orderObservable: Observable<any>;
   private orderSub: any;
   private orderDetailForm: FormGroup;
+  orderFormActive: boolean = false;
 
   private productObservable: Observable<any>;
   private productSub: any;
@@ -141,6 +143,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         Validators.required
       ])
     })
+    this.orderDetailForm.disable()
   }
 
   createBatchForm() {
@@ -182,6 +185,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       // 'rework_time': new FormControl('', [
       // ]),
     })
+    this.batchDetailForm.disable()
   }
 
   stringToDate(batch: Batch) {
@@ -209,6 +213,8 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       batch_number: this.currentBatch.batch_number
     }
     this.clearMsg()
+    this.orderFormActive = false;
+    this.orderDetailForm.disable();
     this.operationsService.updateBatch(batch as Batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
@@ -217,6 +223,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       },
         error => {
           this.updateOrderSuccess = false
+          this.batchDetailForm.patchValue(this.currentBatch)
           this.handleUpdateError(error)
         })
   }
@@ -228,6 +235,8 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       form['rework_time'] = null
     }
     this.clearMsg()
+    this.batchFormActive = false;
+    this.batchDetailForm.disable();
     this.operationsService.updateBatch(form as Batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
@@ -236,6 +245,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       },
         error => {
           this.updateBatchSuccess = false
+          this.batchDetailForm.patchValue(this.currentBatch)
           this.handleUpdateError(error)
         }
       )
