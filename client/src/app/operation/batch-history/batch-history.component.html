@@ -8,7 +8,7 @@
                     </div>
                     <div class="col-lg-4">
 
-                        <button type="submit" value="Search" class="btn btn-default">Submit</button>
+                        <button type="submit" value="Search" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
             </form>
@@ -18,45 +18,65 @@
             <button class="btn btn-outline-primary w-50 float-right" (click)="goNext()" [disabled]="!queryResponse.next">Next</button>
         </div>
     </div>
+
+
     <div *ngIf="queryResponse">
         <div *ngIf="queryResponse.count != 0; else noContent">
-            <div class="card-group" *ngFor="let batch of batches">
-                <div class="card">
-                    <div class="card-body align-items-center d-flex justify-content-center">
-                        <h5 class="card-title"># {{ batch.batch_number }}</h5>
-                    </div>
-                </div>
-                <div class="card card card-block d-flex">
-                    <div class="card-body align-items-center">
-                        <h5 class="card-title d-flex justify-content-center ">Information</h5>
-                        <div class="d-flex justify-content-center">
+
+            <table class="table table-bordered rounded">
+                <tbody>
+                    <tr *ngFor="let batch of batches" class="align-items-center justify-content-center">
+                        <th scope="row" class="text-center align-middle">
+                            # {{ batch.batch_number }}
+                        </th>
+                        <td scope="col" class="align-middle">
                             <ul>
                                 <li>
-                                    <b>Product:</b> {{ batch.order.article_number }}
+                                    Order: <b>{{ batch.order.order_number }}</b>
                                 </li>
                                 <li>
-                                    <b>Start:</b> {{ batch.start_date | date:"yyyy-MM-dd HH:mm" }}
+                                    Article number: <b>{{ batch.order.article_number }}</b>
                                 </li>
-                                <li>
-                                    <b>Ended:</b> {{ batch.end_date | date:"yyyy-MM-dd HH:mm" }}
+                                <li *ngIf="batch.end_date && batch.rework_date">
+                                    Status:
+                                    <label class="p-1 font-weight-bold bg-success-light rounded">Reworked</label>
                                 </li>
-                                <li>
-                                    <b>Yield:</b> {{ batch.production_yield * 10}}
+                                <li *ngIf="batch.end_date && !batch.rework_date">
+                                    Status:
+                                    <label class="p-1 font-weight-bold bg-warning-light rounded">Finished</label>
+                                </li>
+                                <li *ngIf="!batch.end_date && !batch.rework_date">
+                                    Status:
+                                    <label class="p-1 font-weight-bold bg-primary-light rounded">Running</label>
                                 </li>
                             </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="card text-center">
-                    <div class="card-body card-body align-items-center d-flex justify-content-center">
+                        </td>
+                        <td scope="col" class="align-middle">
+                            <ul>
+                                <li>
+                                    Start Date:
+                                    <b>{{ batch.start_date | date:"yyyy-MM-dd HH:mm" }}</b>
+                                </li>
+                                <li>
+                                    End Date:
+                                    <b>{{ batch.end_date | date:"yyyy-MM-dd HH:mm" }}</b>
+                                </li>
+                                <li>
+                                    Yield:
+                                    <b>{{ batch.production_yield }}</b>
+                                </li>
+                            </ul>
+                        </td>
+                        <td scope="col" class="text-center align-middle">
+                            <a (click)="toBatchDetail(batch.id)" class="btn btn-primary">Details</a>
+                        </td>
 
-                        <a (click)="toBatchDetail(batch.id)" class="btn btn-primary">Details</a>
-                    </div>
-                </div>
-            </div>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    <hr>
+    <br>
 </div>
 
 <ng-template #noContent>
