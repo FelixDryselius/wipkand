@@ -113,7 +113,7 @@ export class HomeComponent implements OnInit {
   getProductionData() {
     this.haveData = false;
     this.graphData = false;
-    this.getDataSubscriber = this.operationsService.getBatchDetail()
+    this.getDataSubscriber = this.operationsService.getBatch()
       .flatMap(data => {
         let batchList = (data as QueryResponse).results as Batch[]
         this.latestBatch = batchList[0]

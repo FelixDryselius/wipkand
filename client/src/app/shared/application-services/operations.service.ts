@@ -48,7 +48,7 @@ export class OperationsService {
   }
 
   setActiveBatchCheck() {
-    this.$batchActive = this.getBatchDetail("?batch_number=activeBatch")
+    this.$batchActive = this.getBatch("?batch_number=activeBatch")
       .switchMap(data => {
         if (data) {
           return Observable.of(data)
@@ -94,11 +94,8 @@ export class OperationsService {
     return this.http.post(this.URL_ROOT + this.URL_BATCH_API, JSON.stringify(newBatch))
   }
 
-  getBatchList(query?: String): Observable<any> {
-    return this.http.get(this.URL_ROOT + this.URL_BATCH_API)
-  }
   //TODO: These can be the same function
-  getBatchDetail(query?: String): Observable<any> {
+  getBatch(query?: String): Observable<any> {
     if (query) {
       return this.http.get(this.URL_ROOT + this.URL_BATCH_API + query)
     }
@@ -157,6 +154,10 @@ export class OperationsService {
   updateProdStats(updatedCell: any) {
     let UPDATE_SCOREBOARD_URL = this.URL_ROOT + this.scoreboardListURL + updatedCell.time_stamp + '/' // The URL to correct API
     return this.http.patch(UPDATE_SCOREBOARD_URL, JSON.stringify(updatedCell))
+  }
+
+  getQueryPage(query: string): Observable<any>  {
+    return this.http.get(query)
   }
 
 }

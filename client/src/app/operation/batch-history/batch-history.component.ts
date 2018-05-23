@@ -15,6 +15,7 @@ import { QueryResponse } from '../../shared/interfaces/query-response';
 })
 export class BatchHistoryComponent implements OnInit {
   batches: [Batch]
+  queryResponse: QueryResponse;
 
   getBatchesSub: any;
 
@@ -25,10 +26,11 @@ export class BatchHistoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getBatchesSub = this.operationsService.getBatchList()
+    this.getBatchesSub = this.operationsService.getBatch('?limit=10')
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        this.batches = (data as QueryResponse).results as [Batch]
+        this.queryResponse = data as QueryResponse
+        this.batches = this.queryResponse.results as [Batch]
       })
   }
 
@@ -40,11 +42,34 @@ export class BatchHistoryComponent implements OnInit {
     this.router.navigate(['operation/batch-history/' + id + '/'])
   }
 
-  searchHistory(event, query) {
-    this.getBatchesSub = this.operationsService.getBatchDetail('?search=' + query)
+  goNext() {
+    if (this.queryResponse.next) {
+      this.getBatchesSub = this.operationsService.getQueryPage(this.queryResponse.next)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
-        this.batches = (data as QueryResponse).results as [Batch]
+        this.queryResponse = data as QueryResponse
+        this.batches = this.queryResponse.results as [Batch]
+      })
+    }
+  }
+
+  goPrevious() {
+    if (this.queryResponse.previous) {
+      this.getBatchesSub = this.operationsService.getQueryPage(this.queryResponse.previous)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.queryResponse = data as QueryResponse
+        this.batches = this.queryResponse.results as [Batch]
+      })
+    }
+  }
+
+  searchHistory(event, query) {
+    this.getBatchesSub = this.operationsService.getBatch('?limit=10&search=' + query)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.queryResponse = data as QueryResponse
+        this.batches = this.queryResponse.results as [Batch]
       })
   }
 
