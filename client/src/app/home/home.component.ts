@@ -31,8 +31,8 @@ export class HomeComponent implements OnInit {
 
   batches: [Batch]
   active: string;
-  hasFinished:boolean;
-  hasReworked:boolean;
+  hasFinished: boolean;
+  hasReworked: boolean;
 
   getBatchesSub: any;
 
@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
   //Subscriber
   getDataSubscriber: Subscription;
 
-  productionStatistics = [];
+  productionStatistics: Scoreboard[];
   displayDataList = [];
   haveData = false;
   graphData = false;
@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit {
   yAxis = true;
   timeline = false;
 
-  latestBatch;
+  latestBatch: Batch;
   comments;
   commentsSub;
   recentComments = [];
@@ -117,26 +117,32 @@ export class HomeComponent implements OnInit {
       .flatMap(data => {
         let batchList = (data as QueryResponse).results as Batch[]
         this.latestBatch = batchList[0]
-        
-        if (this.latestBatch.end_date == null) {
-          this.active = 'Current'
-          this.hasFinished = false
+
+        // Is there data?
+        if (this.latestBatch) {
+          if (this.latestBatch.end_date == null) {
+            this.active = 'Current'
+            this.hasFinished = false
+          }
+          else {
+            this.active = 'Most recent'
+            this.hasFinished = true
+          }
+          if (this.latestBatch.rework_date == null) {
+            this.hasReworked = false
+          } else {
+            this.hasReworked = true
+          }
+          this.haveData = true;
+          return this.operationsService.getProduct(this.latestBatch.order.article_number)
         }
-        else {
-          this.active = 'Most recent'
-          this.hasFinished = true
-        }
-        if(this.latestBatch.rework_date == null){
-          this.hasReworked = false
-        } else {
-          this.hasReworked = true
-        }
-        this.haveData = true;
-        return this.operationsService.getProduct(this.latestBatch.order.article_number)
       })
       .flatMap(data => {
         this.currentProduct = data as Product
-        return this.operationsService.getProdStats('?batch_number=' + this.latestBatch.batch_number)
+        //Is there data?
+        if (this.currentProduct) {
+          return this.operationsService.getProdStats('?batch_number=' + this.latestBatch.batch_number)
+        }
       })
 
       //populate productionStatistics using this
@@ -147,37 +153,42 @@ export class HomeComponent implements OnInit {
         let accumulatedProduction = 0;
         let tempSeries = []
         let productionGoalList = []
-        for (let i = this.productionStatistics.length - 1; i >= 0; i--) {
-          tempSeries.push(
-            {
-              "name": new Date(this.productionStatistics[i].time_stamp),
-              "value": accumulatedProduction + this.productionStatistics[i].production_quantity
-            },
-          )
-          productionGoalList.push(
-            {
-              "name": new Date(this.productionStatistics[i].time_stamp),
-              "value": this.currentProduct.batch_production_goal // should be changed to another value
-            },
-          )
-          accumulatedProduction = accumulatedProduction + this.productionStatistics[i].production_quantity
-        }
-        //adding both goal and accumulated production statistics to displayData
-        this.displayDataList = [
-          {
-            'name': this.productionStatistics[0].batch.batch_number + "'s accumulated yield",
-            'series': tempSeries
-          },
-          {
-            'name': 'Production goal',
-            'series': productionGoalList
+
+        //Is there data?
+        if (this.productionStatistics.length > 0) {
+          for (let i = this.productionStatistics.length - 1; i >= 0; i--) {
+            tempSeries.push(
+              {
+                "name": new Date(this.productionStatistics[i].time_stamp),
+                "value": accumulatedProduction + this.productionStatistics[i].production_quantity
+              },
+            )
+            productionGoalList.push(
+              {
+                "name": new Date(this.productionStatistics[i].time_stamp),
+                "value": this.currentProduct.batch_production_goal // should be changed to another value
+              },
+            )
+            accumulatedProduction = accumulatedProduction + this.productionStatistics[i].production_quantity
           }
-        ]
+          //adding both goal and accumulated production statistics to displayData
+          this.displayDataList = [
+            {
+              'name': this.productionStatistics[0].batch.batch_number + "'s accumulated yield",
+              'series': tempSeries
+            },
+            {
+              'name': 'Production goal',
+              'series': productionGoalList
+            }
+          ]
+        }
       });
     this.graphData = true;
   }
-
   ngOnDestroy(): void {
+    this.commentsSub.unsubscribe()
+    this.getDataSubscriber.unsubscribe()
   }
 
 }
