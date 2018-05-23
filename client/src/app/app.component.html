@@ -19,7 +19,7 @@
             </p>
       </div>
       <div class="col-lg-2 my-auto" *ngIf="authAPI.currentUser">
-        <div class="header-content rounded col-lg-6 offset-lg-3">
+        <div class="rounded col-lg-6 offset-lg-3">
           <button type='button' class='btn btn-default btn-lg mt-1' (click)="authAPI.performLogout()">Logout</button>
         </div>
       </div>
@@ -91,10 +91,6 @@
               </ul>
             </div>
             <hr>
-            <!-- <p *ngIf="authAPI.currentUser">
-              <b>Logged in as:</b> {{ authAPI.currentUser.username }}
-            </p>
-            <button type='button' class='btn btn-default' (click)="authAPI.performLogout()">Logout</button> -->
           </div>
         </div>
       </nav>

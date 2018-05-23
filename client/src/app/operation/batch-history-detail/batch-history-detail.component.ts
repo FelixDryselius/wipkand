@@ -86,7 +86,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     this.createOrderForm()
     this.createBatchForm()
 
-    this.batchSub = this.operationsService.getBatchDetail(this.batchDetailID)
+    this.batchSub = this.operationsService.getBatch(this.batchDetailID)
       .mergeMap(data => {
         this.currentBatch = data as Batch
         this.stringToDate(this.currentBatch)
