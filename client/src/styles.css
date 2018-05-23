@@ -189,8 +189,10 @@ input[type=number]::-webkit-outer-spin-button {
 
 #header {
   border-bottom: groove;
-
-  height: 8vh;
+  position: relative;
+  height: 70px;
+  clear:both;
+  background-color: #2e5a8a
 }
 
 /* Collapse */
@@ -219,11 +221,6 @@ input[type=number]::-webkit-outer-spin-button {
   opacity: 1;
 }
 
-  position: relative;
-  height: 70px;
-  clear:both;
-  background-color: #2e5a8a
-}
 
 /* Footer */
 

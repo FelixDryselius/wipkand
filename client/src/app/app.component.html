@@ -68,12 +68,13 @@
                 <a class="nav-link" routerLink="/statistics/data-page" routerLinkActive="active">Data page</a>
               </li>
               <li>
-                <a class="btn dropdown-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <a class="btn dropdown-toggle" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"  role="button">
                   Charts
                 </a>
               </li>
             </ul>
-            <div class="collapse" id="collapseExample">
+            <div class="collapse" id="collapseExample" [ngbCollapse]="isCollapsed"> 
               <ul class="nav flex-column nav-pills nav-stacked">
                 <li class="nav-item">
                   <a class="nav-link" routerLink="/statistics/charts/production" routerLinkActive="active">Production chart</a>
