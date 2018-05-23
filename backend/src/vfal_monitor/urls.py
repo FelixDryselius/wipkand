@@ -16,6 +16,6 @@ urlpatterns = [
     path('api/floorstock/', include('floorstock.api.urls'), name='floorstock-api'),
 
     # Route to angular
-    path('', TemplateView.as_view(template_name="tempHome_dev.html"), name='home'),
-    re_path(r'^.*/$', TemplateView.as_view(template_name="tempHome_dev.html"), name='home')
+    path('', TemplateView.as_view(template_name="tempHome.html"), name='home'),
+    re_path(r'^.*/$', TemplateView.as_view(template_name="tempHome.html"), name='home')
 ]
