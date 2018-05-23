@@ -48,6 +48,7 @@ export class HomeComponent implements OnInit {
   productionStatistics = [];
   displayDataList = [];
   haveData = false;
+  graphData = false;
   currentProduct: Product;
 
   //Chart here we set options fot the chart
@@ -109,6 +110,7 @@ export class HomeComponent implements OnInit {
   }
   getProductionData() {
     this.haveData = false;
+    this.graphData = false;
     this.getDataSubscriber = this.operationsService.getBatchDetail()
       .flatMap(data => {
         let batchList = (data as QueryResponse).results as Batch[]
@@ -119,6 +121,7 @@ export class HomeComponent implements OnInit {
         else {
           this.active = 'Most recent'
         }
+        this.haveData = true;
         return this.operationsService.getProduct(this.latestBatch.order.article_number)
       })
       .flatMap(data => {
@@ -161,7 +164,7 @@ export class HomeComponent implements OnInit {
           }
         ]
       });
-    this.haveData = true;
+    this.graphData = true;
   }
 
   ngOnDestroy(): void {
