@@ -88,7 +88,7 @@ export class ScoreboardComponent implements OnInit {
 
   public getProdStatLatestBatches(query?:string){ 
     let tempData
-    return this.operationsService.getBatchDetail(query).switchMap(data =>{
+    return this.operationsService.getBatch(query).switchMap(data =>{
       tempData =  (data as QueryResponse).results as JSON []
 
       this.currentBatch = tempData.pop() as Batch

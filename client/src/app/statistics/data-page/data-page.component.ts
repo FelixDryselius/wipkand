@@ -83,7 +83,7 @@ export class DataPageComponent implements OnInit {
   getBatchDetails(){
     //Initiating the query and observable
     let query = '?limit=' + this.limit + '&' + 'offset=' + this.offset; 
-    let batchObservable = this.operationsService.getBatchDetail(query)
+    let batchObservable = this.operationsService.getBatch(query)
     
     //Subscribing to the obs and getting the data
     this.batchSub = this.operationsService.getProduct()

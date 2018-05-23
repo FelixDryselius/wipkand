@@ -59,7 +59,7 @@ export class ProductionAccumulatedComponent implements OnInit {
   }
   getProductionData() {
     this.haveData = false;
-    this.getDataSubscriber = this.operationsService.getBatchDetail()
+    this.getDataSubscriber = this.operationsService.getBatch()
       .flatMap(data => {
         let batchList = (data as QueryResponse).results as Batch[]
         this.currentBatch = batchList[0]
