@@ -195,6 +195,33 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: #2e5a8a
 }
 
+/* Collapse */
+
+.collapse{
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+  color: black;
+  display: block !important;
+  max-height: 0 !important;
+  opacity: 0;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.collapse.show{
+  pointer-events: auto;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  max-height: 100% !important;
+  opacity: 1;
+}
+
+
 /* Footer */
 
 html, body {

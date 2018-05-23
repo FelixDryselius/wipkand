@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row" style="height:70vh">
         <h3>Accumulated production yield of latest batch</h3>
-      <ngx-charts-line-chart *ngIf = "haveData"
+      <ngx-charts-line-chart *ngIf = "haveData; else loading"
         [view]="view"
         [scheme]="colorScheme"
         [results]="displayDataList"
@@ -19,3 +19,7 @@
   </div>
   </div>
   
+  <!-- If user is loaded show the form, else show the loading template -->
+<ng-template #loading>
+  Loading content...
+</ng-template>

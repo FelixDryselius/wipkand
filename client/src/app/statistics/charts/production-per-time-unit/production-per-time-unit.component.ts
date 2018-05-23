@@ -26,7 +26,7 @@ export class ProductionPerTimeUnitComponent implements OnInit {
     displayData = [];
     dateDisplayType = 'day';
     displayType = 'yield';
-    haveData=false;
+    haveData = false;
     query = '?limit=168'
 
     flaggedDays = []
@@ -89,14 +89,16 @@ export class ProductionPerTimeUnitComponent implements OnInit {
  
   // This method populates this.productionStatistics and init populateDisplayData()
   getProductionStatisticsValues(query?:string)  {
-
+    this.haveData = false
     this.productionStatisticSubscriber = this.operationsService.getProductionStatistics(query)
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
-      this.productionStatistics = (data as QueryResponse).results as Scoreboard []           
-      this.populateDisplayData()
+      this.productionStatistics = (data as QueryResponse).results as Scoreboard []
+      if(this.productionStatistics){
+        this.populateDisplayData()
+        this.haveData = true
+      }           
     })
-    
   }
 
   chooseDisplayData(){
@@ -110,7 +112,6 @@ export class ProductionPerTimeUnitComponent implements OnInit {
 
   //This populates yieldDisplayList and ppmhDisplayList and initiates chooseDisplayData()
   populateDisplayData(){
-   this.haveData = false
     //Here we populate dayDateList
     let dayDateList = []
     this.productionStatistics.forEach(prodStat => {
@@ -156,7 +157,6 @@ export class ProductionPerTimeUnitComponent implements OnInit {
         }
       })
     })
-    this.haveData = true
     this.chooseDisplayData()
   }
 

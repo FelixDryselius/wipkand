@@ -16,8 +16,10 @@
       <div class="col-md-7">
         <div class="container">
           <div class="row" style="height:75vh">
+
             <div class="headerBatchStats">Accumulated production yield of latest batch</div>
             <ngx-charts-line-chart *ngIf="graphData" [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
+
               [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisTickFormatting]="xAxisFormatting" [xAxisLabel]="xAxisLabel"
               [yAxisLabel]='yAxisLabel' [xAxis]='xAxis' [yAxis]='yAxis' [timeline]="timeline" (select)="pressed($event)">
             </ngx-charts-line-chart>
@@ -93,11 +95,12 @@
                   </li>
                 </ul>
               </div>
+
             </div>
           </div>
-
         </div>
 
+      </div>
 
         <div class="headerRecentEvents">Most recent events:</div>
         <hr>
@@ -134,6 +137,7 @@
     </div>
   </div>
 </div>
+
 
 <ng-template #loading>
   Loading content...

@@ -11,7 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "../backend/src/static/ang",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -20,6 +20,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/primeng/resources/themes/omega/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "src/styles.css"

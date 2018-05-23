@@ -9,6 +9,8 @@ import { ProductionPerTimeUnitComponent } from './charts/production-per-time-uni
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { StatisticsChartsComponent } from './charts/production/production-charts.component';
 import { StatisticsRoutingModule } from './statistics-routing.module';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
@@ -16,7 +18,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
   imports: [
     CommonModule,
     StatisticsRoutingModule,
-    NgxChartsModule
+    NgxChartsModule,
+    NgbModule
   ],
   declarations: [
     FloorstockChartComponent, 

@@ -1,3 +1,5 @@
+use vfal;
+
 drop table batch_comment;
 drop table production_statistic;
 drop table floorstock_statistic;

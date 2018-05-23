@@ -30,7 +30,9 @@ export class HomeComponent implements OnInit {
   private prodDataColumns = ['Time stamp', 'On shift', 'Produced', 'Signature']
 
   batches: [Batch]
-  active: any;
+  active: string;
+  hasFinished:boolean;
+  hasReworked:boolean;
 
   getBatchesSub: any;
 
@@ -115,11 +117,19 @@ export class HomeComponent implements OnInit {
       .flatMap(data => {
         let batchList = (data as QueryResponse).results as Batch[]
         this.latestBatch = batchList[0]
+        
         if (this.latestBatch.end_date == null) {
           this.active = 'Current'
+          this.hasFinished = false
         }
         else {
           this.active = 'Most recent'
+          this.hasFinished = true
+        }
+        if(this.latestBatch.rework_date == null){
+          this.hasReworked = false
+        } else {
+          this.hasReworked = true
         }
         this.haveData = true;
         return this.operationsService.getProduct(this.latestBatch.order.article_number)

@@ -26,6 +26,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SubmitIfValidDirective } from './shared/directives/submit-if-valid.directive';
 import { CommentService } from './shared/application-services/comment.service';
 import { HomeComponent } from './home/home.component';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
@@ -50,6 +52,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     HttpClientModule,
     NgxChartsModule,
     AppRoutingModule,
+    NgbModule.forRoot(),
   ],
   providers: [
     AuthGuard,
