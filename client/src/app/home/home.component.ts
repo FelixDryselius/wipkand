@@ -50,6 +50,7 @@ export class HomeComponent implements OnInit {
   productionStatistics = [];
   displayDataList = [];
   haveData = false;
+  graphData = false;
   currentProduct: Product;
 
   //Chart here we set options fot the chart
@@ -102,37 +103,8 @@ export class HomeComponent implements OnInit {
             this.recentProd.push(this.prodStats[stat])
           }
         }
-       // this.sortRecent()
       });
   }
-
-  /*sortRecent() {
-    function mergeSorted(a, b) {
-      let sorted = new Array(a.length + b.length), i = 0, j = 0, k = 0;
-      while (i < a.length && j < b.length) {
-        if (a[i].time_stamp > b[j].post_date) {
-          sorted[k] = a[i];
-          i++;
-        } else {
-          sorted[k] = b[j];
-          j++;
-        }
-        k++;
-      }
-      while (i < a.length) {
-        sorted[k] = a[i];
-        i++;
-        k++;
-      }
-      while (j < b.length) {
-        sorted[k] = b[j];
-        j++;
-        k++;
-      }
-      return sorted;
-    }
-    this.recentEvents = mergeSorted(this.prodList, this.commentList)
-  }*/
 
   // FOR STATISTICS
   xAxisFormatting(data) {
@@ -140,6 +112,7 @@ export class HomeComponent implements OnInit {
   }
   getProductionData() {
     this.haveData = false;
+    this.graphData = false;
     this.getDataSubscriber = this.operationsService.getBatchDetail()
       .flatMap(data => {
         let batchList = (data as QueryResponse).results as Batch[]
@@ -158,6 +131,7 @@ export class HomeComponent implements OnInit {
         } else {
           this.hasReworked = true
         }
+        this.haveData = true;
         return this.operationsService.getProduct(this.latestBatch.order.article_number)
       })
       .flatMap(data => {
@@ -200,7 +174,7 @@ export class HomeComponent implements OnInit {
           }
         ]
       });
-    this.haveData = true;
+    this.graphData = true;
   }
 
   ngOnDestroy(): void {
