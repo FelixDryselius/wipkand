@@ -16,14 +16,16 @@
       <div class="col-md-7">
         <div class="container">
           <div class="row" style="height:75vh">
-
-            <div class="headerBatchStats">Accumulated production yield of latest batch</div>
+            
+            <div class="headerBatchStats" *ngIf="graphData; else noData">
+              <p> Accumulated production yield of latest batch</p>
             <br>
-            <ngx-charts-line-chart *ngIf="graphData; else loading" [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
+            <ngx-charts-line-chart  [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
 
               [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisTickFormatting]="xAxisFormatting" [xAxisLabel]="xAxisLabel"
-              [yAxisLabel]='yAxisLabel' [xAxis]='xAxis' [yAxis]='yAxis' [timeline]="timeline" (select)="pressed($event)">
+              [yAxisLabel]='yAxisLabel' [xAxis]='xAxis' [yAxis]='yAxis' [timeline]="timeline">
             </ngx-charts-line-chart>
+          </div>
           </div>
         </div>
       </div>
@@ -140,4 +142,8 @@
 
 <ng-template #loading>
   Loading content...
+</ng-template>
+
+<ng-template #noData>
+  <h5>No production statistics available</h5>
 </ng-template>

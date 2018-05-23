@@ -79,6 +79,8 @@ export class FloorstockChartComponent implements OnInit {
         this.previousLink = (data as QueryResponse).previous;
         let tempFloorstockChange = (data as QueryResponse).results as Floorstock[]
 
+        // Have data?
+        if (tempFloorstockChange.length > 0) {
         //Correct names are combined with this.floorstockChange from this.floorstockItems
         tempFloorstockChange = this.combineFloorstockItemName(tempFloorstockChange)
         //Trims floorstockChange all displayed batches display all their floorstock changes
@@ -115,6 +117,7 @@ export class FloorstockChartComponent implements OnInit {
           });
           this.haveData = true;
         }
+      }
       })
 
   }

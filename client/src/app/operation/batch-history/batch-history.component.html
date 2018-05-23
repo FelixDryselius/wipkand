@@ -1,69 +1,80 @@
 <div class="container-fluid">
-    <div class="row my-2">
-        <div class="col-lg-6">
-            <form (ngSubmit)="searchHistory($event, searchQuery.value)">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <input class="form-control" type="search" #searchQuery>
-                    </div>
-                    <div class="col-lg-4">
-
-                        <button type="submit" value="Search" class="btn btn-default">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-lg-2 offset-lg-4" *ngIf="queryResponse; else loading">
-            <button class="btn btn-outline-primary w-50 float-left" (click)="goPrevious()" [disabled]="!queryResponse.previous">Previous</button>
-            <button class="btn btn-outline-primary w-50 float-right" (click)="goNext()" [disabled]="!queryResponse.next">Next</button>
-        </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2 align="left">
+        History
+      </h2>
     </div>
-    <div *ngIf="queryResponse">
-        <div *ngIf="queryResponse.count != 0; else noContent">
-            <div class="card-group" *ngFor="let batch of batches">
-                <div class="card">
-                    <div class="card-body align-items-center d-flex justify-content-center">
-                        <h5 class="card-title"># {{ batch.batch_number }}</h5>
-                    </div>
-                </div>
-                <div class="card card card-block d-flex">
-                    <div class="card-body align-items-center">
-                        <h5 class="card-title d-flex justify-content-center ">Information</h5>
-                        <div class="d-flex justify-content-center">
-                            <ul>
-                                <li>
-                                    <b>Product:</b> {{ batch.order.article_number }}
-                                </li>
-                                <li>
-                                    <b>Start:</b> {{ batch.start_date | date:"yyyy-MM-dd HH:mm" }}
-                                </li>
-                                <li>
-                                    <b>Ended:</b> {{ batch.end_date | date:"yyyy-MM-dd HH:mm" }}
-                                </li>
-                                <li>
-                                    <b>Yield:</b> {{ batch.production_yield * 10}}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="card text-center">
-                    <div class="card-body card-body align-items-center d-flex justify-content-center">
+  </div>
+</div>
 
-                        <a (click)="toBatchDetail(batch.id)" class="btn btn-primary">Details</a>
-                    </div>
-                </div>
+<hr class="separator">
+<div class="container-fluid">
+  <div class="row my-2">
+    <div class="col-lg-6">
+      <form (ngSubmit)="searchHistory($event, searchQuery.value)">
+        <div class="row">
+          <div class="col-lg-6">
+            <input class="form-control" type="search" #searchQuery>
+          </div>
+          <div class="col-lg-4">
+
+            <button type="submit" value="Search" class="btn btn-default">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg-2 offset-lg-4" *ngIf="queryResponse; else loading">
+      <button class="btn btn-outline-primary w-50 float-left" (click)="goPrevious()" [disabled]="!queryResponse.previous">Previous</button>
+      <button class="btn btn-outline-primary w-50 float-right" (click)="goNext()" [disabled]="!queryResponse.next">Next</button>
+    </div>
+  </div>
+  <div *ngIf="queryResponse">
+    <div *ngIf="queryResponse.count != 0; else noContent">
+      <div class="card-group" *ngFor="let batch of batches">
+        <div class="card">
+          <div class="card-body align-items-center d-flex justify-content-center">
+            <h5 class="card-title"># {{ batch.batch_number }}</h5>
+          </div>
+        </div>
+        <div class="card card card-block d-flex">
+          <div class="card-body align-items-center">
+            <h5 class="card-title d-flex justify-content-center ">Information</h5>
+            <div class="d-flex justify-content-center">
+              <ul>
+                <li>
+                  <b>Product:</b> {{ batch.order.article_number }}
+                </li>
+                <li>
+                  <b>Start:</b> {{ batch.start_date | date:"yyyy-MM-dd HH:mm" }}
+                </li>
+                <li>
+                  <b>Ended:</b> {{ batch.end_date | date:"yyyy-MM-dd HH:mm" }}
+                </li>
+                <li>
+                  <b>Yield:</b> {{ batch.production_yield * 10}}
+                </li>
+              </ul>
             </div>
+          </div>
         </div>
+        <div class="card text-center">
+          <div class="card-body card-body align-items-center d-flex justify-content-center">
+
+            <a (click)="toBatchDetail(batch.id)" class="btn btn-primary">Details</a>
+          </div>
+        </div>
+      </div>
     </div>
-    <hr>
+  </div>
+  <hr>
 </div>
 
 <ng-template #noContent>
-    No Batches found...
+  No Batches found...
 </ng-template>
 
 <!-- If user is loaded show the form, else show the loading template -->
 <ng-template #loading>
-    Loading content...
+  Loading content...
 </ng-template>

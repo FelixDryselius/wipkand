@@ -54,7 +54,6 @@ export class TokenInterceptor {//implements HttpInterceptor {
             return this.handle403Error(error);
           default:
             this.authAPI.notifyError(error)
-            console.log("An error with status " + error.status + " occurred. Message: " + error.error['detail'])
             return Observable.throw(error)
         }
       }
@@ -99,7 +98,6 @@ export class TokenInterceptor {//implements HttpInterceptor {
       }
     } else {
       this.authAPI.notifyError(error)
-      console.log("Authorization denied. Logging out...");
       this.authAPI.performLogout()
       return
     }

@@ -106,7 +106,7 @@ def get_order_create(order, product):
         if product_for_order.article_number != product.article_number:
             print("WRONG NEW PRODUCT NUMBER")
             raise ValidationError(
-                {"order_number": "An order with a different article number already exists."}
+                {"order_number": "The same order with a different article number already exists."}
             )
 
     except ProductionOrder.DoesNotExist:

@@ -208,7 +208,7 @@
         <form class="floorstockForm" #floorstockForm='ngForm' (ngSubmit)='updateFloorstock($event,floorstockForm)'>
           <div class="row">
             <div class="col-md-8">
-              <h3 class="text-right">Consumables</h3>
+              <h3 class="text-right">Floorstock</h3>
             </div>
             <div class="col-md-4 text-right">
               <button *ngIf="buttonOn && prodInfo" type="submit" class="btn btn-primary btn-flash">
@@ -241,7 +241,7 @@
                         <b class="button-signs">-</b>
                       </button>
                     </span>
-                    <input type="number" min="0" class="form-control input-number inputMiddle" [value]="item.quantity" name="{{item.item_id}}"
+                    <input type="number" min="0" class="form-control input-number inputMiddle" [value]="item.quantity" placeholder="0" name="{{item.item_id}}"
                       [ngModel]="item.quantity">
                     <span class="input-group-append">
                       <button type="button" class="btn btn-success btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'incr')">
