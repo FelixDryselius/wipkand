@@ -117,6 +117,14 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* End finish batch style */
 
+/* Start data page style */
+
+.test {
+  cursor: pointer;
+}
+
+/* End data page style */
+
 /* Start comments style */
 
 /* End comments style */

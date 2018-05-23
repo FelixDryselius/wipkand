@@ -90,7 +90,6 @@ export class OperationsService {
   }
 
   createBatch(newBatch: {}) {
-    console.log(newBatch)
     return this.http.post(this.URL_ROOT + this.URL_BATCH_API, JSON.stringify(newBatch))
   }
 
@@ -110,8 +109,6 @@ export class OperationsService {
   }
 
   updateOrder(order) {
-    console.log("Sending data: ")
-    console.log(JSON.stringify(order))
     return this.http.put(this.URL_ROOT + this.URL_ORDER_API + order['order_number'] + '/', JSON.stringify(order))
   }
 

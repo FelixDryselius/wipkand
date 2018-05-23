@@ -1,6 +1,17 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 align="left">
+            Number of floorstock items consumed per batch
+        </h2>
+      </div>
+    </div>
+  </div>
+  
+  <hr class="separator">
 <div class="container">
   <div class="row" style="height:70vh">
-    <h3>Number of floorstock items consumed per batch </h3>
+    
     <div class='col-9'>
     <ngx-charts-bar-vertical-stacked *ngIf = "haveData; else loading"
       [scheme]="colorScheme"
@@ -13,8 +24,7 @@
       [xAxisLabel] = "xAxisLabel"
       [yAxisLabel] = "yAxisLabel"
       [xAxis] = 'xAxis'
-      [yAxis] = 'yAxis'
-      (select)="pressed($event)">
+      [yAxis] = 'yAxis'>
       <ng-template #tooltipTemplate let-model="model">
         Batch number: {{model.series}} 
         <br>
@@ -59,5 +69,5 @@
 
 <!-- If user is loaded show the form, else show the loading template -->
 <ng-template #loading>
-  Loading content...
+    No data to show...
 </ng-template>

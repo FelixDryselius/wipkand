@@ -1,39 +1,45 @@
-<button class="btn btn-default float-left" (click)='goBack()'>Back</button>
-
 <!-- If user is loaded show the form, else show the loading template -->
 <ng-template #loading>
-    Loading content...
-  </ng-template>
+  Loading content...
+</ng-template>
 
-  <!-- Comments part -->
+<!-- Comments part -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 align="left">
+        Data Page
+      </h2>
+    </div>
+  </div>
+</div>
+<hr class="separator">
 
-<div class="container">
-  <div class="row" >
+<div class="container-fluid">
+  <button class="btn btn-default float-left" (click)='goBack()'>Back</button>
+  <div class="row" style="font-size:12px;">
     <div class="col-lg-12">
-      <h5>Scoreboard</h5>
+      <div class="text-left" *ngIf="displayComments">
+        <!-- *ngif="displayComments" -->
+        <thead>
+          <tr>
+            <th>Comments related to the chosen batch {{commentBatchNumber}}:</th>
+          </tr>
+        </thead>
+        <tr *ngFor="let commentItem of displayCommentsList">
+          <!-- *ngfor="let commentItem of displayCommentsList" -->
+          <td>At {{commentItem.post_date | date:"HH:mm, dd LLL" }}, {{ commentItem.user_name }} wrote: {{ commentItem.text_comment
+            }} </td>
+        </tr>
+      </div>
     </div>
-    </div>
-    <br>
-    <div class="row" style="font-size:12px;">
-      <div class="col-lg-12" >
-        <div class="text-left" *ngIf="displayComments"> <!-- *ngif="displayComments" -->
-          <thead>
-            <tr>
-              <th>Comments related to the chosen batch {{commentBatchNumber}}:</th>
-            </tr>
-          </thead>
-          <tr *ngFor="let commentItem of displayCommentsList">  <!-- *ngfor="let commentItem of displayCommentsList" -->
-            <td>At {{commentItem.post_date | date:"HH:mm, dd LLL" }}, {{ commentItem.user_name }} wrote: {{ commentItem.text_comment }} </td> 
-          </tr> 
-        </div>
-      </div> 
-    </div> 
-    <br>
-    <div class="row justify-content-center">
-      <div class="col-lg-12 text-center">
+  </div>
+  <br>
+  <div class="row justify-content-center">
+    <div class="col-lg-12 text-center">
       <table *ngIf="hasValues; else loading" id="table" class="table-striped table-bordered" style="font-size:10.5px; width:100%">
         <thead>
-          <tr >
+          <tr>
             <th attr.rowspan="{{testSpan}}">Order Num.</th>
             <th rowspan="2">Batch Num.</th>
             <th rowspan="2">Product Num.</th>
@@ -44,7 +50,7 @@
             <th rowspan="2">Scrap</th>
             <th rowspan="2">Yield</th>
             <th colspan="3">Groninger 1 HMI Data</th>
-            <th colspan="3">Groninger 2 HMI Data</th>      
+            <th colspan="3">Groninger 2 HMI Data</th>
             <th rowspan="2">GMT</th>
             <th rowspan="2">Rework Date</th>
             <th rowspan="2">Est. Pick & Replace</th>
@@ -63,51 +69,51 @@
           </tr>
         </thead>
         <tr *ngFor="let displayItem of displayDataList">
-          <td class="px-1">{{ displayItem.order_number }}</td>
-          <td class="px-1">{{ displayItem.batch_number }}</td>
-          <td class="px-1">{{ displayItem.article_number }}</td>
-          <td class="px-1">{{ displayItem.start_date | date:"yy/MM/dd HH:mm"  }}</td>
-          <td class="px-1">{{ displayItem.end_date | date:"yy/MM/dd HH:mm" }}</td>
-          <td class="px-1">{{ displayItem.batch_time | date:"yy/MM/dd HH:mm" }}</td>
-          <td class="px-1">{{ displayItem.reference_storage }}</td>
-          <td class="px-1">{{ displayItem.scrap }}</td>
-          <td class="px-1">{{ displayItem.yield }}</td>
-          <td class="px-1">{{ displayItem.hmi1_good }}</td>
-          <td class="px-1">{{ displayItem.hmi1_bad }}</td>
-          <td class="px-1">{{ displayItem.hmi1_total }}</td>
-          <td class="px-1">{{ displayItem.hmi2_good }}</td>
-          <td class="px-1">{{ displayItem.hmi2_bad }}</td>
-          <td class="px-1">{{ displayItem.hmi2_total }}</td>
-          <td class="px-1">{{ displayItem.grand_match_total }}</td>
-          <td class="px-1">{{ displayItem.rework_date | date:"yy/MM/dd HH:mm" }}</td>
-          <td class="px-1">{{ displayItem.est_pick_replace }}</td>
-          <td class="px-1">{{ displayItem.applied_labels }}</td>
-          <td class="px-1">{{ displayItem.reprint_date | date:"yy/MM/dd HH:mm" }}</td>
-          <td class="px-1">{{ displayItem.rework_time | date:"yy/MM/dd HH:mm" }}</td> 
+          <td class="px-1 py-1">{{ displayItem.order_number }}</td>
+          <td class="px-1 py-1">{{ displayItem.batch_number }}</td>
+          <td class="px-1 py-1">{{ displayItem.article_number }}</td>
+          <td class="px-1 py-1">{{ displayItem.start_date | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="px-1 py-1">{{ displayItem.end_date | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="px-1 py-1">{{ displayItem.batch_time | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="px-1 py-1">{{ displayItem.reference_storage }}</td>
+          <td class="px-1 py-1">{{ displayItem.scrap }}</td>
+          <td class="px-1 py-1">{{ displayItem.yield }}</td>
+          <td class="px-1 py-1">{{ displayItem.hmi1_good }}</td>
+          <td class="px-1 py-1">{{ displayItem.hmi1_bad }}</td>
+          <td class="px-1 py-1">{{ displayItem.hmi1_total }}</td>
+          <td class="px-1 py-1">{{ displayItem.hmi2_good }}</td>
+          <td class="px-1 py-1">{{ displayItem.hmi2_bad }}</td>
+          <td class="px-1 py-1">{{ displayItem.hmi2_total }}</td>
+          <td class="px-1 py-1">{{ displayItem.grand_match_total }}</td>
+          <td class="px-1 py-1">{{ displayItem.rework_date | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="px-1 py-1">{{ displayItem.est_pick_replace }}</td>
+          <td class="px-1 py-1">{{ displayItem.applied_labels }}</td>
+          <td class="px-1 py-1">{{ displayItem.reprint_date | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="px-1 py-1">{{ displayItem.rework_time | date:"yy/MM/dd HH:mm" }}</td>
           <td class="">
-              <a (click)="getComments(displayItem.batch_number)" class="text-primary">Comments</a>
+            <a (click)="getComments(displayItem.batch_number)" class="text-primary test">Comments</a>
             <!-- <tr *ngFor="let comment of displayItem.comments">{{ comment.user_name }}: <br>{{ comment.text_comment }} </tr> -->
           </td>
         </tr>
       </table>
     </div>
-    </div>
   </div>
-<div class="container">
+</div>
+<div class="container-fluid">
   <div class="row justify-content-end">
-      <div class="col-4 align-self-end">
-        <div class="row justify-content-between p-1">
-          <div class="col-5">
-            <button class="btn btn-outline-primary btn-sm w-100 " type="button" (click)="goToPreviousSet()">
+    <div class="col-4 align-self-end">
+      <div class="row justify-content-between p-1">
+        <div class="col-5">
+          <button class="btn btn-outline-primary btn-sm w-100 " type="button" (click)="goToPreviousSet()">
             Previous
-            </button>
-          </div>
-          <div class="col-5">
-            <button class="btn btn-outline-primary btn-sm w-100  " type="button" (click)="goToNextSet()">
+          </button>
+        </div>
+        <div class="col-5">
+          <button class="btn btn-outline-primary btn-sm w-100  " type="button" (click)="goToNextSet()">
             Next
-            </button>
-          </div> 
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>

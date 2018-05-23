@@ -55,7 +55,6 @@ export class AuthComponent implements OnInit {
         expiry: new Date(data['expires']) || null
       } 
       this.authAPI.performLogin(token)
-      console.log("Login Success!")
       authAPISubscriber.unsubscribe()
     }, error => {
       if (error.status == 400) {
