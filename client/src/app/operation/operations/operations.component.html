@@ -179,7 +179,7 @@
                   <b>{{ dateErrorMsg }}</b>
                 </div>
                 <div *ngIf="!prodInfo" class="alert alert-danger inputMiddle">
-                  <b>* Production statistics can not be added without a batch</b>
+                  * Production statistics can not be added without a batch
                 </div>
               </div>
               <div class="col-md-4" align="right">
@@ -230,7 +230,7 @@
               </div>
             </div>
           </div>
-          <table *ngIf="prodInfo; else loading" class="table table-bordered table-light">
+          <table *ngIf="prodInfo; else noData" class="table table-bordered table-light">
             <tbody>
               <tr class="d-flex" *ngFor="let item of currentFloorstock">
                 <td class="col-lg-6 col-md-6">
@@ -268,7 +268,7 @@
             <h3 class="text-center">Production data</h3>
           </div>
         </div>
-        <table class="table table-bordered table-striped table-hover table-light table-sm" *ngIf="prodInfo; else loading">
+        <table class="table table-bordered table-striped table-hover table-light table-sm" *ngIf="prodInfo; else noData">
           <thead>
             <tr>
               <th *ngFor="let col of prodDataColumns">{{ col }}</th>
@@ -288,6 +288,6 @@
 
     <hr>
 
-    <ng-template #loading>
-      Loading content...
+    <ng-template #noData>
+      No content to show since no batch is running...
     </ng-template>
