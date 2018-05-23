@@ -55,6 +55,8 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   // FLOORSTOCK SECTION
 
+  myFocusVar: boolean = false;
+
   floorstockErrorMsg;
   floorstockDataError;
   floorstockAdded = false;
@@ -233,6 +235,11 @@ export class OperationsComponent implements OnInit, OnDestroy {
         }
         this.beforeChanges = JSON.parse(JSON.stringify(this.currentFloorstock))
       });
+  }
+
+  activateButton() {
+    alert("works")
+    this.buttonOn = true
   }
 
   addOne(item_id, quantity, change) {
