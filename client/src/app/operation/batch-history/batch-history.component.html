@@ -8,7 +8,7 @@
                     </div>
                     <div class="col-lg-4">
 
-                        <button type="submit" value="Search" class="btn btn-primary">Submit</button>
+                        <button type="submit" value="Search" class="btn btn-primary">Search</button>
                     </div>
                 </div>
             </form>
@@ -28,44 +28,72 @@
                     <tr *ngFor="let batch of batches" class="align-items-center justify-content-center">
                         <th scope="row" class="text-center align-middle">
                             # {{ batch.batch_number }}
+                            <p *ngIf="batch.end_date && batch.rework_date">
+
+                                <label class="p-1 mt-1 font-weight-bold bg-success-light rounded">Reworked</label>
+                            </p>
+                            <p *ngIf="batch.end_date && !batch.rework_date">
+
+                                <label class="p-1 mt-1 font-weight-bold bg-warning-light rounded">Finished</label>
+                            </p>
+                            <p *ngIf="!batch.end_date && !batch.rework_date">
+
+                                <label class="p-1 mt-1 font-weight-bold bg-primary-light rounded">Running</label>
+                            </p>
                         </th>
                         <td scope="col" class="align-middle">
-                            <ul>
-                                <li>
-                                    Order: <b>{{ batch.order.order_number }}</b>
-                                </li>
-                                <li>
-                                    Article number: <b>{{ batch.order.article_number }}</b>
-                                </li>
-                                <li *ngIf="batch.end_date && batch.rework_date">
-                                    Status:
-                                    <label class="p-1 font-weight-bold bg-success-light rounded">Reworked</label>
-                                </li>
-                                <li *ngIf="batch.end_date && !batch.rework_date">
-                                    Status:
-                                    <label class="p-1 font-weight-bold bg-warning-light rounded">Finished</label>
-                                </li>
-                                <li *ngIf="!batch.end_date && !batch.rework_date">
-                                    Status:
-                                    <label class="p-1 font-weight-bold bg-primary-light rounded">Running</label>
-                                </li>
-                            </ul>
+                            <div class="row">
+                                <div class="col-lg-6 text-right">
+                                    Order number:
+                                </div>
+                                <div class="col-lg-6 float-left">
+                                    <b>{{ batch.order.order_number }}</b>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 text-right">
+                                    Article number:
+                                </div>
+                                <div class="col-lg-6 float-left">
+                                    <b>{{ batch.order.article_number }}</b>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 text-right">
+                                    Yield:
+                                </div>
+                                <div class="col-lg-6 float-left">
+                                    <b>{{ batch.production_yield }}</b>
+                                </div>
+                            </div>
                         </td>
                         <td scope="col" class="align-middle">
-                            <ul>
-                                <li>
+                            <div class="row">
+                                <div class="col-lg-6 text-right">
                                     Start Date:
+                                </div>
+                                <div class="col-lg-6 float-left">
                                     <b>{{ batch.start_date | date:"yyyy-MM-dd HH:mm" }}</b>
-                                </li>
-                                <li>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 text-right">
                                     End Date:
+
+                                </div>
+                                <div class="col-lg-6 float-left">
                                     <b>{{ batch.end_date | date:"yyyy-MM-dd HH:mm" }}</b>
-                                </li>
-                                <li>
-                                    Yield:
-                                    <b>{{ batch.production_yield }}</b>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 text-right">
+                                    Rework Date:
+
+                                </div>
+                                <div class="col-lg-6 float-left">
+                                    <b>{{ batch.rework_date | date:"yyyy-MM-dd HH:mm" }}</b>
+                                </div>
+                            </div>
                         </td>
                         <td scope="col" class="text-center align-middle">
                             <a (click)="toBatchDetail(batch.id)" class="btn btn-primary">Details</a>
