@@ -225,6 +225,9 @@
               <div *ngIf="floorstockAdded" class="alert alert-success text-center">
                 * Floorstock successfully updated!
               </div>
+              <div *ngIf="floorstockDataError" class="alert alert-danger text-center">
+                {{ floorstockDataError }}
+              </div>
             </div>
           </div>
           <table *ngIf="prodInfo; else loading" class="table table-bordered table-light">
@@ -238,7 +241,7 @@
                         <b class="button-signs">-</b>
                       </button>
                     </span>
-                    <input type="number" min="0" class="form-control input-number inputMiddle" [value]="item.quantity ? item.quantity : 0" name="{{item.item_id}}"
+                    <input type="number" min="0" class="form-control input-number inputMiddle" [value]="item.quantity" name="{{item.item_id}}"
                       [ngModel]="item.quantity">
                     <span class="input-group-append">
                       <button type="button" class="btn btn-success btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'incr')">
@@ -265,7 +268,7 @@
             <h3 class="text-center">Production data</h3>
           </div>
         </div>
-        <table class="table table-bordered table-striped table-hover table-light table-sm" *ngIf="prodInfo; else loading" >
+        <table class="table table-bordered table-striped table-hover table-light table-sm" *ngIf="prodInfo; else loading">
           <thead>
             <tr>
               <th *ngFor="let col of prodDataColumns">{{ col }}</th>

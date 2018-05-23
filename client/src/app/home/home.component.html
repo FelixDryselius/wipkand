@@ -16,8 +16,10 @@
       <div class="col-md-7">
         <div class="container">
           <div class="row" style="height:75vh">
+
             <div class="headerHome">Accumulated production yield of latest batch</div>
             <ngx-charts-line-chart *ngIf="haveData; else loading" [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
+
               [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisTickFormatting]="xAxisFormatting" [xAxisLabel]="xAxisLabel"
               [yAxisLabel]='yAxisLabel' [xAxis]='xAxis' [yAxis]='yAxis' [timeline]="timeline" (select)="pressed($event)">
             </ngx-charts-line-chart>
@@ -25,7 +27,16 @@
         </div>
       </div>
       <div class="col-md-5" *ngIf="haveData; else loading">
-        <div class="headerHome">{{ active }} batch #{{ latestBatch.batch_number }}</div>
+        <div class="headerHome">{{ active }} batch #{{ latestBatch.batch_number }}
+      </div>
+      <div class="col-md-12" align="right">
+        <button class="btn btn-secondary" *ngIf="!(hasFinished)" disabled>
+            Rework batch
+        </button>
+        <button class="btn btn-primary" *ngIf="hasFinished && !(hasReworked)" (click)="reworkBatch()">
+            Rework Batch
+        </button>
+       </div>
         <hr>
         <div class="col-md-12">
           <div class="row">
@@ -74,50 +85,58 @@
               </ul>
             </div>
           </div>
-          <div class="col-md-12" align="right">
-            <button class="btn btn-secondary" *ngIf="!(hasFinished)" disabled>
-              Rework batch
-            </button>
-            <button class="btn btn-primary" *ngIf="hasFinished && !(hasReworked)" (click)="reworkBatch()">
-              Rework Batch
-            </button>
           </div>
+
         </div>
-        <div class="headerHome">Most recent events:</div>
+
+
+        <div class="headerRecentEvents">Most recent events:</div>
         <hr>
         <div class="row">
           <div class="col-md-6">
-            <p>Last 5 comments:</p>
-            <ul class="recentEvent border border-primary rounded" *ngFor="let comment of recentComments">
-              <li>
-                <b>Post Date:</b> {{ comment.post_date | date:'yyyy-MM-dd HH:mm:ss' }}
-              </li>
-              <li>
-                <b>Author:</b> {{ comment.user_name }}
-              </li>
-              <li>
-                <b>Comment:</b> {{ comment.text_comment }}
-              </li>
-            </ul>
+            <div class="recentEvents">Production statistics</div>
+            <div class="card" *ngFor="let stat of recentProd">
+              <h5 class="card-header">{{ stat.time_stamp | date:'yyyy-MM-dd HH:mm:ss' }}</h5>
+              <div class="card-body eventCard">
+                <div class="row">
+                  <p class="card-text col-md-6">Staff: {{ stat.staff_quantity }}</p>
+                  <p class="card-text col-md-6">Produced: {{ stat.production_quantity }}</p>
+                </div>
+                <div class="col-md-12" align="right">
+                  <b>{{ stat.user_name }}</b>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="col-md-6">
-            <p>Last 5 production stats:</p>
-            <ul class="recentEvent border border-primary rounded" *ngFor="let stat of recentProdStats">
-              <li>
-                <b>Time Stamp:</b> {{ stat.time_stamp | date:'yyyy-MM-dd HH:mm:ss' }}
-              </li>
-              <li>
-                <b>Produced:</b> {{ stat.production_quantity }}
-              </li>
-              <li>
-                <b>Staff:</b> {{ stat.staff_quantity }}
-              </li>
-              <li>
-                <b>Signature:</b> {{ stat.user_name }}
-              </li>
-            </ul>
+              <div class="recentEvents">Comments</div>
+            <div class="card" *ngFor="let comment of recentComments">
+              <h5 class="card-header">{{ comment.post_date | date:'yyyy-MM-dd HH:mm:ss' }}</h5>
+              <div class="card-body eventCard">
+                <p class="card-text">{{ comment.text_comment }}</p>
+                <div class="col-md-12" align="right">
+                    <b>{{ comment.user_name }}</b>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        <!-- <div class="card" *ngFor="let event of recentEvents">
+          <h5 class="card-header" *ngIf="event.time_stamp">{{ event.time_stamp | date:'yyyy-MM-dd HH:mm:ss' }} | Production data</h5>
+          <h5 class="card-header" *ngIf="event.post_date">{{ event.post_date | date:'yyyy-MM-dd HH:mm:ss' }} | Comment</h5>
+          <div class="card-body eventCard">
+            <div class="card-title">
+              <b>{{ event.user_name }}</b>
+            </div>
+            <div class="row" *ngIf="event.time_stamp">
+              <p class="card-text col-md-5">Staff quantity: {{ event.staff_quantity }}</p>
+              <p class="card-text col-md-6">Production quantity: {{ event.production_quantity }}</p>
+            </div>
+            <div class="row" *ngIf="event.post_date">
+              <p class="card-text col-md-12">{{ event.text_comment }}</p>
+            </div>
+          </div>
+        </div> -->
       </div>
     </div>
   </div>

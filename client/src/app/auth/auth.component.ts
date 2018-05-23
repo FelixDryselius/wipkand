@@ -68,12 +68,10 @@ export class AuthComponent implements OnInit {
   handleSubmit(event: any, ourLoginDir: NgForm, loginFormGroup: FormGroup) {
     event.preventDefault()
     if (ourLoginDir.submitted) {
-      console.log(loginFormGroup.value)
       let authLoginData = new AuthLoginData(
         loginFormGroup.value['usernameField'],
         loginFormGroup.value['passwordField'],
       )
-      console.log(authLoginData)
       this.doLogin(authLoginData);
       ourLoginDir.resetForm({})
     }

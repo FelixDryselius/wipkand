@@ -1,108 +1,118 @@
 <!--Start navBar.-->
-
-<div class="container-fluid">
-
-  <div *ngIf="error && showError" (click)="showError = !showError" class="errorNotification">
-    <h2>Error | Status: {{ error.status }}</h2>
-    <p>{{ error.message }}</p>
-    <p>(click to close)</p>
-  </div>
-
-  <!-- 
-  <div id="header" class="row">
-    <div class="col-lg-2 my-auto text-center">
-      <img src="assets/cepheidLogo.png">
-    </div>
-    <div class="col-lg-2 offset-lg-6 my-auto text-center" *ngIf="authAPI.currentUser">
-      <p>
-        User: {{ authAPI.currentUser.username }}
-      </p>
-    </div>
-    <div class="col-lg-2 text-center my-auto">
-      <button type='button' class='btn btn-lg btn-primary' (click)="authAPI.performLogout()">Logout</button>
-    </div>
-  </div> -->
-
-  <div class="row" *ngIf="authAPI.loggedIn; else loginview">
-    <!-- Navbar -->
-    <nav class="col-lg-2 navbar-body">
-
-      <div class="row">
-        <div class="col-lg-12 batch-status-body">
-          <div class="">
-            <current-batch-info></current-batch-info>
-          </div>
+<div id="wrap">
+  <div class="container-fluid" id="main">
+    <div id="header" class="row">
+      <div class="col-lg-2 my-auto text-center">
+        <div class="header-content rounded col-lg-6 offset-lg-3">
+          <img class="pt-1" src="/static/ang/assets/cepheidLogo.png">
         </div>
       </div>
-      <hr>
+      <div class="col-lg-2 offset-lg-1 my-auto header-content rounded">
+          <h2 class="pt-2">
+            <em>VFAL Monitor</em>
+          </h2>
+      </div>
+      <div class="col-lg-1 offset-lg-4 my-auto header-content rounded" *ngIf="authAPI.currentUser">
+          <p class="mt-1">
+            User: <b>{{ authAPI.currentUser.username }}</b><br>
+            Role: <b>{{ authAPI.getRole() }}</b>
+            </p>
+      </div>
+      <div class="col-lg-2 my-auto" *ngIf="authAPI.currentUser">
+        <div class="header-content rounded col-lg-6 offset-lg-3">
+          <button type='button' class='btn btn-default btn-lg mt-1' (click)="authAPI.performLogout()">Logout</button>
+        </div>
+      </div>
+    </div>
 
-      <div class="row mt-2">
-        <div class="card-fluid col-lg-12">
-          <ul class="nav flex-column nav-pills nav-stacked">
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="./operation/operations" routerLinkActive="active">Operations</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="./operation/comment" routerLinkActive="active">Comments</a>
-            </li>
+    <div *ngIf="error && showError" (click)="showError = !showError" class="errorNotification">
+      <h2>Error | Status: {{ error.status }}</h2>
+      <p>{{ error.message }}</p>
+      <p>(click to close)</p>
+    </div>
 
-            <li class="nav-item">
-              <a class="nav-link" routerLink="./operation/batch-history" routerLinkActive="active">History</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/statistics/scoreboard" routerLinkActive="active">Scoreboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/statistics/data-page" routerLinkActive="active">Data page</a>
-            </li>
-            <li>
-              <a class="btn dropdown-toggle" role="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"
-                data-toggle="collapse">
-                Charts
-              </a>
-            </li>
-          </ul>
-          <div class="collapse" id="collapseExample" [ngbCollapse]="isCollapsed">
+
+
+    <div class="row" *ngIf="authAPI.loggedIn; else loginview">
+      <!-- Navbar -->
+      <nav class="col-lg-2 navbar-body">
+        <div class="row">
+          <div class="col-lg-12 batch-status-body">
+            <div class="">
+              <current-batch-info></current-batch-info>
+            </div>
+          </div>
+        </div>
+        <hr>
+
+        <div class="row mt-2">
+          <div class="card-fluid col-lg-12">
             <ul class="nav flex-column nav-pills nav-stacked">
               <li class="nav-item">
-                <a class="nav-link" routerLink="/statistics/charts/production" routerLinkActive="active">Production chart</a>
+                <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" routerLink="/statistics/charts/floorstock" routerLinkActive="active">Floorstock chart</a>
+                <a class="nav-link" routerLink="./operation/operations" routerLinkActive="active">Operations</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" routerLink="/statistics/charts/production-per-time-unit" routerLinkActive="active">Production per day chart</a>
+                <a class="nav-link" routerLink="./operation/comment" routerLinkActive="active">Comments</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="./operation/batch-history" routerLinkActive="active">History</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" routerLink="/statistics/charts/production-accumulated" routerLinkActive="active">Accumulated production for latest batch</a>
+                <a class="nav-link" routerLink="/statistics/scoreboard" routerLinkActive="active">Scoreboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/statistics/data-page" routerLinkActive="active">Data page</a>
+              </li>
+              <li>
+                <a class="btn dropdown-toggle" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                  Charts
+                </a>
               </li>
             </ul>
+            <div class="collapse" id="collapseExample">
+              <ul class="nav flex-column nav-pills nav-stacked">
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/statistics/charts/production" routerLinkActive="active">Production chart</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/statistics/charts/floorstock" routerLinkActive="active">Floorstock chart</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/statistics/charts/production-per-time-unit" routerLinkActive="active">Production per day chart</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/statistics/charts/production-accumulated" routerLinkActive="active">Accumulated production for latest batch</a>
+                </li>
+              </ul>
+            </div>
+            <hr>
+            <!-- <p *ngIf="authAPI.currentUser">
+              <b>Logged in as:</b> {{ authAPI.currentUser.username }}
+            </p>
+            <button type='button' class='btn btn-default' (click)="authAPI.performLogout()">Logout</button> -->
           </div>
-          <hr>
-          <p *ngIf="authAPI.currentUser">
-            <b>Logged in as:</b> {{ authAPI.currentUser.username }}
-          </p>
-          <button type='button' class='btn btn-default' (click)="authAPI.performLogout()">Logout</button>
+        </div>
+      </nav>
+      <!--End navBar.-->
+
+      <div class="col-lg-10 mt-3">
+        <div class="main">
+          <router-outlet></router-outlet>
         </div>
       </div>
-    </nav>
-    <!--End navBar.-->
-
-    <div class="col-lg-10 mt-3">
-      <div class="main">
-        <router-outlet></router-outlet>
-      </div>
     </div>
+
+    <ng-template #loginview>
+      <div class="row">
+        <div class="col-lg-12">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </ng-template>
   </div>
-
-  <ng-template #loginview>
-    <div class="row">
-      <div class="col-lg-12">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  </ng-template>
 </div>
+<footer></footer>

@@ -55,6 +55,8 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   // FLOORSTOCK SECTION
 
+  floorstockErrorMsg;
+  floorstockDataError;
   floorstockAdded = false;
   buttonOn = false;
 
@@ -224,7 +226,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
         for (let obj = 0; obj < this.currentFloorstock.length; obj++) {
           if (typeof this.currentFloorstock[obj]["quantity"] == 'undefined') {
             this.currentFloorstock[obj]["id"] = null
-            this.currentFloorstock[obj]["quantity"] = 0
+            this.currentFloorstock[obj]["quantity"] = null
             this.currentFloorstock[obj]["last_update"] = ''
             this.currentFloorstock[obj]["batch"] = ''
           }
@@ -278,7 +280,12 @@ export class OperationsComponent implements OnInit, OnDestroy {
     for (let key in formData.value) {
       inputData[key] = formData.value[key];
     }
-    if (typeof inputData.inputDate != 'undefined' && typeof inputData.produced != 'undefined' && inputData.onShift != 'undefined') {
+    for (let key in this.prodStats) {
+      if (inputData.inputDate.toJSON().slice(0, 16) == this.prodStats[key].time_stamp.slice(0, 16)) {
+        this.prodDataError = true
+      }
+    }
+    if (this.prodDataError == false) {
       let newData = {
         time_stamp: inputData.inputDate,
         production_quantity: inputData.produced,
@@ -293,17 +300,12 @@ export class OperationsComponent implements OnInit, OnDestroy {
           this.prodDataAdded = true
           setTimeout(() => { this.prodDataAdded = false }, 4000);
           formData.reset()
-        },
-          error => {
-            if (error.error.time_stamp) {
-              this.dateErrorMsg = error.error.time_stamp
-              this.prodDataError = true
-              this.prodDataAdded = false
-            }
-          });
+        });
 
       this.getProdList()
-
+    }
+    else if (this.prodDataError) {
+      this.dateErrorMsg = '* Production data with this time stamp already exists'
     }
   }
 
@@ -321,7 +323,8 @@ export class OperationsComponent implements OnInit, OnDestroy {
       let counter = 0;
       for (let obj = 0; obj < this.beforeChanges.length; obj++) {
         // Checks if time stamp exists. Determines wheter data should be created or updated
-        if (this.beforeChanges[obj]["item_id"] == key && this.beforeChanges[obj]["quantity"] != results[key]) {
+
+        if (this.beforeChanges[obj]["item_id"] == key && this.beforeChanges[obj]["quantity"] != results[key] && this.beforeChanges[obj]["quantity"] != null) {
           let updateItem = {
             id: this.beforeChanges[obj].id,
             time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
@@ -336,29 +339,32 @@ export class OperationsComponent implements OnInit, OnDestroy {
           setTimeout(() => { this.floorstockAdded = false }, 4000);
         }
 
-        else if (this.beforeChanges[obj]["item_id"] == key) {
-          break;
-        }
-
-        else {
-          counter += 1
+        else if (this.beforeChanges[obj]["item_id"] == key && this.beforeChanges[obj]["quantity"] != results[key] && this.beforeChanges[obj]["quantity"] == null) {
           // If no time stamp in api was found this means it is new data
-          if (counter == this.beforeChanges.length) {
-            let createItem = {
-              time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
-              quantity: results[key],
-              floorstock_item: key,
-              batch: this.prodInfo.id,
-            }
-            this.operationsService.createFloorstock(createItem)
-              .retryWhen(error => this.authAPI.checkHttpRetry(error))
-              .subscribe();
-            this.getFloorstock()
-            if (results.length > 0) {
+          let createItem = {
+            time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
+            quantity: results[key],
+            floorstock_item: key,
+            batch: this.prodInfo.id,
+          }
+          this.operationsService.createFloorstock(createItem)
+            .retryWhen(error => this.authAPI.checkHttpRetry(error))
+            .subscribe(data => {
+              let newData = data
+              this.getFloorstock()
               this.floorstockAdded = true
               setTimeout(() => { this.floorstockAdded = false }, 4000);
-            }
-          }
+            },
+              error => {
+                if (error) {
+                  this.floorstockErrorMsg = error.error
+                  this.floorstockDataError = true
+                  this.prodDataAdded = false
+                }
+              });
+        }
+        else if (this.beforeChanges[obj]["item_id"] == key) {
+          break;
         }
       }
     }
@@ -378,24 +384,20 @@ export class OperationsComponent implements OnInit, OnDestroy {
       batch: this.prodInfo.id,
     }
     // Add new comment through commentService. Also get all comments in api to be able to count for incrementing id next comment
-    if (typeof this.commentName != 'undefined' && typeof this.commentText != 'undefined') {
-      this.req_comment = this.commentService.addComment(newComment)
-        .retryWhen(error => this.authAPI.checkHttpRetry(error))
-        .subscribe(data => {
-          this.getComment()
-        },
-          error => {
-            if (!error) {
-              this.commentError = false
-              this.commentAdded = true
-              setTimeout(() => { this.commentAdded = false }, 4000);
-            }
-            else if (error) {
-              this.commentAdded = false
-              this.commentError = true
-            }
-          });
-    }
+    this.req_comment = this.commentService.addComment(newComment)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.getComment()
+        this.commentError = false
+        this.commentAdded = true
+        setTimeout(() => { this.commentAdded = false }, 4000);
+      },
+        error => {
+          if (error) {
+            this.commentAdded = false
+            this.commentError = true
+          }
+        });
     // Resets form
     formData.reset()
   }
