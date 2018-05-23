@@ -20,16 +20,16 @@ export class ProductionPerTimeUnitComponent implements OnInit {
     productionStatisticSubscriber:Subscription;
   
     //Data
-    productionStatistics = [];
+    productionStatistics: Scoreboard[];
     yieldDisplayList = [];
     ppmhDisplayList = [];
     displayData = [];
+
     dateDisplayType = 'day';
     displayType = 'yield';
     haveData = false;
-    query = '?limit=168'
 
-    flaggedDays = []
+    query = '?limit=168'
 
   
     //Chart here we set options fot the chart
@@ -54,26 +54,7 @@ export class ProductionPerTimeUnitComponent implements OnInit {
 
     ngOnDestroy(){
       this.productionStatisticSubscriber.unsubscribe()
-    }
-
-
-  //TODO MAKE THIS FUCKING DISGUSTING THING WORK......
-
-    // xAxisFormatting(data){
-    //   console.log(this.flaggedDays.map(x=>{return x}));
-      
-    //   if(this.flaggedDays){
-    //   console.log(data);
-    //   console.log(this.flaggedDays);
-      
-    //   if(this.flaggedDays.indexOf(data)!= -1){
-    //     return data + ' not complete'
-    //   }
-    // }else {
-    //   return data.toDateString()
-    // }
-    // }
-  
+    }  
 
     toggleStatisticType(type:string){
       this.displayType = type;
@@ -94,7 +75,7 @@ export class ProductionPerTimeUnitComponent implements OnInit {
     .retryWhen(error => this.authAPI.checkHttpRetry(error))
     .subscribe(data =>{
       this.productionStatistics = (data as QueryResponse).results as Scoreboard []
-      if(this.productionStatistics){
+      if(this.productionStatistics.length > 0){
         this.populateDisplayData()
         this.haveData = true
       }           

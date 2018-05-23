@@ -1,7 +1,7 @@
 <div class="container">
-    <div class="row" style="height:70vh">
+    <div class="row" style="height:70vh" *ngIf = "haveData; else loading">
         <h3>Accumulated production yield of latest batch</h3>
-      <ngx-charts-line-chart *ngIf = "haveData; else loading"
+      <ngx-charts-line-chart
         [view]="view"
         [scheme]="colorScheme"
         [results]="displayDataList"
