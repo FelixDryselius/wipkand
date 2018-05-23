@@ -100,37 +100,8 @@ export class HomeComponent implements OnInit {
             this.recentProd.push(this.prodStats[stat])
           }
         }
-       // this.sortRecent()
       });
   }
-
-  /*sortRecent() {
-    function mergeSorted(a, b) {
-      let sorted = new Array(a.length + b.length), i = 0, j = 0, k = 0;
-      while (i < a.length && j < b.length) {
-        if (a[i].time_stamp > b[j].post_date) {
-          sorted[k] = a[i];
-          i++;
-        } else {
-          sorted[k] = b[j];
-          j++;
-        }
-        k++;
-      }
-      while (i < a.length) {
-        sorted[k] = a[i];
-        i++;
-        k++;
-      }
-      while (j < b.length) {
-        sorted[k] = b[j];
-        j++;
-        k++;
-      }
-      return sorted;
-    }
-    this.recentEvents = mergeSorted(this.prodList, this.commentList)
-  }*/
 
   // FOR STATISTICS
   xAxisFormatting(data) {
