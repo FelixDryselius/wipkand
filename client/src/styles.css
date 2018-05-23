@@ -193,6 +193,14 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: rgba(65, 199, 65, 0.712)
 }
 
+.bg-primary-light {
+  background-color: rgba(104, 143, 226, 0.712);
+
+}
+
+
+
+
 /* Header */
 
 #header {

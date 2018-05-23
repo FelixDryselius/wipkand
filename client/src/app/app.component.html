@@ -8,15 +8,17 @@
         </div>
       </div>
       <div class="col-lg-2 offset-lg-1 my-auto header-content rounded">
-          <h2 class="pt-2">
-            <em>VFAL Monitor</em>
-          </h2>
+        <h2 class="pt-2">
+          <em>VFAL Monitor</em>
+        </h2>
       </div>
       <div class="col-lg-1 offset-lg-4 my-auto header-content rounded" *ngIf="authAPI.currentUser">
-          <p class="mt-1">
-            User: <b>{{ authAPI.currentUser.username }}</b><br>
-            Role: <b>{{ authAPI.getRole() }}</b>
-            </p>
+        <p class="mt-1">
+          User:
+          <b>{{ authAPI.currentUser.username }}</b>
+          <br> Role:
+          <b>{{ authAPI.getRole() }}</b>
+        </p>
       </div>
       <div class="col-lg-2 my-auto" *ngIf="authAPI.currentUser">
         <div class="rounded col-lg-6 offset-lg-3">
@@ -24,14 +26,6 @@
         </div>
       </div>
     </div>
-
-    <div *ngIf="error && showError" (click)="showError = !showError" class="errorNotification">
-      <h2>Error | Status: {{ error.status }}</h2>
-      <p>{{ error.message }}</p>
-      <p>(click to close)</p>
-    </div>
-
-
 
     <div class="row" *ngIf="authAPI.loggedIn; else loginview">
       <!-- Navbar -->
@@ -59,7 +53,7 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" routerLink="./operation/batch-history" routerLinkActive="active">History</a>
+                <a class="nav-link" routerLink="./operation/batch-history" routerLinkActive="active">Batch history</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" routerLink="/statistics/scoreboard" routerLinkActive="active">Scoreboard</a>
@@ -68,13 +62,13 @@
                 <a class="nav-link" routerLink="/statistics/data-page" routerLinkActive="active">Data Page</a>
               </li>
               <li>
-                <a class="btn dropdown-toggle" (click)="isCollapsed = !isCollapsed"
-                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"  role="button">
+                <a class="btn dropdown-toggle" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"
+                  role="button">
                   Charts
                 </a>
               </li>
             </ul>
-            <div class="collapse" id="collapseExample" [ngbCollapse]="isCollapsed"> 
+            <div class="collapse" id="collapseExample" [ngbCollapse]="isCollapsed">
               <ul class="nav flex-column nav-pills nav-stacked">
                 <li class="nav-item">
                   <a class="nav-link" routerLink="/statistics/charts/production" routerLinkActive="active">Production chart</a>

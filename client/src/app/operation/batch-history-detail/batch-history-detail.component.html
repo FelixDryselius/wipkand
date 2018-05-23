@@ -33,7 +33,7 @@
       <div class="row" *ngIf="currentBatch; else loading">
         <div class="col-lg-12" style="margin-bottom: 10px;">
           <button [disabled]='!currentBatch.end_date || currentBatch.rework_date' (click)="setRework(true); openModal(reworkModal)"
-            class="btn btn-lg">Batch Rework</button>
+            class="btn btn-primary btn-lg">Batch Rework</button>
           <!-- <button [disabled]='!currentBatch.end_date || currentBatch.rework_date' data-toggle="modal" data-target="#reworkModal" (click)="setRework(true)"
             class="btn btn-lg">Batch Rework</button> -->
 
@@ -54,7 +54,7 @@
       <hr>
 
       <!-- Edit Batch -->
-      <h5>Batch Details</h5>
+      <h5>Order Details</h5>
       <br>
       <!-- Order Form -->
       <form *ngIf="order; else loading" [formGroup]="orderDetailForm" (ngSubmit)="submitOrderForm($event, orderDetailForm.value)">
@@ -104,14 +104,32 @@
             </div>
           </div>
           <div class="col-lg-6 text-left">
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore sed corporis quia a, blanditiis repellendus,
-              minus quod necessitatibus.</p>
-            <button [disabled]='orderDetailForm.invalid' class="btn btn-primary" type="submit">Update Order</button>
+            <div class="row">
+              <p class="bg-warning-light p-1 rounded">
+                <b>WARNING!</b>
+                <br> Editing an order or article number will affect all other batches related to that order or article number.
+                Please consider what you are doing before editing these.
+              </p>
+            </div>
+            <div class="row text-center" *ngIf="!orderFormActive">
+              <button class="btn btn-primary float-left" (click)="orderFormActive = true; orderDetailForm.enable()">Edit Order</button>
+            </div>
+            <div class="row" *ngIf="orderFormActive">
+              <div class="col-lg-6">
+                <button class="btn btn-default float-left w-100" (click)="orderFormActive = false; orderDetailForm.disable()">Cancel</button>
+              </div>
+              <div class="col-lg-6 text-center">
+                <button [disabled]='orderDetailForm.invalid' class="btn btn-primary float-left w-100" type="submit">Update Order</button>
+              </div>
+            </div>
+
           </div>
         </div>
       </form>
       <hr>
 
+      <h5>Batch Details</h5>
+      <br>
       <!-- Batch Form -->
       <form *ngIf="currentBatch; else loading" [formGroup]="batchDetailForm" (ngSubmit)="submitBatchForm($event, batchDetailForm.value)">
         <div class="row font-weight-bold">
@@ -211,6 +229,22 @@
                 <input type="number" id="applied_labels" class="input-sm float-right" formControlName="applied_labels" />
               </li>
 
+              <!-- Scrap -->
+              <li class="list-group-item text-left">
+                <label for="scrap">Scrap:</label>
+                <input type="number" id="scrap" class="input-sm float-right" formControlName="scrap" />
+                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.scrap.invalid && 
+                                (batchDetailForm.controls.scrap.dirty || batchDetailForm.controls.scrap.touched)">
+                  <!-- <span *ngIf="batchDetailForm.controls.scrap.errors?.required">
+                                    * This field is required.
+                                  </span> -->
+                  <span *ngIf="batchDetailForm.controls.scrap.errors?.pattern">
+                    * Only positive numbers are accepted.
+                    <br>
+                  </span>
+                </div>
+              </li>
+
               <!-- Rework Time -->
               <!-- <li class="list-group-item text-left">
                 <label for="rework_time">Rework Time:</label>
@@ -301,28 +335,22 @@
                   </span>
                 </div>
               </li>
-
-              <!-- Scrap -->
-              <li class="list-group-item text-left">
-                <label for="scrap">Scrap:</label>
-                <input type="number" id="scrap" class="input-sm float-right" formControlName="scrap" />
-                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.scrap.invalid && 
-                (batchDetailForm.controls.scrap.dirty || batchDetailForm.controls.scrap.touched)">
-                  <!-- <span *ngIf="batchDetailForm.controls.scrap.errors?.required">
-                    * This field is required.
-                  </span> -->
-                  <span *ngIf="batchDetailForm.controls.scrap.errors?.pattern">
-                    * Only positive numbers are accepted.
-                    <br>
-                  </span>
-                </div>
-              </li>
             </ul>
-            <button [disabled]='batchDetailForm.invalid' class="btn btn-primary" type="submit">Update Batch</button>
+            <div class="row text-center m-2" *ngIf="!batchFormActive">
+              <button class="btn btn-primary float-left" (click)="batchFormActive = true; batchDetailForm.enable()">Edit Batch</button>
+            </div>
+            <div class="row m-2" *ngIf="batchFormActive">
+              <div class="col-lg-6">
+                <button class="btn btn-default float-left w-100" (click)="batchFormActive = false; batchDetailForm.disable()">Cancel</button>
+              </div>
+              <div class="col-lg-6 text-center">
+                <button [disabled]='batchDetailForm.invalid' class="btn btn-primary float-left w-100" type="submit">Update Batch</button>
+              </div>
+            </div>
           </div>
         </div>
       </form>
-      <hr>
+      <br>
       <div class="col-lg-12 alert alert-danger" *ngIf="updateBatchSuccess == false;">
         <span class="font-weight-bold">Update failed. Errors listed below: </span>
         <br>
@@ -338,13 +366,14 @@
 
     <!-- Batch Stats -->
     <div class="col-lg-6 text-center">
+      <!--
       <h5>Batch Stats</h5>
       <div class="row">
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, laborum expedita. Cupiditate assumenda veritatis
           possimus. Odio, aliquam. Sequi, dolores similique sed animi perspiciatis quidem corrupti, fugit delectus atque
           blanditiis rem.</p>
       </div>
-      <hr>
+      <hr>-->
 
       <!-- Batch Comments -->
       <div class="row text-center">
@@ -368,6 +397,7 @@
           </div>
         </div>
       </div>
+      <hr>
 
       <!-- Batch Scoreboard -->
       <div class="col-lg-12">
