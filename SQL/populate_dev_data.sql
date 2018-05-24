@@ -1,4 +1,4 @@
-use testdb;
+use vfal;
 
 INSERT INTO product (article_number, product_name, reference_storage, label, batch_production_goal)
 VALUES ('700-5208', 'ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 5, '700-5208_LABEL', 11000);
