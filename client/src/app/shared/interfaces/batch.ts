@@ -1,5 +1,6 @@
 export class Batch {
     id: string;
+    is_active:number;
     batch_number: string;
     start_date?: Date;
     end_date?: Date;
@@ -11,8 +12,6 @@ export class Batch {
     hmi2_bad?: number;
     rework_date?: Date;
     applied_labels?: number;
-    label_print_time?: Date;
-    rework_time?: string;
     order: {
         order_number: string;
         article_number: string;

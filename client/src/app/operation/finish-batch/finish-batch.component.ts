@@ -93,6 +93,7 @@ export class FinishBatchComponent implements OnInit {
   submitEndBatch($theEvent, form) {
     let batch: Batch = {
       id: this.prodInfo.id,
+      is_active: 0,
       batch_number: this.prodInfo.batch_number,
       order: this.prodInfo.order,
       end_date: new Date(),
