@@ -5,7 +5,7 @@
 - Navigate into the project and checkout the "production" branch
 
 ### Get project from .zip
-- Go to the latest release here on github and download the project. This contains a production ready version of the system.
+- Go to the latest release here on github and download the project. This contains a production ready version of the system. Please keep in mind that the folder name of this .zip will be "wipkand-x.x.x" when using below shell commands.
 
 ## Install Python 3
 
