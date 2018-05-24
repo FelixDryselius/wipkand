@@ -84,15 +84,13 @@ export class FinishBatchComponent implements OnInit {
         Validators.required,
         Validators.pattern("^[0-9]*$"),
       ]),
-      // 'rework': new FormControl('', [
-      //   Validators.required,
-      // ]),
     })
   }
 
   submitEndBatch($theEvent, form) {
     let batch: Batch = {
       id: this.prodInfo.id,
+      is_active: 0,
       batch_number: this.prodInfo.batch_number,
       order: this.prodInfo.order,
       end_date: new Date(),
@@ -104,23 +102,12 @@ export class FinishBatchComponent implements OnInit {
       hmi2_bad: form.hmi2_bad,
     }
 
-
-    // Rework is probably never done at exact end of batch
-
-    // if (form.rework == 'true') {
-    //   //let _applied_labels = this.batchReworkComponent.getAppliedLabels()
-    //   batch.applied_labels = this.batchReworkComponent.getAppliedLabels()
-    //   let _pick_and_replace = this.batchReworkComponent.getPickAndReplace(form, batch.applied_labels, batch.scrap)
-    //   batch.label_print_time = new Date()
-    //   batch.rework_date = new Date()
-    // }
-
     this.createBatchSub = this.operationsService.updateBatch(batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.operationsService.setCurrentBatchInfo(null);
         this.createBatchSub.unsubscribe()
-        this.router.navigate([''])
+        this.router.navigate(['operation/operations'])
       }
       )
   }

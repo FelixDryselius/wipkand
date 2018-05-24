@@ -180,10 +180,6 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       'applied_labels': new FormControl('', [
         Validators.pattern("^[0-9]*$"),
       ]),
-      // 'label_print_time': new FormControl('', [
-      // ]),
-      // 'rework_time': new FormControl('', [
-      // ]),
     })
     this.batchDetailForm.disable()
   }
@@ -197,9 +193,6 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     }
     if (batch.rework_date) {
       batch.rework_date = new Date(batch.rework_date)
-    }
-    if (batch.label_print_time) {
-      batch.label_print_time = new Date(batch.label_print_time)
     }
   }
 
@@ -220,11 +213,13 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.updateOrderSuccess = true
         this.handleUpdateBatch(data as Batch)
+        setTimeout(() => { this.updateOrderSuccess = undefined }, 4000);
       },
         error => {
           this.updateOrderSuccess = false
           this.batchDetailForm.patchValue(this.currentBatch)
           this.handleUpdateError(error)
+          setTimeout(() => { this.updateOrderSuccess = undefined }, 4000);
         })
   }
 
@@ -242,11 +237,13 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.updateBatchSuccess = true
         this.handleUpdateBatch(data as Batch)
+        setTimeout(() => { this.updateBatchSuccess = undefined }, 4000);
       },
         error => {
           this.updateBatchSuccess = false
           this.batchDetailForm.patchValue(this.currentBatch)
           this.handleUpdateError(error)
+          setTimeout(() => { this.updateBatchSuccess = undefined }, 4000);
         }
       )
   }
@@ -258,6 +255,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
     let batch: Batch = {
       id: this.currentBatch.id,
+      is_active: 0,
       batch_number: this.currentBatch.batch_number,
       order: this.currentBatch.order,
       applied_labels: _applied_labels,
@@ -275,13 +273,14 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         this.stringToDate(this.currentBatch)
         this.reworkSuccess = true
         this.batchDetailForm.patchValue(this.currentBatch)
+        setTimeout(() => { this.reworkSuccess = undefined }, 4000);
       },
         error => {
           this.reworkSuccess = false
           this.handleUpdateError(error)
+          setTimeout(() => { this.reworkSuccess = undefined }, 4000);
         }
       )
-
   }
 
   checkCurrentBatchChange(batch: Batch): boolean {

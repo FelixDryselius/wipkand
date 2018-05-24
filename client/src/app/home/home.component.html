@@ -36,14 +36,14 @@
               <div class="col-md-8" align="left" *ngIf="haveData; else loading">
                 {{ active }} batch #{{ latestBatch.batch_number }}:
               </div>
-              <div class="col-md-4" align="right" *ngIf="haveData">
+              <!-- <div class="col-md-4" align="right" *ngIf="haveData">
                 <button class="btn btn-primary" *ngIf="!(latestBatch.end_date)" disabled>
                   Rework batch
                 </button>
                 <button class="btn btn-primary" *ngIf="latestBatch.end_date && !(latestBatch.rework_date)" (click)="reworkBatch()">
                   Rework Batch
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="card-body">

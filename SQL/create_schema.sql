@@ -23,6 +23,7 @@ CREATE TABLE production_order
 CREATE TABLE batch
 (
   ID int NOT NULL AUTO_INCREMENT,
+  is_active tinyint NOT NULL DEFAULT 0, 
   batch_number char(10) NOT NULL UNIQUE,
   start_date datetime,
   end_date datetime,
@@ -34,9 +35,6 @@ CREATE TABLE batch
   HMI2_bad INT,
   rework_date datetime,
   applied_labels INT,
-  label_print_time datetime, 
-  rework_time time,
-  shifts int,
   production_order char(7) NOT NULL,
   PRIMARY KEY (ID),
   FOREIGN KEY (production_order) REFERENCES production_order(order_number)

@@ -139,17 +139,17 @@ export class DataPageComponent implements OnInit {
       // Because the http response from the server is strings these need to be typed as Date again
       batch.start_date = new Date(batch.start_date)
       batch.end_date = new Date(batch.end_date)
-      batch.label_print_time = new Date(batch.label_print_time)
+      batch.rework_date = new Date(batch.rework_date)
       
       //Filling the displayDataList
-      this.displayDataList.push({
+      let tempDisplayData = {
         batch_id: batch.id,
         order_number: batch.order.order_number,
         batch_number: batch.batch_number,
         article_number: batch.order.article_number,
         start_date: batch.start_date,
         end_date: batch.end_date,
-        batch_time: new Date(batch.end_date.getDate() - batch.start_date.getDate()),
+        batch_time: new Date(batch.end_date.getTime() - batch.start_date.getTime()),
         reference_storage: tempReferenceStorage,
         scrap: batch.scrap,
         yield: batch.production_yield,
@@ -163,9 +163,43 @@ export class DataPageComponent implements OnInit {
         rework_date: batch.rework_date,
         est_pick_replace:(batch.hmi1_bad+batch.hmi2_bad)-batch.scrap*10-batch.applied_labels,
         applied_labels: batch.applied_labels,
-        reprint_date: batch.label_print_time,
-        rework_time: new Date(batch.label_print_time.getDate() - batch.end_date.getDate())
-      } as DataPageDisplayData)
+        rework_time: new Date(batch.rework_date.getTime() - batch.end_date.getTime())
+      } as DataPageDisplayData
+      
+      this.displayDataList.push(tempDisplayData)
+    
+      
+      // this.displayDataList.push({
+      //   batch_id: batch.id,
+      //   order_number: batch.order.order_number,
+      //   batch_number: batch.batch_number,
+      //   article_number: batch.order.article_number,
+      //   start_date: batch.start_date,
+      //   end_date: batch.end_date,
+      //   batch_time: new Date(batch.end_date.getDate() - batch.start_date.getDate()),
+      //   reference_storage: tempReferenceStorage,
+      //   scrap: batch.scrap,
+      //   yield: batch.production_yield,
+      //   hmi1_good: batch.hmi1_good,
+      //   hmi1_bad: batch.hmi1_bad,
+      //   hmi1_total: batch.hmi1_good - batch.hmi1_bad,
+      //   hmi2_good: batch.hmi2_good,
+      //   hmi2_bad: batch.hmi2_bad,
+      //   hmi2_total: batch.hmi2_good - batch.hmi2_good,
+      //   grand_match_total: (batch.hmi1_good - batch.hmi1_bad) - (batch.hmi2_good - batch.hmi2_good),
+      //   rework_date: batch.rework_date,
+      //   est_pick_replace:(batch.hmi1_bad+batch.hmi2_bad)-batch.scrap*10-batch.applied_labels,
+      //   applied_labels: batch.applied_labels,
+      //   rework_time: new Date(batch.rework_date.getDate() - batch.end_date.getDate())
+      // } as DataPageDisplayData)
+     //console.log(this.displayDataList.pop().end_date.getDate() - this.displayDataList.pop().start_date.getDate());
+      // console.log(this.displayDataList.pop().end_date);
+      // console.log(this.displayDataList);
+      //console.log(this.displayDataList.pop().start_date);
+     // console.log(batch);
+     
+      
+      
     })
     this.hasValues = true
   }

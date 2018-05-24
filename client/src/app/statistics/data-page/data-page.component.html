@@ -47,7 +47,7 @@
             <th rowspan="2">Product Num.</th>
             <th rowspan="2">Start Date</th>
             <th rowspan="2">End Date</th>
-            <th rowspan="2">Batch Time</th>
+            <th rowspan="2">Total Batch Time</th>
             <th rowspan="2">Ref. Storage</th>
             <th rowspan="2">Scrap</th>
             <th rowspan="2">Yield</th>
@@ -57,7 +57,6 @@
             <th rowspan="2">Rework Date</th>
             <th rowspan="2">Est. Pick & Replace</th>
             <th rowspan="2">Labels Applied</th>
-            <th rowspan="2">Reprint Date</th>
             <th rowspan="2">Rework Time</th>
             <th rowspan="2">Comments</th>
           </tr>
@@ -76,7 +75,7 @@
           <td class="px-1 py-1">{{ displayItem.article_number }}</td>
           <td class="px-1 py-1">{{ displayItem.start_date | date:"yy/MM/dd HH:mm" }}</td>
           <td class="px-1 py-1">{{ displayItem.end_date | date:"yy/MM/dd HH:mm" }}</td>
-          <td class="px-1 py-1">{{ displayItem.batch_time | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="px-1 py-1">{{ displayItem.batch_time.getDate() - 1 }} days, {{ displayItem.batch_time | date:"H" }} hours and {{ displayItem.batch_time | date:"m" }} minutes</td>
           <td class="px-1 py-1">{{ displayItem.reference_storage }}</td>
           <td class="px-1 py-1">{{ displayItem.scrap }}</td>
           <td class="px-1 py-1">{{ displayItem.yield }}</td>
@@ -90,8 +89,7 @@
           <td class="px-1 py-1">{{ displayItem.rework_date | date:"yy/MM/dd HH:mm" }}</td>
           <td class="px-1 py-1">{{ displayItem.est_pick_replace }}</td>
           <td class="px-1 py-1">{{ displayItem.applied_labels }}</td>
-          <td class="px-1 py-1">{{ displayItem.reprint_date | date:"yy/MM/dd HH:mm" }}</td>
-          <td class="px-1 py-1">{{ displayItem.rework_time | date:"yy/MM/dd HH:mm" }}</td>
+          <td class="px-1 py-1">{{ displayItem.rework_time.getDate() - 1 }} days, {{ displayItem.rework_time | date:"H" }} hours and {{ displayItem.rework_time | date:"m" }} minutes</td>
           <td class="">
             <a (click)="getComments(displayItem.batch_number)" class="text-primary test">Comments</a>
             <!-- <tr *ngFor="let comment of displayItem.comments">{{ comment.user_name }}: <br>{{ comment.text_comment }} </tr> -->
