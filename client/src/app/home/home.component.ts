@@ -117,7 +117,6 @@ export class HomeComponent implements OnInit {
       .flatMap(data => {
         let batchList = (data as QueryResponse).results as Batch[]
         this.latestBatch = batchList[0]
-
         // Is there data?
         if (this.latestBatch) {
           if (this.latestBatch.end_date == null) {
