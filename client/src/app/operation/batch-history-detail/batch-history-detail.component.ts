@@ -31,6 +31,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   @ViewChild(BatchReworkComponent) batchReworkComponent: BatchReworkComponent
 
   private batchDetailForm: FormGroup;
+  batchFormActive: boolean = false;
   private batchDetailID: string;
   private batchObservable: Observable<any>;
   private batchSub: any;
@@ -43,6 +44,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
   private orderObservable: Observable<any>;
   private orderSub: any;
   private orderDetailForm: FormGroup;
+  orderFormActive: boolean = false;
 
   private productObservable: Observable<any>;
   private productSub: any;
@@ -141,6 +143,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         Validators.required
       ])
     })
+    this.orderDetailForm.disable()
   }
 
   createBatchForm() {
@@ -177,11 +180,8 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       'applied_labels': new FormControl('', [
         Validators.pattern("^[0-9]*$"),
       ]),
-      // 'label_print_time': new FormControl('', [
-      // ]),
-      // 'rework_time': new FormControl('', [
-      // ]),
     })
+    this.batchDetailForm.disable()
   }
 
   stringToDate(batch: Batch) {
@@ -193,9 +193,6 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     }
     if (batch.rework_date) {
       batch.rework_date = new Date(batch.rework_date)
-    }
-    if (batch.label_print_time) {
-      batch.label_print_time = new Date(batch.label_print_time)
     }
   }
 
@@ -209,15 +206,20 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       batch_number: this.currentBatch.batch_number
     }
     this.clearMsg()
+    this.orderFormActive = false;
+    this.orderDetailForm.disable();
     this.operationsService.updateBatch(batch as Batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.updateOrderSuccess = true
         this.handleUpdateBatch(data as Batch)
+        setTimeout(() => { this.updateOrderSuccess = undefined }, 4000);
       },
         error => {
           this.updateOrderSuccess = false
+          this.batchDetailForm.patchValue(this.currentBatch)
           this.handleUpdateError(error)
+          setTimeout(() => { this.updateOrderSuccess = undefined }, 4000);
         })
   }
 
@@ -228,15 +230,20 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       form['rework_time'] = null
     }
     this.clearMsg()
+    this.batchFormActive = false;
+    this.batchDetailForm.disable();
     this.operationsService.updateBatch(form as Batch)
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.updateBatchSuccess = true
         this.handleUpdateBatch(data as Batch)
+        setTimeout(() => { this.updateBatchSuccess = undefined }, 4000);
       },
         error => {
           this.updateBatchSuccess = false
+          this.batchDetailForm.patchValue(this.currentBatch)
           this.handleUpdateError(error)
+          setTimeout(() => { this.updateBatchSuccess = undefined }, 4000);
         }
       )
   }
@@ -248,6 +255,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
     let batch: Batch = {
       id: this.currentBatch.id,
+      is_active: 0,
       batch_number: this.currentBatch.batch_number,
       order: this.currentBatch.order,
       applied_labels: _applied_labels,
@@ -265,13 +273,14 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         this.stringToDate(this.currentBatch)
         this.reworkSuccess = true
         this.batchDetailForm.patchValue(this.currentBatch)
+        setTimeout(() => { this.reworkSuccess = undefined }, 4000);
       },
         error => {
           this.reworkSuccess = false
           this.handleUpdateError(error)
+          setTimeout(() => { this.reworkSuccess = undefined }, 4000);
         }
       )
-
   }
 
   checkCurrentBatchChange(batch: Batch): boolean {

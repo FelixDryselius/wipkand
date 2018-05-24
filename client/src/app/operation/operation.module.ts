@@ -11,11 +11,8 @@ import { BatchGuard } from '../auth/batch-guard.service';
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
 import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
-import { CommentComponent } from './comment/comment.component';
-import { CommentService } from '../shared/application-services/comment.service';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
 import { OperationsComponent } from './operations/operations.component';
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { OperationRoutingModule } from './operation-routing.module';
 import { StartBatchComponent } from './start-batch/start-batch.component';
 
@@ -31,7 +28,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    Ng2PageScrollModule,
     NgbModule,
     OperationRoutingModule,
     CalendarModule
@@ -41,7 +37,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BatchHistoryComponent,
     BatchHistoryDetailComponent,
     BatchReworkComponent,
-    CommentComponent,
     FinishBatchComponent,
     OperationsComponent,
     StartBatchComponent

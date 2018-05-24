@@ -45,13 +45,11 @@ export class AuthAPIService {
         private router: Router,
     ) {
         if (this.tokenValid) {
-            console.log("Token is valid!")
             this.setLoggedIn(true)
             if (!this.currentUser) {
                 this.setCurrentUser()
             }
         } else {
-            console.log("Token is not valid!")
             this.setLoggedIn(false)
             this.performLogout()
         }
@@ -129,7 +127,6 @@ export class AuthAPIService {
 
     callRefreshToken() {
         this.tokenRefreshHttpRecallSub = this.refreshToken().subscribe(() => {
-            console.log("Token Refreshed. Unsubscribing..");
             this.isRefreshingToken = false;
             this.tokenRefreshHttpRecallSub.unsubscribe()
         })
@@ -139,8 +136,6 @@ export class AuthAPIService {
         let refreshEndpoint = `${this.URL_AUTH}token/refresh/`;
         let refreshToken = this.cookieService.get("jwt-refreshtoken");
         return this.http.post(`${this.URL_AUTH}token/refresh/`, { "refresh": `${refreshToken}` }).map(token => {
-            console.log("In refreshToken(). response is: ")
-            console.log(token);
             this.cookieService.set('jwt-accesstoken', token['access'], null, "/")
             this.cookieService.set('jwt-refreshtoken', token['refresh'], new Date(token['expires']), "/")
         })

@@ -1,6 +1,16 @@
+<div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 align="left">
+                Accumulated production of latest batch
+            </h2>
+          </div>
+        </div>
+      </div>
+      
+      <hr class="separator">
 <div class="container">
     <div class="row" style="height:70vh" *ngIf = "haveData; else loading">
-        <h3>Accumulated production yield of latest batch</h3>
       <ngx-charts-line-chart
         [view]="view"
         [scheme]="colorScheme"
@@ -13,13 +23,12 @@
         [yAxisLabel] = 'yAxisLabel'
         [xAxis]='xAxis'
         [yAxis] = 'yAxis'
-        [timeline]="timeline"
-        (select)="pressed($event)">
+        [timeline]="timeline">
       </ngx-charts-line-chart> 
   </div>
   </div>
   
   <!-- If user is loaded show the form, else show the loading template -->
 <ng-template #loading>
-  Loading content...
+    No data to show...
 </ng-template>

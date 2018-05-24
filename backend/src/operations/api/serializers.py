@@ -106,7 +106,7 @@ def get_order_create(order, product):
         if product_for_order.article_number != product.article_number:
             print("WRONG NEW PRODUCT NUMBER")
             raise ValidationError(
-                {"order_number": "An order with a different article number already exists."}
+                {"order_number": "The same order with a different article number already exists."}
             )
 
     except ProductionOrder.DoesNotExist:
@@ -153,14 +153,8 @@ def update_batch_details(instance, data):
         'end_date', instance.end_date)
     instance.rework_date = data.get(
         'rework_date', instance.rework_date)
-    instance.label_print_time = data.get(
-        'label_print_time', instance.label_print_time)
     instance.applied_labels = data.get(
         'applied_labels', instance.applied_labels)
-    instance.rework_time = data.get(
-        'rework_time', instance.rework_time)
-    instance.shifts = data.get(
-        'shifts', instance.shifts)
     instance.production_yield = data.get(
         'production_yield', instance.production_yield)
     instance.hmi1_good = data.get(

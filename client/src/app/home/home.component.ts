@@ -25,8 +25,8 @@ import { Product } from '../shared/interfaces/product';
 export class HomeComponent implements OnInit {
 
   private productionObservable: Observable<any>;
-  private productionSub: any;
   prodStats: {};
+  
   private prodDataColumns = ['Time stamp', 'On shift', 'Produced', 'Signature']
 
   batches: [Batch]
@@ -117,7 +117,6 @@ export class HomeComponent implements OnInit {
       .flatMap(data => {
         let batchList = (data as QueryResponse).results as Batch[]
         this.latestBatch = batchList[0]
-
         // Is there data?
         if (this.latestBatch) {
           if (this.latestBatch.end_date == null) {
@@ -174,7 +173,7 @@ export class HomeComponent implements OnInit {
           //adding both goal and accumulated production statistics to displayData
           this.displayDataList = [
             {
-              'name': this.productionStatistics[0].batch.batch_number + "'s accumulated yield",
+              'name': "Accumulated yield",
               'series': tempSeries
             },
             {

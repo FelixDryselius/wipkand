@@ -14,7 +14,6 @@ export class BatchReworkComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log("Init");
     if (this.reworkForm.controls.hmi1_total_rework) {
       this.reworkForm.controls.hmi1_total_rework.enable()
       this.reworkForm.controls.hmi1_good_rework.enable()
@@ -53,8 +52,6 @@ export class BatchReworkComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    console.log("Destroy");
-
     if (this.reworkForm.controls.hmi1_total_rework) {
       this.reworkForm.controls.hmi1_total_rework.disable()
       this.reworkForm.controls.hmi1_good_rework.disable()
@@ -64,10 +61,6 @@ export class BatchReworkComponent implements OnInit {
       this.reworkForm.controls.hmi2_good_rework.disable()
       this.reworkForm.controls.hmi2_bad_rework.disable()
     }
-  }
-
-  test() {
-    console.log("It Works!");
   }
 
   getAppliedLabels() {

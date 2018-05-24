@@ -1,69 +1,141 @@
 <div class="container-fluid">
-    <div class="row my-2">
-        <div class="col-lg-6">
-            <form (ngSubmit)="searchHistory($event, searchQuery.value)">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <input class="form-control" type="search" #searchQuery>
-                    </div>
-                    <div class="col-lg-4">
-
-                        <button type="submit" value="Search" class="btn btn-default">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-lg-2 offset-lg-4" *ngIf="queryResponse; else loading">
-            <button class="btn btn-outline-primary w-50 float-left" (click)="goPrevious()" [disabled]="!queryResponse.previous">Previous</button>
-            <button class="btn btn-outline-primary w-50 float-right" (click)="goNext()" [disabled]="!queryResponse.next">Next</button>
-        </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2 align="left">
+        History
+      </h2>
     </div>
-    <div *ngIf="queryResponse">
-        <div *ngIf="queryResponse.count != 0; else noContent">
-            <div class="card-group" *ngFor="let batch of batches">
-                <div class="card">
-                    <div class="card-body align-items-center d-flex justify-content-center">
-                        <h5 class="card-title"># {{ batch.batch_number }}</h5>
-                    </div>
-                </div>
-                <div class="card card card-block d-flex">
-                    <div class="card-body align-items-center">
-                        <h5 class="card-title d-flex justify-content-center ">Information</h5>
-                        <div class="d-flex justify-content-center">
-                            <ul>
-                                <li>
-                                    <b>Product:</b> {{ batch.order.article_number }}
-                                </li>
-                                <li>
-                                    <b>Start:</b> {{ batch.start_date | date:"yyyy-MM-dd HH:mm" }}
-                                </li>
-                                <li>
-                                    <b>Ended:</b> {{ batch.end_date | date:"yyyy-MM-dd HH:mm" }}
-                                </li>
-                                <li>
-                                    <b>Yield:</b> {{ batch.production_yield * 10}}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="card text-center">
-                    <div class="card-body card-body align-items-center d-flex justify-content-center">
-
-                        <a (click)="toBatchDetail(batch.id)" class="btn btn-primary">Details</a>
-                    </div>
-                </div>
-            </div>
+  </div>
+</div>
+<hr class="separator">
+<div class="container-fluid">
+  <div class="row my-2">
+    <div class="col-lg-9">
+      <form (ngSubmit)="searchHistory($event, searchQuery.value)">
+        <div class="row">
+          <div class="col-lg-4">
+            <input class="form-control" type="search" #searchQuery>
+          </div>
+          <div class="col-lg-1">
+            <button type="submit" value="Search" class="btn btn-primary">Search</button>
+          </div>
+          <div class="col-lg-1">
+            <button type="reset" (click)="ngOnInit()" class="btn btn-secondary">Reset</button>
+          </div>
+          <div class="col-lg-6">
+            <p *ngIf="this.searched.length">You searched for:
+              <b>{{ searched }}</b>
+            </p>
+          </div>
         </div>
+      </form>
     </div>
-    <hr>
+
+    <div class="col-lg-3 align-self-end" *ngIf="queryResponse; else loading">
+      <div class="row justify-content-between p-1">
+        <div class="col-lg-5">
+          <button class="btn btn-outline-primary w-100" (click)="goPrevious()" [disabled]="!queryResponse.previous">Previous</button>
+        </div>
+        <div class="col-lg-5">
+          <button class="btn btn-outline-primary w-100" (click)="goNext()" [disabled]="!queryResponse.next">Next</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div *ngIf="queryResponse">
+    <div *ngIf="queryResponse.count != 0; else noContent">
+
+      <table class="table table-bordered rounded">
+        <tbody>
+          <tr *ngFor="let batch of batches" class="align-items-center justify-content-center">
+            <th scope="row" class="text-center align-middle">
+              # {{ batch.batch_number }}
+              <p *ngIf="batch.end_date && batch.rework_date">
+
+                <label class="p-1 mt-1 font-weight-bold bg-success-light rounded">Reworked</label>
+              </p>
+              <p *ngIf="batch.end_date && !batch.rework_date">
+
+                <label class="p-1 mt-1 font-weight-bold bg-warning-light rounded">Finished</label>
+              </p>
+              <p *ngIf="!batch.end_date && !batch.rework_date">
+
+                <label class="p-1 mt-1 font-weight-bold bg-primary-light rounded">Running</label>
+              </p>
+            </th>
+            <td scope="col" class="align-middle">
+              <div class="row">
+                <div class="col-lg-6 text-right">
+                  Order number:
+                </div>
+                <div class="col-lg-6 float-left">
+                  <b>{{ batch.order.order_number }}</b>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 text-right">
+                  Article number:
+                </div>
+                <div class="col-lg-6 float-left">
+                  <b>{{ batch.order.article_number }}</b>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 text-right">
+                  Yield:
+                </div>
+                <div class="col-lg-6 float-left">
+                  <b>{{ batch.production_yield }}</b>
+                </div>
+              </div>
+            </td>
+            <td scope="col" class="align-middle">
+              <div class="row">
+                <div class="col-lg-6 text-right">
+                  Start Date:
+                </div>
+                <div class="col-lg-6 float-left">
+                  <b>{{ batch.start_date | date:"yyyy-MM-dd HH:mm" }}</b>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 text-right">
+                  End Date:
+
+                </div>
+                <div class="col-lg-6 float-left">
+                  <b>{{ batch.end_date | date:"yyyy-MM-dd HH:mm" }}</b>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 text-right">
+                  Rework Date:
+
+                </div>
+                <div class="col-lg-6 float-left">
+                  <b>{{ batch.rework_date | date:"yyyy-MM-dd HH:mm" }}</b>
+                </div>
+              </div>
+            </td>
+            <td scope="col" class="text-center align-middle">
+              <a (click)="toBatchDetail(batch.id)" class="btn btn-primary">Details</a>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br>
 </div>
 
 <ng-template #noContent>
-    No Batches found...
+  No Batches found...
 </ng-template>
 
 <!-- If user is loaded show the form, else show the loading template -->
 <ng-template #loading>
     Loading content...
 </ng-template>
+

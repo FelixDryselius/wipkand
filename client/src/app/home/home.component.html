@@ -11,88 +11,81 @@
 <hr class="separator">
 
 <div class="container-fluid">
-  <div class="col-md-12">
     <div class="row">
       <div class="col-md-7">
-        <div class="container">
-          <div class="row" style="height:75vh">
-
-            <div class="headerBatchStats">Accumulated production yield of latest batch</div>
+          <!-- <div class="row" > style="height:75vh" -->
+            <div class="headerBatchStats" style="height:50vh" *ngIf="graphData; else noData">
+              <p> Accumulated production of latest batch </p>
             <br>
-            <ngx-charts-line-chart *ngIf="graphData; else loading" [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
-
+            <ngx-charts-line-chart   [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
               [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisTickFormatting]="xAxisFormatting" [xAxisLabel]="xAxisLabel"
-              [yAxisLabel]='yAxisLabel' [xAxis]='xAxis' [yAxis]='yAxis' [timeline]="timeline" (select)="pressed($event)">
+              [yAxisLabel]='yAxisLabel' [xAxis]='xAxis' [yAxis]='yAxis' [timeline]="timeline">
             </ngx-charts-line-chart>
           </div>
-        </div>
       </div>
       <div class="col-md-5">
         <div class="card batchStats">
           <div class="card-header headerBatchStats">
             <div class="row">
-              <div class="col-md-8" align="left" *ngIf="haveData">
+              <div class="col-md-8" align="left" *ngIf="haveData; else loading">
                 {{ active }} batch #{{ latestBatch.batch_number }}:
               </div>
-              <div class="col-md-4" align="right" *ngIf="haveData">
+              <!-- <div class="col-md-4" align="right" *ngIf="haveData">
                 <button class="btn btn-primary" *ngIf="!(latestBatch.end_date)" disabled>
                   Rework batch
                 </button>
                 <button class="btn btn-primary" *ngIf="latestBatch.end_date && !(latestBatch.rework_date)" (click)="reworkBatch()">
                   Rework Batch
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6" *ngIf="haveData">
+              <div class="col-md-6" *ngIf="haveData; else loading">
                 <ul>
                   <li>
-                    <b>Order:</b> {{ latestBatch.order.order_number }}
+                    Order: <b>{{ latestBatch.order.order_number }}</b>
                   </li>
                   <li>
-                    <b>Article number:</b> {{ latestBatch.order.article_number }}
+                    Article number: <b>{{ latestBatch.order.article_number }}</b>
                   </li>
                   <li>
-                    <b>Start Date:</b> {{ latestBatch.start_date | date:'yyyy-MM-dd HH:mm:ss' }}
+                    Start Date: <b>{{ latestBatch.start_date | date:'yyyy-MM-dd HH:mm' }}</b>
                   </li>
                   <li>
-                    <b>End Date:</b> {{ latestBatch.end_date | date:'yyyy-MM-dd HH:mm:ss' }}
+                    End Date: <b>{{ latestBatch.end_date | date:'yyyy-MM-dd HH:mm' }}</b>
                   </li>
                   <li>
-                    <b>Rework Date:</b> {{ latestBatch.rework_date }}
-                  </li>
+                    Rework Date: <b>{{ latestBatch.rework_date }}</b>
+                  </li>                 
                   <li>
-                    <b>Label Print Time:</b> {{ latestBatch.label_print_time }}
-                  </li>
-                  <li>
-                    <b>Applied Lables:</b> {{ latestBatch.applied_labels }}
+                    Rework Time: <b>{{ latestBatch.rework_time }}</b>
                   </li>
                 </ul>
               </div>
               <div class="col-md-6" *ngIf="haveData">
                 <ul>
                   <li>
-                    <b>Rework Time:</b> {{ latestBatch.rework_time }}
+                    Applied Lables: <b>{{ latestBatch.applied_labels }}</b>
                   </li>
                   <li>
-                    <b>Yield:</b> {{ latestBatch.production_yield }}
+                    Yield: <b>{{ latestBatch.production_yield }}</b>
                   </li>
                   <li>
-                    <b>HMI1 Good:</b> {{ latestBatch.hmi1_good }}
+                    HMI1 Good: <b>{{ latestBatch.hmi1_good }}</b>
                   </li>
                   <li>
-                    <b>HMI1 Bad:</b> {{ latestBatch.hmi1_bad }}
+                    HMI1 Bad: <b>{{ latestBatch.hmi1_bad }}</b>
                   </li>
                   <li>
-                    <b>HMI2 Good:</b> {{ latestBatch.hmi2_good }}
+                    HMI2 Good: <b>{{ latestBatch.hmi2_good }}</b>
                   </li>
                   <li>
-                    <b>HMI2 Bad:</b> {{ latestBatch.hmi1_bad }}
+                    HMI2 Bad: <b>{{ latestBatch.hmi1_bad }}</b>
                   </li>
                   <li>
-                    <b>Scrap:</b> {{ latestBatch.scrap }}
+                    Scrap: <b>{{ latestBatch.scrap }}</b>
                   </li>
                 </ul>
               </div>
@@ -101,8 +94,7 @@
           </div>
         </div>
 
-
-        <div class="headerRecentEvents">Most recent events:</div>
+        <div class="headerRecentEvents">Recent events:</div>
         <hr>
         <div class="row">
           <div class="col-md-6">
@@ -135,10 +127,14 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
 
+<br>
 
 <ng-template #loading>
   Loading content...
+</ng-template>
+
+<ng-template #noData>
+  <h5>No production statistics available</h5>
 </ng-template>

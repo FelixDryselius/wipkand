@@ -84,10 +84,10 @@ export class StartBatchComponent implements OnInit, OnDestroy {
     this.order = formData.value['orderNumber'];
     this.article = formData.value['articleNumber'];
     this.batchStartDate = new Date();
-    console.log("submit!");
 
     let newBatch = {
       batch_number: this.batch,
+      is_active: 1,
       order: {
         order_number: this.order,
         article_number: this.article,
@@ -102,7 +102,6 @@ export class StartBatchComponent implements OnInit, OnDestroy {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.operationsService.setCurrentBatchInfo(data as Batch);
-        console.log("Successfully created batch! Navigating to operations..");
         this.router.navigate(['/operation/operations'])
         this.createBatchSub.unsubscribe()
       }, 

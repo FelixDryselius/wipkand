@@ -1,6 +1,16 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 align="left">
+            Production per 72 hours, displayed per hour
+        </h2>
+      </div>
+    </div>
+  </div>
+  
+  <hr class="separator">
  <div class="container">
   <div class="row" style="height:70vh">
-      <h3>Production during 72 hours per hour</h3>
     <div class='col-9'>
     <ngx-charts-line-chart *ngIf = "haveData; else loading"
       [view]="view"
@@ -57,5 +67,5 @@
 
 <!-- If user is loaded show the form, else show the loading template -->
 <ng-template #loading>
-  Loading content...
+  No data to show...
 </ng-template>

@@ -1,6 +1,17 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 align="left">
+            Number of floorstock changes, displayed per batch
+        </h2>
+      </div>
+    </div>
+  </div>
+  
+  <hr class="separator">
 <div class="container">
   <div class="row" style="height:70vh">
-    <h3>Number of floorstock items consumed per batch </h3>
+    
     <div class='col-9'>
     <ngx-charts-bar-vertical-stacked *ngIf = "haveData; else loading"
       [scheme]="colorScheme"
@@ -13,8 +24,7 @@
       [xAxisLabel] = "xAxisLabel"
       [yAxisLabel] = "yAxisLabel"
       [xAxis] = 'xAxis'
-      [yAxis] = 'yAxis'
-      (select)="pressed($event)">
+      [yAxis] = 'yAxis'>
       <ng-template #tooltipTemplate let-model="model">
         Batch number: {{model.series}} 
         <br>
@@ -30,7 +40,7 @@
           <div class="col">
             <div ngbDropdown class="d-inline-block btn-block">
               <button ngbDropdownToggle class = "btn btn-primary btn-sm btn-block"  id="setSize">
-                Time scope
+                Number floorstock changes
               </button>
               <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="setSize">
                 <button class="dropdown-item" (click)="setOffsetSize('40')">Show 40 floorstock changes</button>
@@ -59,5 +69,5 @@
 
 <!-- If user is loaded show the form, else show the loading template -->
 <ng-template #loading>
-  Loading content...
+    No data to show...
 </ng-template>
