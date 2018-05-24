@@ -101,6 +101,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   productionForm: FormGroup;
 
+  disableInput = true;
 
   constructor(
     private operationsService: OperationsService,
@@ -235,11 +236,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
         }
         this.beforeChanges = JSON.parse(JSON.stringify(this.currentFloorstock))
       });
-  }
-
-  activateButton() {
-    alert("works")
-    this.buttonOn = true
   }
 
   addOne(item_id, quantity, change) {

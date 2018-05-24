@@ -33,12 +33,12 @@
               <div class="col-md-3"></div>
               <div class="alert alert-danger inputMiddle col-md-6" *ngIf="commentForm.controls.commentText.invalid && (commentForm.controls.commentText.dirty || commentForm.controls.commentText.touched) && prodInfo">
                 <div *ngIf="commentForm.controls.commentText.errors.required">
-                    <b>* Comment text is required.</b>
+                  <b>* Comment text is required.</b>
                 </div>
               </div>
               <div class="alert alert-danger inputMiddle" *ngIf="!prodInfo">
                 <div>
-                    <b>* Comments can not be added without a batch running.</b>
+                  <b>* Comments can not be added without a batch running.</b>
                 </div>
               </div>
             </div>
@@ -53,13 +53,13 @@
               <div class="col-md-3"></div>
               <div class="alert alert-danger inputMiddle col-md-6" *ngIf="commentForm.controls.commentName.invalid && (commentForm.controls.commentName.dirty || commentForm.controls.commentName.touched) && prodInfo">
                 <div *ngIf="commentForm.controls.commentName.errors.required">
-                    <b>* Name is required.</b>
+                  <b>* Name is required.</b>
                 </div>
                 <div *ngIf="commentForm.controls.commentName.errors.minlength">
-                    <b>* Name must be atleast 2 characters long.</b>
+                  <b>* Name must be atleast 2 characters long.</b>
                 </div>
                 <div *ngIf="commentForm.controls.commentName.errors.pattern">
-                    <b>* Name can not contain numbers or special characters.</b>
+                  <b>* Name can not contain numbers or special characters.</b>
                 </div>
               </div>
             </div>
@@ -67,10 +67,10 @@
             <div class="row comment-button">
               <div class="col-md-6">
                 <div class="alert alert-success inputMiddle" *ngIf="commentAdded">
-                    <b>* Your comment was added!</b>
+                  <b>* Your comment was added!</b>
                 </div>
                 <div class="alert alert-danger inputMiddle" *ngIf="commentError">
-                    <b>* An error occured. Your comment was not added.</b>
+                  <b>* An error occured. Your comment was not added.</b>
                 </div>
               </div>
               <div class="col-md-6" align="right">
@@ -114,7 +114,7 @@
               <div class="col-md-3"></div>
               <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.inputDate.invalid && (productionForm.controls.inputDate.dirty || productionForm.controls.inputDate.touched)">
                 <div *ngIf="productionForm.controls.inputDate.errors?.required">
-                    <b>* Time is required.</b>
+                  <b>* Time is required.</b>
                 </div>
               </div>
             </div>
@@ -129,7 +129,7 @@
               <div class="col-md-3"></div>
               <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.onShift.invalid && (productionForm.controls.onShift.dirty || productionForm.controls.onShift.touched)">
                 <div *ngIf="productionForm.controls.onShift.errors?.required">
-                    <b>* Number on shift is required.</b>
+                  <b>* Number on shift is required.</b>
                 </div>
               </div>
             </div>
@@ -144,7 +144,7 @@
               <div class="col-md-3"></div>
               <div class="alert alert-danger col-md-6" *ngIf="productionForm.controls.produced.invalid && (productionForm.controls.produced.dirty || productionForm.controls.produced.touched)">
                 <div *ngIf="productionForm.controls.produced.errors?.required">
-                    <b>* Amount produced is required.</b>
+                  <b>* Amount produced is required.</b>
                 </div>
               </div>
             </div>
@@ -241,8 +241,11 @@
                         <b class="button-signs">-</b>
                       </button>
                     </span>
-                    <input type="number" min="0" class="form-control input-number inputMiddle" [value]="item.quantity" placeholder="0" name="{{item.item_id}}"
-                      [ngModel]="item.quantity" onchange="activateButton()">
+                    <input *ngIf="item.quantity != null" type="number" min="0" class="form-control input-number inputMiddle" [value]="item.quantity"
+                      name="{{item.item_id}}" [ngModel]="item.quantity" [attr.disabled]="disableInput?'':null">
+
+                    <input *ngIf="item.quantity == null" type="number" min="0" class="form-control input-number inputMiddle" [value]="item.quantity"
+                      placeholder="0" name="{{item.item_id}}" [ngModel]="item.quantity" [attr.disabled]="disableInput?'':null">
                     <span class="input-group-append">
                       <button type="button" class="btn btn-success btn-number plusMinusButtons" (click)="addOne(item.item_id, item.quantity, 'incr')">
                         <b class="button-signs">+</b>
@@ -285,9 +288,11 @@
         </table>
       </div>
     </div>
+  </div>
+</div>
 
-    <br>
+<br>
 
-    <ng-template #noData>
-      No content to show since no batch is running...
-    </ng-template>
+<ng-template #noData>
+  No content to show since no batch is running...
+</ng-template>
