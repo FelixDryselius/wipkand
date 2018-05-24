@@ -71,6 +71,8 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   // FLOORSTOCK SECTION
 
+  myFocusVar: boolean = false;
+
   floorstockErrorMsg;
   floorstockDataError;
   floorstockAdded = false;
@@ -115,6 +117,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   productionForm: FormGroup;
 
+  disableInput = true;
 
   constructor(
     private operationsService: OperationsService,
@@ -464,6 +467,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
     let batch: Batch = {
       id: this.latestBatch.id,
       batch_number: this.latestBatch.batch_number,
+      is_active: 0,
       order: this.latestBatch.order,
       applied_labels: _applied_labels,
       rework_date: new Date(),

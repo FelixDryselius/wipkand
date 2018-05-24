@@ -51,50 +51,50 @@
               <div class="col-md-6" *ngIf="haveData">
                 <ul>
                   <li>
-                    <b>Order:</b> {{ latestBatch.order.order_number }}
+                    Order: <b>{{ latestBatch.order.order_number }}</b>
                   </li>
                   <li>
-                    <b>Article number:</b> {{ latestBatch.order.article_number }}
+                    Article number: <b>{{ latestBatch.order.article_number }}</b>
                   </li>
                   <li>
-                    <b>Start Date:</b> {{ latestBatch.start_date | date:'yyyy-MM-dd HH:mm:ss' }}
+                    Start Date: <b>{{ latestBatch.start_date | date:'yyyy-MM-dd HH:mm' }}</b>
                   </li>
                   <li>
-                    <b>End Date:</b> {{ latestBatch.end_date | date:'yyyy-MM-dd HH:mm:ss' }}
+                    End Date: <b>{{ latestBatch.end_date | date:'yyyy-MM-dd HH:mm' }}</b>
                   </li>
                   <li>
-                    <b>Rework Date:</b> {{ latestBatch.rework_date }}
+                    Rework Date: <b>{{ latestBatch.rework_date }}</b>
                   </li>
                   <li>
-                    <b>Label Print Time:</b> {{ latestBatch.label_print_time }}
+                    Label Print Time: <b>{{ latestBatch.label_print_time }}</b>
                   </li>
                   <li>
-                    <b>Applied Lables:</b> {{ latestBatch.applied_labels }}
+                    Applied Lables: <b>{{ latestBatch.applied_labels }}</b>
                   </li>
                 </ul>
               </div>
               <div class="col-md-6" *ngIf="haveData">
                 <ul>
                   <li>
-                    <b>Rework Time:</b> {{ latestBatch.rework_time }}
+                    Rework Time: <b>{{ latestBatch.rework_time }}</b>
                   </li>
                   <li>
-                    <b>Yield:</b> {{ latestBatch.production_yield }}
+                    Yield: <b>{{ latestBatch.production_yield }}</b>
                   </li>
                   <li>
-                    <b>HMI1 Good:</b> {{ latestBatch.hmi1_good }}
+                    HMI1 Good: <b>{{ latestBatch.hmi1_good }}</b>
                   </li>
                   <li>
-                    <b>HMI1 Bad:</b> {{ latestBatch.hmi1_bad }}
+                    HMI1 Bad: <b>{{ latestBatch.hmi1_bad }}</b>
                   </li>
                   <li>
-                    <b>HMI2 Good:</b> {{ latestBatch.hmi2_good }}
+                    HMI2 Good: <b>{{ latestBatch.hmi2_good }}</b>
                   </li>
                   <li>
-                    <b>HMI2 Bad:</b> {{ latestBatch.hmi1_bad }}
+                    HMI2 Bad: <b>{{ latestBatch.hmi1_bad }}</b>
                   </li>
                   <li>
-                    <b>Scrap:</b> {{ latestBatch.scrap }}
+                    Scrap: <b>{{ latestBatch.scrap }}</b>
                   </li>
                 </ul>
               </div>
@@ -139,6 +139,7 @@
   </div>
 </div>
 
+<br>
 
 <ng-template #loading>
   Loading content...

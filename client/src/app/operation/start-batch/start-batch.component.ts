@@ -87,6 +87,7 @@ export class StartBatchComponent implements OnInit, OnDestroy {
 
     let newBatch = {
       batch_number: this.batch,
+      is_active: 1,
       order: {
         order_number: this.order,
         article_number: this.article,

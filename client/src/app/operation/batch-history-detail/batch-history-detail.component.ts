@@ -194,9 +194,6 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
     if (batch.rework_date) {
       batch.rework_date = new Date(batch.rework_date)
     }
-    if (batch.label_print_time) {
-      batch.label_print_time = new Date(batch.label_print_time)
-    }
   }
 
   submitOrderForm($event, form) {
@@ -254,6 +251,7 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
 
     let batch: Batch = {
       id: this.currentBatch.id,
+      is_active: 0,
       batch_number: this.currentBatch.batch_number,
       order: this.currentBatch.order,
       applied_labels: _applied_labels,

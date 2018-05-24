@@ -43,9 +43,6 @@ class Batch(models.Model):
     hmi2_bad = models.IntegerField(db_column='HMI2_bad', blank=True, null=True)  # Field name made lowercase.
     rework_date = models.DateTimeField(blank=True, null=True)
     applied_labels = models.IntegerField(blank=True, null=True)
-    label_print_time = models.DateTimeField(blank=True, null=True)
-    rework_time = models.TimeField(blank=True, null=True)
-    shifts = models.IntegerField(blank=True, null=True, default=3)
     order = models.ForeignKey('ProductionOrder', models.DO_NOTHING, db_column='production_order')
 
     class Meta:
