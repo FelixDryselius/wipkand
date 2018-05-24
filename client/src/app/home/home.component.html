@@ -11,23 +11,17 @@
 <hr class="separator">
 
 <div class="container-fluid">
-  <div class="col-md-12">
     <div class="row">
       <div class="col-md-7">
-        <div class="container">
-          <div class="row" style="height:75vh">
-            
-            <div class="headerBatchStats" *ngIf="graphData; else noData">
-              <p> Accumulated production yield of latest batch</p>
+          <!-- <div class="row" > style="height:75vh" -->
+            <div class="headerBatchStats" style="height:50vh" *ngIf="graphData; else noData">
+              <p> Accumulated production of latest batch </p>
             <br>
-            <ngx-charts-line-chart  [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
-
+            <ngx-charts-line-chart   [view]="view" [scheme]="colorScheme" [results]="displayDataList" [legend]="showLegend"
               [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisTickFormatting]="xAxisFormatting" [xAxisLabel]="xAxisLabel"
               [yAxisLabel]='yAxisLabel' [xAxis]='xAxis' [yAxis]='yAxis' [timeline]="timeline">
             </ngx-charts-line-chart>
           </div>
-          </div>
-        </div>
       </div>
       <div class="col-md-5">
         <div class="card batchStats">
@@ -136,7 +130,6 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
 
 <br>

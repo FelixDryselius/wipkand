@@ -216,34 +216,8 @@ export class StatisticsChartsComponent implements OnInit {
                 'value': element.production_quantity / element.staff_quantity
               }
             )
-            //Maybe remove?
-            exptectedProductionHolder.push(
-              {
-                'name': new Date(element.time_stamp),
-                'value': 4200
-              }
-            )
-            exptectedPpmhHolder.push(
-              {
-                'name': new Date(element.time_stamp),
-                'value': 4200 / element.staff_quantity
-              }
-            )
           })
           //Finished populating yieldPerHourSeparateBatchList, ppmhSeparateBatchList, continuesYieldPerHourList and continuesPpmhList
-
-
-          //adding expected value to yieldPerHourSeparateBatchList
-          this.yieldPerHourSeparateBatchList.push({
-            'name': 'Expected Production Quantity',
-            'series': exptectedProductionHolder
-          })
-
-          //adding expected value to ppmhSeparateBatchList
-          this.ppmhSeparateBatchList.push({
-            'name': 'Expected Production Quantity',
-            'series': exptectedPpmhHolder
-          })
 
           //adding expected value to continuesYieldPerHourList
           this.continuesYieldPerHourList = [
@@ -251,10 +225,6 @@ export class StatisticsChartsComponent implements OnInit {
               'name': 'Production Quantity',
               'series': this.continuesYieldPerHourList
             },
-            {
-              'name': 'Expected Production Quantity',
-              'series': exptectedProductionHolder
-            }
           ]
 
           //adding expected value to continuesPpmhList
@@ -263,10 +233,6 @@ export class StatisticsChartsComponent implements OnInit {
               'name': 'Production Quantity',
               'series': this.continuesPpmhList
             },
-            {
-              'name': 'Expected Production Quantity',
-              'series': exptectedPpmhHolder
-            }
           ]
 
           //sets which type to show

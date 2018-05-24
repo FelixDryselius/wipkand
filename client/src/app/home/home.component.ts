@@ -174,7 +174,7 @@ export class HomeComponent implements OnInit {
           //adding both goal and accumulated production statistics to displayData
           this.displayDataList = [
             {
-              'name': this.productionStatistics[0].batch.batch_number + "'s accumulated yield",
+              'name': "Accumulated yield",
               'series': tempSeries
             },
             {
