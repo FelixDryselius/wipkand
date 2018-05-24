@@ -8,13 +8,13 @@
     </div>
     <ul class="list-group m-2">
         <li class="list-group-item batch-status-info">
-            <b>Order:</b> {{ prodInfo.order.order_number }}
+            <b>Order nr:</b> {{ prodInfo.order.order_number }}
         </li>
         <li class="list-group-item batch-status-info">
-            <b>Article number:</b> {{ prodInfo.order.article_number }}
+            <b>Article nr:</b> {{ prodInfo.order.article_number }}
         </li>
         <li class="list-group-item batch-status-info">
-            <b>Batch number:</b> {{ prodInfo.batch_number }}
+            <b>Batch nr:</b> {{ prodInfo.batch_number }}
         </li>
     </ul>
     <div class="text-center m-3" *ngIf="authAPI.currentUser">
