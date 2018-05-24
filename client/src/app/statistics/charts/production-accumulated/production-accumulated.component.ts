@@ -7,7 +7,7 @@ import { element, logging } from 'protractor';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { OperationsService } from '../../../shared/application-services/operations.service';
 import { QueryResponse } from '../../../shared/interfaces/query-response';
-import { Scoreboard } from '../../../../assets/interface/scoreboard';
+import { Scoreboard } from '../../../shared/interfaces/scoreboard';
 import { Batch } from '../../../shared/interfaces/batch';
 import { Product } from '../../../shared/interfaces/product';
 

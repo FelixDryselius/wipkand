@@ -14,7 +14,7 @@ import { ProductionAccumulatedComponent } from '../statistics/charts/production-
 import { Subscription } from 'rxjs'
 import { element, logging } from 'protractor';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { Scoreboard } from '../../assets/interface/scoreboard';
+import { Scoreboard } from '../shared/interfaces/scoreboard';
 import { Product } from '../shared/interfaces/product';
 
 @Component({

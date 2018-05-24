@@ -4,8 +4,8 @@ import { Subscription } from 'rxjs'
 //3rd party and application imports
 import { AuthAPIService } from '../../../auth/auth.service';
 import { element } from 'protractor';
-import { Floorstock } from '../../../../assets/interface/floorstock';
-import { FloorstockItem } from '../../../../assets/interface/floorstock_item';
+import { Floorstock } from '../../../shared/interfaces/floorstock';
+import { FloorstockItem } from '../../../shared/interfaces/floorstock_item';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Observable } from 'rxjs/Observable';
 import { OperationsService } from '../../../shared/application-services/operations.service';

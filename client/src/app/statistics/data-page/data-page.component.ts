@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
 // Application imports
 import { AuthAPIService } from '../../auth/auth.service';
 import { Batch } from '../../shared/interfaces/batch';
-import { Comment } from '../../../assets/interface/comment';
+import { Comment } from '../../shared/interfaces/comment';
 import { CommentService } from '../../shared/application-services/comment.service';
 import { DataPageDisplayData } from '../../shared/interfaces/dataPageDisplayData';
 import { OperationsService } from '../../shared/application-services/operations.service';
