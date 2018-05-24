@@ -34,9 +34,6 @@
         <div class="col-lg-12" style="margin-bottom: 10px;">
           <button [disabled]='!currentBatch.end_date || currentBatch.rework_date' (click)="setRework(true); openModal(reworkModal)"
             class="btn btn-primary btn-lg">Batch Rework</button>
-          <!-- <button [disabled]='!currentBatch.end_date || currentBatch.rework_date' data-toggle="modal" data-target="#reworkModal" (click)="setRework(true)"
-            class="btn btn-lg">Batch Rework</button> -->
-
         </div>
         <br>
         <div class="col-lg-6 offset-lg-3 alert alert-danger" *ngIf="reworkSuccess == false;">
@@ -206,23 +203,6 @@
                 </div>
               </li>
 
-              <!-- Label Print Time
-              <li class="list-group-item text-left">
-                <label for="label_print_time">Label Print Time: </label>
-                <p-calendar class="float-right" formControlName="label_print_time" [showTime]="true" dateFormat="yy.mm.dd" hourFormat="24"></p-calendar>
-                <div class="col-lg-12 alert alert-danger font-weight-normal" *ngIf="batchDetailForm.controls.label_print_time.invalid && 
-                (batchDetailForm.controls.label_print_time.dirty || batchDetailForm.controls.label_print_time.touched)">
-                  <span *ngIf="batchDetailForm.controls.label_print_time.errors?.required">
-                    * This field is required.
-                  </span>
-                  <span *ngIf="batchDetailForm.controls.label_print_time.errors?.pattern">
-                    * Please enter a date with format
-                    <br> yyyy-mm-ddT00:00:00
-                    <br>
-                  </span>
-                </div>
-              </li> -->
-
               <!-- Applied Labels -->
               <li class="list-group-item text-left">
                 <label for="applied_labels">Applied Labels:</label>
@@ -244,12 +224,6 @@
                   </span>
                 </div>
               </li>
-
-              <!-- Rework Time -->
-              <!-- <li class="list-group-item text-left">
-                <label for="rework_time">Rework Time:</label>
-                <input id="rework_time" class="input-sm float-right" formControlName="rework_time" />
-              </li> -->
             </ul>
           </div>
 

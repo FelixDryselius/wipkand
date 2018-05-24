@@ -180,10 +180,6 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       'applied_labels': new FormControl('', [
         Validators.pattern("^[0-9]*$"),
       ]),
-      // 'label_print_time': new FormControl('', [
-      // ]),
-      // 'rework_time': new FormControl('', [
-      // ]),
     })
     this.batchDetailForm.disable()
   }
@@ -285,7 +281,6 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
           setTimeout(() => { this.reworkSuccess = undefined }, 4000);
         }
       )
-
   }
 
   checkCurrentBatchChange(batch: Batch): boolean {
