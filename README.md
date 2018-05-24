@@ -7,22 +7,27 @@
 ### Get project from .zip
 - Go to the latest release here on github and download the project. This contains a production ready version of the system.
 
+## Install Python 3
+
+- Install Python 3.6.4 or higher at: https://www.python.org/downloads/release/python-364/
+
 ## Database setup
 - Download & Install MySQL Community Server at: https://dev.mysql.com/downloads/mysql/
-- Make root user and password etc.
-- In MySQL shell (or similiar) run:
+-- At installation, select Standalone MySQL server
+-- At installation, set the password for the root account and remember it.
+
+- In MySQL command line client (or similiar) run:
 ```
-  $ "your-path"\wipkand\SQL\create_schema.sql
-  $ "your-path"\wipkand\SQL\populate_dev_data.sql
+  $ source "your-path"\wipkand\SQL\create_schema.sql
+  $ source "your-path"\wipkand\SQL\populate_dev_data.sql
 ```
-  
+This will create a schema named "vfal" on your server, select it, create tables and populate data.
 
 ## Project setup
-- Install Python 3.6.4 at: https://www.python.org/downloads/release/python-364/
 
 ### VirtualenvWrapper
 Use this virtual env or similiar
-- Install virtualenvwrapper at: https://virtualenvwrapper.readthedocs.io/en/latest/, or
+- Install virtualenvwrapper at: https://virtualenvwrapper.readthedocs.io/en/latest/, or through the command line:
 ```
   $ pip install virtualenvwrapper
 ```
