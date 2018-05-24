@@ -25,8 +25,8 @@ import { Product } from '../shared/interfaces/product';
 export class HomeComponent implements OnInit {
 
   private productionObservable: Observable<any>;
-  private productionSub: any;
   prodStats: {};
+  
   private prodDataColumns = ['Time stamp', 'On shift', 'Produced', 'Signature']
 
   batches: [Batch]

@@ -30,12 +30,9 @@ export class OperationsComponent implements OnInit, OnDestroy {
   private productionSub: any;
   prodStats: {};
 
-  private floorstockItemsObservable: Observable<any>;
   private floorstockItemsSub: any;
   floorstockItems: {};
 
-  private floorstockChangesObservable: Observable<any>;
-  private floorstockChangesSub: any;
   floorstockChanges: {};
 
   //private prodStats: JSON[];
@@ -45,7 +42,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   prodDataAdded = false;
   prodDataError = false;
-  dateErrorMsg;
+  dateErrorMsg: String;
 
   // Variables for getting todays date
   private todaysDate: any;
@@ -128,8 +125,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
-    this.getTime()
     this.productionForm = this.formBuilder.group({
       'inputDate': new FormControl('', [
         Validators.required
@@ -178,35 +173,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
       })
   }
 
-  getTime() {
-    // Get todays date and format to yyy-mm-dd
-    this.todaysDate = new Date();
-    let sec = this.todaysDate.getSeconds();
-    let min = this.todaysDate.getMinutes();
-    let hh = this.todaysDate.getHours();
-    let dd = this.todaysDate.getDate();
-    let mm = this.todaysDate.getMonth() + 1;
-    let yyyy = this.todaysDate.getFullYear();
-
-    function formatUnit(timeUnit) {
-      if (timeUnit < 10) {
-        timeUnit = '0' + timeUnit;
-      }
-      return timeUnit
-    }
-
-    mm = formatUnit(mm)
-    dd = formatUnit(dd)
-    hh = formatUnit(hh)
-    min = formatUnit(min)
-    sec = formatUnit(sec)
-
-    this.currentTime = hh + ':' + min + ':' + sec;
-    this.todaysDate = yyyy + '-' + mm + '-' + dd;
-  }
-
   getFloorstock() {
-
     this.floorstockItemsSub = this.operationsService.getFloorstockItems()
       .switchMap(data => {
         this.floorstockItems = (data as QueryResponse).results
@@ -234,7 +201,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
             this.floorstockItems[key]["item_name"] == "Sleever 301-6906" ||
             this.floorstockItems[key]["item_name"] == "Groninger Carbon 001-1995"
           ) {
-
             let item = { item_name: this.floorstockItems[key]["item_name"] }
             item["item_id"] = this.floorstockItems[key]["item_id"]
             this.currentFloorstock.push(item)
@@ -247,7 +213,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
               this.currentFloorstock[obj]["quantity"] = this.floorstockChanges[k]["quantity"]
               this.currentFloorstock[obj]["last_update"] = this.floorstockChanges[k]["time_stamp"]
               this.currentFloorstock[obj]["batch"] = this.floorstockChanges[k]["batch"]
-
             }
           }
         }
@@ -255,7 +220,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
           if (typeof this.currentFloorstock[obj]["quantity"] == 'undefined') {
             this.currentFloorstock[obj]["id"] = null
             this.currentFloorstock[obj]["quantity"] = null
-            this.currentFloorstock[obj]["last_update"] = ''
+            this.currentFloorstock[obj]["last_update"] = null
             this.currentFloorstock[obj]["batch"] = ''
           }
         }
@@ -290,8 +255,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
   }
 
   getProdList() {
-    this.productionObservable = this.operationsService.getProdStats('?batch_number=' + this.prodInfo.batch_number + '&limit=60')
-
+    this.productionObservable = this.operationsService.getProdStats('?batch_number=' + this.prodInfo.batch_number + '&limit=96')
     this.productionSub = this.productionObservable
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
@@ -338,7 +302,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
   }
 
   updateFloorstock(event, inputData) {
-    this.getTime()
     let results: any = {};
 
     // Collects all changes and stores as dictionary in the object results
@@ -355,7 +318,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
         if (this.beforeChanges[obj]["item_id"] == key && this.beforeChanges[obj]["quantity"] != results[key] && this.beforeChanges[obj]["quantity"] != null) {
           let updateItem = {
             id: this.beforeChanges[obj].id,
-            time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
+            time_stamp: new Date(),
             quantity: results[key],
             floorstock_item: key,
             batch: this.prodInfo.id,
@@ -370,7 +333,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
         else if (this.beforeChanges[obj]["item_id"] == key && this.beforeChanges[obj]["quantity"] != results[key] && this.beforeChanges[obj]["quantity"] == null) {
           // If no time stamp in api was found this means it is new data
           let createItem = {
-            time_stamp: this.todaysDate + 'T' + this.currentTime + 'Z',
+            time_stamp: new Date(),
             quantity: results[key],
             floorstock_item: key,
             batch: this.prodInfo.id,
