@@ -33,7 +33,7 @@
         <div class="card batchStats">
           <div class="card-header headerBatchStats">
             <div class="row">
-              <div class="col-md-8" align="left" *ngIf="haveData">
+              <div class="col-md-8" align="left" *ngIf="haveData; else loading">
                 {{ active }} batch #{{ latestBatch.batch_number }}:
               </div>
               <!-- <div class="col-md-4" align="right" *ngIf="haveData">
@@ -48,7 +48,7 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6" *ngIf="haveData">
+              <div class="col-md-6" *ngIf="haveData; else loading">
                 <ul>
                   <li>
                     Order: <b>{{ latestBatch.order.order_number }}</b>
@@ -64,19 +64,16 @@
                   </li>
                   <li>
                     Rework Date: <b>{{ latestBatch.rework_date }}</b>
-                  </li>
+                  </li>                 
                   <li>
-                    Label Print Time: <b>{{ latestBatch.label_print_time }}</b>
-                  </li>
-                  <li>
-                    Applied Lables: <b>{{ latestBatch.applied_labels }}</b>
+                    Rework Time: <b>{{ latestBatch.rework_time }}</b>
                   </li>
                 </ul>
               </div>
               <div class="col-md-6" *ngIf="haveData">
                 <ul>
                   <li>
-                    Rework Time: <b>{{ latestBatch.rework_time }}</b>
+                    Applied Lables: <b>{{ latestBatch.applied_labels }}</b>
                   </li>
                   <li>
                     Yield: <b>{{ latestBatch.production_yield }}</b>
