@@ -2,6 +2,10 @@
 
 ## Clone project
 - Clone the project from GitHub using using this link: git@github.com:FelixDryselius/wipkand.git
+- Navigate into the project and checkout the "production" branch
+
+### Get project from .zip
+- Go to the latest release here on github and download the project. This contains a production ready version of the system.
 
 ## Database setup
 - Download & Install MySQL Community Server at: https://dev.mysql.com/downloads/mysql/
