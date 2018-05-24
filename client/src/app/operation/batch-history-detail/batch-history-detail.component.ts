@@ -217,11 +217,13 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.updateOrderSuccess = true
         this.handleUpdateBatch(data as Batch)
+        setTimeout(() => { this.updateOrderSuccess = undefined }, 4000);
       },
         error => {
           this.updateOrderSuccess = false
           this.batchDetailForm.patchValue(this.currentBatch)
           this.handleUpdateError(error)
+          setTimeout(() => { this.updateOrderSuccess = undefined }, 4000);
         })
   }
 
@@ -239,11 +241,13 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.updateBatchSuccess = true
         this.handleUpdateBatch(data as Batch)
+        setTimeout(() => { this.updateBatchSuccess = undefined }, 4000);
       },
         error => {
           this.updateBatchSuccess = false
           this.batchDetailForm.patchValue(this.currentBatch)
           this.handleUpdateError(error)
+          setTimeout(() => { this.updateBatchSuccess = undefined }, 4000);
         }
       )
   }
@@ -273,10 +277,12 @@ export class BatchHistoryDetailComponent implements OnInit, OnDestroy {
         this.stringToDate(this.currentBatch)
         this.reworkSuccess = true
         this.batchDetailForm.patchValue(this.currentBatch)
+        setTimeout(() => { this.reworkSuccess = undefined }, 4000);
       },
         error => {
           this.reworkSuccess = false
           this.handleUpdateError(error)
+          setTimeout(() => { this.reworkSuccess = undefined }, 4000);
         }
       )
 
