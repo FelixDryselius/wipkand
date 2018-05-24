@@ -19,6 +19,6 @@ export class DataPageDisplayData {
     rework_date?: Date;
     est_pick_replace?: number;
     applied_labels?: number;
-    rework_time?: Date;
+    rework_time?: string;
     
 }
