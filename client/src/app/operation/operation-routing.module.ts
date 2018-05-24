@@ -7,7 +7,6 @@ import { BatchGuard } from '../auth/batch-guard.service';
 import { BatchHistoryComponent } from './batch-history/batch-history.component';
 import { BatchHistoryDetailComponent } from './batch-history-detail/batch-history-detail.component';
 import { BatchReworkComponent } from './batch-rework/batch-rework.component';
-import { CommentComponent } from './comment/comment.component';
 import { FinishBatchComponent } from './finish-batch/finish-batch.component';
 import { OperationsComponent } from './operations/operations.component';
 import { RoleGuard } from '../auth/role-guard.service';
@@ -21,14 +20,6 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: {
       expectedRole: ['admin', 'operator']
-    }
-  },
-  {
-    path: 'comment',
-    component: CommentComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: {
-      expectedRole: ['admin', 'operator', 'supervisor']
     }
   },
   {
