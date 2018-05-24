@@ -1,5 +1,5 @@
 import { AuthAPIService } from '../../auth/auth.service';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Query, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
@@ -12,6 +12,8 @@ import { SubmitIfValidDirective } from '../../shared/directives/submit-if-valid.
 import { NgForm, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomValidation } from '../../shared/validators/customValidation';
 import { CalendarModule } from 'primeng/calendar';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { BatchReworkComponent } from '../batch-rework/batch-rework.component';
 
 
 @Component({
@@ -21,6 +23,8 @@ import { CalendarModule } from 'primeng/calendar';
 })
 
 export class OperationsComponent implements OnInit, OnDestroy {
+
+  @ViewChild(BatchReworkComponent) batchReworkComponent: BatchReworkComponent
 
   private productionObservable: Observable<any>;
   private productionSub: any;
@@ -52,6 +56,18 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   // END SCOREBOARD SECTION  
 
+  // Latest batch
+  latestBatchSub: any;
+  latestBatch: Batch;
+
+  //Rework
+  private modal: NgbModalRef
+
+  reworking: boolean;
+  reworkForm: FormGroup;
+  reworkSuccess: boolean;
+  updateError: any;
+  updateErrorKeys: any;
 
   // FLOORSTOCK SECTION
 
@@ -104,7 +120,8 @@ export class OperationsComponent implements OnInit, OnDestroy {
     private operationsService: OperationsService,
     private commentService: CommentService,
     private http: HttpClient, private authAPI: AuthAPIService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -144,10 +161,19 @@ export class OperationsComponent implements OnInit, OnDestroy {
         this.getProdList()
         this.getFloorstock()
         this.getComment()
+      } else {
+        this.getLastBatch()
       }
     })
   }
 
+  getLastBatch() {
+    this.latestBatchSub = this.operationsService.getBatch("?limit=1")
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe(data => {
+        this.latestBatch = (data as QueryResponse).results[0]
+      })
+  }
 
   getTime() {
     // Get todays date and format to yyy-mm-dd
@@ -183,7 +209,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
         this.floorstockItems = (data as QueryResponse).results
         return this.operationsService.getFloorstockChanges('?batch_number=' + this.prodInfo.batch_number)
       })
-
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.floorstockChanges = (data as QueryResponse).results
@@ -402,7 +427,78 @@ export class OperationsComponent implements OnInit, OnDestroy {
     formData.reset()
   }
 
-  ngOnDestroy() {
+  setRework(state: boolean) {
+    if (state == true) {
+      this.reworkForm = this.formBuilder.group({
+      })
+      this.reworking = true
+    } else {
+      this.reworking = false
+    }
   }
 
+  openModal(content) {
+    this.modal = this.modalService.open(content, { size: 'lg' });
+  }
+
+  handleUpdateError(error) {
+    console.error(error)
+    this.updateError = error.error;
+    this.updateErrorKeys = [];
+    for (let i = 0; i < Object.keys(error.error).length; i++) {
+      this.updateErrorKeys.push(Object.keys(error.error)[i])
+    }
+  }
+
+  clearMsg() {
+    this.reworkSuccess = null;
+    this.updateError = null;
+    this.updateErrorKeys = null;
+  }
+
+  submitRework($event, reworkForm) {
+    let _label_print_time = new Date()
+    let _applied_labels = this.batchReworkComponent.getAppliedLabels()
+    let _pick_and_replace = this.batchReworkComponent.getPickAndReplace(this.latestBatch, _applied_labels, this.latestBatch.scrap)
+
+    let batch: Batch = {
+      id: this.latestBatch.id,
+      batch_number: this.latestBatch.batch_number,
+      order: this.latestBatch.order,
+      applied_labels: _applied_labels,
+      rework_date: new Date(),
+    }
+    if (this.modal) {
+      this.modal.close()
+    }
+    this.setRework(false)
+    this.clearMsg()
+    this.operationsService.updateBatch(batch)
+      .retryWhen(error => this.authAPI.checkHttpRetry(error))
+      .subscribe((data: Batch) => {
+        this.latestBatch = data
+        this.reworkSuccess = true
+
+      },
+        error => {
+          this.reworkSuccess = false
+          this.handleUpdateError(error)
+        }
+      )
+  }
+
+  ngOnDestroy() {
+    if (this.latestBatchSub) {
+      this.latestBatchSub.unsubscribe()
+    }
+    if (this.floorstockItemsSub) {
+      this.floorstockItemsSub.unsubscribe()
+    }
+    if (this.commentsSub) {
+      this.commentsSub.unsubscribe()
+    }
+    if (this.productionSub) {
+      this.productionSub.unsubscribe()
+    }
+  }
 }
