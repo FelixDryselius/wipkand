@@ -27,14 +27,6 @@
       </div>
     </div>
 
-    <div *ngIf="error && showError" (click)="showError = !showError" class="errorNotification">
-      <h2>Error | Status: {{ error.status }}</h2>
-      <p>{{ error.message }}</p>
-      <p>(click to close)</p>
-    </div>
-
-
-
     <div class="row" *ngIf="authAPI.loggedIn; else loginview">
       <!-- Navbar -->
       <nav class="col-lg-2 navbar-body">
@@ -58,7 +50,7 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" routerLink="./operation/batch-history" routerLinkActive="active">History</a>
+                <a class="nav-link" routerLink="./operation/batch-history" routerLinkActive="active">Batch history</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" routerLink="/statistics/scoreboard" routerLinkActive="active">Scoreboard</a>

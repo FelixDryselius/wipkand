@@ -10,20 +10,12 @@ import { AuthAPIService } from './auth/auth.service';
 })
 export class AppComponent implements OnInit {
   title = 'app';
-  error: string;
-  showError: boolean;
   public isCollapsed = true;
   constructor(
     public authAPI: AuthAPIService
   ) { }
 
   ngOnInit() {
-    this.authAPI
-      .errorNotification$
-      .subscribe(message => {
-        this.error = message;
-        this.showError = true;
-      });
   }
   
   
