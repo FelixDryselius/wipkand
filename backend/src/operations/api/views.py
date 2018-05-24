@@ -76,12 +76,9 @@ class BatchAPIView(
     def get_queryset(self, *args, **kwargs):
         queryset = Batch.objects.all()
         _batch_number = self.request.query_params.get("batch_number", None)
-        print(_batch_number)
         if _batch_number:
             if _batch_number == 'activeBatch':
                 queryset = queryset.filter(end_date__exact=None)
-                print("Current active batches: ")
-                print(queryset)
             else:
                 queryset = queryset.filter(batch_number=_batch_number)
         return queryset
