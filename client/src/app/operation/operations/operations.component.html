@@ -334,7 +334,7 @@
                 </div>
               </div>
               <br>
-              <div class="col-lg-6 offset-lg-3 alert alert-danger" *ngIf="reworkSuccess == false;">
+              <div class="col-lg-8 offset-lg-2 alert alert-danger" *ngIf="reworkSuccess == false;">
                 <span class="font-weight-bold">Rework failed. Errors listed below: </span>
                 <br>
                 <span *ngFor="let key of updateErrorKeys" class="font-weight-normal">
@@ -342,7 +342,7 @@
                   <br>
                 </span>
               </div>
-              <div class="col-lg-6 offset-lg-3 alert alert-success" *ngIf="reworkSuccess == true;">
+              <div class="col-lg-8 offset-lg-2 alert alert-success" *ngIf="reworkSuccess == true;">
                 <span class="font-weight-bold">Batch rework successful!</span>
               </div>
             </div>
