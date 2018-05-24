@@ -55,6 +55,8 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   // FLOORSTOCK SECTION
 
+  myFocusVar: boolean = false;
+
   floorstockErrorMsg;
   floorstockDataError;
   floorstockAdded = false;
@@ -99,6 +101,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   productionForm: FormGroup;
 
+  disableInput = true;
 
   constructor(
     private operationsService: OperationsService,
