@@ -13,8 +13,7 @@
 
 ## Database setup
 - Download & Install MySQL Community Server at: https://dev.mysql.com/downloads/mysql/
--- At installation, select Standalone MySQL server
--- At installation, set the password for the root account and remember it.
+- At installation, select Standalone MySQL server, set the password for the root account and remember it.
 
 - In MySQL command line client (or similiar) run:
 ```
