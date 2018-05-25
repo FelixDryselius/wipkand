@@ -101,7 +101,7 @@ $ python manage.py runserver
 Follow the steps below to build a production ready version of the frontend application. Note that this step is optional, since a production ready version of the frontend is includes when downloading the project for production. Use these steps below if you want to make changes to the frontend and use it. Note that this will require the installation of a bunch of node modules.
 
 - Download and install node.js at: https://nodejs.org/en/download/ (v. 8.11.2 at time of writing)
-- cd into "<your-path>\wipkand\client". Run:
+- cd into "\wipkand\client". Run:
 ```
 $ npm install -g @angular/cli
 $ npm install
@@ -109,8 +109,10 @@ $ ng -v
 ```
 - Check that Angular is installed and that the version is 6.0 or higher. 
 - Build the frontend Angular application with the following command:
-  ```
+
+```
 $ ng build --prod --output-hashing none
 ```
+
 This will build the application and distribute it into the static folder of the backend source code. The newly built application will be automatically used when running the Django server.
 
