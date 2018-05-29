@@ -28,7 +28,7 @@ export class FloorstockChartComponent implements OnInit {
   showLegend = true;
   legendTitle = 'Floorstock item name: '
   colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA', '#392742', '#ff00c3','#4c2beb']
   };
   showLabels = true;
   showXAxisLabel = true;
@@ -78,16 +78,12 @@ export class FloorstockChartComponent implements OnInit {
         this.nextLink = (data as QueryResponse).next;
         this.previousLink = (data as QueryResponse).previous;
         let tempFloorstockChange = (data as QueryResponse).results as Floorstock[]
-
+        
         // Have data?
         if (tempFloorstockChange.length > 0) {
         //Correct names are combined with this.floorstockChange from this.floorstockItems
-        tempFloorstockChange = this.combineFloorstockItemName(tempFloorstockChange)
-        //Trims floorstockChange all displayed batches display all their floorstock changes
-        this.floorstockChange = this.trimFloorstockChange(tempFloorstockChange)
+        this.floorstockChange = this.combineFloorstockItemName(tempFloorstockChange)
 
-        // Is there data?
-        if (this.floorstockChange.length > 0) {
           //Here tempDisplayData is populated with info from this.floorstockChange and structured 
           //so that the chart can display it correctly.
           let uniqueBatchNumbers = []
@@ -116,23 +112,10 @@ export class FloorstockChartComponent implements OnInit {
             }
           });
           this.haveData = true;
-        }
       }
       })
 
   }
-  // This is to eliminate 'non filled' batches with floorstock change
-  //NOTE THIS ONLY TRIMS THE LAST NOT THE FIRST ONE
-  trimFloorstockChange(floorstockChange) {
-    let index = floorstockChange.length - 1
-    let lastBatchNumber = floorstockChange[index].batch.batch_number
-    while (lastBatchNumber == floorstockChange[index].batch.batch_number) {
-      floorstockChange.pop()
-      index = index - 1
-    }
-    return floorstockChange
-  }
-
   //Fixes query and navigates to next api data point
   goToNextSet() {
     if (this.nextLink) {
