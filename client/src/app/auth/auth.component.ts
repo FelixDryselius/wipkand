@@ -31,12 +31,12 @@ export class AuthComponent implements OnInit {
   ngOnInit() {
     this.usernameField = new FormControl("", [
       Validators.required,
-      Validators.minLength(4),
+      Validators.minLength(3),
       Validators.maxLength(20)
     ])
     this.passwordField = new FormControl("", [
       Validators.required,
-      Validators.minLength(4),
+      Validators.minLength(3),
       Validators.maxLength(20)
     ])
     this.loginForm = new FormGroup({
