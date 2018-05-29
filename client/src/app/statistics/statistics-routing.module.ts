@@ -9,13 +9,17 @@ import { ProductionAccumulatedComponent } from './charts/production-accumulated/
 import { ProductionPerTimeUnitComponent } from './charts/production-per-time-unit/production-per-time-unit.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { StatisticsChartsComponent } from './charts/production/production-charts.component';
+import { RoleGuard } from '../auth/role-guard.service';
 
 
 
 const routes: Routes = [
   {
     path: 'charts',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      expectedRole: ['admin', 'supervisor']
+    },
     children: [
     {
       path:'',
@@ -41,7 +45,10 @@ const routes: Routes = [
   },
   {
     path: 'scoreboard',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      expectedRole: ['admin', 'supervisor', 'operator']
+    },
     children: [
       {
         path: '',
@@ -56,7 +63,10 @@ const routes: Routes = [
   {
     path: 'data-page',
     component: DataPageComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      expectedRole: ['admin', 'supervisor', 'operator']
+    },
   },
   // {
   //   path: 'scoreboard',

@@ -33,8 +33,8 @@ export class StatisticsChartsComponent implements OnInit {
   continuesYieldPerHourList = [];
   continuesPpmhList = [];
 
-  setOffset = 0;
-  setLimit = 72;
+  nextLink:string;
+  previousLink: string;
 
   //Chart here we set options fot the chart
   showBatches = false;
@@ -56,7 +56,7 @@ export class StatisticsChartsComponent implements OnInit {
   constructor(private authAPI: AuthAPIService, private operationsService: OperationsService) { }
 
   ngOnInit() {
-    this.getProductionData('?limit=' + this.setLimit + '&offset=' + this.setOffset)
+    this.getProductionData('?limit=96')
   }
 
   ngOnDestroy() {
@@ -66,16 +66,25 @@ export class StatisticsChartsComponent implements OnInit {
   xAxisFormatting(data) {
     return data.toLocaleTimeString('sv-SV', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' })
   }
-  goToNextSet() {
-    this.setOffset = this.setOffset + this.setLimit;
-    this.getProductionData('?limit=' + this.setLimit + '&offset=' + this.setOffset)
-
+  //Fixes query and navigates to next api data point
+  goToNextSet() {    
+    if (this.nextLink) {
+      let index = this.nextLink.indexOf('?')
+      let query = this.nextLink.slice(index)
+      this.getProductionData(query)
+    }
   }
   //Fixes query and navigates to previous api data point
   goToPreviousSet() {
-    this.setOffset = this.setOffset - this.setLimit;
-    this.getProductionData('?limit=' + this.setLimit + '&offset=' + this.setOffset)
+    if (this.previousLink) {
+      let index = this.previousLink.indexOf('?')
+      let query = this.previousLink.slice(index)
+      this.getProductionData(query)
+    }
   }
+
+
+
 
   //to update display options
   toggleShowBatches() {
@@ -136,6 +145,9 @@ export class StatisticsChartsComponent implements OnInit {
 
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
+        //Sets next and previous links
+        this.nextLink = (data as QueryResponse).next;
+        this.previousLink = (data as QueryResponse).previous;  
 
         this.productionStatistics = (data as QueryResponse).results as Scoreboard[]
 

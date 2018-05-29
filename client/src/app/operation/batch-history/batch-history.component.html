@@ -52,15 +52,12 @@
             <th scope="row" class="text-center align-middle">
               # {{ batch.batch_number }}
               <p *ngIf="batch.end_date && batch.rework_date">
-
                 <label class="p-1 mt-1 font-weight-bold bg-success-light rounded">Reworked</label>
               </p>
               <p *ngIf="batch.end_date && !batch.rework_date">
-
                 <label class="p-1 mt-1 font-weight-bold bg-warning-light rounded">Finished</label>
               </p>
               <p *ngIf="!batch.end_date && !batch.rework_date">
-
                 <label class="p-1 mt-1 font-weight-bold bg-primary-light rounded">Running</label>
               </p>
             </th>

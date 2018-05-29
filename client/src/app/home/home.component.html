@@ -28,16 +28,8 @@
           <div class="card-header headerBatchStats">
             <div class="row">
               <div class="col-md-8" align="left" *ngIf="haveData; else loading">
-                {{ active }} batch #{{ latestBatch.batch_number }}:
+                {{ active }} batch  <b>#{{ latestBatch.batch_number }}:</b>
               </div>
-              <!-- <div class="col-md-4" align="right" *ngIf="haveData">
-                <button class="btn btn-primary" *ngIf="!(latestBatch.end_date)" disabled>
-                  Rework batch
-                </button>
-                <button class="btn btn-primary" *ngIf="latestBatch.end_date && !(latestBatch.rework_date)" (click)="reworkBatch()">
-                  Rework Batch
-                </button>
-              </div> -->
             </div>
           </div>
           <div class="card-body">
@@ -57,10 +49,10 @@
                     End Date: <b>{{ latestBatch.end_date | date:'yyyy-MM-dd HH:mm' }}</b>
                   </li>
                   <li>
-                    Rework Date: <b>{{ latestBatch.rework_date }}</b>
+                    Rework Date: <b>{{ latestBatch.rework_date | date:'yyyy-MM-dd HH:mm'  }}</b>
                   </li>                 
                   <li>
-                    Rework Time: <b>{{ latestBatch.rework_time }}</b>
+                    Rework Time: <b>{{ reworkTime }}</b>
                   </li>
                 </ul>
               </div>
@@ -100,7 +92,7 @@
           <div class="col-md-6">
             <div class="recentEvents">Production statistics</div>
             <div class="card" *ngFor="let stat of recentProd">
-              <h5 class="card-header">{{ stat.time_stamp | date:'yyyy-MM-dd HH:mm:ss' }}</h5>
+              <h5 class="card-header">{{ stat.time_stamp | date:'MMM d, y, HH:mm:ss' }}</h5>
               <div class="card-body eventCard">
                 <div class="row">
                   <p class="card-text col-md-5">Staff: {{ stat.staff_quantity }}</p>
@@ -115,7 +107,7 @@
           <div class="col-md-6">
             <div class="recentEvents">Comments</div>
             <div class="card" *ngFor="let comment of recentComments">
-              <h5 class="card-header">{{ comment.post_date | date:'yyyy-MM-dd HH:mm:ss' }}</h5>
+              <h5 class="card-header">{{ comment.post_date | date:'MMM d, y, HH:mm:ss' }}</h5>
               <div class="card-body eventCard">
                 <p class="card-text">{{ comment.text_comment }}</p>
                 <div class="col-md-12" align="right">

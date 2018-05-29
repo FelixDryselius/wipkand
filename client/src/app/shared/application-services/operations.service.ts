@@ -136,8 +136,7 @@ export class OperationsService {
   }
 
   createProdStats(newData: {}) {
-    return this.http.post(this.URL_ROOT + this.scoreboardListURL, JSON.stringify(newData)).map(data => {
-    })
+    return this.http.post(this.URL_ROOT + this.scoreboardListURL, JSON.stringify(newData))
   }
 
   getProductionStatistics(query?: String) {

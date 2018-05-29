@@ -36,10 +36,10 @@
     <div class="col-sm-5 col-lg-3 ">
       <div class="row">
         <div class="col-6">
-          <a class="btn btn-outline-primary float-right" (click)="beforeBatch()">Previous batch</a>
+          <button class="btn btn-outline-primary float-right" [disabled]="!canMoveBeforeBatch" (click)="beforeBatch()">Previous batch</button>
         </div>
         <div class="col-6 ">
-          <a class="btn btn-outline-primary float-right" (click)="nextBatch()">Next batch</a>
+          <button class="btn btn-outline-primary float-right" [disabled]="!canMoveNextBatch" (click)="nextBatch()">Next batch</button>
         </div>
       </div>
     </div>
