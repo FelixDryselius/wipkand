@@ -40,6 +40,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   // SCOREBOARD SECTION
 
+  prodDisplay: any = [];
   prodDataAdded = false;
   prodDataError = false;
   dateErrorMsg: String;
@@ -260,6 +261,9 @@ export class OperationsComponent implements OnInit, OnDestroy {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.prodStats = (data as QueryResponse).results
+        for (let obj in this.prodStats ) {
+          this.prodDisplay.push(this.prodStats[obj])
+        }
       });
   }
 
@@ -288,13 +292,12 @@ export class OperationsComponent implements OnInit, OnDestroy {
       this.operationsService.createProdStats(newData)
         .retryWhen(error => this.authAPI.checkHttpRetry(error))
         .subscribe(data => {
-          let newData = data
+          let subData = data
           this.prodDataAdded = true
           setTimeout(() => { this.prodDataAdded = false }, 4000);
           formData.reset()
+          this.prodDisplay.unshift(newData)
         });
-
-      this.getProdList()
     }
     else if (this.prodDataError) {
       this.dateErrorMsg = '* Production data with this time stamp already exists'
