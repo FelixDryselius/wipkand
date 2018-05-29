@@ -126,12 +126,9 @@ export class FloorstockChartComponent implements OnInit {
   }
   //Fixes query and navigates to previous api data point
   goToPreviousSet() {
-    if (this.previousLink) {
-      console.log(this.previousLink);
-      
+    if (this.previousLink) {      
       let index = this.previousLink.indexOf('?')
       this.query = this.previousLink.slice(index)
-      console.log(this.query);
       this.getFloorstockData()
     }
   }
