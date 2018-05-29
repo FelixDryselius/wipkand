@@ -261,7 +261,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data => {
         this.prodStats = (data as QueryResponse).results
-        for (let obj in this.prodStats ) {
+        for (let obj in this.prodStats) {
           this.prodDisplay.push(this.prodStats[obj])
         }
       });
@@ -278,13 +278,12 @@ export class OperationsComponent implements OnInit, OnDestroy {
     }
     for (let key in this.prodDisplay) {
       if (
-      inputData.inputDate.getFullYear() == new Date(this.prodDisplay[key].time_stamp).getFullYear() &&
-      inputData.inputDate.getMonth() == new Date(this.prodDisplay[key].time_stamp).getMonth() &&
-      inputData.inputDate.getDate() == new Date(this.prodDisplay[key].time_stamp).getDate() &&
-      inputData.inputDate.getHours() == new Date(this.prodDisplay[key].time_stamp).getHours() &&
-      inputData.inputDate.getMinutes() == new Date(this.prodDisplay[key].time_stamp).getMinutes()
-    ) 
-      {
+        inputData.inputDate.getFullYear() == new Date(this.prodDisplay[key].time_stamp).getFullYear() &&
+        inputData.inputDate.getMonth() == new Date(this.prodDisplay[key].time_stamp).getMonth() &&
+        inputData.inputDate.getDate() == new Date(this.prodDisplay[key].time_stamp).getDate() &&
+        inputData.inputDate.getHours() == new Date(this.prodDisplay[key].time_stamp).getHours() &&
+        inputData.inputDate.getMinutes() == new Date(this.prodDisplay[key].time_stamp).getMinutes()
+      ) {
         this.prodDataError = true
       }
     }
@@ -299,11 +298,10 @@ export class OperationsComponent implements OnInit, OnDestroy {
       this.operationsService.createProdStats(newData)
         .retryWhen(error => this.authAPI.checkHttpRetry(error))
         .subscribe(data => {
-          let subData = data
           this.prodDataAdded = true
           setTimeout(() => { this.prodDataAdded = false }, 4000);
           formData.reset()
-          this.prodDisplay.unshift(newData)
+          this.prodDisplay.unshift(data)
           this.prodDisplay.sort(function compare(a, b) {
             var dateA = new Date(a.time_stamp);
             var dateB = new Date(b.time_stamp);
