@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
   active: string;
   hasFinished: boolean;
   hasReworked: boolean;
+  reworkTime: String;
 
   getBatchesSub: any;
 
@@ -106,6 +107,26 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  milisecondsToTimeString(miliseconds: number, with_seconds: boolean) {
+    if (miliseconds) {
+      let raw_sec = Math.floor(miliseconds / 1000);
+      let hours = Math.floor(raw_sec / 3600);
+      let minutes = Math.floor((raw_sec - (hours * 3600)) / 60);
+      let str_hours: string = hours.toString()
+      let str_minutes: string = minutes.toString()
+
+      if (with_seconds) {
+        let seconds = raw_sec - (hours * 3600) - (minutes * 60);
+        let str_seconds: string = seconds.toString()
+        return str_hours + ' hours, ' + str_minutes + ' minutes, ' + str_seconds + ' seconds';
+      } else {
+        return str_hours + ' hours, ' + str_minutes + ' minutes';
+      }
+    } else {
+      return null
+    }
+  }
+
   // FOR STATISTICS
   xAxisFormatting(data) {
     return data.toLocaleTimeString('sv-SV', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' })
@@ -129,9 +150,14 @@ export class HomeComponent implements OnInit {
           }
           if (this.latestBatch.rework_date == null) {
             this.hasReworked = false
-          } else {
-            this.hasReworked = true
+          } 
+          else {
+            this.hasReworked = true   
+            this.latestBatch.rework_date = new Date(this.latestBatch.rework_date)
+            this.latestBatch.end_date = new Date(this.latestBatch.end_date)
+            this.reworkTime = this.milisecondsToTimeString(this.latestBatch.rework_date.getTime() - this.latestBatch.end_date.getTime(), false)
           }
+
           this.haveData = true;
           return this.operationsService.getProduct(this.latestBatch.order.article_number)
         }
