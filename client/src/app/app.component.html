@@ -45,11 +45,11 @@
               <li class="nav-item">
                 <a class="nav-link" routerLink="/home" routerLinkActive="active">Dashboard</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" *ngIf="authAPI.currentUser && (authAPI.currentUser.isAdmin || authAPI.currentUser.isOperator)">
                 <a class="nav-link" routerLink="./operation/operations" routerLinkActive="active">Operations</a>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item" *ngIf="authAPI.currentUser && (authAPI.currentUser.isAdmin || authAPI.currentUser.isOperator)">
                 <a class="nav-link" routerLink="./operation/batch-history" routerLinkActive="active">Batch history</a>
               </li>
               <li class="nav-item">
@@ -58,7 +58,7 @@
               <li class="nav-item">
                 <a class="nav-link" routerLink="/statistics/data-page" routerLinkActive="active">Data Page</a>
               </li>
-              <li>
+              <li *ngIf="authAPI.currentUser && (authAPI.currentUser.isAdmin || authAPI.currentUser.isSupervisor)">
                 <a class="btn dropdown-toggle" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"
                   role="button">
                   Charts
@@ -67,16 +67,16 @@
             </ul>
             <div class="collapse" id="collapseExample" [ngbCollapse]="isCollapsed">
               <ul class="nav flex-column nav-pills nav-stacked">
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="authAPI.currentUser && (authAPI.currentUser.isAdmin || authAPI.currentUser.isSupervisor)">
                   <a class="nav-link" routerLink="/statistics/charts/production" routerLinkActive="active">Production statistics</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="authAPI.currentUser && (authAPI.currentUser.isAdmin || authAPI.currentUser.isSupervisor)">
                   <a class="nav-link" routerLink="/statistics/charts/floorstock" routerLinkActive="active">Floorstock changes</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="authAPI.currentUser && (authAPI.currentUser.isAdmin || authAPI.currentUser.isSupervisor)">
                   <a class="nav-link" routerLink="/statistics/charts/production-per-time-unit" routerLinkActive="active">Production per day</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="authAPI.currentUser && (authAPI.currentUser.isAdmin || authAPI.currentUser.isSupervisor)">
                   <a class="nav-link" routerLink="/statistics/charts/production-accumulated" routerLinkActive="active">Accumulated production of latest batch</a>
                 </li>
               </ul>

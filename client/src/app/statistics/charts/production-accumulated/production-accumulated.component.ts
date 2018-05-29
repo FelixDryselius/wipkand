@@ -70,7 +70,7 @@ export class ProductionAccumulatedComponent implements OnInit {
       .flatMap(data => {
         this.currentProduct = data as Product
         if (this.currentProduct) {
-          return this.operationsService.getProdStats('?batch_number=' + this.currentBatch.batch_number)
+          return this.operationsService.getProdStats('?batch_number=' + this.currentBatch.batch_number + "&limit=96")
         }
       })
 

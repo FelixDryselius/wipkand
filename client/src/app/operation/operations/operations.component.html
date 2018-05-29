@@ -308,16 +308,34 @@
             <div class="col-lg-6 card-body">
               <ul class="list-group">
                 <li class="list-group-item">
-                  Order:
-                  <b>{{ latestBatch.order.order_number }}</b>
+                  <div class="row">
+                    <div class="col-lg-6 text-right">
+                      Order:
+                    </div>
+                    <div class="col-lg-6 float-left">
+                      <b>{{ latestBatch.order.order_number }}</b>
+                    </div>
+                  </div>
                 </li>
                 <li class="list-group-item">
-                  Article number:
-                  <b>{{ latestBatch.order.article_number }}</b>
+                  <div class="row">
+                    <div class="col-lg-6 text-right">
+                      Article number:
+                    </div>
+                    <div class="col-lg-6 float-left">
+                      <b>{{ latestBatch.order.article_number }}</b>
+                    </div>
+                  </div>
                 </li>
                 <li class="list-group-item">
-                  End date:
-                  <b>{{ latestBatch.end_date | date:"yyyy-MM-dd HH:mm" }}</b>
+                  <div class="row">
+                    <div class="col-lg-6 text-right">
+                      End date:
+                    </div>
+                    <div class="col-lg-6 float-left">
+                      <b>{{ latestBatch.end_date | date:"yyyy-MM-dd HH:mm" }}</b>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>

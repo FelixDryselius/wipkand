@@ -166,7 +166,7 @@ export class HomeComponent implements OnInit {
         this.currentProduct = data as Product
         //Is there data?
         if (this.currentProduct) {
-          return this.operationsService.getProdStats('?batch_number=' + this.latestBatch.batch_number)
+          return this.operationsService.getProdStats('?batch_number=' + this.latestBatch.batch_number + "&limit=96")
         }
       })
 
