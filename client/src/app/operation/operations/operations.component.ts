@@ -276,8 +276,15 @@ export class OperationsComponent implements OnInit, OnDestroy {
     for (let key in formData.value) {
       inputData[key] = formData.value[key];
     }
-    for (let key in this.prodStats) {
-      if (inputData.inputDate.toJSON().slice(0, 16) == this.prodStats[key].time_stamp.slice(0, 16)) {
+    for (let key in this.prodDisplay) {
+      if (
+      inputData.inputDate.getFullYear() == new Date(this.prodDisplay[key].time_stamp).getFullYear() &&
+      inputData.inputDate.getMonth() == new Date(this.prodDisplay[key].time_stamp).getMonth() &&
+      inputData.inputDate.getDate() == new Date(this.prodDisplay[key].time_stamp).getDate() &&
+      inputData.inputDate.getHours() == new Date(this.prodDisplay[key].time_stamp).getHours() &&
+      inputData.inputDate.getMinutes() == new Date(this.prodDisplay[key].time_stamp).getMinutes()
+    ) 
+      {
         this.prodDataError = true
       }
     }
@@ -297,8 +304,13 @@ export class OperationsComponent implements OnInit, OnDestroy {
           setTimeout(() => { this.prodDataAdded = false }, 4000);
           formData.reset()
           this.prodDisplay.unshift(newData)
-          this.getProdList()
+          this.prodDisplay.sort(function compare(a, b) {
+            var dateA = new Date(a.time_stamp);
+            var dateB = new Date(b.time_stamp);
+            return (dateB.getTime() - dateA.getTime())
+          });
         });
+
     }
     else if (this.prodDataError) {
       this.dateErrorMsg = '* Production data with this time stamp already exists'
