@@ -297,6 +297,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
           setTimeout(() => { this.prodDataAdded = false }, 4000);
           formData.reset()
           this.prodDisplay.unshift(newData)
+          this.getProdList()
         });
     }
     else if (this.prodDataError) {
