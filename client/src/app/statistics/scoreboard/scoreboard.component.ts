@@ -30,7 +30,12 @@ export class ScoreboardComponent implements OnInit {
   comments=[];
   latestBatchNumbers: any[];
   numberOfBatchesBack;
+  maxNumberOfBatches:number;
   currentBatch: Batch;
+
+  // Can move back or not
+  canMoveNextBatch:boolean;
+  canMoveBeforeBatch:boolean;
 
   constructor(
     private authAPI: AuthAPIService,
@@ -56,8 +61,20 @@ export class ScoreboardComponent implements OnInit {
       .retryWhen(error => this.authAPI.checkHttpRetry(error))
       .subscribe(data =>{
         this.productionStatistics = (data as QueryResponse).results as JSON []
+        // check if should disable buttons or not
+        if (this.numberOfBatchesBack < (this.maxNumberOfBatches -1 ) ) {
+          this.canMoveNextBatch = true
+        } else {
+          this.canMoveNextBatch = false
+        }
+        if (this.numberOfBatchesBack > 0) {
+          this.canMoveBeforeBatch = true
+        } else {
+          this.canMoveBeforeBatch = false
+        }
+        
       });
-    }
+    }  
   }
 
   ngOnDestroy(){
@@ -69,13 +86,15 @@ export class ScoreboardComponent implements OnInit {
      }
   }
   
-  
-  
   nextBatch() {
-    this.router.navigate(['../', Number(this.numberOfBatchesBack)+1], {relativeTo: this.route});
+    if (this.canMoveNextBatch) {
+      this.router.navigate(['../', Number(this.numberOfBatchesBack) + 1], { relativeTo: this.route });
+    }
   }
   beforeBatch() {
-    this.router.navigate(['../', Number(this.numberOfBatchesBack)-1], {relativeTo: this.route});
+    if (this.canMoveBeforeBatch) {
+      this.router.navigate(['../', Number(this.numberOfBatchesBack) - 1], { relativeTo: this.route });
+    }
   }
           
   getBatchComments(query?:string) {
@@ -90,6 +109,7 @@ export class ScoreboardComponent implements OnInit {
     let tempData
     return this.operationsService.getBatch(query).switchMap(data =>{
       tempData =  (data as QueryResponse).results as JSON []
+      this.maxNumberOfBatches = (data as QueryResponse).count
 
       this.currentBatch = tempData.pop() as Batch
       this.getBatchComments('?batch_number=' + this.currentBatch.batch_number)
