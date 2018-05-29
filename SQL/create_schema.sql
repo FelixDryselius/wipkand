@@ -1,5 +1,5 @@
-create schema testdb;
-USE testdb;
+create schema vfal;
+USE vfal;
 
 CREATE TABLE product
 (

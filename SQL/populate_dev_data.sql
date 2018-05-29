@@ -1,4 +1,4 @@
-use testdb;
+use vfal;
 
 INSERT INTO product (article_number, product_name, reference_storage, label, batch_production_goal)
 VALUES ('700-5208', 'ASSY,WRAP,10 8ML SAMPLE RGT,IVD,GX,MTB', 5, '700-5208_LABEL', 11000);
@@ -10,7 +10,7 @@ INSERT INTO product (article_number, product_name, reference_storage, label, bat
 VALUES ('700-5196', 'ASSY,WRAP,10 ELUTION,IVD,GX,C.DIFFICILE', 6, '700-5196_LABEL', 13000);
 
 INSERT INTO product (article_number, product_name, reference_storage, label, batch_production_goal)
-VALUES ('700-5197', 'ASSY,WRAP,10 ELUTION,IVD,GX,SA COMP', 6, '700-5197_LABEL', 14000);
+VALUES ('700-5197', 'ASSY,WRAP,10 ELUTION,IVD,GX,SA COMP', 6, '700-5197_LABEL', 21000);
 
 INSERT INTO product (article_number, product_name, reference_storage, label, batch_production_goal)
 VALUES ('700-5280', 'ASSY,WRAP,10 ELUTION,IVD,GX,MRSA NXG', 0, '700-5280_LABEL', 15000);
@@ -35,6 +35,10 @@ INSERT INTO production_order (order_number, article_number)
 INSERT INTO production_order (order_number, article_number)
 	VALUES ('4444444', 
 			(SELECT article_number FROM product WHERE article_number = '700-5288'));
+
+INSERT INTO production_order (order_number, article_number)
+	VALUES ('5555555', 
+			(SELECT article_number FROM product WHERE article_number = '700-5197'));
             
        
        
